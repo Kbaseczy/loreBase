@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">VivoStore</string>
+
+    <string name="shouye">首页</string>
+    <string name="gouwuche">购物车</string>
+    <string name="fenlei">分类</string>
+    <string name="sousuo">搜索</string>
+    <string name="wode">我的</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="meinfo">我的信息</string>
+</resources>

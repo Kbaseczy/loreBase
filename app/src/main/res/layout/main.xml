@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_ViewPager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RadioGroup
+        android:id="@+id/RadioGroup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#000000"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/shouye"
+            style="@style/bottom_style"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/shouye"
+            android:text="@string/shouye" />
+
+        <RadioButton
+            android:id="@+id/gouwuche"
+            style="@style/bottom_style"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/gouwuche"
+            android:text="@string/gouwuche" />
+
+        <RadioButton
+            android:id="@+id/fenlei"
+            style="@style/bottom_style"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/fenlei"
+            android:text="@string/fenlei" />
+
+        <RadioButton
+            android:id="@+id/sousuo"
+            style="@style/bottom_style"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/sousuo"
+            android:text="@string/sousuo" />
+
+        <RadioButton
+            android:id="@+id/wode"
+            style="@style/bottom_style"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/wode"
+            android:text="@string/wode" />
+
+    </RadioGroup>
+</LinearLayout>

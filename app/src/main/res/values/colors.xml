@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="form_background">#E5E5E5</color>
+    <color name="input_context">#AAAAAA</color>
+    <color name="login_button">#5D1012</color>
+    <color name="login_buton_focus">#B01E23</color>
+
+    <color name="border_clo">#ccc</color>
+    <color name="text_clo">#333</color>
+    <color name="white">#fff</color>
+    <color name="blue">#419DE4</color>
+</resources>
