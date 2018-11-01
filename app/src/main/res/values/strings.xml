@@ -1,13 +1,92 @@
 <resources>
-    <string name="app_name">VivoStore</string>
+    <string name="app_name" translatable="false">LoreBase</string>
+    <string name="username" translatable="false">username</string>
+    <string name="login" translatable="false">Sign In</string>
+    <string name="forget" translatable="false">Forget</string>
+    <string name="mainpage" translatable="false">U❤Home</string>
+    <string name="tree" translatable="false">Tree</string>
+    <string name="relax">Relaxing</string>
 
-    <string name="shouye">首页</string>
-    <string name="gouwuche">购物车</string>
-    <string name="fenlei">分类</string>
-    <string name="sousuo">搜索</string>
-    <string name="wode">我的</string>
-
+    <!-- Strings related to login -->
+    <string name="register">Have no account?</string>
+    <string name="sign_up">Sign Up</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="meinfo">我的信息</string>
+    <string name="meInfo">InfoPerson</string>
+    <string name="personal">Personal</string>
+    <string name="inform">Inform</string>
+    <string name="location">Location</string>
+    <string name="exit">Exit</string>
+    <string name="back">Back</string>
+    <string name="input_point_word">Input point word</string>
+
+
+    <!-- spaceFragment-->
+    <string name="DeviceInfo">DeviceInfo</string>
+    <string name="personInfo">PersonInfo</string>
+    <string name="Exit">Confirm</string>
+    <string name="ensure_exit">Are you sure exit?</string>
+
+    <!-- ForgetActivity-->
+    <string name="getCode">Get Identify Code</string>
+    <string name="mobile">Mobile</string>
+    <string name="identifyCode">identifyCode</string>
+
+    <string name="usercount">username</string>
+    <string name="passWord">password</string>
+    <string name="re_enter">password again</string>
+    <string name="userName">userName</string>
+    <string name="remember">Remember</string>
+    <string name="autoLogin">AutoLogin</string>
+    <string name="logout">Logout</string>
+    <string name="collect">Collection</string>
+
+    <string name="introduction">this is your personal introduction.</string>
+
+    <!-- addMBase-->
+    <string name="addArticle">AddArticle</string>
+    <string name="articleName">articleName</string>
+    <string name="user_id">user_id</string>
+    <string name="category_id">category_id</string>
+    <string name="author">author</string>
+    <string name="content">content</string>
+    <string name="addA">Add</string>
+
+    <string name="modify">Modify</string>
+    <string name="details">Details</string>
+
+    <!-- addMBase-->
+    <!-- addCategory -->
+    <string name="categoryName">categoryName</string>
+    <string name="parentId">parentId</string>
+    <string name="inputCateName">inputCateName</string>
+    <string name="inputCateId">inputCateId</string>
+
+    <!-- navMenu-->
+    <string name="nav_my_collect">Collection</string>
+    <string name="nav_todo">TODO</string>
+    <string name="nav_position">Position</string>
+    <string name="nav_setting">Setting</string>
+    <string name="nav_about">AboutUs</string>
+    <string name="nav_logout">Logout</string>
+
+    <string name="action_share">Share</string>
+    <string name="action_browser">Browser</string>
+    <string name="action_search">Search</string>
+
+    <string name="hot_search">Hot Search</string>
+    <string name="clear_all">Clear</string>
+    <string name="history_search">History Searched</string>
+    <string name="seg">-----</string>
+
+    <string name="start_explore">Start Now</string>
+
+    <string name="tip">Tip❤</string>
+    <string name="tip_content_logout">Are sure Logout?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="have_account">Have a account?</string>
+    <string name="list_time">list_time</string>
+    <string name="description">description</string>
+    <string name="todo">todo</string>
 </resources>

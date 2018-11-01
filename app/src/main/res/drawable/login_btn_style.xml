@@ -2,22 +2,22 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:state_focused="true">
         <shape >
-            <solid android:color="@color/login_button"/>
-            <corners android:radius="5dp"></corners>
+            <solid android:color="@color/input_context"/>
+            <corners android:radius="5dp"/>
             <size android:height="37dp"/>
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape >
-            <solid android:color="@color/login_button"/>
+            <solid android:color="@color/input_context"/>
             <size android:height="37dp"/>
-            <corners android:radius="5dp"></corners>
+            <corners android:radius="5dp"/>
         </shape>
     </item>
     <item>
         <shape >
-            <solid android:color="@color/login_buton_focus"/>
-            <corners android:radius="5dp"></corners>
+            <solid android:color="@color/colorAccent"/>
+            <corners android:radius="2dp"/>
             <size android:height="37dp"/>
         </shape>
     </item>

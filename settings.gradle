@@ -1,2 +1,1 @@
-include ':kbase', ':app1'
-project(':app1').projectDir = new File('app')
+include ':app'

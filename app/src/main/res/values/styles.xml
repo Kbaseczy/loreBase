@@ -1,51 +1,49 @@
 <resources>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="bottom_style">
-        <item name="android:textSize">11dp</item>
-        <item name="android:textColor">@color/text_selector</item>
-        <item name="android:ellipsize">marquee</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:layout_width">64dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:button">@null</item>
-        <item name="android:singleLine">true</item>
-    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="wrap_layout">
         <item name="android:orientation">vertical</item>
-                 <item name="android:layout_height">wrap_content</item>
-                 <item name="android:layout_width">match_parent</item>
-                 <item name="android:layout_marginLeft">8dp</item>
-                 <item name="android:layout_marginRight">8dp</item>
-                 <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
         <item name="android:padding">1px</item>
-                 <item name="android:background">@drawable/bg_layout_shape</item>
+        <item name="android:background">@drawable/bg_layout_shape</item>
+    </style>
 
-             </style>
+    <!-- 共用层样式 -->
+    <style name="base_layout">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+    </style>
 
-         <!-- 共用层样式 -->
-         <style name="base_layout">
-             <item name="android:orientation">horizontal</item>
-              <item name="android:layout_width">match_parent</item>
-              <item name="android:layout_height">wrap_content</item>
-              <item name="android:paddingTop">16dp</item>
-              <item name="android:paddingBottom">16dp</item>
-              <item name="android:paddingLeft">12dp</item>
-              <item name="android:paddingRight">12dp</item>
-             <item name="android:gravity">center_vertical</item>
-              <item name="android:focusable">true</item>
-             <item name="android:clickable">true</item>
-         </style>
-
-    <style name="usertext">
+    <style name="userText1">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/text_clo</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="userText2">
         <item name="android:textSize">16dp</item>
         <item name="android:textColor">@color/text_clo</item>
         <item name="android:layout_width">wrap_content</item>
@@ -55,12 +53,6 @@
 
 
     <!-- 文本右边箭头样式 -->
-    <style name="img_arrow">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:src">@drawable/setting_arrow</item>
-
-    </style>
 
 
     <!-- view分割线样式 -->
@@ -90,5 +82,18 @@
         <item name="android:background">@drawable/single_layout_selector</item>
     </style>
 
+    <!--ToolBar父标题样式-->
+    <style name="ToolbarTitle"
+        parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <!--ToolBar子标题样式-->
+    <style name="ToolbarSubTitle"
+        parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/Grey200</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <!--Toolbar与menu的整合-->
 
 </resources>
