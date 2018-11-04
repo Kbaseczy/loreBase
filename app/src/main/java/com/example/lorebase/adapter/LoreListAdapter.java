@@ -19,11 +19,12 @@ import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHolder> {
 
-    private List<Article.DataBean.DatasBean> datasBeanList;
+    private List<Article.DataBean.DatasBean> datasBeanList ;
     private Context mContext;
 
     public LoreListAdapter(List<Article.DataBean.DatasBean> datasBeanList) {
@@ -59,8 +60,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
         Article.DataBean.DatasBean article = datasBeanList.get(position);
         holder.author.setText(article.getAuthor());
         holder.date.setText(article.getNiceDate());
-//        holder.title.setText(article.getTitle());
-        holder.title.setText(R.string.articleName);
+        holder.title.setText(article.getTitle());
         String name = article.getSuperChapterName()+"/"+article.getChapterName();
         holder.chapterName.setText(name);
         Glide.with(mContext).load(R.drawable.ic_like_not).into(holder.imageView);
@@ -68,12 +68,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        try{
-            return datasBeanList.size();
-        }catch (NullPointerException E){
-            E.printStackTrace();
-        }
-        return 0; //todo
+            return datasBeanList.size();// int java.util.List.size()' on a null object reference
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

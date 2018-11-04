@@ -71,7 +71,7 @@ public class LoreActivity extends FragmentActivity {
         }
         //test
         for (LoreTree.DataBean.ChildrenBean child : childrenBean) {
-            L.v("childName:" + child.getName() + "  childId:" + child.getId());
+            L.v("LoreActivity-childName:" + child.getName() + "  childId:" + child.getId());
         }
     }
 

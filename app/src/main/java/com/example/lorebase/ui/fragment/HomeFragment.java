@@ -7,26 +7,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ProgressBar;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.ProjectLatestAdapter;
 import com.example.lorebase.bean.ProjectLatest;
-import com.example.lorebase.bean.WeChat;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.bean.Banner;
 import com.example.lorebase.ui.activity.AgentWebActivity;
-import com.example.lorebase.ui.fragment.subFragment.AddCategoryFragment;
-import com.example.lorebase.ui.fragment.subFragment.WeChatFragment;
-import com.example.lorebase.ui.fragment.subFragment.ModifyCategoryFragment;
-import com.example.lorebase.util.L;
+import com.example.lorebase.util.EndlessOnScrollListener;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -35,12 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import okhttp3.Call;
@@ -125,9 +114,9 @@ public class HomeFragment extends Fragment{
         //上拉加载
         project_recycler.addOnScrollListener(new EndlessOnScrollListener(layoutManager) {
             @Override
-            void onLoadMore(int current_page) {
+            public void onLoadMore(int current_page) {
                 page ++;     //页码加1，  todo 这里是否要去控制page的页码上限
-                getProject();
+                getProject();  //todo 上拉加载的BUG可能出现在这里，最后没有保存上一page页面的内容
             }
         });
     }
@@ -189,57 +178,6 @@ public class HomeFragment extends Fragment{
         // TODO Auto-generated method stub
         sliderLayout.stopAutoCycle();
         super.onStop();
-    }
-
-    abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListener{
-
-        private LinearLayoutManager mLinearLayoutManager;
-
-        //当前页，从第一页开始
-        private int current_page;
-
-        //已加载出来的item总数
-        private int total_ItemCount;
-
-        //存储上一个total_ItemCount
-        private int previousTotal = 0;
-
-        //可见的item数
-        private int visibleItemCount;
-
-        //屏幕中第一个可见item
-        private int firstVisibleItem;
-
-        //是否加载数据
-        private boolean loading = true;
-
-        EndlessOnScrollListener(LinearLayoutManager linearLayoutManager){
-            this.mLinearLayoutManager = linearLayoutManager;
-        }
-
-        @Override
-        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-
-            visibleItemCount = recyclerView.getChildCount();
-            total_ItemCount = mLinearLayoutManager.getItemCount();
-            firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
-            if(loading){
-                if(total_ItemCount > previousTotal){
-
-                    loading = false;  //数据加载结束
-                    previousTotal = total_ItemCount;
-                }
-            }
-
-            if(!loading && total_ItemCount - visibleItemCount <= firstVisibleItem){
-                current_page ++;
-                onLoadMore(current_page);
-                loading = true;
-            }
-        }
-
-        abstract void onLoadMore(int current_page) ;
     }
 
 }
