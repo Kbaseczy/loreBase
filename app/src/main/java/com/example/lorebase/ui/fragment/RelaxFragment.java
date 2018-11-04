@@ -42,7 +42,7 @@ public class RelaxFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_kbase,null);
+        View view = inflater.inflate(R.layout.fragment_relax,null);
         kBaseList = view.findViewById(R.id.kBase_list);
         ShareAdapter = new ShareAdapter(getActivity(),list);
         kBaseList.setAdapter(ShareAdapter);

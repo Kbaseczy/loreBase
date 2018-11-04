@@ -13,5 +13,16 @@ public class ConstName {
     public static final String USER_NAME = "username";
     public static final String LORE_BASE = "share from LoreBase";
 
+    //LoreTree
+    public static final String CHAPTER_NAME = "chapterName";
+    public static final String CHAPTER_CID = "cid";
+    public static final String OBJ = "obj";
+
+    //treeActivity
+    public static final String FRAGMENT = "fragment";
+
+
+
+
 
 }

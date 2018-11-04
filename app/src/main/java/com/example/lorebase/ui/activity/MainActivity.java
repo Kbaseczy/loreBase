@@ -23,7 +23,6 @@ import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.RelaxFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
 import com.example.lorebase.util.L;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -37,6 +36,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import android.app.Fragment;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -50,7 +50,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
     BottomNavigationView bottomNavigationView;
     FloatingActionButton fab;
-    AppBarLayout mAppbarLayout;
     NavigationView navigationView;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
@@ -64,17 +63,44 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        homeFragment = new HomeFragment();
+        loreTreeFragment = new LoreTreeFragment();
+        relaxFragment = new RelaxFragment();
+        collectFragment = new CollectFragment();
         initView();
         //todo 设置进入后显示的第一个界面
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.content_layout, new HomeFragment());
-        transaction.commitAllowingStateLoss();
-
+        goFragment(homeFragment);
+        indicateFrag();
         //拉伸，收起，隐藏 底部菜单栏
 //        expandBottomSheet(bottomNavigationView);
 //        hideBottomSheet(bottomNavigationView);
 //        collapseBottomSheet(bottomNavigationView);
+    }
+
+    private void indicateFrag() {
+        int fragId = getIntent().getIntExtra(ConstName.FRAGMENT,0);
+        switch ( fragId){
+            case 1:
+                goFragment(homeFragment);
+                break;
+            case 2:
+                goFragment(loreTreeFragment);
+                break;
+            case 3:
+                goFragment(relaxFragment);
+                break;
+            case 4:
+                goFragment(collectFragment);
+                break;
+
+        }
+    }
+
+    public void goFragment(Fragment fragment) {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.content_layout,fragment);
+        transaction.commitAllowingStateLoss();
     }
 
     private void initView() {
@@ -131,11 +157,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-
-        homeFragment = new HomeFragment();
-        loreTreeFragment = new LoreTreeFragment();
-        relaxFragment = new RelaxFragment();
-        collectFragment = new CollectFragment();
 
         switch (menuItem.getItemId()) {
             case R.id.action_home:

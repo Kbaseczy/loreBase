@@ -37,7 +37,7 @@ public class ProjectLatestAdapter extends RecyclerView.Adapter<ProjectLatestAdap
         }
         View view = LayoutInflater.from(mContext).inflate(R.layout.project_item,parent,false);
         final ViewHolder holder = new ViewHolder(view);
-        holder.cardView.setOnClickListener(view1 -> {
+        holder.cardView.setOnClickListener(v -> {
             int position = holder.getAdapterPosition();
             ProjectLatest.DataBean.DatasBean project = list_project.get(position);
             Intent intent = new Intent(mContext,AgentWebActivity.class);
@@ -45,6 +45,7 @@ public class ProjectLatestAdapter extends RecyclerView.Adapter<ProjectLatestAdap
             intent.putExtra(ConstName.PROJECT_AUTHOR,project.getAuthor());
             intent.setData(Uri.parse(project.getLink()));
             mContext.startActivity(intent);
+
         });
 
         //todo 收藏图标点击事件

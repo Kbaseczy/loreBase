@@ -21,10 +21,10 @@
         android:name=".MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
-        android:icon="@drawable/lore_base"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:roundIcon="@drawable/lore_base"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
@@ -32,7 +32,8 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="UdZf0ZHferNdYZ2bkB84atKubv46C5MX" />
 
-        <activity android:name=".ui.activity.MainActivity">
+        <activity android:name=".ui.activity.MainActivity"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,7 +45,8 @@
         <activity
             android:name=".ui.activity.RegisterActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.LoginActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.activity.LaunchActivity" />
 
         <service
@@ -56,7 +58,7 @@
         <activity android:name=".ui.activity.GuideActivity" />
         <activity android:name=".ui.activity.AgentWebActivity" />
         <activity android:name=".ui.activity.AboutUsActivity" />
-        <activity android:name=".ui.activity.LoreActivity"></activity>
+        <activity android:name=".ui.activity.LoreActivity"/>
     </application>
 
 </manifest>

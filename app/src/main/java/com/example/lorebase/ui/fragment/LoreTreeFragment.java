@@ -10,14 +10,17 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.LoreTreeAdapter;
 import com.example.lorebase.bean.LoreTree;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.util.L;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -30,7 +33,6 @@ public class LoreTreeFragment extends Fragment {
     View view;
     protected LoreTreeAdapter loreTreeAdapter;
     private List<LoreTree.DataBean> fatherBeanList;
-    private List<LoreTree.DataBean.ChildrenBean> childrenBeanList;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_lore_tree,null);
@@ -58,7 +60,6 @@ public class LoreTreeFragment extends Fragment {
                         Gson gson = new Gson();
                         //TODO :Expected Object but Array -> ok
                         fatherBeanList = gson.fromJson(response, LoreTree.class).getData();
-                        childrenBeanList = gson.fromJson(response, LoreTree.DataBean.class).getChildren();
                         initView();
                     }
                 });
@@ -67,14 +68,12 @@ public class LoreTreeFragment extends Fragment {
     private void initView() {
         RecyclerView recyclerView_loreTree = view.findViewById(R.id.recycler_lore_tree);
 
-        GridLayoutManager manager = new GridLayoutManager(getActivity(),1);
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
 
         recyclerView_loreTree.setLayoutManager(manager);
 
-        loreTreeAdapter = new LoreTreeAdapter(fatherBeanList,childrenBeanList);
+        loreTreeAdapter = new LoreTreeAdapter(fatherBeanList);
 
         recyclerView_loreTree.setAdapter(loreTreeAdapter);
     }
-
-
 }
