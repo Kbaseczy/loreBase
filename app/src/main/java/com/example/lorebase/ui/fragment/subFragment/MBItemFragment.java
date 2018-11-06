@@ -41,7 +41,6 @@ public class MBItemFragment extends Fragment {
         this.MId = MId;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

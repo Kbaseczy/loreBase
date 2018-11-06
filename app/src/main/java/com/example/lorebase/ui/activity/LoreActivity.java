@@ -73,8 +73,10 @@ public class LoreActivity extends FragmentActivity {
         for (LoreTree.DataBean.ChildrenBean child : childrenBean) {
             L.v("LoreActivity-childName:" + child.getName() + "  childId:" + child.getId());
         }
+
     }
 
+    //tab+viewpager+fragment
     private void initViewPager() {
         tabLayout = findViewById(R.id.tab_lore_title);
         for (LoreTree.DataBean.ChildrenBean child : childrenBean) {
@@ -83,7 +85,7 @@ public class LoreActivity extends FragmentActivity {
 
         List<Fragment> fragments = new ArrayList<>();
         for (LoreTree.DataBean.ChildrenBean child : childrenBean) {
-            fragments.add(new LoreListFragment().instantiate(child.getId()));
+            fragments.add(new LoreListFragment().instantiate(child.getId())); //todo ★point
         }
 
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),fragments,childrenBean);

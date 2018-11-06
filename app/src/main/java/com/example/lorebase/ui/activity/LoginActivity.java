@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -26,6 +25,7 @@ import org.json.JSONObject;
 
 import okhttp3.Call;
 import okhttp3.Request;
+
 
 /*
    这里采用持久化存储实现记住密码功能，理论上可行，实际中应增加密码加密算法，防止用户密码泄露
@@ -53,15 +53,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         autoLogin = findViewById(R.id.autoLogin);
 
         /*
-
         法一：PreferenceManager.getDefaultSharedPreferences(this) 建立以包名前缀为文件名的文件
         法二：getSharedPreferences("login_data",MODE_PRIVATE) 建立以data为文件名的文件
          */
         pref = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE); //法二
-        boolean isRemember = pref.getBoolean("remember_pass", false);//checkBox 是否记住密码的boolean，设置默认值
+        boolean isRemember = pref.getBoolean(ConstName.IS_REMEMBER, false);//checkBox 是否记住密码的boolean，设置默认值
         if (isRemember) {//默认为false，这段第一次运行时候也是isRemember第一次为true的时候
-            String userName = pref.getString("username", "");//将存储的数据返回到输入框
-            String password = pref.getString("password", "");
+            String userName = pref.getString(ConstName.USER_NAME, "");//将存储的数据返回到输入框
+            String password = pref.getString(ConstName.PASS_WORD, "");
             etUsername.setText(userName);
             etPassword.setText(password);
             remember_pass.setChecked(true);/*
@@ -128,20 +127,19 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getInt("errorCode") == 0) {
-//                                L.v("errorCode is correct");
                                 editor = pref.edit();
                                 //存储登陆状态
                                 editor.putBoolean(ConstName.IS_LOGIN, true); //存储登陆状态的Boolean
 
                                 //根据CheckBox判断  存储 checkBox boolean/账号/密码
                                 if (remember_pass.isChecked()) {
-                                    editor.putString(ConstName.USER_NAME, userName);
-                                    editor.putString("password", password);
+                                    editor.putBoolean(ConstName.IS_REMEMBER, true);
+                                    editor.putString(ConstName.PASS_WORD, password);
                                 } else {
                                     editor.clear(); //用于第二次及以后登陆时  如果取消勾选则清除数据
                                 }
-                                editor.putBoolean("remember_pass", true); //用户名的记录不和 是否勾选CheckBox联系
-                                editor.apply(); //提交数据
+                                editor.putString(ConstName.USER_NAME, userName); //用户名的记录不和 是否勾选CheckBox联系
+                                editor.apply(); //提交保存数据
 
                                 Toast.makeText(LoginActivity.this, "sign in Successful", Toast.LENGTH_LONG).show();
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);

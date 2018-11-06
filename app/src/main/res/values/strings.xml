@@ -84,4 +84,9 @@
     <string name="todo">todo</string>
     <string name="article_thumbnail">article thumbnail</string>
     <string name="like_article">like article</string>
+
+    <string name="feed_back">Feed Back</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

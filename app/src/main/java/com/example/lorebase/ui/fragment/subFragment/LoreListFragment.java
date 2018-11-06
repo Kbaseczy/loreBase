@@ -3,7 +3,6 @@ package com.example.lorebase.ui.fragment.subFragment;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,13 +19,20 @@ import com.example.lorebase.adapter.LoreListAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.util.EndlessOnScrollListener;
+import com.example.lorebase.util.DividerItemGridDecoration;
 import com.example.lorebase.util.L;
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.header.FlyRefreshHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.header.FalsifyHeader;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A fragment representing a list of Items.
@@ -35,15 +41,14 @@ import java.util.List;
  */
 public class LoreListFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private List<Article.DataBean.DatasBean> datasBeanList ;
-    int page = 0; //todo 上拉加载
-
-
+    private View view;
+    private List<Article.DataBean.DatasBean> datasBeanList;
+    private int page = 0; //todo 上拉加载
+    private int chapterId ;
     //实例化  -->todo 替代构造方法传递数据（在重新创建Fragment的时候，数据会丢失），
     //          todo 用setArguments(bundle)传递数据更安全。
     public LoreListFragment instantiate(int cid) {
-     //TODO The step is the most important!
+        //TODO The step is the most important!
         //TODO->which to transfer the chapterID for getting the data about recyclerView .
         LoreListFragment instance_frag = new LoreListFragment();
         Bundle bundle = new Bundle();
@@ -55,15 +60,47 @@ public class LoreListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_lore_list, container, false);
-
+        view =  inflater.inflate(R.layout.fragment_lore_list, container, false);
         assert getArguments() != null;
-        getLore(page,getArguments().getInt(ConstName.CHAPTER_CID));
-        return recyclerView;
+        chapterId = getArguments().getInt(ConstName.CHAPTER_CID);
+        //（loreActivity中添加Fragment对象时传递了chapterID）从fragment实例获取chapterID
+        getLore(page,chapterId );
+        return view;
     }
 
-    private void getLore(int page,int chapterID ){
+    private void initRecycler() {
+        RecyclerView recyclerView = view.findViewById(R.id.lore_rv);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
 
+        recyclerView.setLayoutManager(manager);
+        LoreListAdapter adapter = new LoreListAdapter(datasBeanList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getContext())));
+
+        SmartRefreshLayout smartRefreshLayout = view.findViewById(R.id.smart_refresh_lore);
+        smartRefreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));
+        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getContext()));
+        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            datasBeanList.clear();
+            getLore(page,chapterId);
+            adapter.notifyDataSetChanged();
+            refreshLayout.finishRefresh();
+        });
+        smartRefreshLayout.autoLoadMore(400);
+        smartRefreshLayout.finishLoadMoreWithNoMoreData();
+        //上拉加载 -> cause the list chaos
+//        recyclerView.addOnScrollListener(new EndlessOnScrollListener(manager) {
+//                    @Override
+//                    public void onLoadMore(int current_page) {
+//                        page ++;     //页码加1，  todo 这里是否要去控制page的页码上限
+//                        getLore(page,getArguments().getInt(ConstName.CHAPTER_CID));
+//                        //todo 上拉加载的BUG可能出现在这里，最后没有保存上一page页面的内容
+//                          adapter.notifyDataSetChanged(); //wait to identity->no useful
+//                    }
+//                });
+    }
+
+    private void getLore(int page, int chapterID) {
         String url = UrlContainer.baseUrl + "article/list/" + page + "/json?cid=" + chapterID;
         OkHttpUtils
                 .get()
@@ -82,40 +119,30 @@ public class LoreListFragment extends Fragment {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        //code : 200
-                        //protocol : http/1.1
-                        //message : OK
-                        L.v("LoreListFragment "+response);
-                        Gson gson = new Gson();
-                        //TODO :Expected Object but Array -> ok
-                        // todo 请求服务器正常，并获取响应。   数据解析存储出问题。
-                        datasBeanList = gson.fromJson(response, Article.class).getData().getDatas();
-                        L.v("getArticleTitle"+datasBeanList.get(2).getTitle());
-//                        for(Article.DataBean.DatasBean article : datasBeanList){
-//                            Log.v("get_ArticleData",article.getTitle());
+                        L.v("LoreListFragment " + response);
+
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(response);
+//                            Gson gson = new Gson();
+//                            Type type = new TypeToken<List<Article>>(){}.getType();
+//                            datasBeanList = gson.fromJson(jsonObject.getJSONArray("data").toString(),type);
+//
+//                            for(Article.DataBean.DatasBean article : datasBeanList){
+//                                Log.v("get_ArticleData",article.getTitle());
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
 //                        }
+
+                        //TODO :Expected Object but Array -> ok
+                        // todo 请求服务器正常，并获取响应。   数据解析存储ok
+                        Gson gson = new Gson();
+                        datasBeanList = gson.fromJson(response, Article.class).getData().getDatas();
+                        for (Article.DataBean.DatasBean article : datasBeanList) {
+                            Log.v("get_ArticleData", article.getTitle());
+                        }
+                        initRecycler();
                     }
                 });
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new LoreListAdapter(datasBeanList));
-        //上拉加载
-        recyclerView.addOnScrollListener(
-                new EndlessOnScrollListener(manager) {
-                    @Override
-                    public void onLoadMore(int current_page) {
-                        page ++;     //页码加1，  todo 这里是否要去控制page的页码上限
-                        getLore(page, getArguments() != null ? getArguments().getInt(ConstName.CHAPTER_CID) : 0);
-                        //todo 上拉加载的BUG可能出现在这里，最后没有保存上一page页面的内容
-                    }
-                });
-
-    }
-
-
 }

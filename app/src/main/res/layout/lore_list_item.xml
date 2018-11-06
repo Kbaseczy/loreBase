@@ -5,12 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="@color/viewBackground"
     app:cardCornerRadius="@dimen/dp_20"
     app:cardElevation="@dimen/dp_10"
+    android:layout_margin="@dimen/dp_20"
+    android:background="@drawable/item_click"
     android:padding="@dimen/dp_20">
 
     <RelativeLayout
@@ -39,24 +41,14 @@
             android:textColor="@color/item_date"
             android:textSize="@dimen/item_tv_date" />
 
-        <ImageView
-            android:id="@+id/iv_article_thumbnail"
-            android:layout_width="@dimen/item_img_width"
-            android:layout_height="@dimen/item_img_height"
-            android:layout_below="@+id/tv_article_author"
-            android:layout_marginStart="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_8"
-            android:contentDescription="@string/article_thumbnail"
-            android:scaleType="centerCrop" />
-
         <TextView
             android:id="@+id/article_title"
+            android:text="@string/app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_article_author"
             android:layout_marginStart="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_8"
-            android:layout_toEndOf="@+id/iv_article_thumbnail"
             android:ellipsize="end"
             android:gravity="top|start"
             android:lineSpacingExtra="2dp"
@@ -70,17 +62,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/article_title"
-            android:layout_marginEnd="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10"
             android:layout_marginStart="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_toEndOf="@+id/iv_article_thumbnail"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
             android:gravity="center"
-            tools:text="@string/categoryName"
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/item_tv_tag" />
+            android:textSize="@dimen/item_tv_tag"
+            tools:text="@string/categoryName" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -93,8 +82,8 @@
                 android:id="@+id/iv_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/like_article"
-                />
+                android:src="@drawable/ic_like_not"
+                android:contentDescription="@string/like_article" />
         </LinearLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

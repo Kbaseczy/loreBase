@@ -1,6 +1,5 @@
 package com.example.lorebase.adapter;
 
-import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,59 +20,52 @@ import com.example.lorebase.ui.activity.AgentWebActivity;
 
 import java.util.List;
 
-public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHolder> {
+public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolder> {
 
-    private List<Article.DataBean.DatasBean> datasBeanList ;
+    private List<Article.DataBean.DatasBean> search_list;
     private Context mContext;
 
-    public LoreListAdapter(List<Article.DataBean.DatasBean> datasBeanList) {
-        this.datasBeanList = datasBeanList;
+    public SearchListAdapter(List<Article.DataBean.DatasBean> search_list) {
+        this.search_list = search_list;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(mContext == null){
             mContext = parent.getContext();
         }
-
-        View view = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.lore_list_item, parent, false);
 
-        final ViewHolder holder = new ViewHolder(view);
-        holder.cardView.setOnClickListener(v->{
-            int position = holder.getAdapterPosition();
-            Article.DataBean.DatasBean datasBean = datasBeanList.get(position);
-            //跳转到LoreAgentWeb  need:link/title
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        Article.DataBean.DatasBean search = search_list.get(position);
+
+        holder.author.setText(search.getAuthor());
+        holder.date.setText(search.getNiceDate());
+        holder.title.setText(search.getTitle());
+        String name = search.getSuperChapterName()+"/"+search.getChapterName();
+        holder.chapterName.setText(name);
+
+        holder.cardView.setOnClickListener(v -> {
             Intent intent = new Intent(mContext,AgentWebActivity.class);
-            intent.putExtra(ConstName.TITLE,datasBean.getTitle());
-            intent.putExtra(ConstName.ACTIVITY,ConstName.activity.LORE);
-            intent.setData(Uri.parse(datasBean.getLink()));
+            intent.putExtra(ConstName.TITLE,search.getTitle());
+            intent.putExtra(ConstName.ACTIVITY,ConstName.activity.SEARCH);
+            intent.setData(Uri.parse(search.getLink()));
             mContext.startActivity(intent);
         });
 
         holder.imageView.setOnClickListener(v->
                 Toast.makeText(mContext, "click collect", Toast.LENGTH_SHORT).show()
         );
-        return holder;
-    }
-
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-
-        Article.DataBean.DatasBean article = datasBeanList.get(position);
-        holder.author.setText(article.getAuthor());
-        holder.date.setText(article.getNiceDate());
-        holder.title.setText(article.getTitle());
-        String name = article.getSuperChapterName()+"/"+article.getChapterName();
-        holder.chapterName.setText(name);
-//        Glide.with(mContext).load(R.drawable.ic_like_not).into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-//        return 0;
-            return datasBeanList.size();// int java.util.List.size()' on a null object reference
+        return search_list.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

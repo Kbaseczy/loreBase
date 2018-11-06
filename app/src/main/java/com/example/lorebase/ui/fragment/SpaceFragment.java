@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.media.SoundPool;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,9 +42,7 @@ public class SpaceFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initSound() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            soundPool = new SoundPool.Builder().build();
-        }
+        soundPool = new SoundPool.Builder().build();
         soundID = soundPool.load(getActivity(), R.raw.kiss2, 1);//kiss1加载不进去
     }
 

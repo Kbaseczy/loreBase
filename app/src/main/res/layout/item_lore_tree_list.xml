@@ -7,8 +7,10 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/viewBackground"
-    app:cardCornerRadius="@dimen/dp_20"
+    app:cardBackgroundColor="@color/Grey200"
+    app:cardCornerRadius="50dp"
+    android:layout_margin="@dimen/dp_20"
+    android:background="@drawable/item_click"
     app:cardElevation="@dimen/dp_8">
 
     <RelativeLayout
@@ -20,7 +22,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_margin="10dp"
-            android:layout_toStartOf="@+id/imageView"
             android:gravity="start"
             android:orientation="vertical">
 
@@ -40,16 +41,6 @@
                 android:textColor="@color/item_desc"
                 tools:text="Android Studio相关   gradle  官方发布" />
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/dp_24"
-            android:layout_height="@dimen/dp_24"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:visibility="visible"
-            app:srcCompat="@drawable/ic_arrow_right_24dp" />
 
     </RelativeLayout>
 

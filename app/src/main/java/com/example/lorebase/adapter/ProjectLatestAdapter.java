@@ -45,7 +45,6 @@ public class ProjectLatestAdapter extends RecyclerView.Adapter<ProjectLatestAdap
             intent.putExtra(ConstName.PROJECT_AUTHOR,project.getAuthor());
             intent.setData(Uri.parse(project.getLink()));
             mContext.startActivity(intent);
-
         });
 
         //todo 收藏图标点击事件

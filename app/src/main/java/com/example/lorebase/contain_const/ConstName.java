@@ -11,6 +11,8 @@ public class ConstName {
     public static final String LOGIN_DATA = "login_data";
     public static final String IS_LOGIN = "isLogin";
     public static final String USER_NAME = "username";
+    public static final String PASS_WORD = "password";
+    public static final String IS_REMEMBER = "isRemember";
     public static final String LORE_BASE = "share from LoreBase";
 
     //LoreTree
@@ -20,9 +22,15 @@ public class ConstName {
 
     //treeActivity
     public static final String FRAGMENT = "fragment";
+    public static final String ACTIVITY = "activity";
 
+    public static class activity{
+        public static final int MAIN = 1;
+        public static final int ABOUT_US = 2;
+        public static final int LORE = 3;
+        public static final int SEARCH = 4;
+    }
 
-
-
+    public static final String KEY_WORD = "k";
 
 }

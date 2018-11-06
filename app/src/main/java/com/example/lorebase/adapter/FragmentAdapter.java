@@ -1,7 +1,6 @@
 package com.example.lorebase.adapter;
 
 import com.example.lorebase.bean.LoreTree;
-import com.example.lorebase.ui.fragment.subFragment.LoreListFragment;
 
 import java.util.List;
 
@@ -44,13 +43,5 @@ public class FragmentAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
 
         return childrenBeanList.get(position).getName();
-    }
-
-    public List<LoreTree.DataBean.ChildrenBean> getChildrenBeanList() {
-        return childrenBeanList;
-    }
-
-    public void setChildrenBeanList(List<LoreTree.DataBean.ChildrenBean> childrenBeanList) {
-        this.childrenBeanList = childrenBeanList;
     }
 }

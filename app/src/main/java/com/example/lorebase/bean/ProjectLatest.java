@@ -116,9 +116,9 @@ public class ProjectLatest {
         public static class DatasBean {
             /**
              * apkLink :
-             * author : fairytale110
+             * todo author : fairytale110
              * chapterId : 358
-             * chapterName : 项目基础功能
+             * todo chapterName : 项目基础功能
              * collect : false
              * courseId : 13
              * desc : Beautiful custom View, SeekBar selector, easy to use, and rich in customization.
@@ -126,15 +126,15 @@ public class ProjectLatest {
              * envelopePic : http://wanandroid.com/blogimgs/f41656d0-5fdd-4fa2-9a01-0723c396e078.png
              * fresh : false
              * id : 7387
-             * link : http://www.wanandroid.com/blog/show/2400
-             * niceDate : 2018-10-22
+             * todo link : http://www.wanandroid.com/blog/show/2400
+             * todo niceDate : 2018-10-22
              * origin :
              * projectLink : https://github.com/fairytale110/BezierSeekBar
              * publishTime : 1540212245000
              * superChapterId : 294
-             * superChapterName : 开源项目主Tab
+             * todo superChapterName : 开源项目主Tab
              * tags : [{"name":"项目","url":"/project/list/1?cid=358"}]
-             * title : BezierSeekBar 优雅的区间选择器
+             * todo title : BezierSeekBar 优雅的区间选择器
              * type : 0
              * userId : -1
              * visible : 1

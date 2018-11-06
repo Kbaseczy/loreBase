@@ -133,25 +133,22 @@ public class LocationFragment extends Fragment {
                 navigateTo(location);
             }
 
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StringBuilder currentPosition = new StringBuilder();
-                    currentPosition.append("Latitude:").append(location.getLatitude()).append("\t\t\t");
-                    currentPosition.append("Longitude:").append(location.getLongitude()).append("\n");
-                    currentPosition.append("Country:").append(location.getCountry()).append("\t\t\t");
-                    currentPosition.append("Province:").append(location.getProvince()).append("\n");
-                    currentPosition.append("City:").append(location.getCity()).append("\t\t\t");
-                    currentPosition.append("District:").append(location.getDistrict()).append("\n");
-                    currentPosition.append("Street:").append(location.getStreet()).append("\t\t\t");
-                    currentPosition.append("Location style:");
-                    if(location.getLocType() == BDLocation.TypeGpsLocation){
-                        currentPosition.append("GPS");
-                    }else if(location.getLocType() == BDLocation.TypeNetWorkLocation){
-                        currentPosition.append("NetWork");
-                    }
-                    locationText.setText(currentPosition);
+            getActivity().runOnUiThread(() -> {
+                StringBuilder currentPosition = new StringBuilder();
+                currentPosition.append("Latitude:").append(location.getLatitude()).append("\t\t\t");
+                currentPosition.append("Longitude:").append(location.getLongitude()).append("\n");
+                currentPosition.append("Country:").append(location.getCountry()).append("\t\t\t");
+                currentPosition.append("Province:").append(location.getProvince()).append("\n");
+                currentPosition.append("City:").append(location.getCity()).append("\t\t\t");
+                currentPosition.append("District:").append(location.getDistrict()).append("\n");
+                currentPosition.append("Street:").append(location.getStreet()).append("\t\t\t");
+                currentPosition.append("Location style:");
+                if(location.getLocType() == BDLocation.TypeGpsLocation){
+                    currentPosition.append("GPS");
+                }else if(location.getLocType() == BDLocation.TypeNetWorkLocation){
+                    currentPosition.append("NetWork");
                 }
+                locationText.setText(currentPosition);
             });
         }
 

@@ -1,5 +1,6 @@
 package com.example.lorebase.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,7 +13,6 @@ import android.widget.Toast;
 
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.ui.fragment.subFragment.LoreListFragment;
 import com.just.agentweb.AgentWeb;
 
 import androidx.appcompat.widget.Toolbar;
@@ -20,10 +20,9 @@ import androidx.appcompat.widget.Toolbar;
 /*
     界面数据没有显示：因为用了CoordinatorLayout 将界面占据完了，没其余位置给展示数据。
     TODO 解决：去掉CoordinatorLayout，原来准备加“回到顶部功能”，也是不行的，这个需要ScrollView,而这里是直接获取的数据，没有布局效果。
-
-    todo 注意，儅返回到loreActivity時，由於這一界面的數據來自LoreTreActivity,如果沒有數據則報錯
  */
-public class AgentWebActivity extends Activity {
+@SuppressLint("Registered")
+public class LoreAgentWebActivity extends Activity {
 
     LinearLayout linearLayout;
     Toolbar toolbar;
@@ -31,36 +30,18 @@ public class AgentWebActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_agent_web);
-
         String title = getIntent().getStringExtra(ConstName.TITLE);
-        int flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY,1);//獲取標志位-由哪個activity（界面）進入的
-
         toolbar = findViewById(R.id.web_toolbar);
+
         toolbar.inflateMenu(R.menu.menu_agent_web);
 
         toolbar.setTitle(title);
         toolbar.setSubtitle(getIntent().getStringExtra(ConstName.PROJECT_AUTHOR));
-        toolbar.setNavigationOnClickListener(v->{
-            //根據flag標志位判斷  返回到那個activity
-            Intent intent = new Intent();
-            switch (flag_activity){
-                case 1:
-                    intent.setClass(AgentWebActivity.this,MainActivity.class);
-                    break;
-                case 2:
-                    intent.setClass(AgentWebActivity.this,AboutUsActivity.class);
-                    break;
-                case 3:
-                    intent.setClass(AgentWebActivity.this,LoreActivity.class); //这里会报错,需要持久化存储数据,选择LitePal
-                    break;
-                default:
-                    intent.setClass(AgentWebActivity.this,MainActivity.class);
-                    break;
-            }
-            startActivity(intent);
-                }
 
+        toolbar.setNavigationOnClickListener(v->
+                startActivity(new Intent().setClass(LoreAgentWebActivity.this,LoreActivity.class))
         );
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {

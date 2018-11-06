@@ -36,4 +36,5 @@
     <!-- sp -->
     <dimen name="sp_16">16sp</dimen>
     <dimen name="sp_20">20sp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

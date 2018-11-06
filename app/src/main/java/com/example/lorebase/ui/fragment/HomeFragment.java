@@ -21,6 +21,15 @@ import com.example.lorebase.bean.Banner;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.util.EndlessOnScrollListener;
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.header.FlyRefreshHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.header.FalsifyHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -81,7 +90,6 @@ public class HomeFragment extends Fragment{
                         Gson gson = new Gson();
                         //TODO :Expected Object but Array -> ok
                         list_project = gson.fromJson(response, ProjectLatest.class).getData().getDatas();
-
                         initProject();
                     }
                 });
@@ -97,28 +105,26 @@ public class HomeFragment extends Fragment{
 
         project_recycler.setAdapter(projectLatestAdapter);
 
-        SwipeRefreshLayout refreshLayout = view.findViewById(R.id.swipe_refresh);
+        SmartRefreshLayout smartRefreshLayout = view.findViewById(R.id.smart_refresh_home);
 
-        refreshLayout.setColorSchemeResources(R.color.colorPrimary
-                                             ,R.color.colorAccent
-                                             ,R.color.colorPrimaryDark
-                                             ,R.color.Green); //todo 刷新的颜色改变
-
-//               //下拉刷新 有bug  todo 刷新暂时去掉
-//        refreshLayout.setOnRefreshListener(() -> {
-//            getProject();
-//            projectLatestAdapter.notifyDataSetChanged();
-//            refreshLayout.setRefreshing(false);
-//        });
-
-        //上拉加载
-        project_recycler.addOnScrollListener(new EndlessOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int current_page) {
-                page ++;     //页码加1，  todo 这里是否要去控制page的页码上限
-                getProject();  //todo 上拉加载的BUG可能出现在这里，最后没有保存上一page页面的内容
-            }
+        smartRefreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));
+        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getContext()));
+        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            //下拉刷新
+            list_project.clear();
+            getProject();
+            projectLatestAdapter.notifyDataSetChanged();
+            refreshLayout.finishRefresh();
         });
+
+        smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            //上拉加载
+            page++; //warn：page的上限
+            getProject();
+            projectLatestAdapter.notifyDataSetChanged();
+            refreshLayout.finishLoadMore();
+        });
+
     }
     private void initSlider(){
         //遍历bannerList,取出数据，填充到textSliderView.  textSliderView监听轮播图点击事件
@@ -128,7 +134,6 @@ public class HomeFragment extends Fragment{
                 textSliderView.image(banner.getImagePath());
                 textSliderView.description(banner.getTitle());
                 textSliderView.setOnSliderClickListener(slider -> {
-                    Log.v("banner->AgentWeb","click test");
                     Intent web_intent = new Intent(getActivity(),AgentWebActivity.class);
 
                     Uri uri = Uri.parse(banner.getUrl()) ;
@@ -160,14 +165,10 @@ public class HomeFragment extends Fragment{
                     }
                     @Override
                     public void onResponse(String response, int id) {
-//                        Log.v("Banner~~~~~~~~~~",response);
 
                         Gson gson  = new Gson();
                         //右边是解析成javaBean,右边是从javabean取出list，整体存到banner_t
                         banner_t = gson.fromJson(response,Banner.class).getData();
-//                        for(Banner.DataBean banner1:banner_t){
-//                            Log.v("Bean取出List",banner1.getTitle());
-//                        }
                         initSlider();
                     }
                 });

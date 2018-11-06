@@ -18,6 +18,8 @@
     <color name="item_desc">@color/Grey600</color>
     <color name="item_date">@color/Grey600</color>
     <color name="arrow_color">@color/Grey700</color>
+    <color name="color_item_press">@color/Grey700</color>
+    <color name="color_item_normal">@color/white</color>
 
     <color name="White">#FFFFFF</color>
     <color name="Cyan">#00bcd4</color>

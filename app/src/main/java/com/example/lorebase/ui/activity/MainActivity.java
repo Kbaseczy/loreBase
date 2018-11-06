@@ -7,11 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +18,7 @@ import com.example.lorebase.ui.fragment.CollectFragment;
 import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.RelaxFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
+import com.example.lorebase.ui.fragment.subFragment.LocationFragment;
 import com.example.lorebase.util.L;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,13 +38,10 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 /*
-    todo 再次说明：MainActivity只是一个整体结构（it's a container）-几乎没有逻辑，具体逻辑实现在Fragment中
     ☆ Lambda 里面不能intent 定义，使用需要在外部定义，在里面用new Intent().setClass()
  */
 public class MainActivity extends Activity implements BottomNavigationView.OnNavigationItemSelectedListener
         , NavigationView.OnNavigationItemSelectedListener{
-    RadioButton radioMain, radioSpace, radioMBase, radioKBase, radioSort;
-
     BottomNavigationView bottomNavigationView;
     FloatingActionButton fab;
     NavigationView navigationView;
@@ -59,6 +53,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     LoreTreeFragment loreTreeFragment;
     RelaxFragment relaxFragment;
     CollectFragment collectFragment;
+    LocationFragment locationFragment;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +62,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         loreTreeFragment = new LoreTreeFragment();
         relaxFragment = new RelaxFragment();
         collectFragment = new CollectFragment();
+        locationFragment = new LocationFragment();
         initView();
         //todo 设置进入后显示的第一个界面
         goFragment(homeFragment);
@@ -77,8 +73,9 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 //        collapseBottomSheet(bottomNavigationView);
     }
 
+    //返回MainActivity指定顯示的fragment,類似的用法在agentWeb也有體現.
     private void indicateFrag() {
-        int fragId = getIntent().getIntExtra(ConstName.FRAGMENT,0);
+        int fragId = getIntent().getIntExtra(ConstName.FRAGMENT,1);
         switch ( fragId){
             case 1:
                 goFragment(homeFragment);
@@ -92,7 +89,9 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
             case 4:
                 goFragment(collectFragment);
                 break;
-
+            default:
+                goFragment(homeFragment);
+                break;
         }
     }
 
@@ -117,7 +116,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         //todo 获取登陆状态，设置Logout显示或隐藏    只有登陆成功后才会true，默认false
         SharedPreferences sp = getSharedPreferences(ConstName.LOGIN_DATA,MODE_PRIVATE);//获取sharedPreferences的对象并指向文件login_data
         navigationView.getMenu().findItem(R.id.nav_logout)
-                .setVisible(sp.getBoolean(ConstName.IS_LOGIN,false));  //获取login_data 文件的isLogin 数据，然后设置logout可见性
+                .setVisible(sp.getBoolean(ConstName.IS_LOGIN,false));  //获取login_data 文件的isLogin 数据，设置logout可见性
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
@@ -134,21 +133,31 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
             }
             return false;
         });
-        login_username.setOnClickListener(v -> startActivity(new Intent(getBaseContext(),LoginActivity.class)));
 
         SharedPreferences getLogin = getSharedPreferences(ConstName.LOGIN_DATA,MODE_PRIVATE);
         boolean isLogin = getLogin.getBoolean(ConstName.IS_LOGIN,false);
         String get_username = getLogin.getString(ConstName.USER_NAME,"");
+
+        //如果是登陸狀態(麽有點擊事件),文本設爲"用戶名".如果是未登錄狀態(有點擊事件),文本設爲"login".
         if(isLogin){
             login_username.setText(get_username);
-            login_username.setFocusable(false);
         }else{
             login_username.setText(R.string.login);
-            login_username.setFocusable(true);
+            login_username.setOnClickListener(v -> startActivity(new Intent(getBaseContext(),LoginActivity.class)));
         }
 
         fab.setOnClickListener(v->{
             Toast.makeText(this, "to top", Toast.LENGTH_SHORT).show();
+//            AppBarLayout appBarLayout = findViewById(R.id.appBar);
+//            CoordinatorLayout.Behavior behavior =
+//                    ((CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams()).getBehavior();
+//            if (behavior instanceof AppBarLayout.Behavior) {
+//                AppBarLayout.Behavior appBarLayoutBehavior = (AppBarLayout.Behavior) behavior;
+//                int topAndBottomOffset = appBarLayoutBehavior.getTopAndBottomOffset();
+//                if (topAndBottomOffset != 0) {
+//                    appBarLayoutBehavior.setTopAndBottomOffset(0);
+//                }
+//            }
                 }
         );
     }
@@ -204,29 +213,45 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
                 break;
             case R.id.nav_position:
-
+                transaction.setCustomAnimations(
+                        R.animator.fragment_slide_left_enter,
+                        R.animator.fragment_slide_left_exit,
+                        R.animator.fragment_slide_right_exit,
+                        R.animator.fragment_slide_right_enter).
+                        replace(R.id.content_layout, locationFragment);
                 break;
             case R.id.nav_setting:
-
+                Toast.makeText(this, "test click setting", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_about_us:
                 startActivity(new Intent(getBaseContext(),AboutUsActivity.class));
                 break;
             case R.id.nav_logout:
-                final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-                View dialog_view = LayoutInflater.from(this).inflate(R.layout.logout_dialog,null);
-                alertDialog.setView(dialog_view);
-                LinearLayout ok = dialog_view.findViewById(R.id.logout_ok);
-                LinearLayout cancel = dialog_view.findViewById(R.id.logout_cancel);
-                ok.setOnClickListener(v-> {
-                    logout();
-                    alertDialog.dismiss();});
-                /*
-                dismiss/cancel  区别，当回调setOnCancelListener的监听事件就得用cancel，cancel方法中含有dismiss方法
-                 */
-                cancel.setOnClickListener(v-> alertDialog.dismiss());
+                //自定義佈局
+//                final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+//                View dialog_view = LayoutInflater.from(this).inflate(R.layout.logout_dialog,null);
+//                alertDialog.setView(dialog_view);
+//                LinearLayout ok = dialog_view.findViewById(R.id.logout_ok);
+//                LinearLayout cancel = dialog_view.findViewById(R.id.logout_cancel);
+//                ok.setOnClickListener(v-> {
+//                    logout();
+//                    alertDialog.dismiss();});
+//                /*
+//                dismiss/cancel  区别，当回调setOnCancelListener的监听事件就得用cancel，cancel方法中含有dismiss方法
+//                 */
+//                cancel.setOnClickListener(v-> alertDialog.dismiss());
 
-                alertDialog.show();
+                //默認佈局
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                alertDialog.setTitle(R.string.tip)
+                        .setIcon(R.mipmap.ic_launcher_round)
+                        .setMessage(R.string.tip_content_logout)
+                        .setPositiveButton(R.string.ok, (dialog, which) -> {
+                            logout();
+                            Toast.makeText(this, "Have logout", Toast.LENGTH_SHORT).show(); })
+                        .setNegativeButton(R.string.cancel,(dialog,which) ->
+                            dialog.dismiss());
+                alertDialog.create().show();
                 Toast.makeText(this, "test click logout", Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -297,6 +322,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         loreTreeFragment = null;
         relaxFragment = null;
         collectFragment = null;
+        locationFragment = null;
     }
 }
 

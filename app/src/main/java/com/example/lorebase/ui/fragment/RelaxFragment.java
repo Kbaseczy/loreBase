@@ -46,27 +46,24 @@ public class RelaxFragment extends Fragment {
         kBaseList = view.findViewById(R.id.kBase_list);
         ShareAdapter = new ShareAdapter(getActivity(),list);
         kBaseList.setAdapter(ShareAdapter);
-        kBaseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FragmentManager manager= getFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                MBItemFragment mbi = new MBItemFragment();
-                dataBean = list.get(i);
-                if(dataBean == null){
-                    return;
-                }
-                Mid = dataBean.getId();
-                mbi.setMId(Mid);  //todo 将item当前对象的ID传到文章详情
-                transaction.setCustomAnimations(
-                        R.animator.fragment_slide_left_enter,
-                        R.animator.fragment_slide_left_exit,
-                        R.animator.fragment_slide_right_exit,
-                        R.animator.fragment_slide_right_enter).
-                        replace(R.id.content_layout,mbi).
-                        addToBackStack(null);
-                transaction.commit();
+        kBaseList.setOnItemClickListener((adapterView, view1, i, l) -> {
+            FragmentManager manager= getFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            MBItemFragment mbi = new MBItemFragment();
+            dataBean = list.get(i);
+            if(dataBean == null){
+                return;
             }
+            Mid = dataBean.getId();
+            mbi.setMId(Mid);  //todo 将item当前对象的ID传到文章详情
+            transaction.setCustomAnimations(
+                    R.animator.fragment_slide_left_enter,
+                    R.animator.fragment_slide_left_exit,
+                    R.animator.fragment_slide_right_exit,
+                    R.animator.fragment_slide_right_enter).
+                    replace(R.id.content_layout,mbi).
+                    addToBackStack(null);
+            transaction.commit();
         });
         getData();
         return view;
