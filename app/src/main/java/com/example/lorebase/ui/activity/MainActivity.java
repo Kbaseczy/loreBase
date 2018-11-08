@@ -1,16 +1,18 @@
 package com.example.lorebase.ui.activity;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
@@ -19,6 +21,7 @@ import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.RelaxFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
 import com.example.lorebase.ui.fragment.subFragment.LocationFragment;
+import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.L;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,31 +32,37 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.app.Fragment;
+
 import okhttp3.Call;
 import okhttp3.Request;
 
 /*
     ☆ Lambda 里面不能intent 定义，使用需要在外部定义，在里面用new Intent().setClass()
  */
-public class MainActivity extends Activity implements BottomNavigationView.OnNavigationItemSelectedListener
-        , NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener
+        , NavigationView.OnNavigationItemSelectedListener {
     BottomNavigationView bottomNavigationView;
     FloatingActionButton fab;
     NavigationView navigationView;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     TextView login_username;
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
 
     HomeFragment homeFragment;
     LoreTreeFragment loreTreeFragment;
     RelaxFragment relaxFragment;
     CollectFragment collectFragment;
     LocationFragment locationFragment;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +72,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         relaxFragment = new RelaxFragment();
         collectFragment = new CollectFragment();
         locationFragment = new LocationFragment();
+        sp = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
         initView();
         //todo 设置进入后显示的第一个界面
         goFragment(homeFragment);
@@ -75,8 +85,8 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
     //返回MainActivity指定顯示的fragment,類似的用法在agentWeb也有體現.
     private void indicateFrag() {
-        int fragId = getIntent().getIntExtra(ConstName.FRAGMENT,1);
-        switch ( fragId){
+        int fragId = getIntent().getIntExtra(ConstName.FRAGMENT, 1);
+        switch (fragId) {
             case 1:
                 goFragment(homeFragment);
                 break;
@@ -98,7 +108,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     public void goFragment(Fragment fragment) {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.content_layout,fragment);
+        transaction.replace(R.id.content_layout, fragment);
         transaction.commitAllowingStateLoss();
     }
 
@@ -112,11 +122,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         //加载头布局文件中的组件
         login_username = navigationView.inflateHeaderView(R.layout.nav_header_main).findViewById(R.id.login_username);
         navigationView.setNavigationItemSelectedListener(this);
-
-        //todo 获取登陆状态，设置Logout显示或隐藏    只有登陆成功后才会true，默认false
-        SharedPreferences sp = getSharedPreferences(ConstName.LOGIN_DATA,MODE_PRIVATE);//获取sharedPreferences的对象并指向文件login_data
-        navigationView.getMenu().findItem(R.id.nav_logout)
-                .setVisible(sp.getBoolean(ConstName.IS_LOGIN,false));  //获取login_data 文件的isLogin 数据，设置logout可见性
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
@@ -134,36 +139,32 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
             return false;
         });
 
-        SharedPreferences getLogin = getSharedPreferences(ConstName.LOGIN_DATA,MODE_PRIVATE);
-        boolean isLogin = getLogin.getBoolean(ConstName.IS_LOGIN,false);
-        String get_username = getLogin.getString(ConstName.USER_NAME,"");
+        SharedPreferences getLogin = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
+        boolean isLogin = getLogin.getBoolean(ConstName.IS_LOGIN, false);
+        String get_username = getLogin.getString(ConstName.USER_NAME, "");
+        L.v("username", get_username + "|isLogin|" + isLogin + " ");
+
+        //todo 获取登陆状态，设置Logout显示或隐藏    只有登陆成功后才会true，默认false
+        //获取login_data 文件的isLogin 数据，设置logout可见性
+        navigationView.getMenu().findItem(R.id.nav_logout).setVisible(isLogin);
 
         //如果是登陸狀態(麽有點擊事件),文本設爲"用戶名".如果是未登錄狀態(有點擊事件),文本設爲"login".
-        if(isLogin){
+        //todo isLogin值不變化
+        if (isLogin) {
             login_username.setText(get_username);
-        }else{
+        } else {
             login_username.setText(R.string.login);
-            login_username.setOnClickListener(v -> startActivity(new Intent(getBaseContext(),LoginActivity.class)));
+            login_username.setOnClickListener(v ->
+                    startActivity(new Intent(getBaseContext(), LoginActivity.class)));
         }
-
-        fab.setOnClickListener(v->{
+        fab.setOnClickListener(v -> {
             Toast.makeText(this, "to top", Toast.LENGTH_SHORT).show();
-//            AppBarLayout appBarLayout = findViewById(R.id.appBar);
-//            CoordinatorLayout.Behavior behavior =
-//                    ((CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams()).getBehavior();
-//            if (behavior instanceof AppBarLayout.Behavior) {
-//                AppBarLayout.Behavior appBarLayoutBehavior = (AppBarLayout.Behavior) behavior;
-//                int topAndBottomOffset = appBarLayoutBehavior.getTopAndBottomOffset();
-//                if (topAndBottomOffset != 0) {
-//                    appBarLayoutBehavior.setTopAndBottomOffset(0);
-//                }
-//            }
-                }
-        );
+            HomeFragment.project_recycler.scrollToPosition(0);
+        });
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
@@ -176,6 +177,12 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                         R.animator.fragment_slide_right_exit,
                         R.animator.fragment_slide_right_enter).
                         replace(R.id.content_layout, homeFragment);
+                fab.setOnClickListener(v -> {
+                            //bug:上拉加载后，最顶部item变化。
+                            Toast.makeText(this, "to top", Toast.LENGTH_SHORT).show();
+                            HomeFragment.project_recycler.scrollToPosition(0);
+                        }
+                );
                 break;
             case R.id.action_lore_tree:
                 toolbar.setTitle(R.string.tree);
@@ -185,6 +192,9 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                         R.animator.fragment_slide_right_exit,
                         R.animator.fragment_slide_right_enter).
                         replace(R.id.content_layout, loreTreeFragment);
+                fab.setOnClickListener(v ->
+                        LoreTreeFragment.recyclerView_loreTree.scrollToPosition(0)
+                );
                 break;
             case R.id.action_relax:
                 toolbar.setTitle(R.string.relax);
@@ -224,7 +234,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 Toast.makeText(this, "test click setting", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_about_us:
-                startActivity(new Intent(getBaseContext(),AboutUsActivity.class));
+                startActivity(new Intent(getBaseContext(), AboutUsActivity.class));
                 break;
             case R.id.nav_logout:
                 //自定義佈局
@@ -248,11 +258,18 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                         .setMessage(R.string.tip_content_logout)
                         .setPositiveButton(R.string.ok, (dialog, which) -> {
                             logout();
-                            Toast.makeText(this, "Have logout", Toast.LENGTH_SHORT).show(); })
-                        .setNegativeButton(R.string.cancel,(dialog,which) ->
-                            dialog.dismiss());
+                            Toast.makeText(this, "Have logout", Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton(R.string.cancel, (dialog, which) ->
+                                dialog.dismiss());
                 alertDialog.create().show();
                 Toast.makeText(this, "test click logout", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.nav_exit:
+                //todo 需要添加管理activity的類，統一關閉所有activity
+                ActivityCollector.finishAll();
+                finish();
                 break;
         }
         transaction.commitAllowingStateLoss();
@@ -282,8 +299,8 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         return super.onKeyDown(keyCode, event);
     }
 
-    private void logout(){
-        String url = UrlContainer.baseUrl+UrlContainer.LOGOUT;
+    private void logout() {
+        String url = UrlContainer.baseUrl + UrlContainer.LOGOUT;
         OkHttpUtils
                 .get()
                 .url(url)
@@ -292,20 +309,33 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         e.printStackTrace();
+                        L.v("onErr");
                     }
+
                     @Override
                     public void onBefore(Request request, int id) {
                         super.onBefore(request, id);
+                        L.v("onBefore");
                     }
+
                     @Override
                     public void onResponse(String response, int id) {
-                        L.v(response+"logout");
+                        L.v(response + "logout");
                         try {
-                            if(new JSONObject(response).getInt("errCode") == 0){
+                            //todo question:這個if判斷沒有執行下去
+                            if (new JSONObject(response).getInt("errCode") == 0) {
                                 //發送請求，獲得響應，為true則在服務器清除成功 --> 更新isLogin的值
-                                SharedPreferences.Editor sp = getSharedPreferences(ConstName.LOGIN_DATA,MODE_PRIVATE).edit();
-                                sp.putBoolean(ConstName.IS_LOGIN,false);//重新写入isLogin覆盖掉原来的值
-                                sp.apply();
+                                Boolean isLogin2 = sp.getBoolean(ConstName.IS_LOGIN, false);
+                                L.v("null?" + isLogin2 + " test1 ");
+                                L.v("if  null null 111111");
+                                editor = sp.edit();
+                                editor.putBoolean(ConstName.IS_LOGIN, false);//重新写入isLogin覆盖掉原来的值
+//                                editor.clear();
+                                editor.apply();
+                                //todo 這裏無法進行鍵值對修改
+                                L.v(isLogin2 + "test2 ");
+//                                navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);//注销后，“注销按钮”不可见
+//                                initView();  //boolean值刷新后，重新加载界面
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -345,62 +375,5 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 //        return super.onOptionsItemSelected(item);
 //    }
 
-
-//    public void InitView() {
-//        radioMain = findViewById(R.id.radio0);
-//        radioSort = findViewById(R.id.radio1);
-//        radioKBase = findViewById(R.id.radio2);
-//        radioMBase = findViewById(R.id.radio3);
-//        radioSpace = findViewById(R.id.radio4);
-//
-//        radioMain.setOnClickListener(this);
-//        radioSort.setOnClickListener(this);
-//        radioKBase.setOnClickListener(this);
-//        radioMBase.setOnClickListener(this);
-//        radioSpace.setOnClickListener(this);
-//
-//    }
-
-//    @Override
-//    public void onClick(View view) {
-//        transaction =manager.beginTransaction();
-//        switch (view.getId()){
-//            case R.id.radio0:
-//                transaction.setCustomAnimations(
-//                                R.animator.fragment_slide_left_enter,
-//                                R.animator.fragment_slide_left_exit,
-//                                R.animator.fragment_slide_right_exit,
-//                                R.animator.fragment_slide_right_enter).
-//                                replace(R.id.content_layout, new HomeFragment());
-//
-//                break;
-//            case R.id.radio1:
-//               transaction.setCustomAnimations(
-//                                R.animator.fragment_slide_left_enter,
-//                                R.animator.fragment_slide_left_exit,
-//                                R.animator.fragment_slide_right_exit,
-//                                R.animator.fragment_slide_right_enter).
-//                                replace(R.id.content_layout, new LoreTreeFragment());
-//                break;
-//            case R.id.radio2:
-//                transaction.setCustomAnimations(
-//                                R.animator.fragment_slide_left_enter,
-//                                R.animator.fragment_slide_left_exit,
-//                                R.animator.fragment_slide_right_exit,
-//                                R.animator.fragment_slide_right_enter).
-//                                replace(R.id.content_layout, new RelaxFragment());
-//                break;
-//            case R.id.radio3:
-//                transaction.setCustomAnimations(
-//                                R.animator.fragment_slide_left_enter,
-//                                R.animator.fragment_slide_left_exit,
-//                                R.animator.fragment_slide_right_exit,
-//                                R.animator.fragment_slide_right_enter).
-//                                replace(R.id.content_layout, new CollectFragment());
-//                break;
-//
-//        }
-//        transaction.commit();
-//    }
 
 

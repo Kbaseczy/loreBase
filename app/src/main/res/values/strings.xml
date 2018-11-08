@@ -20,7 +20,7 @@
     <!-- spaceFragment-->
     <string name="DeviceInfo">DeviceInfo</string>
     <string name="personInfo">PersonInfo</string>
-    <string name="Exit">Confirm</string>
+    <string name="Exit">Exit now</string>
     <string name="ensure_exit">Are you sure exit?</string>
 
     <!-- ForgetActivity-->

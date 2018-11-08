@@ -1,5 +1,6 @@
 package com.example.lorebase;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Build;
 import android.os.StrictMode;
@@ -18,6 +19,7 @@ import okhttp3.OkHttpClient;
 
 public class MyApplication extends Application {
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     public void onCreate() {
         super.onCreate();

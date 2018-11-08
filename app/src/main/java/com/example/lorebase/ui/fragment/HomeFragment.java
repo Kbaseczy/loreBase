@@ -51,6 +51,8 @@ import okhttp3.Request;
 public class HomeFragment extends Fragment{
     private View view;
 
+    public static RecyclerView project_recycler;
+
     private List<ProjectLatest.DataBean.DatasBean> list_project = new ArrayList<>();
 
     private int page = 0;
@@ -95,7 +97,7 @@ public class HomeFragment extends Fragment{
                 });
     }
     private void initProject() {
-        RecyclerView project_recycler = view.findViewById(R.id.home_recycler_view);
+         project_recycler = view.findViewById(R.id.home_recycler_view);
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),1);
 

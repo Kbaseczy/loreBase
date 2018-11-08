@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.FragmentAdapter;
-import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.LoreTree;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.fragment.subFragment.LoreListFragment;
@@ -18,14 +18,13 @@ import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
 /*
         LoreTree(父级)  - cid> Lore（子级）  - > LoreListFrag(标题列表) - link,title> agentWeb
         todo question：子级中cid如何传到LoreListFragment(或者说LoreListFragment如何获取数据源)
  */
-public class LoreActivity extends FragmentActivity {
+public class LoreActivity extends BaseActivity {
 
     Toolbar toolbar;
     String super_name;

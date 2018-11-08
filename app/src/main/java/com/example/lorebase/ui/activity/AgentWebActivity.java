@@ -1,6 +1,5 @@
 package com.example.lorebase.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,9 +9,9 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.ui.fragment.subFragment.LoreListFragment;
 import com.just.agentweb.AgentWeb;
 
 import androidx.appcompat.widget.Toolbar;
@@ -23,7 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 
     todo 注意，儅返回到loreActivity時，由於這一界面的數據來自LoreTreActivity,如果沒有數據則報錯
  */
-public class AgentWebActivity extends Activity {
+public class AgentWebActivity extends BaseActivity {
 
     LinearLayout linearLayout;
     Toolbar toolbar;

@@ -24,9 +24,9 @@
             android:title="@string/nav_setting" />
 
     </group>
-
-
-    <group android:checkableBehavior="single">
+    
+    <item android:title="others">
+        <menu>
             <item
                 android:id="@+id/nav_about_us"
                 android:icon="@drawable/info"
@@ -35,6 +35,11 @@
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_logout_white_24dp"
                 android:title="@string/nav_logout" />
-    </group>
 
+            <item
+                android:id="@+id/nav_exit"
+                android:icon="@drawable/bird"
+                android:title="@string/Exit" />
+        </menu>
+    </item>
 </menu>

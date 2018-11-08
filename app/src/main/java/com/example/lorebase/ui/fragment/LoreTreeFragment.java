@@ -29,7 +29,7 @@ import okhttp3.Request;
  */
 
 public class LoreTreeFragment extends Fragment {
-
+    public static RecyclerView recyclerView_loreTree;
     View view;
     protected LoreTreeAdapter loreTreeAdapter;
     private List<LoreTree.DataBean> fatherBeanList;
@@ -66,7 +66,7 @@ public class LoreTreeFragment extends Fragment {
     }
 
     private void initView() {
-        RecyclerView recyclerView_loreTree = view.findViewById(R.id.recycler_lore_tree);
+         recyclerView_loreTree = view.findViewById(R.id.recycler_lore_tree);
 
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
 

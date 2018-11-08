@@ -1,10 +1,10 @@
 package com.example.lorebase.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
@@ -12,7 +12,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.widget.Toolbar;
 
-public class AboutUsActivity extends Activity {
+public class AboutUsActivity extends BaseActivity {
 
     FloatingActionButton feed_back;
     Toolbar toolbar;

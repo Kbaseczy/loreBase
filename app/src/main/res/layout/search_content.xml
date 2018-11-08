@@ -18,6 +18,7 @@
         android:textSize="@dimen/sp_16" />
 
     <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/tag_flow_hot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:max_select="0" />

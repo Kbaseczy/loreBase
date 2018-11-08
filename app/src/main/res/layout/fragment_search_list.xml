@@ -13,4 +13,5 @@
 
     <include layout="@layout/fragment_lore_list"/>
 
+    
 </LinearLayout>

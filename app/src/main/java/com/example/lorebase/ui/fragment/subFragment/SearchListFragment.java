@@ -1,7 +1,9 @@
 package com.example.lorebase.ui.fragment.subFragment;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,9 +23,6 @@ import com.google.gson.Gson;
 import com.scwang.smartrefresh.header.FlyRefreshHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.scwang.smartrefresh.layout.header.FalsifyHeader;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 import com.zhy.http.okhttp.utils.L;
@@ -34,13 +33,14 @@ import java.util.List;
  * A fragment representing a list of Items.
  * <p/>
  * interface.
+ * sequence : key_word -> search(key_word) -> initSearch()
  */
 public class SearchListFragment extends Fragment {
     View view;
     private int page;
     private String key_word;
     private List<Article.DataBean.DatasBean> search_list;
-
+    public static RecyclerView recyclerView;
     public SearchListFragment instance(String key_word){
         SearchListFragment instance_frag = new SearchListFragment();
         Bundle bundle = new Bundle();
@@ -50,16 +50,17 @@ public class SearchListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_search_list, container, false);
-        key_word = ""; //由searchActivity传入
-        search(key_word);
+        assert getArguments() != null;
+        key_word = getArguments().getString(ConstName.KEY_WORD,""); //由searchActivity传入
+        search(key_word);  // zai 該方法中運行了initSearch()
         return view;
     }
 
     private void initSearch() {
-        RecyclerView recyclerView = view.findViewById(R.id.lore_rv);
+         recyclerView = view.findViewById(R.id.lore_rv);
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
         SearchListAdapter adapter = new SearchListAdapter(search_list);
         recyclerView.setLayoutManager(manager);
@@ -70,8 +71,7 @@ public class SearchListFragment extends Fragment {
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             search_list.clear();
             adapter.notifyDataSetChanged();
-            refreshLayout.finishRefresh();
-        });
+            refreshLayout.finishRefresh(); });
         smartRefreshLayout.autoLoadMore(400);
         smartRefreshLayout.finishLoadMoreWithNoMoreData();
 //                setOnLoadMoreListener(refreshLayout -> {
@@ -105,7 +105,6 @@ public class SearchListFragment extends Fragment {
                         L.e(response);
                         Gson gson = new Gson();
                         search_list = gson.fromJson(response, Article.class).getData().getDatas();
-
                         initSearch();
                     }
                 });

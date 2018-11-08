@@ -1,6 +1,5 @@
 package com.example.lorebase.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,11 +9,12 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class LaunchActivity extends Activity {
+public class LaunchActivity extends BaseActivity {
 
     AlphaAnimation alphaAnimation;
     ConstraintLayout launch_layout;

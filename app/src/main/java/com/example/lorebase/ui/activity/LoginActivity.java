@@ -1,6 +1,5 @@
 package com.example.lorebase.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
@@ -30,7 +30,7 @@ import okhttp3.Request;
 /*
    这里采用持久化存储实现记住密码功能，理论上可行，实际中应增加密码加密算法，防止用户密码泄露
  */
-public class LoginActivity extends Activity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private TextView toRegister;
     private TextView btnLogin;
     private EditText etUsername;
@@ -38,6 +38,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
+    SharedPreferences.Editor clear;
 
     CheckBox remember_pass, autoLogin;
 
@@ -68,6 +69,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             既然checkBox勾选了，还要设置它勾选？->保存的是数据，并没有保存“勾选”这个状态，数据设置了体现出状态
             TEST:去掉setChecked(true)，二次启动为勾选状态？
             */
+        }else{
+            clear = pref.edit();
+            clear.clear();
+            clear.apply();
         }
 
         btnLogin.setOnClickListener(this);
@@ -128,7 +133,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getInt("errorCode") == 0) {
                                 editor = pref.edit();
-                                //存储登陆状态
                                 editor.putBoolean(ConstName.IS_LOGIN, true); //存储登陆状态的Boolean
 
                                 //根据CheckBox判断  存储 checkBox boolean/账号/密码
@@ -160,61 +164,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         assert connManager != null;
         return connManager.getActiveNetworkInfo().isAvailable();
-    }
-
-
-    public void testDemoGet() {
-        String url = "http://www.wanandroid.com/banner/json";
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(okhttp3.Call call, Exception e, int id) {
-                        e.printStackTrace();
-                        Toast.makeText(LoginActivity.this, "登陆异常", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.e(response);
-                    }
-                });
-
-    }
-
-    public void testDemoPost() {
-        String url = "http://www.wanandroid.com/user/login";
-        OkHttpUtils
-                .post()
-                .url(url)
-                .addParams("username", "15023474083")
-                .addParams("password", "123456")
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(okhttp3.Call call, Exception e, int id) {
-                        e.printStackTrace();
-                        Toast.makeText(LoginActivity.this, "登陆异常", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.e(response);
-                    }
-                });
-
     }
 
 }

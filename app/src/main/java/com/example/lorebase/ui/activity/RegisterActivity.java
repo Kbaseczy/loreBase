@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.util.L;
@@ -20,7 +21,7 @@ import org.json.JSONObject;
 import okhttp3.Call;
 import okhttp3.Request;
 
-public class RegisterActivity extends Activity implements View.OnClickListener {
+public class RegisterActivity extends BaseActivity implements View.OnClickListener {
     private EditText passWord;
     private EditText userCount;
     private EditText re_input_pass;

@@ -1,6 +1,5 @@
 package com.example.lorebase.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.zhengsr.viewpagerlib.anim.MzTransformer;
 import com.zhengsr.viewpagerlib.bean.PageBean;
@@ -32,7 +32,7 @@ import androidx.viewpager.widget.ViewPager;
 //You must call removeView() on the child's parent first.
 开源库'com.github.LillteZheng:ViewPagerHelper:v0.8'
  */
-public class GuideActivity extends Activity {
+public class GuideActivity extends BaseActivity {
 
     int[] imageRes = new int[]{
             R.drawable.guide04,
@@ -74,18 +74,17 @@ public class GuideActivity extends Activity {
 //        viewPager = findViewById(R.id.viewpager_guide);
 //        viewPager.setAdapter(new viewpagerAdapter());
 //        viewPager.addOnPageChangeListener(new PageListener());
-        btn_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goMain = new Intent(GuideActivity.this, MainActivity.class);
-                startActivity(goMain);
-                overridePendingTransition(R.animator.go_in, R.animator.go_out);
-                Toast.makeText(GuideActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
-                finish();
-            }
+        btn_start.setOnClickListener(v -> {
+            Intent goMain = new Intent(GuideActivity.this, MainActivity.class);
+            startActivity(goMain);
+            overridePendingTransition(R.animator.go_in, R.animator.go_out);
+            Toast.makeText(GuideActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+            finish();
         });
 
     }
+
+
     class viewpagerAdapter extends PagerAdapter{
         View view;
         @Override
