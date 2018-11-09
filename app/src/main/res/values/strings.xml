@@ -87,6 +87,6 @@
 
     <string name="feed_back">Feed Back</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- SearchView -->
+    <string name="search_hint">input what you want</string>
 </resources>

@@ -1,14 +1,13 @@
 package com.example.lorebase.ui.activity;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +17,8 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.ui.fragment.CollectFragment;
 import com.example.lorebase.ui.fragment.HomeFragment;
-import com.example.lorebase.ui.fragment.RelaxFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
+import com.example.lorebase.ui.fragment.RelaxFragment;
 import com.example.lorebase.ui.fragment.subFragment.LocationFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.L;
@@ -37,19 +36,24 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
-import android.app.Fragment;
-
 import okhttp3.Call;
 import okhttp3.Request;
 
-import static com.example.lorebase.ui.activity.LoginActivity.pref;
-import static com.example.lorebase.ui.activity.LoginActivity.remember_pass;
-
 /*
-    ☆ Lambda 里面不能intent 定义，使用需要在外部定义，在里面用new Intent().setClass() 個別
+    ☆ Lambda 里面不能intent 定义，使用需要在外部定义，在里面用new Intent().setClass()  個別
 
     生命周期onResume(),持久化sharesPreference,
+
+    ☆注销：1.点击logout 2.退出app（双击back按钮||点击ExitNow）
+         1.1本地：会进行对用户信息清空操作（login_data文本清空） + 网络：请求服务器注销
+         2.1本地：仅将登陆状态isLogin改为false（login_data中的isLogin修改） + 网络：请求服务器注销
+
+    ☆对于注销后sign in / logout 图标变化情况：在界面内sign in 进如入LoginActivity登陆，
+    然后再回到MainActivity进行刷新这2者的代码应在 onResume()中执行（详见onResume()处的注释）
+
+    ☆自动登陆：获取login_data中字段isAutoLogin的值，由此判断是否登陆。如果为true,则在onCreate()中初始化数据并进行登陆
+       涉及到登录状态isLogin变化，均需要刷新UI，  todo 与isLogin相关的有  sign in头布局/ logout / 收藏
+      a.isLogin变为true  b.isAutoLogin的值由LoginActivity最初设置 c.登陆后应refreshSign()均在
  */
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener
         , NavigationView.OnNavigationItemSelectedListener {
@@ -81,7 +85,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         //根據自動登陸boolean去做登陸操作 ， 也是在二次及以後進入app所需要的。 初始值在LoginActivity中
         boolean isAuto = sp.getBoolean(ConstName.IS_AUTO_LOGIN,false);
-        if(isAuto) login();
+        if(isAuto) autoLogin();
 
         initView();
         //todo 设置进入后显示的第一个界面
@@ -159,6 +163,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     protected void onResume() {
+        //这里存在典型的离开MainActivity -> LoginActivity （即离开一个activity前往另一个activity）
+        // 需要在此方法（重新获取用户焦点），进行刷新UI操作（刷新sign in/logout的显示与隐藏）
         super.onResume();
         //在重新進入MainActivity時，刷新登陸/注銷圖標
         refreshSign();
@@ -352,7 +358,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                                 }else{
                                     //未注銷，直接退出應用 ， 保留用戶名/密碼
                                     editor.putBoolean(ConstName.IS_LOGIN, false);//重新写入isLogin覆盖掉原来的值
-                                    editor.putString(ConstName.USER_NAME,"");
                                 }
                                 editor.apply();
                                 refreshSign();
@@ -364,7 +369,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 });
     }
 
-    private void login() {
+    private void autoLogin() {
         String userName = sp.getString(ConstName.USER_NAME,"");
         String password = sp.getString(ConstName.PASS_WORD,"");
         String url = UrlContainer.baseUrl + UrlContainer.LOGIN;
@@ -391,9 +396,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getInt("errorCode") == 0) {
-                                editor = pref.edit();
+                                editor = sp.edit();
                                 editor.putBoolean(ConstName.IS_LOGIN, true); //自動登陸后，登陸狀態改爲true
                                 editor.apply(); //提交保存数据
+
+                                refreshSign();  //自动登陆后刷新界面
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

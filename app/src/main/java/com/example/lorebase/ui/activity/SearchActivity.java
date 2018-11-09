@@ -45,13 +45,17 @@ import java.util.List;
  *   點擊事件觸發條件：1.搜索框輸入文本后，點擊搜索圖標  2.點擊熱搜標簽  3.點擊歷史搜索item
  *
  *   plan:search()方法考慮用傳參的形式傳遞key_word
+ *
+ *   难点：searchView 的使用，尤其是得理解去获取源代码中组件id，这里同样用到反射。在返回监听中地判断
+ *
+ *   技术点：1.搜索框获取关键字(SearchView) 2.热搜搜索(TagFlowLayout)  3.历史搜索（GreenDao）
+ *   小细节，悬浮按钮在searchActivity内部是不可见的，在SearchListFragment中可见  -> 直接setVisibility() 不需要flag
  * */
 public class SearchActivity extends BaseActivity {
 
     Toolbar toolbar_search;
     FloatingActionButton fab;
     private String key_word;
-    private boolean isFab = false;
     private List<HotKey.DataBean> hot_list = new ArrayList<>();
     private Context mContext;
     private SearchView.SearchAutoComplete autoComplete;
@@ -59,9 +63,8 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE); //去除标题栏title
         setContentView(R.layout.activity_search);
-
         getHot();
     }
 
@@ -71,7 +74,9 @@ public class SearchActivity extends BaseActivity {
         setSupportActionBar(toolbar_search);
         toolbar_search.setTitle(R.string.action_search);
         toolbar_search.setNavigationOnClickListener(v ->{
+            //根据搜索框的打开状态进行事件监听
                     if (autoComplete.isShown()) {
+                        //搜索框打开，则清除文本内容，并关闭搜索框
                         try {
                             //如果搜索框中有文字，则会先清空文字，但网易云音乐是在点击返回键时直接关闭搜索框
                             autoComplete.setText("");
@@ -82,6 +87,9 @@ public class SearchActivity extends BaseActivity {
                             e.printStackTrace();
                         }
                     } else {
+                        //搜索框没打开，退出searchActivity 回到MainActivity。
+                        //注意这里，直接结束当前活动，则自动回到上一活动   本app中仅MainActivity -> SearchActivity
+                          //然后呢，一个activity中不同fragment进入，会返回到原点fragment
                         finish();
                     }
                 }
@@ -120,15 +128,17 @@ public class SearchActivity extends BaseActivity {
         fab.setVisibility(View.GONE);
     }
 
+    //SearchView
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         MenuItem search_item = menu.findItem(R.id.search_action);
         mSearchView = (SearchView) MenuItemCompat.getActionView(search_item);
         mSearchView.setMaxWidth(1000);
-        mSearchView.setQueryHint("input word to search");
-        mSearchView.setIconified(false);
-        mSearchView.onActionViewExpanded();
+        mSearchView.setQueryHint("input what you want");
+
+//        mSearchView.setIconified(true);   //搜索框总是打开状态，默认为true
+        mSearchView.onActionViewExpanded();//内部调用了setIconified(false);
         //key_word-1.搜索框獲取 ： searchView
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -142,7 +152,10 @@ public class SearchActivity extends BaseActivity {
             }
         });
         mSearchView.setSubmitButtonEnabled(true);
-//        autoComplete = mSearchView.findViewById(R.);
+        //setIconifiedByDefault(false);会让放大镜icon直接在搜索框中出现
+        //查看源码 寻得输入框id  SearchAutoComplete继承自 EditText
+        autoComplete = mSearchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        autoComplete.getText();
         return super.onCreateOptionsMenu(menu);
     }
 

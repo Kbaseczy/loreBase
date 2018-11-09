@@ -38,7 +38,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     static SharedPreferences.Editor editor;
     SharedPreferences.Editor clear;
 
-    static CheckBox remember_pass;
+    CheckBox remember_pass;
     CheckBox autoLogin;
 
     @Override
@@ -46,6 +46,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        initView();
+    }
+
+    private void initView() {
         TextView btnLogin = findViewById(R.id.btn_login);
         TextView toRegister = findViewById(R.id.have_no_account);
 
@@ -70,21 +74,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             既然checkBox勾选了，还要设置它勾选？->保存的是数据，并没有保存“勾选”这个状态，数据设置了体现出状态
             TEST:去掉setChecked(true)，二次启动为勾选状态？ --> 不是勾選狀態
             */
-        }else{
+        } else {
             clear = pref.edit();
             clear.clear();
             clear.apply();
         }
 
-        //設置自動登陸按鈕勾選狀態，如果勾選自動登陸則默認勾選記住密碼 - yeah
-        if(autoLogin.isChecked()){
-            remember_pass.setChecked(true);// todo 沒好使
-            pref.edit().putBoolean(ConstName.IS_AUTO_LOGIN,true).apply();
-        }else{
-            pref.edit().putBoolean(ConstName.IS_AUTO_LOGIN,false).apply();
+        if (pref.getBoolean(ConstName.IS_AUTO_LOGIN, false)) {
+            autoLogin.setChecked(true); //同记住密码，如果自动登陆为true，应该设置该按钮为勾选状态
         }
         btnLogin.setOnClickListener(this);
         toRegister.setOnClickListener(this);
+        autoLogin.setOnClickListener(this);
     }
 
     @Override
@@ -97,6 +98,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 LoginActivity.this.finish();
                 break;
+
             case R.id.btn_login:
                 String userName = etUsername.getText().toString().trim(); //trim() 舍去首尾空白，
                 String password = etPassword.getText().toString().trim();//getText().toString() 获取文本内容并转换为String类型
@@ -108,10 +110,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 } else {
                     login(userName, password);
                 }
-//                testDemoPost();
-//                testDemoGet();
                 break;
 
+            case R.id.autoLogin:
+                if (autoLogin.isChecked()) {
+                    remember_pass.setChecked(true);
+                    pref.edit().putBoolean(ConstName.IS_AUTO_LOGIN, true).apply();
+                } else {
+                    pref.edit().putBoolean(ConstName.IS_AUTO_LOGIN, false).apply();
+                }
         }
     }
 
