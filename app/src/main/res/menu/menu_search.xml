@@ -7,5 +7,5 @@
         android:title="@string/action_search"
         android:iconifiedByDefault="true"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="collapseActionView|always|withText" />
+        app:showAsAction="always" />
 </menu>

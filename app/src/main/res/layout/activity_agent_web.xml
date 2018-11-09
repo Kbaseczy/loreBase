@@ -23,7 +23,7 @@
                 app:title="@string/description"
                 app:subtitleTextAppearance="@style/ToolbarSubTitle"
                 app:subtitle="@string/author"
-                app:navigationIcon="@drawable/bird"
+                app:navigationIcon="@drawable/back"
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:layout_scrollFlags="scroll|enterAlways|snap">

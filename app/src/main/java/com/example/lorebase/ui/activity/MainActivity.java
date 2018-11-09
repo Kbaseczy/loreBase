@@ -43,8 +43,13 @@ import android.app.Fragment;
 import okhttp3.Call;
 import okhttp3.Request;
 
+import static com.example.lorebase.ui.activity.LoginActivity.pref;
+import static com.example.lorebase.ui.activity.LoginActivity.remember_pass;
+
 /*
-    ☆ Lambda 里面不能intent 定义，使用需要在外部定义，在里面用new Intent().setClass()
+    ☆ Lambda 里面不能intent 定义，使用需要在外部定义，在里面用new Intent().setClass() 個別
+
+    生命周期onResume(),持久化sharesPreference,
  */
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener
         , NavigationView.OnNavigationItemSelectedListener {
@@ -73,6 +78,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         collectFragment = new CollectFragment();
         locationFragment = new LocationFragment();
         sp = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
+
+        //根據自動登陸boolean去做登陸操作 ， 也是在二次及以後進入app所需要的。 初始值在LoginActivity中
+        boolean isAuto = sp.getBoolean(ConstName.IS_AUTO_LOGIN,false);
+        if(isAuto) login();
+
         initView();
         //todo 设置进入后显示的第一个界面
         goFragment(homeFragment);
@@ -120,7 +130,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         navigationView = findViewById(R.id.nav_view);
         //加载头布局文件中的组件
-        login_username = navigationView.inflateHeaderView(R.layout.nav_header_main).findViewById(R.id.login_username);
+        login_username = navigationView.inflateHeaderView(R.layout.nav_header_main)
+                .findViewById(R.id.login_username);
         navigationView.setNavigationItemSelectedListener(this);
 
         toolbar = findViewById(R.id.toolbar);
@@ -129,7 +140,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         toolbar.setNavigationOnClickListener(v ->    //点击home按钮拉出侧滑栏
                 drawerLayout.openDrawer(GravityCompat.START)
         );
-        // 那个menu按钮在下面监听无效，需要在上面监听（TODO 原因待考察 - > ?）
+        // 那个menu按钮在下面监听无效，需要在上面监听（TODO 原因待考察 - > need to setSupportActionbar(toolbar)）
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_search_main:
@@ -139,17 +150,28 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             return false;
         });
 
+        refreshSign();
+        fab.setOnClickListener(v -> {
+            Toast.makeText(this, "to top", Toast.LENGTH_SHORT).show();
+            HomeFragment.project_recycler.scrollToPosition(0);
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //在重新進入MainActivity時，刷新登陸/注銷圖標
+        refreshSign();
+    }
+
+    private void refreshSign() {
+        //界面内注銷后再登陸，此段代碼未執行  - - > 需要在生命周期onResume()中執行，回到視圖時刷新圖標
         SharedPreferences getLogin = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
         boolean isLogin = getLogin.getBoolean(ConstName.IS_LOGIN, false);
         String get_username = getLogin.getString(ConstName.USER_NAME, "");
-        L.v("username", get_username + "|isLogin|" + isLogin + " ");
-
-        //todo 获取登陆状态，设置Logout显示或隐藏    只有登陆成功后才会true，默认false
-        //获取login_data 文件的isLogin 数据，设置logout可见性
         navigationView.getMenu().findItem(R.id.nav_logout).setVisible(isLogin);
-
+        L.v(isLogin+"登陸狀態");
         //如果是登陸狀態(麽有點擊事件),文本設爲"用戶名".如果是未登錄狀態(有點擊事件),文本設爲"login".
-        //todo isLogin值不變化
         if (isLogin) {
             login_username.setText(get_username);
         } else {
@@ -157,10 +179,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             login_username.setOnClickListener(v ->
                     startActivity(new Intent(getBaseContext(), LoginActivity.class)));
         }
-        fab.setOnClickListener(v -> {
-            Toast.makeText(this, "to top", Toast.LENGTH_SHORT).show();
-            HomeFragment.project_recycler.scrollToPosition(0);
-        });
     }
 
     @Override
@@ -257,7 +275,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         .setIcon(R.mipmap.ic_launcher_round)
                         .setMessage(R.string.tip_content_logout)
                         .setPositiveButton(R.string.ok, (dialog, which) -> {
-                            logout();
+                            logout(1);
                             Toast.makeText(this, "Have logout", Toast.LENGTH_SHORT).show();
                         })
                         .setNegativeButton(R.string.cancel, (dialog, which) ->
@@ -299,7 +317,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         return super.onKeyDown(keyCode, event);
     }
 
-    private void logout() {
+    private void logout(int flag) {
         String url = UrlContainer.baseUrl + UrlContainer.LOGOUT;
         OkHttpUtils
                 .get()
@@ -322,29 +340,67 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     public void onResponse(String response, int id) {
                         L.v(response + "logout");
                         try {
-                            //todo question:這個if判斷沒有執行下去
-                            if (new JSONObject(response).getInt("errCode") == 0) {
+                            //question:這個if判斷沒有執行下去 -> 字段打錯了 errCode -errorCode
+
+                            if (new JSONObject(response).getInt("errorCode") == 0) {
                                 //發送請求，獲得響應，為true則在服務器清除成功 --> 更新isLogin的值
-                                Boolean isLogin2 = sp.getBoolean(ConstName.IS_LOGIN, false);
-                                L.v("null?" + isLogin2 + " test1 ");
-                                L.v("if  null null 111111");
                                 editor = sp.edit();
-                                editor.putBoolean(ConstName.IS_LOGIN, false);//重新写入isLogin覆盖掉原来的值
-//                                editor.clear();
+
+                                if(flag == 1){
+                                    //界面内點擊注銷 ， 清除用戶信息，無保留
+                                    editor.clear();
+                                }else{
+                                    //未注銷，直接退出應用 ， 保留用戶名/密碼
+                                    editor.putBoolean(ConstName.IS_LOGIN, false);//重新写入isLogin覆盖掉原来的值
+                                    editor.putString(ConstName.USER_NAME,"");
+                                }
                                 editor.apply();
-                                //todo 這裏無法進行鍵值對修改
-                                L.v(isLogin2 + "test2 ");
-//                                navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);//注销后，“注销按钮”不可见
-//                                initView();  //boolean值刷新后，重新加载界面
+                                refreshSign();
+                        }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    private void login() {
+        String userName = sp.getString(ConstName.USER_NAME,"");
+        String password = sp.getString(ConstName.PASS_WORD,"");
+        String url = UrlContainer.baseUrl + UrlContainer.LOGIN;
+        OkHttpUtils
+                .post()
+                .url(url)
+                .addParams("username", userName)
+                .addParams("password", password)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onBefore(Request request, int id) {
+                        super.onBefore(request, id);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        L.e(response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.getInt("errorCode") == 0) {
+                                editor = pref.edit();
+                                editor.putBoolean(ConstName.IS_LOGIN, true); //自動登陸后，登陸狀態改爲true
+                                editor.apply(); //提交保存数据
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 });
-
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -353,6 +409,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         relaxFragment = null;
         collectFragment = null;
         locationFragment = null;
+        //退出程序應該自動注銷,登陸狀態改爲false
+        logout(2);
     }
 }
 

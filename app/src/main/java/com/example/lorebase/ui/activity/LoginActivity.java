@@ -31,23 +31,24 @@ import okhttp3.Request;
    这里采用持久化存储实现记住密码功能，理论上可行，实际中应增加密码加密算法，防止用户密码泄露
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
-    private TextView toRegister;
-    private TextView btnLogin;
     private EditText etUsername;
     private EditText etPassword;
 
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
+    static SharedPreferences pref;
+    static SharedPreferences.Editor editor;
     SharedPreferences.Editor clear;
 
-    CheckBox remember_pass, autoLogin;
+    static CheckBox remember_pass;
+    CheckBox autoLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        btnLogin = findViewById(R.id.btn_login);
-        toRegister = findViewById(R.id.have_no_account);
+
+        TextView btnLogin = findViewById(R.id.btn_login);
+        TextView toRegister = findViewById(R.id.have_no_account);
+
         etUsername = findViewById(R.id.username_login);
         etPassword = findViewById(R.id.password_login);
         remember_pass = findViewById(R.id.rememberPWD);
@@ -64,10 +65,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             String password = pref.getString(ConstName.PASS_WORD, "");
             etUsername.setText(userName);
             etPassword.setText(password);
-            remember_pass.setChecked(true);/*
+            remember_pass.setChecked(true);/*/
             如果进行这一步必然有isRemember为true，而它为true来源是登陆时checkBox被勾选
             既然checkBox勾选了，还要设置它勾选？->保存的是数据，并没有保存“勾选”这个状态，数据设置了体现出状态
-            TEST:去掉setChecked(true)，二次启动为勾选状态？
+            TEST:去掉setChecked(true)，二次启动为勾选状态？ --> 不是勾選狀態
             */
         }else{
             clear = pref.edit();
@@ -75,6 +76,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             clear.apply();
         }
 
+        //設置自動登陸按鈕勾選狀態，如果勾選自動登陸則默認勾選記住密碼 - yeah
+        if(autoLogin.isChecked()){
+            remember_pass.setChecked(true);// todo 沒好使
+            pref.edit().putBoolean(ConstName.IS_AUTO_LOGIN,true).apply();
+        }else{
+            pref.edit().putBoolean(ConstName.IS_AUTO_LOGIN,false).apply();
+        }
         btnLogin.setOnClickListener(this);
         toRegister.setOnClickListener(this);
     }
@@ -134,7 +142,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             if (jsonObject.getInt("errorCode") == 0) {
                                 editor = pref.edit();
                                 editor.putBoolean(ConstName.IS_LOGIN, true); //存储登陆状态的Boolean
-
+                                editor.putString(ConstName.USER_NAME, userName);
                                 //根据CheckBox判断  存储 checkBox boolean/账号/密码
                                 if (remember_pass.isChecked()) {
                                     editor.putBoolean(ConstName.IS_REMEMBER, true);
@@ -142,7 +150,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 } else {
                                     editor.clear(); //用于第二次及以后登陆时  如果取消勾选则清除数据
                                 }
-                                editor.putString(ConstName.USER_NAME, userName); //用户名的记录不和 是否勾选CheckBox联系
                                 editor.apply(); //提交保存数据
 
                                 Toast.makeText(LoginActivity.this, "sign in Successful", Toast.LENGTH_LONG).show();

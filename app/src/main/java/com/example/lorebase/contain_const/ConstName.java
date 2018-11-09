@@ -13,6 +13,8 @@ public class ConstName {
     public static final String USER_NAME = "username";
     public static final String PASS_WORD = "password";
     public static final String IS_REMEMBER = "isRemember";
+    public static final String IS_AUTO_LOGIN = "isAutoLogin";
+
     public static final String LORE_BASE = "share from LoreBase";
 
     //LoreTree

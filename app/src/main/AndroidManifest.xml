@@ -32,7 +32,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="UdZf0ZHferNdYZ2bkB84atKubv46C5MX" />
 
-        <activity android:name=".ui.activity.LoginActivity"
+        <activity android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,7 +54,7 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".ui.activity.MainActivity"
+        <activity android:name=".ui.activity.LoginActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".ui.activity.GuideActivity" />
         <activity android:name=".ui.activity.AgentWebActivity" />
