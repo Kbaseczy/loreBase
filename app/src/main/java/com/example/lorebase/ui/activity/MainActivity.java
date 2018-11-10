@@ -241,7 +241,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
             //TODO 侧滑栏navigationView 监听
             case R.id.nav_collect:
-                Toast.makeText(this, "test click collect", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "登陆状态："+sp.getBoolean(ConstName.IS_LOGIN,false), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_todo:
 

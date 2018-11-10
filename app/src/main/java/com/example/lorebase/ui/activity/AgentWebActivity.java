@@ -53,6 +53,8 @@ public class AgentWebActivity extends BaseActivity {
                 case 3:
                     intent.setClass(AgentWebActivity.this,LoreActivity.class); //这里会报错,需要持久化存储数据,选择LitePal
                     break;
+                case 4:
+                    intent.setClass(AgentWebActivity.this,SearchActivity.class);
                 default:
                     intent.setClass(AgentWebActivity.this,MainActivity.class);
                     break;

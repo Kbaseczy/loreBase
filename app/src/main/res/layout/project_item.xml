@@ -19,12 +19,17 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/project_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:src="@mipmap/cherry"
+            android:scaleType="fitCenter"
+            app:riv_corner_radius="20dip"
+            app:riv_border_width="2dip"
+            app:riv_border_color="#333333"
+            app:riv_mutate_background="true"
             android:contentDescription="@string/todo" />
 
         <RelativeLayout

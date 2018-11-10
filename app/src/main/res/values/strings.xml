@@ -69,12 +69,13 @@
 
     <string name="hot_search">Hot Search</string>
     <string name="clear_all">Clear</string>
-    <string name="history_search">History Searched</string>
+    <string name="history_search">History</string>
 
     <string name="start_explore">Start Now</string>
 
     <string name="tip">Tip❤</string>
     <string name="tip_content_logout">Are sure Logout?</string>
+    <string name="tip_content_clear_history">Are sure clear all?</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 

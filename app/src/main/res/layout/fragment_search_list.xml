@@ -9,9 +9,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.example.lorebase.ui.fragment.subFragment.SearchListFragment">
+    tools:context="com.example.lorebase.ui.activity.SearchListActivity">
 
+    <include layout="@layout/toolbar_search"/>
     <include layout="@layout/fragment_lore_list"/>
 
-    
 </LinearLayout>

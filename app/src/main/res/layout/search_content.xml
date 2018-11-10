@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/search_content"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/dp_16"
-    tools:showIn="@layout/activity_search">
+    android:padding="@dimen/dp_16">
 
-    <!--<androidx.appcompat.widget.SearchView-->
-        <!--android:id="@+id/search_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"/>-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +27,7 @@
         android:layout_marginTop="@dimen/dp_24">
 
         <TextView
-            android:id="@+id/search_history_clear_all_tv"
+            android:id="@+id/clear_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -45,15 +39,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/search_history_clear_all_tv"
+            android:layout_toStartOf="@+id/clear_history"
             android:text="@string/history_search"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/sp_16" />
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/tag_flow_history"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp_12"
-        android:background="@color/viewBackground" />
+        android:layout_height="wrap_content"
+        app:max_select="0" />
 </LinearLayout>

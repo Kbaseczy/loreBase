@@ -22,8 +22,6 @@
             android:visibility="visible"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-
             <include layout="@layout/search_content" />
         </androidx.core.widget.NestedScrollView>
 

@@ -1,5 +1,6 @@
 package com.example.lorebase.adapter;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +30,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         this.search_list = search_list;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(mContext == null){

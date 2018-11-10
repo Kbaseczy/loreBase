@@ -1,19 +1,12 @@
-package com.example.lorebase.ui.fragment.subFragment;
+package com.example.lorebase.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.Call;
-import okhttp3.Request;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
+import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.SearchListAdapter;
 import com.example.lorebase.bean.Article;
@@ -29,50 +22,59 @@ import com.zhy.http.okhttp.utils.L;
 
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import okhttp3.Call;
+import okhttp3.Request;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
  * interface.
  * sequence : key_word -> search(key_word) -> initSearch()
  */
-public class SearchListFragment extends Fragment {
-    View view;
+@SuppressLint("Registered")
+public class SearchListActivity extends BaseActivity {
     private int page;
-    private String key_word;
     private List<Article.DataBean.DatasBean> search_list;
-    public static RecyclerView recyclerView;
-    public SearchListFragment instance(String key_word){
-        SearchListFragment instance_frag = new SearchListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(ConstName.KEY_WORD,key_word);
-        instance_frag.setArguments(bundle);
-        return instance_frag;
-    }
+    static RecyclerView recyclerView;
+
+    //Fragment方式  接收数据
+//    public SearchListActivity instance(String key_word){
+//        SearchListActivity instance_frag = new SearchListActivity();
+//        Bundle bundle = new Bundle();
+//        bundle.putString(ConstName.KEY_WORD,key_word);
+//        instance_frag.setArguments(bundle);
+//        return instance_frag;
+//    }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_search_list, container, false);
-        assert getArguments() != null;
-        key_word = getArguments().getString(ConstName.KEY_WORD,""); //由searchActivity传入
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar_search);
+        String key_word = getIntent().getStringExtra(ConstName.KEY_WORD);
+        toolbar.setTitle(key_word);
+        toolbar.setNavigationOnClickListener(v -> finish());
         search(key_word);  // zai 該方法中運行了initSearch()
-        return view;
     }
 
     private void initSearch() {
-         recyclerView = view.findViewById(R.id.lore_rv);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
+        recyclerView = findViewById(R.id.lore_rv);
+        GridLayoutManager manager = new GridLayoutManager(this, 1);
         SearchListAdapter adapter = new SearchListAdapter(search_list);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-        SmartRefreshLayout smartRefreshLayout = view.findViewById(R.id.smart_refresh_lore);
-        smartRefreshLayout.setRefreshHeader(new FlyRefreshHeader(getContext()));
-        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getContext()));
+        SmartRefreshLayout smartRefreshLayout = findViewById(R.id.smart_refresh_lore);
+        smartRefreshLayout.setRefreshHeader(new FlyRefreshHeader(this));
+        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(this));
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             search_list.clear();
             adapter.notifyDataSetChanged();
-            refreshLayout.finishRefresh(); });
-        smartRefreshLayout.autoLoadMore(400);
+            refreshLayout.finishRefresh();
+        });
+        smartRefreshLayout.autoLoadMore(200);
         smartRefreshLayout.finishLoadMoreWithNoMoreData();
 //                setOnLoadMoreListener(refreshLayout -> {
 //            page++;//修复
@@ -111,4 +113,11 @@ public class SearchListFragment extends Fragment {
 
     }
 
+    // 启动该活动传递数据的封装。  一目了然传递了哪些数据
+    public static void actionStart(Context context,String key_word){
+        Intent intent = new Intent(context,SearchListActivity.class);
+        intent.putExtra(ConstName.KEY_WORD,key_word);
+        context.startActivity(intent);
+
+    }
 }
