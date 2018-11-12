@@ -31,6 +31,8 @@ public class ConstName {
         public static final int ABOUT_US = 2;
         public static final int LORE = 3;
         public static final int SEARCH = 4;
+        public static final int SEARCH_LIST = 5;
+        public static final int MYSELF = 6;
     }
 
     public static final String KEY_WORD = "k";

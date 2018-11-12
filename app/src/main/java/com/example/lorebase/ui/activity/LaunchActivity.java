@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
@@ -18,7 +17,6 @@ public class LaunchActivity extends BaseActivity {
 
     AlphaAnimation alphaAnimation;
     ConstraintLayout launch_layout;
-    ImageView launch_image;
     Handler mHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +37,6 @@ public class LaunchActivity extends BaseActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 jump(); //结束后跳转到主界面
-
             }
 
             @Override
@@ -74,6 +71,5 @@ public class LaunchActivity extends BaseActivity {
                 finish();
             }
         },3000);
-
     }
 }

@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +65,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     TextView login_username;
+    ImageView nav_header_portrait;
     SharedPreferences sp;
     SharedPreferences.Editor editor;
 
@@ -136,6 +139,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         //加载头布局文件中的组件
         login_username = navigationView.inflateHeaderView(R.layout.nav_header_main)
                 .findViewById(R.id.login_username);
+        nav_header_portrait = navigationView.inflateHeaderView(R.layout.nav_header_main)
+                .findViewById(R.id.nav_header_portrait);
         navigationView.setNavigationItemSelectedListener(this);
 
         toolbar = findViewById(R.id.toolbar);
@@ -176,10 +181,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         boolean isLogin = getLogin.getBoolean(ConstName.IS_LOGIN, false);
         String get_username = getLogin.getString(ConstName.USER_NAME, "");
         navigationView.getMenu().findItem(R.id.nav_logout).setVisible(isLogin);
+        navigationView.getMenu().findItem(R.id.nav_collect).setVisible(isLogin);
         L.v(isLogin+"登陸狀態");
         //如果是登陸狀態(麽有點擊事件),文本設爲"用戶名".如果是未登錄狀態(有點擊事件),文本設爲"login".
         if (isLogin) {
             login_username.setText(get_username);
+            nav_header_portrait.setOnClickListener(v->new Intent(MainActivity.this,MyselfActivity.class));
         } else {
             login_username.setText(R.string.login);
             login_username.setOnClickListener(v ->
@@ -222,6 +229,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
             case R.id.action_relax:
                 toolbar.setTitle(R.string.relax);
+//                fab.setVisibility(View.INVISIBLE);   设置在该fragment不可见
                 transaction.setCustomAnimations(
                         R.animator.fragment_slide_left_enter,
                         R.animator.fragment_slide_left_exit,
@@ -241,10 +249,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
             //TODO 侧滑栏navigationView 监听
             case R.id.nav_collect:
-                Toast.makeText(this, "登陆状态："+sp.getBoolean(ConstName.IS_LOGIN,false), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this,MyselfActivity.class));
                 break;
             case R.id.nav_todo:
-
+                Toast.makeText(this, "登陆状态："+sp.getBoolean(ConstName.IS_LOGIN,false), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_position:
                 transaction.setCustomAnimations(

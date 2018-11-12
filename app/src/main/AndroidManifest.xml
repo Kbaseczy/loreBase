@@ -32,8 +32,9 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="UdZf0ZHferNdYZ2bkB84atKubv46C5MX" />
 
-        <activity android:name=".ui.activity.MainActivity"
-            android:launchMode="singleTask" >
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,21 +46,33 @@
         <activity
             android:name=".ui.activity.RegisterActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activity.SearchActivity"
+        <activity
+            android:name=".ui.activity.SearchActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activity.LaunchActivity" />
+
+        <activity android:name=".ui.activity.LaunchActivity"
+            android:launchMode="singleTask"/>
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".ui.activity.LoginActivity"
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".ui.activity.GuideActivity"
             android:launchMode="singleTask"/>
-        <activity android:name=".ui.activity.GuideActivity" />
-        <activity android:name=".ui.activity.AgentWebActivity" />
-        <activity android:name=".ui.activity.AboutUsActivity" />
-        <activity android:name=".ui.activity.LoreActivity"/>
+        <activity android:name=".ui.activity.AgentWebActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".ui.activity.AboutUsActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".ui.activity.LoreActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".ui.activity.SearchListActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".ui.activity.MyselfActivity"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

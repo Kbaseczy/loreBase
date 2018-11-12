@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
@@ -12,6 +11,7 @@ import com.example.lorebase.adapter.SearchListAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.header.FlyRefreshHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -40,6 +40,7 @@ public class SearchListActivity extends BaseActivity {
     private List<Article.DataBean.DatasBean> search_list;
     static RecyclerView recyclerView;
 
+    private String key_word;
     //Fragment方式  接收数据
 //    public SearchListActivity instance(String key_word){
 //        SearchListActivity instance_frag = new SearchListActivity();
@@ -52,9 +53,10 @@ public class SearchListActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_search_list);
         Toolbar toolbar = findViewById(R.id.toolbar_search);
-        String key_word = getIntent().getStringExtra(ConstName.KEY_WORD);
+        key_word = getIntent().getStringExtra(ConstName.KEY_WORD);
+        L.e("关键词：" + key_word);
         toolbar.setTitle(key_word);
         toolbar.setNavigationOnClickListener(v -> finish());
         search(key_word);  // zai 該方法中運行了initSearch()
@@ -71,6 +73,7 @@ public class SearchListActivity extends BaseActivity {
         smartRefreshLayout.setRefreshFooter(new BallPulseFooter(this));
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             search_list.clear();
+            search(key_word);
             adapter.notifyDataSetChanged();
             refreshLayout.finishRefresh();
         });
@@ -82,6 +85,9 @@ public class SearchListActivity extends BaseActivity {
 //            adapter.notifyDataSetChanged();
 //            refreshLayout.finishLoadMore();
 //        });
+
+        FloatingActionButton fab = findViewById(R.id.fab_search_list);
+        fab.setOnClickListener(v -> recyclerView.scrollToPosition(0));
     }
 
     private void search(String keyWord) {
@@ -114,9 +120,9 @@ public class SearchListActivity extends BaseActivity {
     }
 
     // 启动该活动传递数据的封装。  一目了然传递了哪些数据
-    public static void actionStart(Context context,String key_word){
-        Intent intent = new Intent(context,SearchListActivity.class);
-        intent.putExtra(ConstName.KEY_WORD,key_word);
+    public static void actionStart(Context context, String key_word) {
+        Intent intent = new Intent(context, SearchListActivity.class);
+        intent.putExtra(ConstName.KEY_WORD, key_word);
         context.startActivity(intent);
 
     }

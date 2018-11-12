@@ -10,6 +10,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_lore_tree"
         custom:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/Grey200"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

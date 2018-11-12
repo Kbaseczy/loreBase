@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_8"
         android:text="@string/hot_search"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/sp_16" />
 
     <com.zhy.view.flowlayout.TagFlowLayout
@@ -32,10 +32,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:drawablePadding="@dimen/dp_6"
+            android:clickable="true"
             android:text="@string/clear_all"
             android:textColor="@color/Grey400" />
 
         <TextView
+            android:id="@+id/history_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"

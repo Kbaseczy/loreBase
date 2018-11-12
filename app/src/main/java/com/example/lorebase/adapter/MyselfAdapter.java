@@ -1,9 +1,5 @@
 package com.example.lorebase.adapter;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,29 +17,32 @@ import com.example.lorebase.ui.activity.AgentWebActivity;
 
 import java.util.List;
 
-public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolder> {
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
-    private List<Article.DataBean.DatasBean> search_list;
+public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder> {
+
     private Context mContext;
-    public SearchListAdapter(List<Article.DataBean.DatasBean> search_list) {
-        this.search_list = search_list;
+    private List<Article.DataBean.DatasBean> datasBeanList;
+
+    public MyselfAdapter(List<Article.DataBean.DatasBean> datasBeanList) {
+        this.datasBeanList = datasBeanList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(mContext == null){
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.lore_list_item, parent, false);
-
+        View view = LayoutInflater.from(mContext).inflate(R.layout.lore_list_item,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        Article.DataBean.DatasBean search = search_list.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Article.DataBean.DatasBean search = datasBeanList.get(position);
 
         holder.author.setText(search.getAuthor());
         holder.date.setText(search.getNiceDate());
@@ -54,26 +53,27 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         holder.cardView.setOnClickListener(v -> {
             Intent intent = new Intent(mContext,AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE,search.getTitle());
-            intent.putExtra(ConstName.ACTIVITY,ConstName.activity.SEARCH);
+            intent.putExtra(ConstName.ACTIVITY,ConstName.activity.MYSELF);
             intent.setData(Uri.parse(search.getLink()));
             mContext.startActivity(intent);
         });
 
         holder.imageView.setOnClickListener(v->
+
                 Toast.makeText(mContext, "click collect", Toast.LENGTH_SHORT).show()
         );
     }
 
     @Override
     public int getItemCount() {
-        return search_list.size();
+        return datasBeanList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView author,date,title,chapterName;
         ImageView imageView;
-        ViewHolder(View view) {
+        ViewHolder(@NonNull View view) {
             super(view);
             cardView = (CardView) view;
             author = view.findViewById(R.id.tv_article_author);
@@ -82,6 +82,5 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
             chapterName = view.findViewById(R.id.tv_article_chapterName);
             imageView = view.findViewById(R.id.iv_like);
         }
-
     }
 }

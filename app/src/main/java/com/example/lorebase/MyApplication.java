@@ -30,10 +30,10 @@ public class MyApplication extends Application {
         }
         okHttpCookie();
 
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,"search_history.db");
-        SQLiteDatabase db = helper.getWritableDatabase();
-        DaoMaster daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
+//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,"search_history.db");
+//        SQLiteDatabase db = helper.getWritableDatabase();
+//        DaoMaster daoMaster = new DaoMaster(db);
+//        daoSession = daoMaster.newSession();
     }
 
     public DaoSession getDaoSession() {

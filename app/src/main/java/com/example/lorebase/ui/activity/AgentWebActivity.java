@@ -1,6 +1,8 @@
 package com.example.lorebase.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -27,13 +29,14 @@ public class AgentWebActivity extends BaseActivity {
     LinearLayout linearLayout;
     Toolbar toolbar;
     AgentWeb agentWeb;
+    SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent_web);
 
         String title = getIntent().getStringExtra(ConstName.TITLE);
-        int flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY,1);//獲取標志位-由哪個activity（界面）進入的
+        int flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY,0);//獲取標志位-由哪個activity（界面）進入的
 
         toolbar = findViewById(R.id.web_toolbar);
         toolbar.inflateMenu(R.menu.menu_agent_web);
@@ -44,17 +47,24 @@ public class AgentWebActivity extends BaseActivity {
             //根據flag標志位判斷  返回到那個activity
             Intent intent = new Intent();
             switch (flag_activity){
-                case 1:
+                case ConstName.activity.MAIN:
                     intent.setClass(AgentWebActivity.this,MainActivity.class);
                     break;
-                case 2:
+                case ConstName.activity.ABOUT_US:
                     intent.setClass(AgentWebActivity.this,AboutUsActivity.class);
                     break;
-                case 3:
+                case ConstName.activity.LORE:
                     intent.setClass(AgentWebActivity.this,LoreActivity.class); //这里会报错,需要持久化存储数据,选择LitePal
                     break;
-                case 4:
+                case ConstName.activity.SEARCH:
                     intent.setClass(AgentWebActivity.this,SearchActivity.class);
+                    break;
+                case ConstName.activity.SEARCH_LIST:
+                    intent.setClass(AgentWebActivity.this,SearchListActivity.class);
+                    break;
+                case ConstName.activity.MYSELF:
+                    intent.setClass(AgentWebActivity.this,MyselfActivity.class);
+                    break;
                 default:
                     intent.setClass(AgentWebActivity.this,MainActivity.class);
                     break;
@@ -66,8 +76,14 @@ public class AgentWebActivity extends BaseActivity {
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.web_collect:
-                    Toast.makeText(this, "collect action", Toast.LENGTH_SHORT).show();
-
+                    sp = getSharedPreferences(ConstName.LOGIN_DATA,MODE_PRIVATE);
+                    if(sp.getBoolean(ConstName.IS_LOGIN,false)){
+                        //收藏接口
+                        Toast.makeText(this, "收藏接口", Toast.LENGTH_SHORT).show();
+                    }else{
+                        startActivity(new Intent(AgentWebActivity.this,LoginActivity.class));
+                        Toast.makeText(this, "Please login.", Toast.LENGTH_SHORT).show();
+                    }
                     break;
 
                 case R.id.web_share:

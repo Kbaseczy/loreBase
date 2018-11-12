@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.lorebase.R;
 import com.example.lorebase.bean.LoreTree;
@@ -21,7 +20,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 /*
         1.两个List分别存储父级和子级的信息，这里的item需要的是父级的name字段和子级的name字段 -> err
-
         2.传递到下一界面的信息是：父级和子级的id
         err:childrenBeanList:java.lang.Object java.util.List.get(int)' on a null object reference
         -> todo child依赖father，这样分离创建2个list使得child独立，便是空对象，child对象依赖father对象，通过father获取child
@@ -55,8 +53,6 @@ public class LoreTreeAdapter extends RecyclerView.Adapter<LoreTreeAdapter.ViewHo
             Intent intent = new Intent(mContext,LoreActivity.class);
             intent.putExtras(bundle);
             mContext.startActivity(intent);
-
-            Toast.makeText(mContext, "LoreTree list click", Toast.LENGTH_SHORT).show();
         });
         return holder;
     }

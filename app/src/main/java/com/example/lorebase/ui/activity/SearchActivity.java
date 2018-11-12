@@ -3,6 +3,7 @@ package com.example.lorebase.ui.activity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.MyApplication;
@@ -20,6 +22,8 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.HotKey;
 import com.example.lorebase.bean.SearchHistory;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.greenDao.DaoMaster;
+import com.example.lorebase.greenDao.DaoSession;
 import com.example.lorebase.greenDao.SearchHistoryDao;
 import com.example.lorebase.util.L;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -47,15 +51,16 @@ import okhttp3.Request;
  *
  *   plan:search()方法考慮用傳參的形式傳遞key_word  --> have got it
  *
- *   难点：searchView 的使用，尤其是得理解去获取源代码中组件id，这里同样用到反射。在返回监听中地判断
+ *   难点：searchView 的使用，尤其是得理解去获取源代码中组件id，这里同样用到反射。在返回监听中判断
  *
  *   技术点：1.搜索框获取关键字(SearchView) 2.热搜搜索(TagFlowLayout)  3.历史搜索（GreenDao）
  *   小细节，悬浮按钮在searchActivity内部是不可见的，在SearchListFragment中可见  -> 直接setVisibility() 不需要flag
+ *
+ *   修复：历史搜索记录不及时变化显示->在onResume()方法中再运行历史记录的数据方法historyRecord()
  * */
 public class SearchActivity extends BaseActivity {
 
     Toolbar toolbar_search;
-    FloatingActionButton fab;
     private List<HotKey.DataBean> hot_list = new ArrayList<>();
     private Context mContext;
     private SearchView.SearchAutoComplete autoComplete;
@@ -67,38 +72,38 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE); //去除标题栏title
         setContentView(R.layout.activity_search);
-        searchHistoryDao = new MyApplication().getDaoSession().getSearchHistoryDao();
-        getHot();
-    }
 
-    private SearchHistoryDao getSearchHistoryDao(){
-        return new MyApplication().getDaoSession().getSearchHistoryDao();
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "search_history.db");
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        DaoSession daoSession = daoMaster.newSession();
+        searchHistoryDao = daoSession.getSearchHistoryDao();
+        getHot();
     }
 
     @SuppressLint("RestrictedApi")
     private void initView() {
         toolbar_search = findViewById(R.id.toolbar_search);
-        fab = findViewById(R.id.fab_search);
         setSupportActionBar(toolbar_search);
 
         toolbar_search.setTitle(R.string.action_search);
         toolbar_search.setNavigationOnClickListener(v -> {
-                    //根据搜索框的打开状态进行事件监听
-                    if (autoComplete.isShown()) {
-                        //搜索框打开，则清除文本内容，并关闭搜索框
-                        try {
-                            //如果搜索框中有文字，则会先清空文字，但网易云音乐是在点击返回键时直接关闭搜索框
-                            autoComplete.setText("");
-                            Method method = mSearchView.getClass().getDeclaredMethod("onCloseClicked");//反射
-                            method.setAccessible(true);
-                            method.invoke(mSearchView);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        finish();
-                    }
-                });
+            //根据搜索框的打开状态进行事件监听
+            if (autoComplete.isShown()) {
+                //搜索框打开，则清除文本内容，并关闭搜索框
+                try {
+                    //如果搜索框中有文字，则会先清空文字，但网易云音乐是在点击返回键时直接关闭搜索框
+                    autoComplete.setText("");
+                    Method method = mSearchView.getClass().getDeclaredMethod("onCloseClicked");//反射
+                    method.setAccessible(true);
+                    method.invoke(mSearchView);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                finish();
+            }
+        });
 
         //todo key_word-2熱搜 tagFlowLayout
         TagFlowLayout tag_flow_hot = findViewById(R.id.tag_flow_hot);
@@ -119,26 +124,31 @@ public class SearchActivity extends BaseActivity {
         tag_flow_hot.setAdapter(adapter_hot);
         tag_flow_hot.setOnTagClickListener((view, position, parent) -> {
             String hot_word = hot_list.get(position).getName();
-            //入库2  点击热搜tag，存入数据库
-            searchHistoryDao.insert(new SearchHistory(null, hot_word));
-            search(SearchActivity.this,hot_word);
+            //入库2  点击热搜tag，存入数据库 . 若存在则替换，不存在则插入。避免 UNIQUE重复的错误
+            searchHistoryDao.insertOrReplace(new SearchHistory(null, hot_word));
+            search(SearchActivity.this, hot_word);
             return true;
         });
+//        historyRecord();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        historyRecord(); //解决历史搜索记录tag增加的变化
+    }
+
+    private void historyRecord() {
         //todo key_word-3.歷史搜索 ： greenDao
-        TextView clear_all = findViewById(R.id.clear_history);
-        clear_all.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.tip)
-                    .setIcon(R.mipmap.ic_launcher_round)
-                    .setMessage(R.string.tip_content_clear_history)
-                    .setPositiveButton(R.string.ok, (dialog, which) -> searchHistoryDao.deleteAll()); //清空数据库
-        });
         //查詢所有数据得到list_history
         List<SearchHistory> list_history = searchHistoryDao.queryBuilder().list();
         TagFlowLayout tag_flow_history = findViewById(R.id.tag_flow_history);
         TagAdapter<SearchHistory> adapter_history = new TagAdapter<SearchHistory>(list_history) {
             @Override
             public View getView(FlowLayout parent, int position, SearchHistory searchHistory) {
+                if (mContext == null) {
+                    mContext = parent.getContext();
+                }
                 TextView history = (TextView) LayoutInflater.from(mContext)
                         .inflate(R.layout.tag_flow_tv, parent, false);
                 history.setText(searchHistory.getKey_word());
@@ -150,9 +160,32 @@ public class SearchActivity extends BaseActivity {
         tag_flow_history.setAdapter(adapter_history);
         tag_flow_history.setOnTagClickListener((view, position, parent) -> {
             //点击历史搜索tag，触发搜索事件
-            search(SearchActivity.this,list_history.get(position).getKey_word());
+            search(SearchActivity.this, list_history.get(position).getKey_word());
             return true;
         });
+
+        TextView clear_all = findViewById(R.id.clear_history);
+        clear_all.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.tip)
+                    .setIcon(R.mipmap.ic_launcher_round)
+                    .setMessage(R.string.tip_content_clear_history)
+                    .setPositiveButton(R.string.ok, (dialog, which) -> {
+                        searchHistoryDao.deleteAll();
+                        list_history.clear();
+                        visibility_history(list_history,clear_all);
+                        adapter_history.notifyDataChanged();
+
+                    }); //清空数据库
+            builder.create().show(); //遗漏
+        });
+        visibility_history(list_history, clear_all);
+    }
+
+    private void visibility_history(List<SearchHistory> list_history, TextView clear_all) {
+        clear_all.setVisibility(list_history.size() == 0 ? View.INVISIBLE : View.VISIBLE); // 设置clear可见性
+        TextView historyTv = findViewById(R.id.history_tv);
+        historyTv.setVisibility(list_history.size() == 0 ? View.INVISIBLE : View.VISIBLE);
     }
 
     //todo key_word-1.文本输入SearchView
@@ -171,8 +204,8 @@ public class SearchActivity extends BaseActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // 入库1  文本输入，存入数据库
-                searchHistoryDao.insert(new SearchHistory(null, query));
-                search(SearchActivity.this,query);
+                searchHistoryDao.insertOrReplace(new SearchHistory(null, query));
+                search(SearchActivity.this, query);
                 return true;
             }
 
@@ -189,7 +222,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     @SuppressLint("RestrictedApi")
-    private void search(Context context,String key_word) {
+    private void search(Context context, String key_word) {
         //點擊事件觸發條件：1.搜索框輸入文本后，點擊搜索圖標  2.點擊熱搜標簽  3.點擊歷史搜索item
         //点击事件触发后：1.跳转searchListFragment 2.传递数据-搜索关键词 - 创建SearchListFragment实例，携带String参数
        /* toolbar_search.setTitle(key_word);
@@ -206,7 +239,7 @@ public class SearchActivity extends BaseActivity {
         transaction.commitAllowingStateLoss(); // good 你又忘了这一步，最后不跳转o(∩_∩)o*/
 
         //搜索结果页面改为activity,后期如果需要再优化界面
-        SearchListActivity.actionStart(context,key_word);
+        SearchListActivity.actionStart(context, key_word);
     }
 
     private void getHot() {
@@ -241,9 +274,4 @@ public class SearchActivity extends BaseActivity {
                 });
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        return super.onKeyDown(keyCode, event);
-    }
 }
