@@ -4,26 +4,26 @@
     <item
         android:id="@+id/action_home"
         android:enabled="true"
-        android:iconTint="@drawable/main_dra"
+        android:icon="@drawable/home"
         android:title="@string/mainpage"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_lore_tree"
         android:enabled="true"
-        android:icon="@drawable/sort_dra"
+        android:icon="@drawable/tree"
         android:title="@string/tree"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_relax"
         android:enabled="true"
-        android:icon="@drawable/kbase"
+        android:icon="@drawable/keyboard"
         android:title="@string/relax"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_mbase"
         android:enabled="true"
-        android:icon="@drawable/mbase"
-        android:title="@string/collect"
+        android:icon="@drawable/we"
+        android:title="@string/we_chat"
         app:showAsAction="ifRoom"/>
 
 </menu>

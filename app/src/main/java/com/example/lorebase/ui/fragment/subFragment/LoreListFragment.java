@@ -86,8 +86,7 @@ public class LoreListFragment extends Fragment {
             adapter.notifyDataSetChanged();
             refreshLayout.finishRefresh();
         });
-        smartRefreshLayout.autoLoadMore(400);
-        smartRefreshLayout.finishLoadMoreWithNoMoreData();
+        smartRefreshLayout.autoLoadMore(200);
         //上拉加载 -> cause the list chaos
 //        recyclerView.addOnScrollListener(new EndlessOnScrollListener(manager) {
 //                    @Override

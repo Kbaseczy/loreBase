@@ -6,13 +6,13 @@
         android:id="@+id/web_collect"
         android:icon="@drawable/ic_action_white_like"
         android:title="@string/nav_my_collect"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/web_share"
         android:icon="@drawable/ic_action_share"
         android:title="@string/action_share"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/web_browser"

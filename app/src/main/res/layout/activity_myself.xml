@@ -51,12 +51,20 @@
 
     <!--悬浮按钮-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_myself"
+        android:id="@+id/fab_myself_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:src="@drawable/icon_comment"
         app:layout_anchor="@id/appBar"
         app:layout_anchorGravity="bottom|end"/>
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_myself_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/dp_80"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:src="@drawable/ic_arrow_upward_white_24dp"
+        app:layout_behavior="@string/bye_burger_float_behavior"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

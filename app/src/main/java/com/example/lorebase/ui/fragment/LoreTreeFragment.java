@@ -1,6 +1,5 @@
 package com.example.lorebase.ui.fragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +9,13 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.LoreTreeAdapter;
 import com.example.lorebase.bean.LoreTree;
 import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.util.L;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import okhttp3.Call;

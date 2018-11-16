@@ -1,11 +1,9 @@
 package com.example.lorebase.ui.activity;
 
-import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -21,7 +19,6 @@ import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.ActionBar;
@@ -33,16 +30,16 @@ import okhttp3.Request;
 
 public class MyselfActivity extends BaseActivity {
 
-    private List<Article.DataBean.DatasBean> beanList = new ArrayList<>();
+    private List<Article.DataBean.DatasBean> datasBeanList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myself);
-
         getCollect();
     }
 
-    private void getCollect(){
+    private void getCollect() {
         String url = UrlContainer.baseUrl + "lg/collect/list/0/json";
         OkHttpUtils
                 .get()
@@ -61,38 +58,43 @@ public class MyselfActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        L.v("collect----" + response);
+                        L.v(response);
                         Gson gson = new Gson();
-                        beanList = gson.fromJson(response,Article.class).getData().getDatas();
+                        datasBeanList = gson.fromJson(response, Article.class).getData().getDatas();
                         initView();
                     }
                 });
     }
 
-    private void initView(){
+    private void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         ImageView portrait = findViewById(R.id.portrait_image_view);
         RecyclerView recyclerView = findViewById(R.id.my_collect_list);
-        FloatingActionButton fab = findViewById(R.id.fab_myself);
+        FloatingActionButton fab_note = findViewById(R.id.fab_myself_note);
+        FloatingActionButton fab_top = findViewById(R.id.fab_myself_top);
+
         setSupportActionBar(toolbar); //todo 1.导包 2.父类为 AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true); //todo
         }
         collapsingToolbarLayout.setTitle("Myself_Collection");
+        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
+        collapsingToolbarLayout.setBackgroundColor(Color.GRAY);
         Glide.with(this).load(R.mipmap.cherry).into(portrait);
-        fab.setOnClickListener(view -> Toast.makeText(MyselfActivity.this,"悬浮注释输入框",Toast.LENGTH_SHORT).show());
+        fab_note.setOnClickListener(view -> Toast.makeText(MyselfActivity.this, "悬浮注释输入框", Toast.LENGTH_SHORT).show());
 
-        GridLayoutManager manager = new GridLayoutManager(this,1);
-        MyselfAdapter adapter = new MyselfAdapter(beanList);
+        GridLayoutManager manager = new GridLayoutManager(this, 1);
+        MyselfAdapter adapter = new MyselfAdapter(datasBeanList);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        fab_top.setOnClickListener(v -> recyclerView.scrollToPosition(0));
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;

@@ -49,9 +49,9 @@
         <activity
             android:name=".ui.activity.SearchActivity"
             android:launchMode="singleTask" />
-
-        <activity android:name=".ui.activity.LaunchActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.activity.LaunchActivity"
+            android:launchMode="singleTask" />
 
         <service
             android:name="com.baidu.location.f"
@@ -61,18 +61,28 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activity.GuideActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".ui.activity.AgentWebActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".ui.activity.AboutUsActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".ui.activity.LoreActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".ui.activity.SearchListActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".ui.activity.MyselfActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.activity.GuideActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.AgentWebActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.AboutUsActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.LoreActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.SearchListActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.MyselfActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.LocationActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".ui.activity.TODOActivity"></activity>
     </application>
 
 </manifest>

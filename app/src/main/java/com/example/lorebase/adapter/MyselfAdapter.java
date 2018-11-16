@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.ConstName;
+import com.example.lorebase.http.CollectArticle;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
     private Context mContext;
     private List<Article.DataBean.DatasBean> datasBeanList;
 
+
     public MyselfAdapter(List<Article.DataBean.DatasBean> datasBeanList) {
         this.datasBeanList = datasBeanList;
     }
@@ -33,34 +35,35 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(mContext == null){
+        if (mContext == null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(mContext).inflate(R.layout.lore_list_item,parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.lore_list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Article.DataBean.DatasBean search = datasBeanList.get(position);
+        Article.DataBean.DatasBean my_collect = datasBeanList.get(position);
 
-        holder.author.setText(search.getAuthor());
-        holder.date.setText(search.getNiceDate());
-        holder.title.setText(search.getTitle());
-        String name = search.getSuperChapterName()+"/"+search.getChapterName();
+        holder.author.setText(my_collect.getAuthor());
+        holder.date.setText(my_collect.getNiceDate());
+        holder.title.setText(my_collect.getTitle());
+        String name = my_collect.getSuperChapterName() + "/" + my_collect.getChapterName();
         holder.chapterName.setText(name);
+        holder.imageView.setImageResource(R.drawable.ic_like);
 
         holder.cardView.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext,AgentWebActivity.class);
-            intent.putExtra(ConstName.TITLE,search.getTitle());
-            intent.putExtra(ConstName.ACTIVITY,ConstName.activity.MYSELF);
-            intent.setData(Uri.parse(search.getLink()));
+            Intent intent = new Intent(mContext, AgentWebActivity.class);
+            intent.putExtra(ConstName.TITLE, my_collect.getTitle());
+            intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MYSELF);
+            intent.setData(Uri.parse(my_collect.getLink()));
             mContext.startActivity(intent);
         });
 
-        holder.imageView.setOnClickListener(v->
-
-                Toast.makeText(mContext, "click collect", Toast.LENGTH_SHORT).show()
+        holder.imageView.setOnClickListener(v -> {
+                    CollectArticle.unCollect(mContext, my_collect.getId());
+                }
         );
     }
 
@@ -71,8 +74,9 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        TextView author,date,title,chapterName;
+        TextView author, date, title, chapterName;
         ImageView imageView;
+
         ViewHolder(@NonNull View view) {
             super(view);
             cardView = (CardView) view;

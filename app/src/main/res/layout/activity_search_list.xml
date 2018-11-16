@@ -13,9 +13,9 @@
     <include layout="@layout/toolbar_search" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_search_result"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <include layout="@layout/fragment_lore_list" />
 
@@ -29,4 +29,5 @@
             android:src="@drawable/ic_arrow_upward_white_24dp"
             app:layout_behavior="@string/bye_burger_float_behavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </LinearLayout>

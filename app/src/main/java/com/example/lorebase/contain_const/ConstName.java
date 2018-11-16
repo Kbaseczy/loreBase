@@ -2,6 +2,7 @@ package com.example.lorebase.contain_const;
 
 public class ConstName {
     public static final String TITLE = "title";
+    public static final String ID = "id";
     public static final String PROJECT_AUTHOR = "project_author";
     public static final String PROJECT_PIC = "project_pic";
     public static final String PROJECT_link = "project_link";
@@ -26,7 +27,7 @@ public class ConstName {
     public static final String FRAGMENT = "fragment";
     public static final String ACTIVITY = "activity";
 
-    public static class activity{
+    public static class activity {
         public static final int MAIN = 1;
         public static final int ABOUT_US = 2;
         public static final int LORE = 3;
@@ -35,6 +36,14 @@ public class ConstName {
         public static final int MYSELF = 6;
     }
 
+    public static class fragment {
+        public static final int HOME = 1;
+        public static final int TREE = 2;
+        public static final int RELAX = 3;
+        public static final int WE_CHAT = 4;
+    }
+
     public static final String KEY_WORD = "k";
+    public static final String URL = "url";
 
 }

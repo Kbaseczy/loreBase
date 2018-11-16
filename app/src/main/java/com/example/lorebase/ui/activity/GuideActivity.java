@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.zhengsr.viewpagerlib.anim.MzTransformer;
+import com.zhengsr.viewpagerlib.anim.ZoomOutPageTransformer;
 import com.zhengsr.viewpagerlib.bean.PageBean;
 import com.zhengsr.viewpagerlib.indicator.ZoomIndicator;
 import com.zhengsr.viewpagerlib.view.GlideViewPager;
@@ -35,13 +36,12 @@ import androidx.viewpager.widget.ViewPager;
 public class GuideActivity extends BaseActivity {
 
     int[] imageRes = new int[]{
-            R.drawable.guide04,
-            R.drawable.guide04,
-            R.drawable.guide04,
+            R.mipmap.ic_launcher_round,
+            R.drawable.code_xiao_sheng,
+            R.drawable.google_develop,
             R.drawable.guide04
     };
 
-    private Button btn_start;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +50,7 @@ public class GuideActivity extends BaseActivity {
         GlideViewPager viewPager = findViewById(R.id.splase_viewpager);
         ZoomIndicator zoomIndicator = findViewById(R.id.splase_bottom_layout);
 
-        btn_start = findViewById(R.id.splase_start_btn);
+        Button btn_start = findViewById(R.id.splase_start_btn);
 
         List<Integer> images = new ArrayList<>();
         for (int imageRe : imageRes) {
@@ -67,7 +67,7 @@ public class GuideActivity extends BaseActivity {
             ImageView imageView = view.findViewById(R.id.image_guide);
             imageView.setBackgroundResource((Integer) data);
         });
-        viewPager.setPageTransformer(false, new MzTransformer()); //设置动画效果
+        viewPager.setPageTransformer(false, new ZoomOutPageTransformer()); //设置动画效果
 
 //        InitData();
 //        btn_start = findViewById(R.id.start_guide);
@@ -82,61 +82,5 @@ public class GuideActivity extends BaseActivity {
             finish();
         });
 
-    }
-
-
-    class viewpagerAdapter extends PagerAdapter{
-        View view;
-        @Override
-        public int getCount() {
-            return imageRes.length;
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_guide,container,false);
-            ImageView image = view.findViewById(R.id.image_guide);
-            image.setBackgroundResource(imageRes[position]);
-            container.addView(view);
-            return view;
-        }
-
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view == object;
-        }
-
-        @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            container.removeView(view);
-        }
-
-    }
-
-    class PageListener implements ViewPager.OnPageChangeListener{
-
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            //这一步判断最后一张图片显示按钮，在开源库中已经被封装
-            if(position == imageRes.length - 1){
-                btn_start.setVisibility(View.VISIBLE);
-                Animation animation = AnimationUtils.loadAnimation(GuideActivity.this,R.anim.alpha);
-                btn_start.startAnimation(animation);
-
-            }else{
-                btn_start.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
     }
 }

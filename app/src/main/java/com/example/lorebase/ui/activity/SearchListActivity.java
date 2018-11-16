@@ -11,6 +11,7 @@ import com.example.lorebase.adapter.SearchListAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.ui.fragment.subFragment.EmptyFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.header.FlyRefreshHeader;
@@ -23,6 +24,8 @@ import com.zhy.http.okhttp.utils.L;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.Call;
@@ -38,7 +41,8 @@ import okhttp3.Request;
 public class SearchListActivity extends BaseActivity {
     private int page;
     private List<Article.DataBean.DatasBean> search_list;
-    static RecyclerView recyclerView;
+    private RecyclerView recyclerView;
+    private EmptyFragment emptyFragment;
 
     private String key_word;
     //Fragment方式  接收数据
@@ -54,6 +58,7 @@ public class SearchListActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_list);
+        emptyFragment = new EmptyFragment();
         Toolbar toolbar = findViewById(R.id.toolbar_search);
         key_word = getIntent().getStringExtra(ConstName.KEY_WORD);
         L.e("关键词：" + key_word);
@@ -110,10 +115,14 @@ public class SearchListActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        L.e(response);
+//                        L.e(response);
                         Gson gson = new Gson();
                         search_list = gson.fromJson(response, Article.class).getData().getDatas();
-                        initSearch();
+                        if (search_list.size() == 0) {
+                            goEmpty();
+                        } else {
+                            initSearch();
+                        }
                     }
                 });
 
@@ -124,6 +133,23 @@ public class SearchListActivity extends BaseActivity {
         Intent intent = new Intent(context, SearchListActivity.class);
         intent.putExtra(ConstName.KEY_WORD, key_word);
         context.startActivity(intent);
+    }
 
+    private void goEmpty(){
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(
+                R.animator.fragment_slide_left_enter,
+                R.animator.fragment_slide_left_exit,
+                R.animator.fragment_slide_right_exit,
+                R.animator.fragment_slide_right_enter).
+                replace(R.id.coordinator_search_result, emptyFragment);
+        transaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        emptyFragment = null;
     }
 }

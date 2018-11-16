@@ -10,50 +10,32 @@
     <string name="register">Have no account?</string>
     <string name="sign_up">Sign Up</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="meInfo">InfoPerson</string>
-    <string name="personal">Personal</string>
-    <string name="inform">Inform</string>
-    <string name="location">Location</string>
-    <string name="exit">Exit</string>
 
 
     <!-- spaceFragment-->
     <string name="DeviceInfo">DeviceInfo</string>
-    <string name="personInfo">PersonInfo</string>
     <string name="Exit">Exit now</string>
     <string name="ensure_exit">Are you sure exit?</string>
 
     <!-- ForgetActivity-->
 
-    <string name="usercount">username</string>
     <string name="passWord">password</string>
     <string name="re_enter">password again</string>
-    <string name="userName">userName</string>
     <string name="remember">Remember</string>
     <string name="autoLogin">AutoLogin</string>
-    <string name="logout">Logout</string>
     <string name="collect">Collection</string>
-
-    <string name="introduction">this is your personal introduction.</string>
+    <string name="we_chat">WeChat</string>
 
     <!-- addMBase-->
-    <string name="addArticle">AddArticle</string>
-    <string name="articleName">articleName</string>
-    <string name="user_id">user_id</string>
-    <string name="category_id">category_id</string>
     <string name="author">author</string>
-    <string name="content">content</string>
-    <string name="addA">Add</string>
-
-    <string name="modify">Modify</string>
-    <string name="details">Details</string>
+    <string name="Github">Github Code</string>
+    <string name="API">API</string>
+    <string name="AI">AI</string>
+    <string name="SDK">BaiDu SDK</string>
 
     <!-- addMBase-->
     <!-- addCategory -->
     <string name="categoryName">categoryName</string>
-    <string name="parentId">parentId</string>
-    <string name="inputCateName">inputCateName</string>
-    <string name="inputCateId">inputCateId</string>
 
     <!-- navMenu-->
     <string name="nav_my_collect">Collection</string>
@@ -83,11 +65,12 @@
     <string name="list_time">list_time</string>
     <string name="description">description</string>
     <string name="todo">todo</string>
-    <string name="article_thumbnail">article thumbnail</string>
     <string name="like_article">like article</string>
 
     <string name="feed_back">Feed Back</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="empty">There is empty,waiting to be added.sorry....</string>
+
     <!-- SearchView -->
-    <string name="search_hint">input what you want</string>
 </resources>

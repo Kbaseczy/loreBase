@@ -2,7 +2,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <com.daimajia.slider.library.SliderLayout
@@ -28,26 +27,16 @@
         custom:unselected_width="16dp"
         custom:unselected_height="3dp" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_home"
+        custom:tabTextAppearance="@style/TabLayoutTextStyle"
+        custom:tabBackground="@color/colorAccent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/smart_refresh_home"
+        android:layout_height="wrap_content"/>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        custom:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:background="@color/Grey200"
-            android:id="@+id/home_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/project_item"
-            custom:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        custom:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </LinearLayout>

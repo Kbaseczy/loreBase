@@ -2,9 +2,6 @@
 <resources>
     <color name="input_context">#AAAAAA</color>
     <color name="lightBlue">#79CDCD</color>
-    <color name="text_clo">#333</color>
-    <color name="blue">#419DE4</color>
-    <color name="border_clo">#ccc</color>
     <color name="item_title">@color/black</color>
     <color name="white">#ffffff</color>
 
@@ -17,13 +14,11 @@
     <color name="item_author">@color/Grey700</color>
     <color name="item_desc">@color/Grey600</color>
     <color name="item_date">@color/Grey600</color>
-    <color name="arrow_color">@color/Grey700</color>
     <color name="color_item_press">@color/Grey700</color>
     <color name="color_item_normal">@color/white</color>
 
     <color name="White">#FFFFFF</color>
     <color name="Cyan">#00bcd4</color>
-    <color name="Green">#4caf50</color>
     <color name="Grey">#9e9e9e</color>
     <color name="Blue_Grey">#607d8b</color>
 
@@ -33,4 +28,9 @@
     <color name="Grey600">#757575</color>
     <color name="Grey700">#616161</color>
 
+    <!--night-->
+    <color name="colorPrimary_night">#902b2b</color>
+    <color name="colorPrimaryDark_night">#902b2b</color>
+    <color name="colorAccent_night">#902b2b</color>
+    <color name="colorDefault_night">#adaeb3</color>
 </resources>
