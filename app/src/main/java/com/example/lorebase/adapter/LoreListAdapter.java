@@ -14,8 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;
+import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.CollectArticle;
 import com.example.lorebase.ui.activity.AgentWebActivity;
@@ -47,6 +49,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
                 .inflate(R.layout.lore_list_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         holder.cardView.setOnClickListener(v -> {
+
             int position = holder.getAdapterPosition();
             Article.DataBean.DatasBean datasBean = datasBeanList.get(position);
             //跳转到LoreAgentWeb  need:link/title
@@ -56,6 +59,10 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
             intent.putExtra(ConstName.ID, datasBean.getId());
             intent.setData(Uri.parse(datasBean.getLink()));
             mContext.startActivity(intent);
+
+            MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
+                    null,datasBean.getTitle(),datasBean.getLink(),datasBean.getNiceDate()
+            ));
         });
 
         SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);

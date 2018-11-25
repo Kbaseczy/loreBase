@@ -69,6 +69,9 @@ public class AgentWebActivity extends BaseActivity {
                 case ConstName.activity.MYSELF:
                     intent.setClass(AgentWebActivity.this, MyselfActivity.class);
                     break;
+                case ConstName.activity.BROWSE_HOSTORY:
+                    intent.setClass(AgentWebActivity.this,BrowseHistoryActivity.class);
+                    break;
                 default:
                     intent.setClass(AgentWebActivity.this, MainActivity.class);
                     break;

@@ -14,9 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;
+import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.contain_const.ConstName;
+import com.example.lorebase.greenDao.BrowseHistoryDao;
 import com.example.lorebase.http.CollectArticle;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
@@ -52,7 +55,10 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         holder.project_date.setText(article.getNiceDate());
         Glide.with(mContext).load(article.getEnvelopePic()).into(holder.project_image);
 
+        BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
+
         holder.cardView.setOnClickListener(v -> {
+            browseHistoryDao.insertOrReplace(new BrowseHistory(null,article.getTitle(), article.getLink(),article.getNiceDate()));
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, article.getTitle());
             intent.putExtra(ConstName.PROJECT_AUTHOR, article.getAuthor());

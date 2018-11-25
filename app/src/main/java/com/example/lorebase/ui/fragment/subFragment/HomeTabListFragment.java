@@ -1,5 +1,6 @@
 package com.example.lorebase.ui.fragment.subFragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +31,8 @@ public class HomeTabListFragment extends Fragment {
     private String url;
     private List<Article.DataBean.DatasBean> beanList;
     private View view;
-    public static RecyclerView recyclerView;
+    @SuppressLint("StaticFieldLeak")
+    public static NestedScrollView nestedScrollView;
 
     public static HomeTabListFragment newInstance(String url) {
         HomeTabListFragment fragment = new HomeTabListFragment();
@@ -52,7 +55,7 @@ public class HomeTabListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_tab_home_list, container, false);
-        getData(url);
+//        getData(url);
         return view;
     }
 
@@ -83,7 +86,9 @@ public class HomeTabListFragment extends Fragment {
     }
 
     private void initView() {
-        recyclerView = view.findViewById(R.id.home_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.home_recycler_view);
+
+        nestedScrollView = view.findViewById(R.id.nest_scroll_home);
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
 
@@ -100,4 +105,19 @@ public class HomeTabListFragment extends Fragment {
 //        smartRefreshLayout.autoRefresh();
 //        smartRefreshLayout.autoLoadMore();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData(url);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (beanList != null) {
+            beanList = null;
+        }
+    }
+
 }

@@ -11,7 +11,7 @@
     app:cardBackgroundColor="@color/viewBackground"
     app:cardCornerRadius="@dimen/dp_20"
     app:cardElevation="@dimen/dp_10"
-    android:layout_margin="@dimen/dp_20"
+    android:layout_margin="@dimen/dp_8"
     android:background="@drawable/item_click"
     android:padding="@dimen/dp_20">
 

@@ -15,6 +15,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -27,9 +28,9 @@ import okhttp3.Request;
 
 public class LoreTreeFragment extends Fragment {
     public static RecyclerView recyclerView_loreTree;
-    View view;
-    protected LoreTreeAdapter loreTreeAdapter;
+    private View view;
     private List<LoreTree.DataBean> fatherBeanList;
+    public static NestedScrollView nestedScrollView;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_lore_tree,null);
@@ -63,13 +64,15 @@ public class LoreTreeFragment extends Fragment {
     }
 
     private void initView() {
-         recyclerView_loreTree = view.findViewById(R.id.recycler_lore_tree);
+        recyclerView_loreTree = view.findViewById(R.id.recycler_lore_tree);
+
+        nestedScrollView = view.findViewById(R.id.nest_scroll_lore_tree);
 
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
 
         recyclerView_loreTree.setLayoutManager(manager);
 
-        loreTreeAdapter = new LoreTreeAdapter(fatherBeanList);
+        LoreTreeAdapter loreTreeAdapter = new LoreTreeAdapter(fatherBeanList);
 
         recyclerView_loreTree.setAdapter(loreTreeAdapter);
     }

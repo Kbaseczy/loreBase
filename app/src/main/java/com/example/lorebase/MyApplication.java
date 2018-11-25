@@ -1,9 +1,7 @@
 package com.example.lorebase;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.StrictMode;
 
 import com.example.lorebase.greenDao.DaoMaster;
@@ -18,29 +16,37 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 
 public class MyApplication extends Application {
+    private static DaoSession daoSession;
 
-    @SuppressLint("ObsoleteSdkInt")
+    public static MyApplication instance() {
+        return MyApplicationHolder.MY_APPLICATION;
+    }
+
+    private static class MyApplicationHolder {
+        private static final MyApplication MY_APPLICATION = new MyApplication();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         //解决android N（>=24）系统以上分享 路径为file://时的 android.os.FileUriExposedException异常
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-            StrictMode.setVmPolicy(builder.build());
-        }
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         okHttpCookie();
-
-//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,"search_history.db");
-//        SQLiteDatabase db = helper.getWritableDatabase();
-//        DaoMaster daoMaster = new DaoMaster(db);
-//        daoSession = daoMaster.newSession();
+        initGreenDao();
     }
 
-    public DaoSession getDaoSession() {
+    private void initGreenDao() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "search_history.db");
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+    }
+
+    public static DaoSession getDaoSession() {
         return daoSession;
     }
 
-    private DaoSession daoSession;
     private void okHttpCookie() {
         CookieJarImpl cookieJar1 = new CookieJarImpl(new MemoryCookieStore());
         OkHttpClient okHttpClient = new OkHttpClient.Builder()

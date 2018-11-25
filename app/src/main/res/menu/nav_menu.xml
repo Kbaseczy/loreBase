@@ -14,6 +14,10 @@
             android:title="@string/nav_todo" />
 
         <item
+            android:id="@+id/nav_browser"
+            android:icon="@drawable/icon_history"
+            android:title="@string/nav_browser"/>
+        <item
             android:id="@+id/nav_position"
             android:icon="@drawable/position"
             android:title="@string/nav_position" />
@@ -25,7 +29,7 @@
 
     </group>
     
-    <item android:title="others">
+    <item android:title="@string/others">
         <menu>
             <item
                 android:id="@+id/nav_about_us"

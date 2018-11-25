@@ -3,7 +3,6 @@ package com.example.lorebase.ui.activity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +14,11 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.example.lorebase.BaseActivity;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.HotKey;
 import com.example.lorebase.bean.SearchHistory;
 import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.greenDao.DaoMaster;
-import com.example.lorebase.greenDao.DaoSession;
 import com.example.lorebase.greenDao.SearchHistoryDao;
 import com.example.lorebase.util.L;
 import com.google.gson.Gson;
@@ -69,11 +67,7 @@ public class SearchActivity extends BaseActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE); //去除标题栏title
         setContentView(R.layout.activity_search);
 
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "search_history.db");
-        SQLiteDatabase db = helper.getWritableDatabase();
-        DaoMaster daoMaster = new DaoMaster(db);
-        DaoSession daoSession = daoMaster.newSession();
-        searchHistoryDao = daoSession.getSearchHistoryDao();
+        searchHistoryDao = MyApplication.getDaoSession().getSearchHistoryDao();
         getHot();
     }
 

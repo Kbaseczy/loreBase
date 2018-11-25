@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.WeChatArticle;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.CollectArticle;
@@ -58,6 +60,8 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
         holder.chapterName.setText(name);
 
         holder.cardView.setOnClickListener(v -> {
+            MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
+                    new BrowseHistory(null,we_chat_article.getTitle(),we_chat_article.getLink(),we_chat_article.getNiceDate()));
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, we_chat_article.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN);

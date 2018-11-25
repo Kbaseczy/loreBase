@@ -40,6 +40,7 @@
     <!-- navMenu-->
     <string name="nav_my_collect">Collection</string>
     <string name="nav_todo">TODO</string>
+    <string name="nav_browser">Browsing History</string>
     <string name="nav_position">Position</string>
     <string name="nav_setting">Setting</string>
     <string name="nav_about">AboutUs</string>
@@ -71,6 +72,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="empty">There is empty,waiting to be added.sorry....</string>
+    <string name="others">others</string>
 
     <!-- SearchView -->
 </resources>

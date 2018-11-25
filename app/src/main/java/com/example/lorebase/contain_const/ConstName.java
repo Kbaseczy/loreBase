@@ -34,6 +34,7 @@ public class ConstName {
         public static final int SEARCH = 4;
         public static final int SEARCH_LIST = 5;
         public static final int MYSELF = 6;
+        public static final int BROWSE_HOSTORY = 7;
     }
 
     public static class fragment {

@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.HomeTabAdapter;
 import com.example.lorebase.bean.Banner;
+import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.ProjectLatest;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
@@ -63,6 +65,8 @@ public class HomeFragment extends Fragment {
                 textSliderView.image(banner.getImagePath());
                 textSliderView.description(banner.getTitle());
                 textSliderView.setOnSliderClickListener(slider -> {
+                    MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
+                            new BrowseHistory(null, banner.getTitle(), banner.getUrl(), null));
                     Intent web_intent = new Intent(getActivity(), AgentWebActivity.class);
 
                     Uri uri = Uri.parse(banner.getUrl());
@@ -116,7 +120,7 @@ public class HomeFragment extends Fragment {
         }
 
         List<Fragment> fragments = new ArrayList<>();
-        String url_article = UrlContainer.baseUrl + "article/list/"+page+"/json";
+        String url_article = UrlContainer.baseUrl + "article/list/" + page + "/json";
         String url_project = UrlContainer.baseUrl + "article/listproject/" + page + "/json";
         String url[] = {url_article, url_project};
         for (String urla : url) {

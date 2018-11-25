@@ -1,27 +1,20 @@
 package com.example.lorebase.ui.activity;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
-import com.example.lorebase.bean.WeChat;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.ui.fragment.CollectFragment;
 import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
 import com.example.lorebase.ui.fragment.RelaxFragment;
@@ -30,7 +23,6 @@ import com.example.lorebase.ui.fragment.subFragment.HomeTabListFragment;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.L;
-import com.example.lorebase.widget.behavior.BottomNavigationBehavior;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,10 +34,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -205,11 +201,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         R.animator.fragment_slide_right_exit,
                         R.animator.fragment_slide_right_enter).
                         replace(R.id.content_layout, homeFragment);
-                fab.setOnClickListener(v -> {
-                            //bug:上拉加载后，最顶部item变化。
-                            Toast.makeText(this, "to top", Toast.LENGTH_SHORT).show();
-                            HomeTabListFragment.recyclerView.scrollToPosition(0);
-                        });
+                fab.setOnClickListener(v ->
+                        HomeTabListFragment.nestedScrollView.post(()->HomeTabListFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
                 break;
             case R.id.action_lore_tree:
                 toolbar.setTitle(R.string.tree);
@@ -220,8 +213,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         R.animator.fragment_slide_right_enter).
                         replace(R.id.content_layout, loreTreeFragment);
                 fab.setOnClickListener(v ->
-                        LoreTreeFragment.recyclerView_loreTree.scrollToPosition(0)
-                );
+                        LoreTreeFragment.nestedScrollView.post(()->LoreTreeFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
                 break;
             case R.id.action_relax:
                 toolbar.setTitle(R.string.relax);
@@ -236,8 +228,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case R.id.action_mbase:
                 toolbar.setTitle(R.string.we_chat);
                 fab.setOnClickListener(v ->
-                        WeChatArticleFragment.recyclerView.scrollToPosition(0)
-                );
+                        WeChatArticleFragment.nestedScrollView.post(()->WeChatArticleFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
                 transaction.setCustomAnimations(
                         R.animator.fragment_slide_left_enter,
                         R.animator.fragment_slide_left_exit,
@@ -255,6 +246,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
             case R.id.nav_position:
                 startActivity(new Intent(this, LocationActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                break;
+            case R.id.nav_browser:
+                startActivity(new Intent(this,BrowseHistoryActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.nav_setting:
@@ -406,7 +401,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         //退出程序應該自動注銷,登陸狀態改爲false
         logout(2);
     }
-
 
     //actionBar的处理方式，ToolBar的处理直接用ToolBar.链式
     @Override

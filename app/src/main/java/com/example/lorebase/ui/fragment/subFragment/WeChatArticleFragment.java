@@ -11,6 +11,7 @@ import com.example.lorebase.adapter.WeChatArticleAdapter;
 import com.example.lorebase.bean.WeChatArticle;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.util.DividerItemGridDecoration;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +38,7 @@ public class WeChatArticleFragment extends Fragment {
     private SmartRefreshLayout smartRefreshLayout;
     private WeChatArticleAdapter articleAdapter;
     public static RecyclerView recyclerView;
-
+    public static NestedScrollView nestedScrollView;
 
     public static WeChatArticleFragment intance(int we_chat_id) {
         WeChatArticleFragment weChatArticleFragment = new WeChatArticleFragment();
@@ -92,10 +94,12 @@ public class WeChatArticleFragment extends Fragment {
     private void initWeChatArticle() {
         recyclerView = view.findViewById(R.id.recycler_we_chat);
         smartRefreshLayout = view.findViewById(R.id.smart_refresh_we_chat_article);
+        nestedScrollView = view.findViewById(R.id.nest_scroll_we_chat);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
         articleAdapter = new WeChatArticleAdapter(beanList_WeChatArticle);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(articleAdapter);
+        recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getContext())));
 
         smartRefreshLayout.setRefreshHeader(new ClassicsHeader(Objects.requireNonNull(getContext())));
         smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getContext()));
