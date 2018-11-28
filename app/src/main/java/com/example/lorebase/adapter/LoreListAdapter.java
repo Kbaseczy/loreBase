@@ -67,16 +67,15 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
 
         SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
         boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
-        holder.imageView.setOnClickListener(v -> {
+            holder.imageView.setOnClickListener(v -> {
             int position = holder.getAdapterPosition();
             Article.DataBean.DatasBean datasBean = datasBeanList.get(position);
             int article_id = datasBean.getId();
 
             if (isLogin) {
-                if (!isCollect) {
+                if (!datasBean.isCollect()) {
                     CollectArticle.collectArticle(mContext, article_id);
                     holder.imageView.setImageResource(R.drawable.ic_like);
-                    isCollect = true;
                 } else {
                     CollectArticle.unCollect_originID(mContext, article_id);
                     holder.imageView.setImageResource(R.drawable.ic_like_not);
@@ -98,7 +97,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
         holder.title.setText(article.getTitle());
         String name = article.getSuperChapterName() + "/" + article.getChapterName();
         holder.chapterName.setText(name);
-        if (isCollect)
+        if (article.isCollect())
             holder.imageView.setImageResource(R.drawable.ic_like);
         else
             holder.imageView.setImageResource(R.drawable.ic_like_not);
@@ -111,7 +110,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
         return datasBeanList.size();// int java.util.List.size()' on a null object reference
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView author, date, title, chapterName;
         ImageView imageView;
