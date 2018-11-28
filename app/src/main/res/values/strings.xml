@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name" translatable="false">LoreBase</string>
+    <string name="username" translatable="false">username</string>
+    <string name="login" translatable="false">Sign In</string>
+    <string name="mainpage" translatable="false">U❤Home</string>
+    <string name="tree" translatable="false">Tree</string>
+    <string name="relax">Relaxing</string>
+
+    <!-- Strings related to login -->
+    <string name="register">Have no account?</string>
+    <string name="sign_up">Sign Up</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+
+    <!-- spaceFragment-->
+    <string name="DeviceInfo">DeviceInfo</string>
+    <string name="Exit">Exit now</string>
+    <string name="ensure_exit">Are you sure exit?</string>
+
+    <!-- ForgetActivity-->
+
+    <string name="passWord">password</string>
+    <string name="re_enter">password again</string>
+    <string name="remember">Remember</string>
+    <string name="autoLogin">AutoLogin</string>
+    <string name="collect">Collection</string>
+    <string name="we_chat">WeChat</string>
+
+    <!-- addMBase-->
+    <string name="author">author</string>
+    <string name="Github">Github Code</string>
+    <string name="API">API</string>
+    <string name="AI">AI</string>
+    <string name="SDK">BaiDu SDK</string>
+
+    <!-- addMBase-->
+    <!-- addCategory -->
+    <string name="categoryName">categoryName</string>
+
+    <!-- navMenu-->
+    <string name="nav_my_collect">Collection</string>
+    <string name="nav_todo">TODO</string>
+    <string name="nav_browser">Browsing History</string>
+    <string name="nav_position">Position</string>
+    <string name="nav_setting">Setting</string>
+    <string name="nav_about">AboutUs</string>
+    <string name="nav_logout">Logout</string>
+
+    <string name="action_share">Share</string>
+    <string name="action_browser">Browser</string>
+    <string name="action_search">Search</string>
+
+    <string name="hot_search">Hot Search</string>
+    <string name="clear_all">Clear</string>
+    <string name="history_search">History</string>
+
+    <string name="start_explore">Start Now</string>
+
+    <string name="tip">Tip❤</string>
+    <string name="tip_content_logout">Are sure Logout?</string>
+    <string name="tip_content_clear_history">Are sure clear all?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="have_account">Have a account?</string>
+    <string name="list_time">list_time</string>
+    <string name="description">description</string>
+    <string name="todo">todo</string>
+    <string name="like_article">like article</string>
+
+    <string name="feed_back">Feed Back</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="empty">There is empty,waiting to be added.sorry....</string>
+    <string name="others">others</string>
+
+    <!-- SearchView -->
+</resources>

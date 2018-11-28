@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/web_collect"
+        android:icon="@drawable/ic_action_white_like"
+        android:title="@string/nav_my_collect"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/web_share"
+        android:icon="@drawable/ic_action_share"
+        android:title="@string/action_share"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/web_browser"
+        android:icon="@drawable/ic_action_browser"
+        android:title="@string/action_browser"
+        app:showAsAction="never"/>
+
+</menu>
