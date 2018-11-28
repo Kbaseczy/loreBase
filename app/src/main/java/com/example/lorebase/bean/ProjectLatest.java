@@ -119,7 +119,7 @@ public class ProjectLatest {
              * todo author : fairytale110
              * chapterId : 358
              * todo chapterName : 项目基础功能
-             * collect : false
+             * todo collect : false
              * courseId : 13
              * desc : Beautiful custom View, SeekBar selector, easy to use, and rich in customization.
              漂亮的区间选择器，贝塞尔曲线优雅实现

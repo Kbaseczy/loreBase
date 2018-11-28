@@ -119,7 +119,7 @@ public class Article {
              * todo author : 浪淘沙xud   1
              * chapterId : 60
              * todo chapterName : Android Studio相关  2
-             * collect : false
+             * //todo collect : false   ★
              * courseId : 13
              * desc :
              * envelopePic :

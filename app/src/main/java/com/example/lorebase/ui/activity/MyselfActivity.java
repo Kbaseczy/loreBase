@@ -112,6 +112,5 @@ public class MyselfActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        fab_top.setVisibility(datasBeanList.size()>10?View.VISIBLE:View.INVISIBLE);
     }
 }

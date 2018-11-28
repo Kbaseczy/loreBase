@@ -30,8 +30,6 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
     private List<WeChatArticle.DataBean.DatasBean> we_chat_article_list;
     private Context mContext;
 
-    private boolean isCollect = false;
-
     public WeChatArticleAdapter(List<WeChatArticle.DataBean.DatasBean> we_chat_article_list) {
         this.we_chat_article_list = we_chat_article_list;
     }
@@ -73,21 +71,19 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
 
         holder.imageView.setOnClickListener(v -> {
             if (isLogin) {
-                if (!isCollect) {
+                if (!we_chat_article.isCollect()) {
                     CollectArticle.collectArticle(mContext, we_chat_article.getId());
                     holder.imageView.setImageResource(R.drawable.ic_like);
-                    isCollect = true;
                 } else {
                     CollectArticle.unCollect_originID(mContext, we_chat_article.getId());
                     holder.imageView.setImageResource(R.drawable.ic_like_not);
-                    isCollect = false;
                 }
             }else{
                 mContext.startActivity(new Intent(mContext,LoginActivity.class));
             }
                 }
         );
-        if(isCollect)
+        if(we_chat_article.isCollect())
              holder.imageView.setImageResource(R.drawable.ic_like);
         else
             holder.imageView.setImageResource(R.drawable.ic_like_not);

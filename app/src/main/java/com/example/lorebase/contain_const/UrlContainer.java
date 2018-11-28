@@ -25,12 +25,12 @@ public class UrlContainer {
     public static final String HOME_LIST = "article/list/{page}/json";
 
     /*
-        微信公众号chapter
+        微信公众号chapter   ok
      */
     public static final String WX_ARTICLE_CHAPTER = "wxarticle/chapters/json";
 
     /*
-        微信公众号文章
+        微信公众号文章  ok
      */
     public static final String WX_ARTICLE_LIST = "wxarticle/list/{id}/{page}/json";
 
@@ -43,7 +43,7 @@ public class UrlContainer {
     /**
      * 首页最近项目 ok
      */
-    public static final String MAIN_PROJECT = "article/listproject/0/json";
+    public static final String LATEST_PROJECT = "article/listproject/0/json";
     /**
      * 收藏文章 ok
      */
@@ -88,13 +88,29 @@ public class UrlContainer {
      */
     public static final String HOT_KEYWORD = "/hotkey/json";
 
+    /*
+      反馈平台  ok
+     */
+    public static final String FEED_BACK = "http://support.qq.com/product/41496";
+
+
     /**
      * 常用网站
      */
     public static final String FRIEND = "friend/json";
 
     /*
-      反馈平台  ok
-     */
-    public static final String FEED_BACK = "http://support.qq.com/product/41496";
+    导航
+    */
+    public static final String NAVI = "navi/json";
+
+    /*
+    * 项目分类
+    * */
+    public static final String PROJECT = "project/tree/json";
+
+    /*
+    * 项目列表
+    * */
+    public static final String PROJECT_LIST = "project/list/{page}/json?cid=id";
 }

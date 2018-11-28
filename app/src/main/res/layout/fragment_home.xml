@@ -31,7 +31,7 @@
         android:id="@+id/tab_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        custom:tabBackground="@color/colorAccent"
+        custom:tabBackground="@color/viewBackground"
         custom:tabTextAppearance="@style/TabLayoutTextStyle" />
 
     <androidx.viewpager.widget.ViewPager

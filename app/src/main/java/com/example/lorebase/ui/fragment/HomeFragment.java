@@ -15,7 +15,6 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.HomeTabAdapter;
 import com.example.lorebase.bean.Banner;
 import com.example.lorebase.bean.BrowseHistory;
-import com.example.lorebase.bean.ProjectLatest;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.ui.activity.AgentWebActivity;
@@ -29,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Request;

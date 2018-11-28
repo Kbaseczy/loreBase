@@ -66,9 +66,7 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
             mContext.startActivity(intent);
         });
 
-        holder.imageView.setOnClickListener(v -> {
-                    CollectArticle.unCollect(mContext, my_collect.getId());
-                }
+        holder.imageView.setOnClickListener(v -> CollectArticle.unCollect(mContext, my_collect.getId())
         );
     }
 

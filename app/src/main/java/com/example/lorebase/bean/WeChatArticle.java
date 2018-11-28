@@ -119,7 +119,7 @@ public class WeChatArticle {
              * todo author : 郭霖
              * chapterId : 409
              * todo chapterName : 郭霖
-             * collect : false
+             * todo collect : false
              * courseId : 13
              * desc :
              * envelopePic :
