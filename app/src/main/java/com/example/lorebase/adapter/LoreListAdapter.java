@@ -1,9 +1,5 @@
 package com.example.lorebase.adapter;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,17 +18,17 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.CollectArticle;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
-import com.google.gson.internal.bind.util.ISO8601Utils;
 
 import java.util.List;
-import java.util.PrimitiveIterator;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHolder> {
 
     private List<Article.DataBean.DatasBean> datasBeanList;
     private Context mContext;
-
-    private boolean isCollect = false;
 
     public LoreListAdapter(List<Article.DataBean.DatasBean> datasBeanList) {
         this.datasBeanList = datasBeanList;
@@ -79,7 +75,6 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
                 } else {
                     CollectArticle.unCollect_originID(mContext, article_id);
                     holder.imageView.setImageResource(R.drawable.ic_like_not);
-                    isCollect = false;
                 }
             } else {
                 mContext.startActivity(new Intent(mContext, LoginActivity.class));
