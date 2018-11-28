@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        //自動生成，在project structure 配置签名信息后自动生成
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.lorebase"
@@ -8,18 +11,51 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-
+        flavorDimensions "versionCode"  //解决Flavor维度不一致，需要一致
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.releaseConfig
+//            /*当我们的渠道包版本比较多时，可以自定义所打APK包名称，用以区分*/
+//            /*Ex : terminal - > gradle assembleWandoujiaRelease*/
+//            applicationVariants.all{
+//                variant ->
+//                    variant.outputs.each{
+//                        output ->
+//                            def outputFile = output.outputFile
+//                            if(outputFile != null && outputFile.name.endsWith('.apk')){
+//                                //输出apk名称
+//                                def fileName = "app_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+//                                output.outputFile = new File(outputFile.parent,fileName)
+//                            }
+//                    }
+//            }
         }
     }
     productFlavors {
+        kuan {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "kuan"]
+        }
+        xiaomi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
+        }
+        qh360 {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "qh360"]
+        }
+        baidu {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu"]
+        }
+        wandoujia {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
+        }
+
     }
+    /* productFlavors.all {
+         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+     }*/
     packagingOptions {
         exclude 'org/apache/http/version.properties'
         exclude 'org/apache/http/client/version.properties'
