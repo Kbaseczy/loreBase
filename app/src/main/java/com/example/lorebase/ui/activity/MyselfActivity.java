@@ -34,7 +34,6 @@ import okhttp3.Request;
 public class MyselfActivity extends BaseActivity {
 
     private List<Article.DataBean.DatasBean> datasBeanList;
-    private FloatingActionButton fab_top;
     private NestedScrollView nestedScrollView;
 
     @Override
@@ -77,7 +76,7 @@ public class MyselfActivity extends BaseActivity {
         ImageView portrait = findViewById(R.id.portrait_image_view);
         RecyclerView recyclerView = findViewById(R.id.my_collect_list);
         FloatingActionButton fab_note = findViewById(R.id.fab_myself_note);
-        fab_top = findViewById(R.id.fab_myself_top);
+        FloatingActionButton fab_top = findViewById(R.id.fab_myself_top);
         nestedScrollView = findViewById(R.id.nest_scroll_myself);
 
         setSupportActionBar(toolbar); //todo 1.导包 2.父类为 AppCompatActivity

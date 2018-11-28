@@ -18,6 +18,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -100,7 +101,7 @@ public class HomeTabListFragment extends Fragment {
 
         SmartRefreshLayout smartRefreshLayout = view.findViewById(R.id.smart_refresh_home);
 
-        smartRefreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
+        smartRefreshLayout.setRefreshHeader(new ClassicsHeader(Objects.requireNonNull(getActivity())));
         smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getActivity()));
 //        smartRefreshLayout.autoRefresh();
 //        smartRefreshLayout.autoLoadMore();
