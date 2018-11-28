@@ -38,7 +38,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (mContext == null) {
             mContext = parent.getContext();
         }
@@ -72,21 +72,21 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
         holder.imageView.setOnClickListener(v -> {
             if (isLogin) {
-                if (!isCollect) {
+                if (!search.isCollect()) {
                     CollectArticle.collectArticle(mContext, search.getId());
                     holder.imageView.setImageResource(R.drawable.ic_like);
-                    isCollect = true;
+
                 } else {
                     CollectArticle.unCollect_originID(mContext, search.getId());
                     holder.imageView.setImageResource(R.drawable.ic_like_not);
-                    isCollect = false;
+
                 }
             }else{
                 mContext.startActivity(new Intent(mContext,LoginActivity.class));
             }
                 }
         );
-        if(isCollect)
+        if(search.isCollect())
              holder.imageView.setImageResource(R.drawable.ic_like);
         else
             holder.imageView.setImageResource(R.drawable.ic_like_not);
