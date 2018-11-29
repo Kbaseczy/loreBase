@@ -57,13 +57,13 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
             mContext.startActivity(intent);
 
             MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                    null,datasBean.getTitle(),datasBean.getLink(),datasBean.getNiceDate()
+                    null, datasBean.getTitle(), datasBean.getLink(), datasBean.getNiceDate()
             ));
         });
 
         SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
         boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
-            holder.imageView.setOnClickListener(v -> {
+        holder.imageView.setOnClickListener(v -> {
             int position = holder.getAdapterPosition();
             Article.DataBean.DatasBean datasBean = datasBeanList.get(position);
             int article_id = datasBean.getId();
@@ -72,7 +72,8 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
                 if (!datasBean.isCollect()) {
                     CollectArticle.collectArticle(mContext, article_id);
                     holder.imageView.setImageResource(R.drawable.ic_like);
-                } else {
+                }
+                if (datasBean.isCollect()) {
                     CollectArticle.unCollect_originID(mContext, article_id);
                     holder.imageView.setImageResource(R.drawable.ic_like_not);
                 }
