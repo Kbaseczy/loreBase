@@ -137,9 +137,6 @@ public class LoreListFragment extends Fragment {
                         // todo 请求服务器正常，并获取响应。   数据解析存储ok
                         Gson gson = new Gson();
                         datasBeanList = gson.fromJson(response, Article.class).getData().getDatas();
-                        for (Article.DataBean.DatasBean article : datasBeanList) {
-                            Log.v("get_ArticleData", article.getTitle());
-                        }
                         initRecycler();
                     }
                 });

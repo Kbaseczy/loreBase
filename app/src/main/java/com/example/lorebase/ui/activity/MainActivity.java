@@ -200,7 +200,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         R.animator.fragment_slide_left_exit,
                         R.animator.fragment_slide_right_exit,
                         R.animator.fragment_slide_right_enter).
-                        replace(R.id.content_layout, homeFragment);
+                        replace(R.id.content_layout, new HomeFragment());
                 fab.setOnClickListener(v ->
                         HomeTabListFragment.nestedScrollView.post(()->HomeTabListFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
                 break;
@@ -225,7 +225,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         R.animator.fragment_slide_right_enter).
                         replace(R.id.content_layout, relaxFragment);
                 break;
-            case R.id.action_mbase:
+            case R.id.action_we_chat:
                 toolbar.setTitle(R.string.we_chat);
                 fab.setOnClickListener(v ->
                         WeChatArticleFragment.nestedScrollView.post(()->WeChatArticleFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
@@ -234,7 +234,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         R.animator.fragment_slide_left_exit,
                         R.animator.fragment_slide_right_exit,
                         R.animator.fragment_slide_right_enter).
-                        replace(R.id.content_layout, weChatFragment);
+                        replace(R.id.content_layout, new WeChatFragment());  // todo 每次重新创建，状态被重置
                 break;
 
             //TODO 侧滑栏navigationView 监听

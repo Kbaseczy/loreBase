@@ -18,6 +18,9 @@ import com.example.lorebase.util.L;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -35,16 +38,19 @@ public class MyselfActivity extends BaseActivity {
 
     private List<Article.DataBean.DatasBean> datasBeanList;
     private NestedScrollView nestedScrollView;
+    private SmartRefreshLayout smartRefreshLayout;
+    private int page = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myself);
         getCollect();
+//        LoadAndRefresh();
     }
 
     private void getCollect() {
-        String url = UrlContainer.baseUrl + "lg/collect/list/0/json";
+        String url = UrlContainer.baseUrl + "lg/collect/list/" + page + "/json";
         OkHttpUtils
                 .get()
                 .url(url)
@@ -77,6 +83,7 @@ public class MyselfActivity extends BaseActivity {
         RecyclerView recyclerView = findViewById(R.id.my_collect_list);
         FloatingActionButton fab_note = findViewById(R.id.fab_myself_note);
         FloatingActionButton fab_top = findViewById(R.id.fab_myself_top);
+//        smartRefreshLayout = findViewById(R.id.smart_refresh_myself);
         nestedScrollView = findViewById(R.id.nest_scroll_myself);
 
         setSupportActionBar(toolbar); //todo 1.导包 2.父类为 AppCompatActivity
@@ -92,9 +99,23 @@ public class MyselfActivity extends BaseActivity {
 
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         MyselfAdapter adapter = new MyselfAdapter(datasBeanList);
+
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         fab_top.setOnClickListener(v -> nestedScrollView.post(() -> nestedScrollView.fullScroll(View.FOCUS_UP)));
+
+    }
+
+    private void LoadAndRefresh() {
+        smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            page++;
+            getCollect();
+        });
+
+        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            page = 0;
+            getCollect();
+        });
     }
 
     @Override
