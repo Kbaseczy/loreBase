@@ -1,11 +1,14 @@
 package com.example.lorebase.ui.fragment;
 
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Request;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +20,7 @@ import com.example.lorebase.adapter.FragmentAdapterWeChat;
 import com.example.lorebase.bean.WeChat;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
+import com.example.lorebase.util.L;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -28,9 +32,11 @@ import java.util.List;
 public class WeChatFragment extends Fragment {
     private View view;
     private List<WeChat.DataBean> list_weChat;
+    @SuppressLint("InflateParams")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
         view = inflater.inflate(R.layout.fragment_we_chat,null);
         getWeChat();
         return view;
@@ -77,7 +83,19 @@ public class WeChatFragment extends Fragment {
         FragmentAdapterWeChat adapterWeChat = new FragmentAdapterWeChat(getFragmentManager(),fragments,list_weChat);
 
         viewPager.setAdapter(adapterWeChat);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(1);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        L.v("onSaveInstanceState test");
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        L.v("onViewStateRestored test");
     }
 }

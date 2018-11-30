@@ -2,7 +2,7 @@
     <string name="app_name" translatable="false">LoreBase</string>
     <string name="username" translatable="false">username</string>
     <string name="login" translatable="false">Sign In</string>
-    <string name="mainpage" translatable="false">U❤Home</string>
+    <string name="mainpage" translatable="false">Home</string>
     <string name="tree" translatable="false">Tree</string>
     <string name="relax">Relaxing</string>
 

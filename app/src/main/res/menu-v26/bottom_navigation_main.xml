@@ -20,7 +20,7 @@
         android:title="@string/relax"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/action_mbase"
+        android:id="@+id/action_we_chat"
         android:enabled="true"
         android:icon="@drawable/we"
         android:title="@string/we_chat"

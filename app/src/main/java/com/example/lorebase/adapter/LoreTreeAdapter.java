@@ -73,7 +73,7 @@ public class LoreTreeAdapter extends RecyclerView.Adapter<LoreTreeAdapter.ViewHo
         return fatherBeanList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView father_name,child_name;
         ViewHolder(@NonNull View itemView) {
