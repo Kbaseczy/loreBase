@@ -32,7 +32,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="UdZf0ZHferNdYZ2bkB84atKubv46C5MX" />
 
-        <!--多渠道打包-->
+        <!-- 多渠道打包 -->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
@@ -91,8 +91,17 @@
         <activity
             android:name=".ui.activity.TODOActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activity.BrowseHistoryActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.activity.BrowseHistoryActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".ui.activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.lorebase.ui.activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

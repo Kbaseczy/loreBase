@@ -254,6 +254,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
             case R.id.nav_setting:
                 Toast.makeText(this, "test click setting", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,SettingsActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.nav_about_us:
                 startActivity(new Intent(getApplicationContext(), AboutUsActivity.class));
