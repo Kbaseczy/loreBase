@@ -10,15 +10,15 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-public class FragmentAdapter extends FragmentStatePagerAdapter {
+public class FragmentAdapterLoreList extends FragmentStatePagerAdapter {
 
     private List<Fragment> fragments;
 
     //接收来自LoreActivity的数据（二级目录的数据，chapterName,chapterId)
     private List<LoreTree.DataBean.ChildrenBean> childrenBeanList;
 
-    public FragmentAdapter(FragmentManager fm,List<Fragment> fragments,
-                           List<LoreTree.DataBean.ChildrenBean> childrenBeanList) {
+    public FragmentAdapterLoreList(FragmentManager fm, List<Fragment> fragments,
+                                   List<LoreTree.DataBean.ChildrenBean> childrenBeanList) {
         super(fm);
         this.fragments = fragments;
         this.childrenBeanList = childrenBeanList;

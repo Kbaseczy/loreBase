@@ -72,7 +72,8 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
                 if (!datasBean.isCollect()) {
                     CollectArticle.collectArticle(mContext, article_id);
                     holder.imageView.setImageResource(R.drawable.ic_like);
-                } else {
+                }
+                if(datasBean.isCollect()){
                     CollectArticle.unCollect_originID(mContext, article_id);
                     holder.imageView.setImageResource(R.drawable.ic_like_not);
                 }

@@ -86,8 +86,11 @@
         <activity
             android:name=".ui.activity.TODOActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activity.BrowseHistoryActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.activity.BrowseHistoryActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".ui.activity.ProjectActivity" />
+        <activity android:name=".ui.activity.NavigationActivity"></activity>
     </application>
 
 </manifest>
