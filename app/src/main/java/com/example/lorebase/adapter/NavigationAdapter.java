@@ -11,13 +11,11 @@ import android.widget.TextView;
 
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
-import com.example.lorebase.bean.HotKey;
 import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.bean.NavigateSite.DataBean;
 import com.example.lorebase.bean.SearchHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
-import com.example.lorebase.ui.activity.SearchActivity;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -25,7 +23,6 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.ViewHolder> {

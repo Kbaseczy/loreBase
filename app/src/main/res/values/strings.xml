@@ -27,7 +27,7 @@
     <string name="we_chat">WeChat</string>
     <string name="project">Project</string>
 
-    <!-- addMBase-->
+    <!-- About-->
     <string name="author">author</string>
     <string name="Github">Github Code</string>
     <string name="API">API</string>
@@ -38,6 +38,7 @@
     <string name="viewflipper">ViewFlipper</string>
     <string name="hot_news">tech</string>
     <string name="hot_content">content</string>
+    <string name="navigation">Navigation</string>
     <!-- addCategory -->
     <string name="categoryName">categoryName</string>
 

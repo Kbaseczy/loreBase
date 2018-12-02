@@ -2,6 +2,7 @@ package com.example.lorebase.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.Toolbar;
 
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.NavigationAdapter;
@@ -31,6 +32,9 @@ public class NavigationActivity extends Activity {
     }
 
     private void initView() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.navigation);
+        toolbar.setNavigationOnClickListener(v -> finish());
         RecyclerView recyclerView = findViewById(R.id.recycler_navigation);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         NavigationAdapter adapter = new NavigationAdapter(beans_chapter, beans_article);
