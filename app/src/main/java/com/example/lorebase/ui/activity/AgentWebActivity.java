@@ -76,6 +76,9 @@ public class AgentWebActivity extends BaseActivity {
                 case ConstName.activity.PROJECT:
                     intent.setClass(AgentWebActivity.this, ProjectActivity.class);
                     break;
+                case ConstName.activity.NAVIGATION:
+                    intent.setClass(AgentWebActivity.this, NavigationActivity.class);
+                    break;
 
                 default:
                     intent.setClass(AgentWebActivity.this, MainActivity.class);

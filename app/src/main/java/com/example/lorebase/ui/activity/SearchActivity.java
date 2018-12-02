@@ -66,7 +66,6 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE); //去除标题栏title
         setContentView(R.layout.activity_search);
-
         searchHistoryDao = MyApplication.getDaoSession().getSearchHistoryDao();
         getHot();
     }
@@ -255,10 +254,6 @@ public class SearchActivity extends BaseActivity {
 
                         Gson gson = new Gson();
                         hot_list = gson.fromJson(response, HotKey.class).getData();
-                        for (HotKey.DataBean hot : hot_list) {
-                            Log.v("hot_list111", hot.getName());
-                        }
-
                         initView();
                     }
                 });

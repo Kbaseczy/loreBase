@@ -28,7 +28,6 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
     private Context mContext;
     private List<Article.DataBean.DatasBean> datasBeanList;
 
-
     public MyselfAdapter(List<Article.DataBean.DatasBean> datasBeanList) {
         this.datasBeanList = datasBeanList;
     }
@@ -50,7 +49,7 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
         holder.author.setText(my_collect.getAuthor());
         holder.date.setText(my_collect.getNiceDate());
         holder.title.setText(my_collect.getTitle());
-        String name = my_collect.getSuperChapterName() + "/" + my_collect.getChapterName();
+        String name =  my_collect.getChapterName();
         holder.chapterName.setText(name);
         holder.imageView.setImageResource(R.drawable.ic_like);
 
@@ -65,6 +64,7 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
             mContext.startActivity(intent);
         });
 
+        //todo 发送请求400，接口地址有问题
         holder.imageView.setOnClickListener(v -> CollectArticle.unCollect(mContext, my_collect.getId())
         );
     }

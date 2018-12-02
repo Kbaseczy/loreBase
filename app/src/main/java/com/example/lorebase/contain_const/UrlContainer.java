@@ -95,7 +95,7 @@ public class UrlContainer {
 
 
     /**
-     * 常用网站
+     * 常用网站 ok
      */
     public static final String FRIEND = "friend/json";
 
@@ -105,12 +105,12 @@ public class UrlContainer {
     public static final String NAVI = "navi/json";
 
     /*
-    * 项目分类
+    * 项目分类 ok
     * */
     public static final String PROJECT = "project/tree/json";
 
     /*
-    * 项目列表
+    * 项目列表 ok
     * */
     public static final String PROJECT_LIST = "project/list/{page}/json?cid=id";
 }
