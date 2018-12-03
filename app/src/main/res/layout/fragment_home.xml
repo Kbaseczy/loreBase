@@ -1,42 +1,52 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true"
+    custom:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <com.daimajia.slider.library.SliderLayout
-        android:id="@+id/slide_layout"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
-
-    <com.daimajia.slider.library.Indicators.PagerIndicator
-        android:id="@+id/custom_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        custom:selected_color="#FF5500"
-        custom:selected_height="3dp"
-        custom:selected_padding_left="2dp"
-        custom:selected_padding_right="2dp"
-        custom:selected_width="16dp"
-        custom:shape="rect"
-        custom:unselected_color="#55333333"
-        custom:unselected_height="3dp"
-        custom:unselected_padding_left="2dp"
-        custom:unselected_padding_right="2dp"
-        custom:unselected_width="16dp" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        custom:tabBackground="@color/viewBackground"
-        custom:tabTextAppearance="@style/TabLayoutTextStyle" />
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager_home"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        custom:layout_behavior="@string/appbar_scrolling_view_behavior" />
-</LinearLayout>
+        android:orientation="vertical">
+
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/slide_layout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+        <com.daimajia.slider.library.Indicators.PagerIndicator
+            android:id="@+id/custom_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            custom:selected_color="#FF5500"
+            custom:selected_height="3dp"
+            custom:selected_padding_left="2dp"
+            custom:selected_padding_right="2dp"
+            custom:selected_width="16dp"
+            custom:shape="rect"
+            custom:unselected_color="#55333333"
+            custom:unselected_height="3dp"
+            custom:unselected_padding_left="2dp"
+            custom:unselected_padding_right="2dp"
+            custom:unselected_width="16dp" />
+
+        <include layout="@layout/home_table"/>
+        <include layout="@layout/layout_view_flipper"/>
+        
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            custom:tabBackground="@color/viewBackground"
+            custom:tabTextAppearance="@style/TabLayoutTextStyle" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            custom:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

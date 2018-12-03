@@ -6,11 +6,10 @@ import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
-import com.example.lorebase.adapter.FragmentAdapter;
+import com.example.lorebase.adapter.FragmentAdapterLoreList;
 import com.example.lorebase.bean.LoreTree;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.fragment.subFragment.LoreListFragment;
-import com.example.lorebase.util.L;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ import java.util.List;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
 /*
         LoreTree(父级)  - cid> Lore（子级）  - > LoreListFrag(标题列表) - link,title> agentWeb
         todo question：子级中cid如何传到LoreListFragment(或者说LoreListFragment如何获取数据源)
@@ -45,7 +43,6 @@ public class LoreActivity extends BaseActivity {
             startActivity(new Intent(this, MainActivity.class)
                     .putExtra(ConstName.FRAGMENT, 2));
             overridePendingTransition(R.animator.go_in, R.animator.go_out);
-
             finish();
         });
 
@@ -68,11 +65,6 @@ public class LoreActivity extends BaseActivity {
             //获取当前父级目录下的子级对象 "father":{"child","child","child"};存储在对应list中
             childrenBean = father_bean.getChildren();
         }
-        //test
-        for (LoreTree.DataBean.ChildrenBean child : childrenBean) {
-            L.v("LoreActivity-childName:" + child.getName() + "  childId:" + child.getId());
-        }
-
     }
 
     //tab+viewpager+fragment
@@ -87,8 +79,8 @@ public class LoreActivity extends BaseActivity {
             fragments.add(new LoreListFragment().instantiate(child.getId())); //todo ★point
         }
 
-        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),fragments,childrenBean);
-        viewPager.setAdapter(fragmentAdapter);
+        FragmentAdapterLoreList fragmentAdapterLoreList = new FragmentAdapterLoreList(getSupportFragmentManager(),fragments,childrenBean);
+        viewPager.setAdapter(fragmentAdapterLoreList);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
     }

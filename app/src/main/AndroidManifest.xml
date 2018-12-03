@@ -27,10 +27,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:fullBackupContent="@xml/backup_descriptor">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="UdZf0ZHferNdYZ2bkB84atKubv46C5MX" />
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
 
         <activity
             android:name=".ui.activity.MainActivity"
@@ -53,11 +58,6 @@
         <activity
             android:name=".ui.activity.LaunchActivity"
             android:launchMode="singleTask" />
-
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" />
 
         <activity
             android:name=".ui.activity.LoginActivity"
@@ -86,8 +86,16 @@
         <activity
             android:name=".ui.activity.TODOActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activity.BrowseHistoryActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.activity.BrowseHistoryActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.ProjectActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.NavigationActivity"
+            android:launchMode="singleTask" />
+
     </application>
 
 </manifest>

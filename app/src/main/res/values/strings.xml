@@ -25,15 +25,20 @@
     <string name="autoLogin">AutoLogin</string>
     <string name="collect">Collection</string>
     <string name="we_chat">WeChat</string>
+    <string name="project">Project</string>
 
-    <!-- addMBase-->
+    <!-- About-->
     <string name="author">author</string>
     <string name="Github">Github Code</string>
     <string name="API">API</string>
     <string name="AI">AI</string>
     <string name="SDK">BaiDu SDK</string>
 
-    <!-- addMBase-->
+    <!-- home-->
+    <string name="viewflipper">ViewFlipper</string>
+    <string name="hot_news">tech</string>
+    <string name="hot_content">content</string>
+    <string name="navigation">Navigation</string>
     <!-- addCategory -->
     <string name="categoryName">categoryName</string>
 
@@ -73,6 +78,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="empty">There is empty,waiting to be added.sorry....</string>
     <string name="others">others</string>
+    <string name="chapter">chapter</string>
 
     <!-- SearchView -->
 </resources>

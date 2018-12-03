@@ -30,7 +30,6 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
     private Context mContext;
     private List<Article.DataBean.DatasBean> beanList;
-    private boolean isCollect;
 
     public HomeListAdapter(List<Article.DataBean.DatasBean> beanList) {
         this.beanList = beanList;
@@ -54,6 +53,10 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         holder.project_desc.setText(article.getDesc());
         holder.project_date.setText(article.getNiceDate());
         Glide.with(mContext).load(article.getEnvelopePic()).into(holder.project_image);
+        if(article.isCollect())
+            holder.collect_image.setImageResource(R.drawable.ic_like);
+        else
+            holder.collect_image.setImageResource(R.drawable.ic_like_not);
 
         BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
 
@@ -73,14 +76,15 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         holder.collect_image.setOnClickListener(v -> {
                     //获取某子项位置，并得到该项的数据对象
                     if (isLogin) {
-                        if (!isCollect) {
+                        if (!article.isCollect()) {
                             CollectArticle.collectArticle(mContext, article.getId());
                             holder.collect_image.setImageResource(R.drawable.ic_like); //点击图标后变为红色表示已收藏
-                            isCollect = true;
-                        } else {
+                            notifyDataSetChanged();
+                        }
+                        if(article.isCollect()){
                             CollectArticle.unCollect_originID(mContext, article.getId());
                             holder.collect_image.setImageResource(R.drawable.ic_like_not);
-                            isCollect = false;
+                            notifyDataSetChanged();
                         }
                     } else {
                         mContext.startActivity(new Intent(mContext, LoginActivity.class));

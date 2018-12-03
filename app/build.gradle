@@ -49,7 +49,7 @@ dependencies {
     implementation 'com.github.githubwing:ByeBurger:1.2.3'
     implementation 'com.github.LillteZheng:ViewPagerHelper:v0.8'
     //引导页开源库
-    implementation 'com.squareup.picasso:picasso:2.3.2'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.nineoldandroids:library:2.4.0'
     implementation 'com.daimajia.slider:library:1.1.5@aar'
     //轮播图开源库

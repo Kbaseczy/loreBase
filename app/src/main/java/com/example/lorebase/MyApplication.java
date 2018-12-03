@@ -52,7 +52,7 @@ public class MyApplication extends Application {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(15000L, TimeUnit.MILLISECONDS)
                 .readTimeout(15000L, TimeUnit.MILLISECONDS)
-                .addInterceptor(new LoggerInterceptor("jerry"))
+                .addInterceptor(new LoggerInterceptor("jankin"))
                 .cookieJar(cookieJar1)
                 .hostnameVerifier((hostname, session) -> true)
                 .build();

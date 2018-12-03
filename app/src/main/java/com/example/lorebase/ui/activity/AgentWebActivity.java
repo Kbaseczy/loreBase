@@ -31,13 +31,14 @@ public class AgentWebActivity extends BaseActivity {
     AgentWeb agentWeb;
     SharedPreferences sp;
     boolean isCollect = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent_web);
 
         String title = getIntent().getStringExtra(ConstName.TITLE);
-        int flag_frag = getIntent().getIntExtra(ConstName.FRAGMENT,1); //在微信frag,进入agent,返回按钮根据这个标志到对应Fragment
+        int flag_frag = getIntent().getIntExtra(ConstName.FRAGMENT, 1); //在微信frag,进入agent,返回按钮根据这个标志到对应Fragment
         int article_id = getIntent().getIntExtra(ConstName.ID, 0);
         int flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY, 0);//獲取標志位-由哪個activity（界面）進入的
 
@@ -52,7 +53,7 @@ public class AgentWebActivity extends BaseActivity {
             switch (flag_activity) {
                 case ConstName.activity.MAIN:
                     intent.setClass(AgentWebActivity.this, MainActivity.class)
-                    .putExtra(ConstName.FRAGMENT,flag_frag);
+                            .putExtra(ConstName.FRAGMENT, flag_frag);
                     break;
                 case ConstName.activity.ABOUT_US:
                     intent.setClass(AgentWebActivity.this, AboutUsActivity.class);
@@ -70,8 +71,15 @@ public class AgentWebActivity extends BaseActivity {
                     intent.setClass(AgentWebActivity.this, MyselfActivity.class);
                     break;
                 case ConstName.activity.BROWSE_HOSTORY:
-                    intent.setClass(AgentWebActivity.this,BrowseHistoryActivity.class);
+                    intent.setClass(AgentWebActivity.this, BrowseHistoryActivity.class);
                     break;
+                case ConstName.activity.PROJECT:
+                    intent.setClass(AgentWebActivity.this, ProjectActivity.class);
+                    break;
+                case ConstName.activity.NAVIGATION:
+                    intent.setClass(AgentWebActivity.this, NavigationActivity.class);
+                    break;
+
                 default:
                     intent.setClass(AgentWebActivity.this, MainActivity.class);
                     break;
@@ -85,10 +93,10 @@ public class AgentWebActivity extends BaseActivity {
                     if (sp.getBoolean(ConstName.IS_LOGIN, false)) {
                         //收藏接口  ,  根据isCollect(默认是false),false则调用收藏，true则调用取消收藏
 
-                        if (!isCollect){  //疑惑，当二次进入时。如何区分不同文章，进行收藏、取消操作
+                        if (!isCollect) {  //疑惑，当二次进入时。如何区分不同文章，进行收藏、取消操作
                             CollectArticle.collectArticle(this, article_id);
                             isCollect = true;
-                        } else{
+                        } else {
                             CollectArticle.unCollect_originID(this, article_id);
                             isCollect = false;
                         }
@@ -106,7 +114,6 @@ public class AgentWebActivity extends BaseActivity {
                     intent_share.setType("text/plain");
 //                    intent_share.putExtra(Intent.EXTRA_SUBJECT,ConstName.LORE_BASE+":"
 //                            +getIntent().getStringExtra("title"));
-
                     intent_share.putExtra(Intent.EXTRA_TEXT, title + ":" + String.valueOf(getIntent().getData()));
                     startActivity(intent_share);
                     break;
