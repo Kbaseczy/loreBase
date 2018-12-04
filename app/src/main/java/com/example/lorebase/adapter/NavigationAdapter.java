@@ -96,7 +96,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
 
         ViewHolder(@NonNull View view) {
             super(view);
-            chapter = view.findViewById(R.id.browse_history_article_date);
+            chapter = view.findViewById(R.id.tv_navigation_chapter);
             tagFlowLayout = view.findViewById(R.id.tag_navigation);
         }
     }

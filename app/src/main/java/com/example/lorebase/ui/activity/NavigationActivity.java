@@ -2,18 +2,20 @@ package com.example.lorebase.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.Toolbar;
 
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.NavigationAdapter;
 import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.util.L;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.Call;
@@ -22,7 +24,7 @@ import okhttp3.Request;
 public class NavigationActivity extends Activity {
 
     private List<NavigateSite.DataBean> beans_chapter;
-    private List<NavigateSite.DataBean.ArticlesBean> beans_article;
+    private List<NavigateSite.DataBean.ArticlesBean> beans_article = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,9 @@ public class NavigationActivity extends Activity {
                         Gson gson = new Gson();
                         beans_chapter = gson.fromJson(response, NavigateSite.class).getData();
                         beans_article = gson.fromJson(response, NavigateSite.DataBean.class).getArticles();
+                        for(NavigateSite.DataBean.ArticlesBean articlesBean:beans_article)
+                            L.v("jankin_navisite",articlesBean.getTitle()+'/');
+
                         initView();
                     }
                 });
