@@ -73,27 +73,26 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
                     CollectArticle.collectArticle(mContext, article_id);
                     holder.imageView.setImageResource(R.drawable.ic_like);
                 }
-<<<<<<< HEAD
                 if (datasBean.isCollect()) {
                     if (datasBean.isCollect()) {
-=======
 
-                if (datasBean.isCollect()) {
+                        if (datasBean.isCollect()) {
 
-                    if (datasBean.isCollect()) {
+                            if (datasBean.isCollect()) {
 
->>>>>>> bdc4c6ebba9b542d772e36e87b75df84dec156c0
-                        CollectArticle.unCollect_originID(mContext, article_id);
-                        holder.imageView.setImageResource(R.drawable.ic_like_not);
+                                CollectArticle.unCollect_originID(mContext, article_id);
+                                holder.imageView.setImageResource(R.drawable.ic_like_not);
+                            }
+                        } else {
+                            mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                        }
                     }
-                } else {
-                    mContext.startActivity(new Intent(mContext, LoginActivity.class));
                 }
-            }
+            } });
 
-        });
         return holder;
-    }
+
+        }
         @Override
         public void onBindViewHolder ( @NonNull final ViewHolder holder, int position){
 
