@@ -12,7 +12,6 @@ public class HomeTabAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> fragments;
 
-    //接收来自LoreActivity的数据（二级目录的数据，chapterName,chapterId)
     private String[] title;
 
     public HomeTabAdapter(FragmentManager fm, List<Fragment> fragments,
@@ -25,8 +24,6 @@ public class HomeTabAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
-//        return LoreListFragment.instantiate(childrenBeanList.get(position).getId());
         return fragments.get(position);
     }
 
@@ -39,7 +36,6 @@ public class HomeTabAdapter extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-
         return title[position];
     }
 }

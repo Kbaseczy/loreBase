@@ -2,7 +2,6 @@ package com.example.lorebase.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.Toolbar;
 
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.NavigationAdapter;
@@ -14,6 +13,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.Call;
@@ -22,7 +22,6 @@ import okhttp3.Request;
 public class NavigationActivity extends Activity {
 
     private List<NavigateSite.DataBean> beans_chapter;
-    private List<NavigateSite.DataBean.ArticlesBean> beans_article;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,7 @@ public class NavigationActivity extends Activity {
         toolbar.setNavigationOnClickListener(v -> finish());
         RecyclerView recyclerView = findViewById(R.id.recycler_navigation);
         LinearLayoutManager manager = new LinearLayoutManager(this);
-        NavigationAdapter adapter = new NavigationAdapter(beans_chapter, beans_article);
+        NavigationAdapter adapter = new NavigationAdapter(beans_chapter);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
     }
@@ -63,7 +62,6 @@ public class NavigationActivity extends Activity {
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
                         beans_chapter = gson.fromJson(response, NavigateSite.class).getData();
-                        beans_article = gson.fromJson(response, NavigateSite.DataBean.class).getArticles();
                         initView();
                     }
                 });
