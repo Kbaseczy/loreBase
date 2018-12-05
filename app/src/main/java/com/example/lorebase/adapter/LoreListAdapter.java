@@ -73,8 +73,16 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
                     CollectArticle.collectArticle(mContext, article_id);
                     holder.imageView.setImageResource(R.drawable.ic_like);
                 }
+<<<<<<< HEAD
                 if (datasBean.isCollect()) {
                     if (datasBean.isCollect()) {
+=======
+
+                if (datasBean.isCollect()) {
+
+                    if (datasBean.isCollect()) {
+
+>>>>>>> bdc4c6ebba9b542d772e36e87b75df84dec156c0
                         CollectArticle.unCollect_originID(mContext, article_id);
                         holder.imageView.setImageResource(R.drawable.ic_like_not);
                     }
@@ -82,45 +90,45 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
                     mContext.startActivity(new Intent(mContext, LoginActivity.class));
                 }
             }
+
         });
         return holder;
     }
+        @Override
+        public void onBindViewHolder ( @NonNull final ViewHolder holder, int position){
 
-    @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-
-        Article.DataBean.DatasBean article = datasBeanList.get(position);
-        holder.author.setText(article.getAuthor());
-        holder.date.setText(article.getNiceDate());
-        holder.title.setText(article.getTitle());
-        String name = article.getSuperChapterName() + "/" + article.getChapterName();
-        holder.chapterName.setText(name);
-        if (article.isCollect())
-            holder.imageView.setImageResource(R.drawable.ic_like);
-        else
-            holder.imageView.setImageResource(R.drawable.ic_like_not);
+            Article.DataBean.DatasBean article = datasBeanList.get(position);
+            holder.author.setText(article.getAuthor());
+            holder.date.setText(article.getNiceDate());
+            holder.title.setText(article.getTitle());
+            String name = article.getSuperChapterName() + "/" + article.getChapterName();
+            holder.chapterName.setText(name);
+            if (article.isCollect())
+                holder.imageView.setImageResource(R.drawable.ic_like);
+            else
+                holder.imageView.setImageResource(R.drawable.ic_like_not);
 //        Glide.with(mContext).load(R.drawable.ic_like_not).into(holder.imageView);
-    }
+        }
 
-    @Override
-    public int getItemCount() {
+        @Override
+        public int getItemCount(){
 //        return 0;
-        return datasBeanList.size();// int java.util.List.size()' on a null object reference
-    }
+            return datasBeanList.size();// int java.util.List.size()' on a null object reference
+        }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
-        TextView author, date, title, chapterName;
-        ImageView imageView;
+        class ViewHolder extends RecyclerView.ViewHolder {
+            CardView cardView;
+            TextView author, date, title, chapterName;
+            ImageView imageView;
 
-        ViewHolder(View view) {
-            super(view);
-            cardView = (CardView) view;
-            author = view.findViewById(R.id.tv_article_author);
-            date = view.findViewById(R.id.tv_article_date);
-            title = view.findViewById(R.id.article_title);
-            chapterName = view.findViewById(R.id.tv_article_chapterName);
-            imageView = view.findViewById(R.id.iv_like);
+            ViewHolder(View view) {
+                super(view);
+                cardView = (CardView) view;
+                author = view.findViewById(R.id.tv_article_author);
+                date = view.findViewById(R.id.tv_article_date);
+                title = view.findViewById(R.id.article_title);
+                chapterName = view.findViewById(R.id.tv_article_chapterName);
+                imageView = view.findViewById(R.id.iv_like);
+            }
         }
     }
-}
