@@ -30,6 +30,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
     private Context mContext;
     private List<Article.DataBean.DatasBean> beanList;
+    private final int ARTICLE = 1;
+    private final int PROJECT = 2;
 
     public HomeListAdapter(List<Article.DataBean.DatasBean> beanList) {
         this.beanList = beanList;
@@ -37,23 +39,29 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(mContext == null){
+        if (mContext == null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.project_item, parent, false);
+        View view = null;
+        if (viewType == ARTICLE) {
+            view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.lore_list_item, parent, false);
+        } else if (viewType == PROJECT) {
+            view = LayoutInflater.from(mContext)
+                    .inflate(R.layout.project_item, parent, false);
+        }
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-       Article.DataBean.DatasBean article = beanList.get(position);
+        Article.DataBean.DatasBean article = beanList.get(position);
         holder.project_text.setText(article.getTitle());
         holder.project_author.setText(article.getAuthor());
         holder.project_desc.setText(article.getDesc());
         holder.project_date.setText(article.getNiceDate());
         Glide.with(mContext).load(article.getEnvelopePic()).into(holder.project_image);
-        if(article.isCollect())
+        if (article.isCollect())
             holder.collect_image.setImageResource(R.drawable.ic_like);
         else
             holder.collect_image.setImageResource(R.drawable.ic_like_not);
@@ -61,7 +69,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
 
         holder.cardView.setOnClickListener(v -> {
-            browseHistoryDao.insertOrReplace(new BrowseHistory(null,article.getTitle(), article.getLink(),article.getNiceDate()));
+            browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(), article.getLink(), article.getNiceDate()));
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, article.getTitle());
             intent.putExtra(ConstName.PROJECT_AUTHOR, article.getAuthor());
@@ -81,7 +89,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                             holder.collect_image.setImageResource(R.drawable.ic_like); //点击图标后变为红色表示已收藏
                             notifyDataSetChanged();
                         }
-                        if(article.isCollect()){
+                        if (article.isCollect()) {
                             CollectArticle.unCollect_originID(mContext, article.getId());
                             holder.collect_image.setImageResource(R.drawable.ic_like_not);
                             notifyDataSetChanged();
@@ -91,6 +99,11 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                     }
                 }
         );
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return beanList.get(position).getEnvelopePic() == null ? ARTICLE : PROJECT;
     }
 
     @Override

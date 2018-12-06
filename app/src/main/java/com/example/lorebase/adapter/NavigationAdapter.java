@@ -50,6 +50,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NavigateSite.DataBean chapter = beans_chapter.get(position);
         holder.chapter.setText(chapter.getName());
+<<<<<<< HEAD
         tagFlow(holder,chapter);
     }
 
@@ -60,11 +61,25 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                     public View getView(FlowLayout parent, int position, NavigateSite.DataBean articlesBean) {
                         // position -> beans_chapter.size()'item
                         // articlesBean -> beans_chapter(position)
+=======
+        tagFlow(holder, position);
+    }
+
+    private void tagFlow(@NonNull ViewHolder holder, int position_item) {
+        final String[] tag_title = new String[1];
+        TagAdapter<NavigateSite.DataBean> adapter_hot =
+                new TagAdapter<NavigateSite.DataBean>(beans_chapter) {
+                    //chapter 对应 position_item : recyclerView 的位置参数
+                    //article 对应 position_tag  : tagFlowLayout 的位置参数
+                    @Override
+                    public View getView(FlowLayout parent, int position_tag, NavigateSite.DataBean chapter) {
+>>>>>>> 5e2a850959dc8b061a6c117549560b4211dccd66
                         if (mContext == null) {
                             mContext = parent.getContext();
                         }
                         TextView navi_tag = (TextView) LayoutInflater.from(mContext)
                                 .inflate(R.layout.tag_flow_tv, parent, false);
+<<<<<<< HEAD
                             // 每组articles中数据个数的共性，得到i的上限->articlesBean.getArticles().size()
                             for (int i = 0; i < articlesBean.getArticles().size(); i++) {
                                 navi_tag.setText(articlesBean.getArticles().get(i).getTitle());
@@ -72,12 +87,23 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                                 +"  "+articlesBean.getArticles().get(i).getChapterName());
                         }
                         navi_tag.setTextColor(position % 2 == 0 ? Color.BLACK : Color.RED); //字體顔色
+=======
+                        int tag_length = beans_chapter.get(position_item).getArticles().size();
+                        tag_title[0] = beans_chapter.get(position_item)
+                                .getArticles().get(position_tag).getTitle();
+                        for (int i = 0; i < tag_length; i++) {
+                            navi_tag.setText(tag_title[0]);
+                        }
+
+                        navi_tag.setTextColor(position_tag % 2 == 0 ? Color.BLACK : Color.RED); //字體顔色
+>>>>>>> 5e2a850959dc8b061a6c117549560b4211dccd66
                         navi_tag.setBackgroundResource(R.color.Grey200);
                         return navi_tag;
                     }
                 };
         holder.tagFlowLayout.setAdapter(adapter_hot);
         holder.tagFlowLayout.setOnTagClickListener((view, position_tag, parent) -> {
+<<<<<<< HEAD
                 for (int i = 0; i < chapter.getArticles().size(); i++) {
                     String tag_navi = chapter.getArticles().get(i).getTitle();
                     String tag_navi_link = chapter.getArticles().get(i).getLink();
@@ -90,6 +116,21 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                             .setData(Uri.parse(tag_navi_link));
                     mContext.startActivity(intent);
             }
+=======
+//
+//            String tag_navi = beans_chapter.get(position_item)
+//                    .getArticles().get(position_tag).getTitle();
+            String tag_link = beans_chapter.get(position_item)   //对应item項 position_item
+                    .getArticles().get(position_tag).getLink();   //对应tag項 position_tag
+            MyApplication.getDaoSession().getSearchHistoryDao()
+                    .insertOrReplace(new SearchHistory(null, tag_title[0]));
+            Intent intent = new Intent();
+            intent.setClass(mContext, AgentWebActivity.class)
+                    .putExtra(ConstName.TITLE, tag_title[0])
+                    .putExtra(ConstName.ACTIVITY, ConstName.activity.NAVIGATION)
+                    .setData(Uri.parse(tag_link));
+            mContext.startActivity(intent);
+>>>>>>> 5e2a850959dc8b061a6c117549560b4211dccd66
             return true;
         });
     }
