@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
@@ -23,13 +24,6 @@ import okhttp3.Request;
 public class NavigationActivity extends Activity {
 
     private List<NavigateSite.DataBean> beans_chapter;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-    private List<NavigateSite.DataBean.ArticlesBean> beans_article = new ArrayList<>();
->>>>>>> bdc4c6ebba9b542d772e36e87b75df84dec156c0
->>>>>>> 5e2a850959dc8b061a6c117549560b4211dccd66
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,24 +64,6 @@ public class NavigationActivity extends Activity {
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
                         beans_chapter = gson.fromJson(response, NavigateSite.class).getData();
-<<<<<<< HEAD
-                        for (NavigateSite.DataBean articlesBean : beans_chapter) {
-                            // 每组articles中数据个数的共性，得到i的上限->articlesBean.getArticles().size()
-                            for (int i = 0; i < articlesBean.getArticles().size(); i++) {
-                                if (articlesBean.getArticles().get(i).getTitle().length() != 0)
-                                    L.v("title", articlesBean.getArticles().get(i).getTitle() + "  " +
-                                            articlesBean.getArticles().get(i).getChapterName());
-                            }
-                        }
-=======
-<<<<<<< HEAD
-=======
-                        beans_article = gson.fromJson(response, NavigateSite.DataBean.class).getArticles();
-                        for(NavigateSite.DataBean.ArticlesBean articlesBean:beans_article)
-                            L.v("jankin_navisite",articlesBean.getTitle()+'/');
-
->>>>>>> bdc4c6ebba9b542d772e36e87b75df84dec156c0
->>>>>>> 5e2a850959dc8b061a6c117549560b4211dccd66
                         initView();
                     }
                 });

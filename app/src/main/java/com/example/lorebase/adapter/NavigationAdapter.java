@@ -11,13 +11,10 @@ import android.widget.TextView;
 
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
-import com.example.lorebase.bean.NaviArticle;
 import com.example.lorebase.bean.NavigateSite;
-import com.example.lorebase.bean.NavigateSite.DataBean;
 import com.example.lorebase.bean.SearchHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
-import com.example.lorebase.util.L;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -27,6 +24,15 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/* todo 要命题
+    第一步.  recyclerView的item項和tagFlowLayout的tag区分开，通过position_item先定位到item再通过position_tag定位每个tag
+      chapter 对应 position_item : recyclerView 的位置参数
+      article 对应 position_tag  : tagFlowLayout 的位置参数
+    第二步.if (position_tag <= beans_chapter.get(position_item).getArticles().size() - 1)
+          ->数组越界，控制取数据的index，index应该比List.size()-1
+          ->List的 index 和 position_tag都是从0开始，控制position_tag上限 <= List.size()-1
+    -> 多虑加了for循环，recyclerView 和 tagFlowLayout 一样都是自己遍历数据，有对应的position放置对应位置数据
+ */
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.ViewHolder> {
 
     private Context mContext;
@@ -50,87 +56,48 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NavigateSite.DataBean chapter = beans_chapter.get(position);
         holder.chapter.setText(chapter.getName());
-<<<<<<< HEAD
-        tagFlow(holder,chapter);
-    }
-
-    private void tagFlow(@NonNull ViewHolder holder,NavigateSite.DataBean chapter) {
-        TagAdapter<NavigateSite.DataBean> adapter_hot =
-                new TagAdapter<DataBean>(beans_chapter) {
-                    @Override
-                    public View getView(FlowLayout parent, int position, NavigateSite.DataBean articlesBean) {
-                        // position -> beans_chapter.size()'item
-                        // articlesBean -> beans_chapter(position)
-=======
         tagFlow(holder, position);
     }
 
     private void tagFlow(@NonNull ViewHolder holder, int position_item) {
-        final String[] tag_title = new String[1];
         TagAdapter<NavigateSite.DataBean> adapter_hot =
                 new TagAdapter<NavigateSite.DataBean>(beans_chapter) {
                     //chapter 对应 position_item : recyclerView 的位置参数
                     //article 对应 position_tag  : tagFlowLayout 的位置参数
                     @Override
                     public View getView(FlowLayout parent, int position_tag, NavigateSite.DataBean chapter) {
->>>>>>> 5e2a850959dc8b061a6c117549560b4211dccd66
                         if (mContext == null) {
                             mContext = parent.getContext();
                         }
                         TextView navi_tag = (TextView) LayoutInflater.from(mContext)
                                 .inflate(R.layout.tag_flow_tv, parent, false);
-<<<<<<< HEAD
-                            // 每组articles中数据个数的共性，得到i的上限->articlesBean.getArticles().size()
-                            for (int i = 0; i < articlesBean.getArticles().size(); i++) {
-                                navi_tag.setText(articlesBean.getArticles().get(i).getTitle());
-                                L.v("nAdapter:"+articlesBean.getArticles().get(i).getTitle()
-                                +"  "+articlesBean.getArticles().get(i).getChapterName());
-                        }
-                        navi_tag.setTextColor(position % 2 == 0 ? Color.BLACK : Color.RED); //字體顔色
-=======
-                        int tag_length = beans_chapter.get(position_item).getArticles().size();
-                        tag_title[0] = beans_chapter.get(position_item)
-                                .getArticles().get(position_tag).getTitle();
-                        for (int i = 0; i < tag_length; i++) {
-                            navi_tag.setText(tag_title[0]);
+                        //todo 多虑加了for循环，recyclerView 和 tagFlowLayout 一样都是自己遍历数据，有对应的position放置对应位置数据
+                        if (position_tag <= beans_chapter.get(position_item).getArticles().size() - 1) {
+                            String tag_navi = beans_chapter.get(position_item).getArticles().get(position_tag).getTitle();
+                            navi_tag.setText(tag_navi);
                         }
 
                         navi_tag.setTextColor(position_tag % 2 == 0 ? Color.BLACK : Color.RED); //字體顔色
->>>>>>> 5e2a850959dc8b061a6c117549560b4211dccd66
                         navi_tag.setBackgroundResource(R.color.Grey200);
                         return navi_tag;
                     }
                 };
         holder.tagFlowLayout.setAdapter(adapter_hot);
         holder.tagFlowLayout.setOnTagClickListener((view, position_tag, parent) -> {
-<<<<<<< HEAD
-                for (int i = 0; i < chapter.getArticles().size(); i++) {
-                    String tag_navi = chapter.getArticles().get(i).getTitle();
-                    String tag_navi_link = chapter.getArticles().get(i).getLink();
-                    MyApplication.getDaoSession().getSearchHistoryDao()
-                            .insertOrReplace(new SearchHistory(null, tag_navi));
-                    Intent intent = new Intent();
-                    intent.setClass(mContext, AgentWebActivity.class)
-                            .putExtra(ConstName.TITLE, tag_navi)
-                            .putExtra(ConstName.ACTIVITY, ConstName.activity.NAVIGATION)
-                            .setData(Uri.parse(tag_navi_link));
-                    mContext.startActivity(intent);
+            if (position_tag <= beans_chapter.get(position_item).getArticles().size() - 1) {
+                String tag_navi = beans_chapter.get(position_item)
+                        .getArticles().get(position_tag).getTitle();
+                String tag_link = beans_chapter.get(position_item)   //对应item項 position_item
+                        .getArticles().get(position_tag).getLink();   //对应tag項 position_tag
+                MyApplication.getDaoSession().getSearchHistoryDao()
+                        .insertOrReplace(new SearchHistory(null, tag_navi));
+                Intent intent = new Intent();
+                intent.setClass(mContext, AgentWebActivity.class)
+                        .putExtra(ConstName.TITLE, tag_navi)
+                        .putExtra(ConstName.ACTIVITY, ConstName.activity.NAVIGATION)
+                        .setData(Uri.parse(tag_link));
+                mContext.startActivity(intent);
             }
-=======
-//
-//            String tag_navi = beans_chapter.get(position_item)
-//                    .getArticles().get(position_tag).getTitle();
-            String tag_link = beans_chapter.get(position_item)   //对应item項 position_item
-                    .getArticles().get(position_tag).getLink();   //对应tag項 position_tag
-            MyApplication.getDaoSession().getSearchHistoryDao()
-                    .insertOrReplace(new SearchHistory(null, tag_title[0]));
-            Intent intent = new Intent();
-            intent.setClass(mContext, AgentWebActivity.class)
-                    .putExtra(ConstName.TITLE, tag_title[0])
-                    .putExtra(ConstName.ACTIVITY, ConstName.activity.NAVIGATION)
-                    .setData(Uri.parse(tag_link));
-            mContext.startActivity(intent);
->>>>>>> 5e2a850959dc8b061a6c117549560b4211dccd66
             return true;
         });
     }
