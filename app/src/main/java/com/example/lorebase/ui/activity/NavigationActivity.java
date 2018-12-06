@@ -7,12 +7,11 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.NavigationAdapter;
 import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.util.L;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
@@ -36,11 +35,14 @@ public class NavigationActivity extends Activity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.navigation);
         toolbar.setNavigationOnClickListener(v -> finish());
+        FloatingActionButton floatingActionButton = findViewById(R.id.fab_navigate);
         RecyclerView recyclerView = findViewById(R.id.recycler_navigation);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         NavigationAdapter adapter = new NavigationAdapter(beans_chapter);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+
+        floatingActionButton.setOnClickListener(v -> recyclerView.scrollToPosition(0));
     }
 
     private void getNavigation() {

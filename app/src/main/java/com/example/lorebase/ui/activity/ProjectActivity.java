@@ -8,6 +8,7 @@ import com.example.lorebase.adapter.FragmentAdapterProjectList;
 import com.example.lorebase.bean.ProjectChapter;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.ui.fragment.subFragment.ItemProjectFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -39,9 +40,11 @@ public class ProjectActivity extends BaseActivity {
 
     private void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar_lore);
+        FloatingActionButton floatingActionButton = findViewById(R.id.fab_project);
         toolbar.setTitle(R.string.project);
         toolbar.setNavigationOnClickListener(v->finish());
         viewPager = findViewById(R.id.vp_project);
+        floatingActionButton.setOnClickListener(v -> ItemProjectFragment.recyclerView.scrollToPosition(0));
     }
 
     private void getProjectChapter(){

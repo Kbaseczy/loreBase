@@ -29,9 +29,10 @@ public class ItemProjectFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    private int id,page=0;
+    private int id, page = 0;
     private View view;
     private List<Project.DataBean.DatasBean> beans_project;
+    public static RecyclerView recyclerView;
 
     public ItemProjectFragment instance(int id) {
         ItemProjectFragment projectFragment = new ItemProjectFragment();
@@ -58,15 +59,15 @@ public class ItemProjectFragment extends Fragment {
     }
 
     private void initProjectList() {
-        RecyclerView recyclerView = view.findViewById(R.id.project_rv);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(),1);
+        recyclerView = view.findViewById(R.id.project_rv);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
         ProjectAdapter adapter = new ProjectAdapter(beans_project);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
     }
 
     private void getProject() {
-        String url = UrlContainer.baseUrl + "project/list/"+page+"/json?cid="+id;
+        String url = UrlContainer.baseUrl + "project/list/" + page + "/json?cid=" + id;
         OkHttpUtils
                 .get()
                 .url(url)
