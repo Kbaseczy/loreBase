@@ -12,7 +12,6 @@ import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
@@ -24,7 +23,6 @@ import okhttp3.Request;
 public class NavigationActivity extends Activity {
 
     private List<NavigateSite.DataBean> beans_chapter;
-    private List<NavigateSite.DataBean.ArticlesBean> beans_article = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +37,7 @@ public class NavigationActivity extends Activity {
         toolbar.setNavigationOnClickListener(v -> finish());
         RecyclerView recyclerView = findViewById(R.id.recycler_navigation);
         LinearLayoutManager manager = new LinearLayoutManager(this);
-        NavigationAdapter adapter = new NavigationAdapter(beans_chapter, beans_article);
+        NavigationAdapter adapter = new NavigationAdapter(beans_chapter);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
     }
@@ -65,10 +63,14 @@ public class NavigationActivity extends Activity {
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
                         beans_chapter = gson.fromJson(response, NavigateSite.class).getData();
-                        beans_article = gson.fromJson(response, NavigateSite.DataBean.class).getArticles();
-                        for(NavigateSite.DataBean.ArticlesBean articlesBean:beans_article)
-                            L.v("jankin_navisite",articlesBean.getTitle()+'/');
-
+                        for (NavigateSite.DataBean articlesBean : beans_chapter) {
+                            // 每组articles中数据个数的共性，得到i的上限->articlesBean.getArticles().size()
+                            for (int i = 0; i < articlesBean.getArticles().size(); i++) {
+                                if (articlesBean.getArticles().get(i).getTitle().length() != 0)
+                                    L.v("title", articlesBean.getArticles().get(i).getTitle() + "  " +
+                                            articlesBean.getArticles().get(i).getChapterName());
+                            }
+                        }
                         initView();
                     }
                 });

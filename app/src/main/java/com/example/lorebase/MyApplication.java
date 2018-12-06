@@ -4,6 +4,7 @@ import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
 
+import com.bolex.autoEx.AutoEx;
 import com.example.lorebase.greenDao.DaoMaster;
 import com.example.lorebase.greenDao.DaoSession;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -34,6 +35,7 @@ public class MyApplication extends Application {
         StrictMode.setVmPolicy(builder.build());
         okHttpCookie();
         initGreenDao();
+        AutoEx.apply(); // autoEx 异常堆栈
     }
 
     private void initGreenDao() {

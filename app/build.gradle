@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.lorebase"
-        minSdkVersion 26
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -68,6 +68,8 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'com.makeramen:roundedimageview:2.3.0'
+    debugImplementation 'com.github.BolexLiu.AutoEx:AutoEx-Lib:v1.0.7' //debug包
+    releaseImplementation 'com.github.BolexLiu.AutoEx:AutoEx-Lib-No-Op:v1.0.7' //release包
 }
 
 buildscript {
