@@ -166,6 +166,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         super.onResume();
         //在重新進入MainActivity時，刷新登陸/注銷圖標
         refreshSign();
+
     }
 
     private void refreshSign() {
@@ -200,9 +201,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         R.animator.fragment_slide_left_exit,
                         R.animator.fragment_slide_right_exit,
                         R.animator.fragment_slide_right_enter).
-                        replace(R.id.content_layout, new HomeFragment());
+                        replace(R.id.content_layout, homeFragment);
                 fab.setOnClickListener(v ->
-                        HomeTabListFragment.nestedScrollView.post(()->HomeTabListFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
+//                        HomeFragment.nestedScrollView.post(()->HomeFragment.nestedScrollView.fullScroll(View.FOCUS_UP))
+//                        HomeFragment.recyclerView.scrollToPosition(0)
+                                Toast.makeText(this, "Welcome in.o(∩_∩)o", Toast.LENGTH_SHORT).show()
+                );
+
                 break;
             case R.id.action_lore_tree:
                 toolbar.setTitle(R.string.tree);

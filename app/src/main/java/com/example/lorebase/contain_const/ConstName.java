@@ -49,4 +49,8 @@ public class ConstName {
     public static final String KEY_WORD = "k";
     public static final String URL = "url";
 
+    public static final int BANNER_HOME = 0;
+    public static final int TAB_HOME = 1;
+    public static final int FLIPPER_HOME = 2;
+    public static final int ARTICLE_HOME = 3;
 }

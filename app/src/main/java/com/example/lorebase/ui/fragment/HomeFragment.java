@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,7 +18,9 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.adapter.HomeAdapter;
 import com.example.lorebase.adapter.HomeTabAdapter;
+import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.Banner;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.News;
@@ -27,6 +30,7 @@ import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.NavigationActivity;
 import com.example.lorebase.ui.activity.ProjectActivity;
 import com.example.lorebase.ui.fragment.subFragment.HomeTabListFragment;
+import com.example.lorebase.util.L;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -36,7 +40,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Request;
@@ -50,49 +57,36 @@ public class HomeFragment extends Fragment {
 
     private int page = 0;
 
-    private List<Banner.DataBean> banner_t;
-    private List<News.DataBean> beanList_news;
-
-    private SliderLayout sliderLayout;
-
-    private ViewFlipper viewFlipper;
-
+    private List<Banner.DataBean> banner_t = new ArrayList<>();
+    private List<News.DataBean> beanList_news = new ArrayList<>();
+    private List<Article.DataBean.DatasBean> beanList_article = new ArrayList<>();
+    public static NestedScrollView nestedScrollView;
+    public static RecyclerView recyclerView;
     @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, null);
-        sliderLayout = view.findViewById(R.id.slide_layout);
-        getBanner();  //include initBanner()
-        initViewPager(); //tab :latest article/project
-        initFlipper();
+        getBanner();
         getFlipper();
-        initTable();
+        getArticle();
+//        initView();
         return view;
     }
 
-    private void initSlider() {
-        //遍历bannerList,取出数据，填充到textSliderView.  textSliderView监听轮播图点击事件
-        if (banner_t != null) {
-            for (final Banner.DataBean banner : banner_t) {
-                TextSliderView textSliderView = new TextSliderView(getActivity());
-                textSliderView.image(banner.getImagePath());
-                textSliderView.description(banner.getTitle());
-                textSliderView.setOnSliderClickListener(slider -> {
-                    MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
-                            new BrowseHistory(null, banner.getTitle(), banner.getUrl(), null));
-                    Intent web_intent = new Intent(getActivity(), AgentWebActivity.class);
+    @Override
+    public void onResume() {
+        initView();
+        super.onResume();
+    }
 
-                    Uri uri = Uri.parse(banner.getUrl());
-                    web_intent.setData(uri);    //1.setData()传url地址
-                    web_intent.putExtra(ConstName.TITLE, banner.getTitle());
-                    startActivity(web_intent);
-                });
-                sliderLayout.addSlider(textSliderView);  //添加每一个banner
-            }
-        }
-        sliderLayout.setCustomIndicator(view.findViewById(R.id.custom_indicator)); //指示器默认
-        sliderLayout.setDuration(3000);//每个banner持续时间3s
-        sliderLayout.setPresetTransformer(SliderLayout.Transformer.ZoomOut); // transfer animation
+    private void initView() {
+         recyclerView = view.findViewById(R.id.recycler_home);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        HomeAdapter adapter = new HomeAdapter(banner_t, beanList_news, beanList_article);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+        nestedScrollView = view.findViewById(R.id.nest_scroll_home);
+        nestedScrollView.fullScroll(View.FOCUS_UP);
     }
 
     private void getBanner() {
@@ -114,41 +108,11 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onResponse(String response, int id) {
-
                         Gson gson = new Gson();
                         //右边是解析成javaBean,右边是从javabean取出list，整体存到banner_t
                         banner_t = gson.fromJson(response, Banner.class).getData();
-                        initSlider();
                     }
                 });
-    }
-
-    private void initViewPager() {
-        TabLayout tab = view.findViewById(R.id.tab_home);
-
-        ViewPager viewPager = view.findViewById(R.id.viewPager_home);
-        String title[] = {"article", "project"};
-        for (String aTitle : title) {
-            tab.addTab(tab.newTab().setText(aTitle));
-        }
-
-        List<Fragment> fragments = new ArrayList<>();
-        String url_article = UrlContainer.baseUrl + "article/list/" + page + "/json";
-        String url_project = UrlContainer.baseUrl + "article/listproject/" + page + "/json";
-        String url[] = {url_article, url_project};
-        for (String urla : url) {
-            fragments.add(HomeTabListFragment.newInstance(urla));
-        }
-        HomeTabAdapter adapter = new HomeTabAdapter(getFragmentManager(), fragments, title);
-        viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(2);
-        tab.setupWithViewPager(viewPager);
-    }
-
-    private void initFlipper() {
-        viewFlipper = view.findViewById(R.id.flipper);
-        ImageView flipper_image = view.findViewById(R.id.flipper_image);
-        Glide.with(this).load(R.drawable.icon_news).into(flipper_image);
     }
 
     private void getFlipper() {
@@ -172,44 +136,39 @@ public class HomeFragment extends Fragment {
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
                         beanList_news = gson.fromJson(response, News.class).getData();
-                        setData();
                     }
                 });
     }
 
-    private void setData() {
-        for (News.DataBean t : beanList_news) {
-            LinearLayout item_view = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.item_viewflipper, null);
-            TextView content_tv = item_view.findViewById(R.id.viewflipper_content);
-            content_tv.setText(t.getName());
-            content_tv.setOnClickListener(v -> {
-                Intent intent = new Intent(getActivity(), AgentWebActivity.class);
-                intent.setData(Uri.parse(t.getLink()));
-                intent.putExtra(ConstName.TITLE, t.getName());
-                startActivity(intent);
-            });
-            viewFlipper.addView(item_view);
-        }
+    private void getArticle() {
+        String url = UrlContainer.baseUrl + "article/list/" + page + "/json";
+        OkHttpUtils
+                .get()
+                .url(url)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onBefore(Request request, int id) {
+                        super.onBefore(request, id);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Gson gson = new Gson();
+                        beanList_article = gson.fromJson(response, Article.class).getData().getDatas();
+                    }
+                });
     }
 
-    private void initTable(){
-        LinearLayout project = view.findViewById(R.id.view_project);
-        LinearLayout navigation = view.findViewById(R.id.view_navigation);
-        ImageView image_project = view.findViewById(R.id.image_project);
-        ImageView image_navigation = view.findViewById(R.id.image_navigation);
-
-        Glide.with(Objects.requireNonNull(getActivity())).load(R.drawable.icon_project).into(image_project);
-        Glide.with(getActivity()).load(R.drawable.icon_navigation).into(image_navigation);
-
-        project.setOnClickListener(v -> startActivity(new Intent(getActivity(),ProjectActivity.class)));
-        navigation.setOnClickListener(v -> startActivity(new Intent(getActivity(),NavigationActivity.class)));
-    }
     @Override
     public void onStop() {
         // TODO Auto-generated method stub
-        sliderLayout.stopAutoCycle();
-        if (viewFlipper != null)
-            viewFlipper = null;
+//        HomeAdapter.Holder_banner
         super.onStop();
     }
 
