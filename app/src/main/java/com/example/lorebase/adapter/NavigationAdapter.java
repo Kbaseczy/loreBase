@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.bean.SearchHistory;
 import com.example.lorebase.contain_const.ConstName;
@@ -93,8 +94,10 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                         .getArticles().get(position_tag).getTitle();
                 String tag_link = beans_chapter.get(position_item)   //对应item項 position_item
                         .getArticles().get(position_tag).getLink();   //对应tag項 position_tag
-                MyApplication.getDaoSession().getSearchHistoryDao()
-                        .insertOrReplace(new SearchHistory(null, tag_navi));
+                String tag_date = beans_chapter.get(position_item)
+                        .getArticles().get(position_tag).getNiceDate();
+                MyApplication.getDaoSession().getBrowseHistoryDao()
+                        .insertOrReplace(new BrowseHistory(null, tag_navi,tag_link,tag_date));
                 Intent intent = new Intent();
                 intent.setClass(mContext, AgentWebActivity.class)
                         .putExtra(ConstName.TITLE, tag_navi)
