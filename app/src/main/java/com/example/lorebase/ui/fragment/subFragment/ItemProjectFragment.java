@@ -11,11 +11,13 @@ import com.example.lorebase.adapter.ProjectAdapter;
 import com.example.lorebase.bean.Project;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.util.DividerItemGridDecoration;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -64,6 +66,7 @@ public class ItemProjectFragment extends Fragment {
         ProjectAdapter adapter = new ProjectAdapter(beans_project);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getActivity())));
     }
 
     private void getProject() {

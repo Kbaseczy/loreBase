@@ -25,6 +25,7 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.NavigationActivity;
 import com.example.lorebase.ui.activity.ProjectActivity;
+import com.example.lorebase.util.DividerItemGridDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
@@ -218,6 +219,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         HomeListAdapter homeListAdapter = new HomeListAdapter(beanList_article);
         ((Holder_article) holder).recyclerView.setLayoutManager(layoutManager);
         ((Holder_article) holder).recyclerView.setAdapter(homeListAdapter);
+        ((Holder_article) holder).recyclerView.addItemDecoration(new DividerItemGridDecoration(context));
 //        ((Holder_article) holder).recyclerView.setNestedScrollingEnabled(true);
         ((Holder_article) holder).smartRefreshLayout.setRefreshHeader(new ClassicsHeader(Objects.requireNonNull(context)));
         ((Holder_article) holder).smartRefreshLayout.setRefreshFooter(new BallPulseFooter(context));

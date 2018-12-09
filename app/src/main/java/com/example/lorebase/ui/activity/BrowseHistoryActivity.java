@@ -17,6 +17,7 @@ import com.example.lorebase.adapter.BrowseHistoryAdapter;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.greenDao.BrowseHistoryDao;
 import com.example.lorebase.ui.fragment.subFragment.EmptyFragment;
+import com.example.lorebase.util.DividerItemGridDecoration;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -62,7 +63,7 @@ public class BrowseHistoryActivity extends BaseActivity {
         BrowseHistoryAdapter adapter = new BrowseHistoryAdapter(browseHistoryList);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-
+        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
         fab_delete.setOnClickListener(v-> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.tip)

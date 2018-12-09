@@ -14,6 +14,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.MyselfAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.util.DividerItemGridDecoration;
 import com.example.lorebase.util.L;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -102,6 +103,7 @@ public class MyselfActivity extends BaseActivity {
 
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
         fab_top.setOnClickListener(v -> nestedScrollView.post(() -> nestedScrollView.fullScroll(View.FOCUS_UP)));
 
     }

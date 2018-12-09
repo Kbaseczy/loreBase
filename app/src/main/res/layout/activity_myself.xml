@@ -2,7 +2,8 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!--标题栏-->
     <com.google.android.material.appbar.AppBarLayout
@@ -43,13 +44,14 @@
         android:id="@+id/nest_scroll_myself"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/Grey200"
+        android:background="@color/viewBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_collect_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:listitem="@layout/lore_list_item"/>
     </androidx.core.widget.NestedScrollView>
 
     <!--悬浮按钮-->

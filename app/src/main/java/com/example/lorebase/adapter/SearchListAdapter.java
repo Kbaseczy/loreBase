@@ -50,19 +50,20 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Article.DataBean.DatasBean search = search_list.get(position);
+        String filterTitle = TagFilter.delHTMLTag(search.getTitle()); //过滤搜索带标签的title
         SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA,Context.MODE_PRIVATE);
         boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN,false);
         holder.author.setText(search.getAuthor());
         holder.date.setText(search.getNiceDate());
-        holder.title.setText(TagFilter.delHTMLTag(search.getTitle()));
+        holder.title.setText(filterTitle);
         String name = search.getSuperChapterName() + "/" + search.getChapterName();
         holder.chapterName.setText(name);
 
         holder.cardView.setOnClickListener(v -> {
             MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
-               new BrowseHistory(null,search.getTitle(),search.getLink(),search.getNiceDate()));
+               new BrowseHistory(null,filterTitle,search.getLink(),search.getNiceDate()));
             Intent intent = new Intent(mContext, AgentWebActivity.class);
-            intent.putExtra(ConstName.TITLE, search.getTitle());
+            intent.putExtra(ConstName.TITLE, filterTitle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH);
             intent.putExtra(ConstName.ID, search.getId());
             intent.setData(Uri.parse(search.getLink()));
