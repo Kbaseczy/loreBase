@@ -6,6 +6,7 @@
     android:orientation="horizontal"
     android:layout_margin="10dp"
     tools:context=".ui.activity.MainActivity">
+
     <ImageView
         android:layout_margin="10dp"
         android:id="@+id/flipper_image"

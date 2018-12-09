@@ -9,7 +9,7 @@
     <com.zhengsr.viewpagerlib.view.GlideViewPager
         android:id="@+id/splase_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <Button
         android:id="@+id/splase_start_btn"
@@ -24,7 +24,7 @@
         android:text="@string/start_explore"
         android:textAllCaps="false"
         android:textSize="18sp"
-         android:visibility="gone"/>
+        android:visibility="gone" />
 
     <com.zhengsr.viewpagerlib.indicator.ZoomIndicator
         android:id="@+id/splase_bottom_layout"
@@ -37,5 +37,5 @@
         zsr:zoom_max="1.5"
         zsr:zoom_alpha_min="0.4"
         zsr:zoom_dismiss_open="true"
-        android:orientation="horizontal"/>
+        android:orientation="horizontal" />
 </FrameLayout>

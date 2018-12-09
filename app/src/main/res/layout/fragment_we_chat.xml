@@ -13,11 +13,12 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:tabIndicatorColor="@color/colorPrimary"
-        app:tabMode="scrollable"/>
+        app:tabMode="scrollable" />
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager_we_chat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </LinearLayout>

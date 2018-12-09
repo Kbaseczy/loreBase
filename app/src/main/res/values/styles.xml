@@ -9,18 +9,17 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
     <!--ToolBar父标题样式-->
-    <style name="ToolbarTitle"
-        parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+    <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">20sp</item>
     </style>
     <!--ToolBar子标题样式-->
-    <style name="ToolbarSubTitle"
-        parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+    <style name="ToolbarSubTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">@color/Grey200</item>
         <item name="android:textSize">13sp</item>
     </style>

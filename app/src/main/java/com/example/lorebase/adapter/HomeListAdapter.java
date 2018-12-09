@@ -78,12 +78,11 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                         if (!article.isCollect()) {
                             CollectArticle.collectArticle(mContext, article.getId());
                             holder.collect.setImageResource(R.drawable.ic_like); //点击图标后变为红色表示已收藏
-                            notifyDataSetChanged();
-                        }
-                        if (article.isCollect()) {
+                            notify();
+                        } else if (article.isCollect()) {
                             CollectArticle.unCollect_originID(mContext, article.getId());
                             holder.collect.setImageResource(R.drawable.ic_like_not);
-                            notifyDataSetChanged();
+                            notify();
                         }
                     } else {
                         mContext.startActivity(new Intent(mContext, LoginActivity.class));

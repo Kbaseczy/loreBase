@@ -51,7 +51,7 @@
             android:id="@+id/my_collect_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/lore_list_item"/>
+            tools:listitem="@layout/lore_list_item" />
     </androidx.core.widget.NestedScrollView>
 
     <!--悬浮按钮-->

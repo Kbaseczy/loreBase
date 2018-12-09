@@ -77,12 +77,9 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                         TextView navi_tag = (TextView) LayoutInflater.from(mContext)
                                 .inflate(R.layout.tag_flow_tv, parent, false);
                         //todo 多虑加了for循环，recyclerView 和 tagFlowLayout 一样都是自己遍历数据，有对应的position放置对应位置数据
-//                        if (position_tag <= beans_chapter.get(position_item).getArticles().size() - 1) {
-                            String tag_navi = articlesBean.getTitle();
-                            navi_tag.setText(tag_navi);
-//                        }
-
-                        navi_tag.setTextColor(position_tag % 2 == 0 ? Color.BLACK : Color.RED); //字體顔色
+                        String tag_navi = articlesBean.getTitle();
+                        navi_tag.setText(tag_navi);
+                        navi_tag.setTextColor(Color.BLACK); //字體顔色
                         navi_tag.setBackgroundResource(R.color.Grey200);
                         return navi_tag;
                     }
@@ -97,7 +94,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                 String tag_date = beans_chapter.get(position_item)
                         .getArticles().get(position_tag).getNiceDate();
                 MyApplication.getDaoSession().getBrowseHistoryDao()
-                        .insertOrReplace(new BrowseHistory(null, tag_navi,tag_link,tag_date));
+                        .insertOrReplace(new BrowseHistory(null, tag_navi, tag_link, tag_date));
                 Intent intent = new Intent();
                 intent.setClass(mContext, AgentWebActivity.class)
                         .putExtra(ConstName.TITLE, tag_navi)

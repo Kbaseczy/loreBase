@@ -7,6 +7,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.NavigationAdapter;
 import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.util.DividerItemGridDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -41,6 +42,7 @@ public class NavigationActivity extends Activity {
         NavigationAdapter adapter = new NavigationAdapter(beans_chapter);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
 
         floatingActionButton.setOnClickListener(v -> recyclerView.scrollToPosition(0));
     }
