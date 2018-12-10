@@ -62,27 +62,27 @@ public class HomeFragment extends Fragment {
     private List<Article.DataBean.DatasBean> beanList_article = new ArrayList<>();
     public static NestedScrollView nestedScrollView;
     public static RecyclerView recyclerView;
+    private HomeAdapter adapter;
     @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, null);
-        getBanner();
-        getFlipper();
-        getArticle();
-//        initView();
         return view;
     }
 
     @Override
     public void onResume() {
-        initView();
+        getBanner();
+
         super.onResume();
     }
 
     private void initView() {
-         recyclerView = view.findViewById(R.id.recycler_home);
+        recyclerView = view.findViewById(R.id.recycler_home);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        HomeAdapter adapter = new HomeAdapter(banner_t, beanList_news, beanList_article);
+        adapter = new HomeAdapter(getActivity(),banner_t, beanList_news, beanList_article);
+        /*adapter.addList(banner_t, beanList_news, beanList_article);
+        adapter.notifyDataSetChanged();*/
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         nestedScrollView = view.findViewById(R.id.nest_scroll_home);
@@ -111,6 +111,7 @@ public class HomeFragment extends Fragment {
                         Gson gson = new Gson();
                         //右边是解析成javaBean,右边是从javabean取出list，整体存到banner_t
                         banner_t = gson.fromJson(response, Banner.class).getData();
+                        getFlipper();
                     }
                 });
     }
@@ -136,6 +137,7 @@ public class HomeFragment extends Fragment {
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
                         beanList_news = gson.fromJson(response, News.class).getData();
+                        getArticle();
                     }
                 });
     }
@@ -161,6 +163,7 @@ public class HomeFragment extends Fragment {
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
                         beanList_article = gson.fromJson(response, Article.class).getData().getDatas();
+                        initView();
                     }
                 });
     }

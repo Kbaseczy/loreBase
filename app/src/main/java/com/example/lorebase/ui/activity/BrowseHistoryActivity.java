@@ -55,7 +55,7 @@ public class BrowseHistoryActivity extends BaseActivity {
         collapsingToolbarLayout.setTitle("Browsing History");
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
         collapsingToolbarLayout.setBackgroundColor(Color.GRAY);
-        Glide.with(this).load(R.mipmap.cherry).into(portrait);
+        Glide.with(this).load(R.drawable.image_timetree).into(portrait);
 
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();

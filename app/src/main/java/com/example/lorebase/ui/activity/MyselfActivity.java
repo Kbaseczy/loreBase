@@ -94,8 +94,8 @@ public class MyselfActivity extends BaseActivity {
         }
         collapsingToolbarLayout.setTitle("Myself_Collection");
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
-        collapsingToolbarLayout.setBackgroundColor(Color.GRAY);
-        Glide.with(this).load(R.mipmap.cherry).into(portrait);
+        collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
+        Glide.with(this).load(R.drawable.image_store).into(portrait);
         fab_note.setOnClickListener(view -> Toast.makeText(MyselfActivity.this, "悬浮注释输入框", Toast.LENGTH_SHORT).show());
 
         GridLayoutManager manager = new GridLayoutManager(this, 1);

@@ -30,6 +30,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,16 +39,38 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<Banner.DataBean> banner_t;
-    private List<News.DataBean> beanList_news;
-    private List<Article.DataBean.DatasBean> beanList_article;
+    private List<Banner.DataBean> banner_t = new ArrayList<>();
+    private List<News.DataBean> beanList_news = new ArrayList<>();
+    private List<Article.DataBean.DatasBean> beanList_article = new ArrayList<>();
     private Context context;
 
-    public HomeAdapter(List<Banner.DataBean> banner_t, List<News.DataBean> beanList_news,
+    public HomeAdapter(Context context, List<Banner.DataBean> banner_t, List<News.DataBean> beanList_news,
                        List<Article.DataBean.DatasBean> beanList_article) {
+        this.context = context;
         this.banner_t = banner_t;
         this.beanList_news = beanList_news;
         this.beanList_article = beanList_article;
+    }
+
+    public HomeAdapter(Context context){
+        this.context = context;
+    }
+    public void addList(List<Banner.DataBean> banner_t, List<News.DataBean> beanList_news,
+                        List<Article.DataBean.DatasBean> beanList_article) {
+        banner_t.addAll(banner_t);
+        beanList_news.addAll(beanList_news);
+        beanList_article.addAll(beanList_article);
+        notifyDataSetChanged();
+    }
+
+    public void remove(int position) {
+        banner_t.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        banner_t.clear();
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -69,6 +92,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
         if (banner_t != null && beanList_article != null && beanList_news != null) {
             if (holder instanceof Holder_banner) {
                 initBanner(holder);
@@ -226,5 +250,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ((Holder_article) holder).smartRefreshLayout.autoRefresh();
         ((Holder_article) holder).smartRefreshLayout.autoLoadMore();
     }
+
 
 }
