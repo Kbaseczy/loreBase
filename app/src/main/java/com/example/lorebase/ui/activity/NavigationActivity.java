@@ -7,12 +7,10 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.NavigationAdapter;
 import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.util.L;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
@@ -21,8 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.Call;
 import okhttp3.Request;
 
+/*
+     // todo 增加体验 -> 提供其他视图，方便浏览
+ */
 public class NavigationActivity extends Activity {
-
     private List<NavigateSite.DataBean> beans_chapter;
 
     @Override
@@ -36,6 +36,7 @@ public class NavigationActivity extends Activity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.navigation);
         toolbar.setNavigationOnClickListener(v -> finish());
+
         RecyclerView recyclerView = findViewById(R.id.recycler_navigation);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         NavigationAdapter adapter = new NavigationAdapter(beans_chapter);

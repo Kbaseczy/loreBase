@@ -8,4 +8,5 @@
 /captures
 .externalNativeBuild
 kbase/
-app/src/main/java/com/example/lorebase/adapter/NavigationAdapter.java
+
+app/src/main/java/com/example/lorebase/ui/activity/NavigationActivity.java
