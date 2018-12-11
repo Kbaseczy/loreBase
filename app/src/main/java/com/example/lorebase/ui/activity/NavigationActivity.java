@@ -7,11 +7,10 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.NavigationAdapter;
 import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.contain_const.UrlContainer;
-<<<<<<< HEAD
-=======
+
 import com.example.lorebase.util.DividerItemGridDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
->>>>>>> 9003d3f182c4046cede7117267f60c7ed73deb60
+
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -41,11 +40,11 @@ public class NavigationActivity extends Activity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.navigation);
         toolbar.setNavigationOnClickListener(v -> finish());
-<<<<<<< HEAD
 
-=======
+
+
         FloatingActionButton floatingActionButton = findViewById(R.id.fab_navigate);
->>>>>>> 9003d3f182c4046cede7117267f60c7ed73deb60
+
         RecyclerView recyclerView = findViewById(R.id.recycler_navigation);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         NavigationAdapter adapter = new NavigationAdapter(beans_chapter);
