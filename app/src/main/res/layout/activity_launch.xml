@@ -4,9 +4,12 @@
     android:id="@+id/launch_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.LaunchActivity"
-    android:background="@drawable/splash">
+    tools:context=".ui.activity.LaunchActivity">
 
+    <ImageView
+        android:id="@+id/image_launch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <!--<ImageView-->
     <!--android:id="@+id/imageView_launch"-->
     <!--android:layout_width="match_parent"-->

@@ -59,7 +59,7 @@ public class WeChatFragment extends Fragment {
                     }
                     @Override
                     public void onResponse(String response, int id) {
-                        Log.v("WE_CHAT", response);
+                        L.v("WE_CHAT", response);
                         Gson gson = new Gson();
                         list_weChat = gson.fromJson(response, WeChat.class).getData();
                         initWeChat();
@@ -77,7 +77,7 @@ public class WeChatFragment extends Fragment {
 
         List<Fragment> fragments = new ArrayList<>();
         for(WeChat.DataBean wechat : list_weChat){
-            fragments.add(WeChatArticleFragment.intance(wechat.getId()));
+            fragments.add(WeChatArticleFragment.getInstance(wechat.getId()));
         }
 
         FragmentAdapterWeChat adapterWeChat = new FragmentAdapterWeChat(getFragmentManager(),fragments,list_weChat);

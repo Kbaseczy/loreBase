@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.WeChatArticleAdapter;
 import com.example.lorebase.bean.WeChatArticle;
@@ -40,7 +41,7 @@ public class WeChatArticleFragment extends Fragment {
     public static RecyclerView recyclerView;
     public static NestedScrollView nestedScrollView;
 
-    public static WeChatArticleFragment intance(int we_chat_id) {
+    public static WeChatArticleFragment getInstance(int we_chat_id) {
         WeChatArticleFragment weChatArticleFragment = new WeChatArticleFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ConstName.ID, we_chat_id);
@@ -96,7 +97,7 @@ public class WeChatArticleFragment extends Fragment {
         smartRefreshLayout = view.findViewById(R.id.smart_refresh_we_chat_article);
         nestedScrollView = view.findViewById(R.id.nest_scroll_we_chat);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
-        articleAdapter = new WeChatArticleAdapter(beanList_WeChatArticle);
+        articleAdapter = new WeChatArticleAdapter(getActivity(),beanList_WeChatArticle);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(articleAdapter);
         recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getContext())));

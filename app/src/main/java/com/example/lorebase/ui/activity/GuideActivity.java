@@ -36,9 +36,8 @@ import androidx.viewpager.widget.ViewPager;
 public class GuideActivity extends BaseActivity {
 
     int[] imageRes = new int[]{
-            R.mipmap.ic_launcher_round,
-            R.drawable.code_xiao_sheng,
-            R.drawable.google_develop,
+            R.drawable.guide01,
+            R.drawable.guide02,
             R.drawable.guide04
     };
 

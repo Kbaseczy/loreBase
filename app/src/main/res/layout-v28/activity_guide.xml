@@ -8,9 +8,8 @@
 
     <com.zhengsr.viewpagerlib.view.GlideViewPager
         android:id="@+id/splase_viewpager"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <Button
         android:id="@+id/splase_start_btn"
@@ -33,6 +32,7 @@
         android:layout_height="50dp"
         android:gravity="center"
         android:layout_gravity="bottom"
+        android:outlineSpotShadowColor="@color/colorPrimary"
         zsr:zoom_selector="@drawable/bottom_circle"
         zsr:zoom_leftmargin="10dp"
         zsr:zoom_max="1.5"

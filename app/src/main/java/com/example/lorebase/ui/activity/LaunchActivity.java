@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 
@@ -17,6 +19,7 @@ public class LaunchActivity extends BaseActivity {
 
     AlphaAnimation alphaAnimation;
     ConstraintLayout launch_layout;
+    ImageView image_launch;
     Handler mHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,8 @@ public class LaunchActivity extends BaseActivity {
         setContentView(R.layout.activity_launch);
         mHandler = new Handler();
         launch_layout = findViewById(R.id.launch_layout);
+        image_launch = findViewById(R.id.image_launch);
+        Glide.with(getApplicationContext()).load(R.drawable.image_store).into(image_launch);
         alphaAnimation = new AlphaAnimation(0.3F,1.0F);
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override

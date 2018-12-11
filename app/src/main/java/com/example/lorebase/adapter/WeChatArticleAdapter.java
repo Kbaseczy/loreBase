@@ -30,8 +30,9 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
     private List<WeChatArticle.DataBean.DatasBean> we_chat_article_list;
     private Context mContext;
 
-    public WeChatArticleAdapter(List<WeChatArticle.DataBean.DatasBean> we_chat_article_list) {
+    public WeChatArticleAdapter(Context context,List<WeChatArticle.DataBean.DatasBean> we_chat_article_list) {
         this.we_chat_article_list = we_chat_article_list;
+        this.mContext = context;
     }
 
     @NonNull
