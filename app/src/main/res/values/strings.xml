@@ -6,19 +6,6 @@
     <string name="tree" translatable="false">Tree</string>
     <string name="relax">Relaxing</string>
 
-    <!-- Strings related to login -->
-    <string name="register">Have no account?</string>
-    <string name="sign_up">Sign Up</string>
-    <!-- TODO: Remove or change this placeholder text -->
-
-
-    <!-- spaceFragment-->
-    <string name="DeviceInfo">DeviceInfo</string>
-    <string name="Exit">Exit now</string>
-    <string name="ensure_exit">Are you sure exit?</string>
-
-    <!-- ForgetActivity-->
-
     <string name="passWord">password</string>
     <string name="re_enter">password again</string>
     <string name="remember">Remember</string>
@@ -81,4 +68,7 @@
     <string name="chapter">chapter</string>
 
     <!-- SearchView -->
+    <string name="register">Have no account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="Exit">Exit now</string>
 </resources>

@@ -2,15 +2,14 @@
 <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/smart_refresh_lore"
-    android:name="com.example.lorebase.ui.fragment.subFragment.LoreFragment"
+    android:id="@+id/smart_refresh_project"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.lorebase.ui.fragment.subFragment.LoreListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/project_rv"
-        android:background="@color/Grey200"
+        android:background="@color/viewBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         custom:layout_behavior="@string/appbar_scrolling_view_behavior"

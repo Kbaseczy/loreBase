@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/image_project"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/icon_project" />
 
@@ -36,8 +36,8 @@
 
         <ImageView
             android:id="@+id/image_navigation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/icon_navigation" />
 
@@ -45,6 +45,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/project" />
+            android:text="@string/navigation" />
     </LinearLayout>
 </LinearLayout>

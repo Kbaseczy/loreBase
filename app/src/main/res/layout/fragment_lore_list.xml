@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/smart_refresh_lore"
-    android:name="com.example.lorebase.ui.fragment.subFragment.LoreFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lorebase.ui.fragment.subFragment.LoreListFragment">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lore_rv"
-        android:background="@color/Grey200"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        custom:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/viewBackground"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/lore_list_item" />
 
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>

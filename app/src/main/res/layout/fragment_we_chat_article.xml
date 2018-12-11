@@ -17,7 +17,7 @@
             android:id="@+id/recycler_we_chat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/Grey200"
+            android:background="@color/viewBackground"
             custom:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/lore_list_item" />
     </androidx.core.widget.NestedScrollView>

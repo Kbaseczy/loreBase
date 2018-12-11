@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.bean.SearchHistory;
 import com.example.lorebase.contain_const.ConstName;
@@ -31,6 +32,9 @@ import androidx.recyclerview.widget.RecyclerView;
     第二步.if (position_tag <= beans_chapter.get(position_item).getArticles().size() - 1)
           ->数组越界，控制取数据的index，index应该比List.size()-1
           ->List的 index 和 position_tag都是从0开始，控制position_tag上限 <= List.size()-1
+          以上做法舍弃，无法控制tag的正确数量。
+          todo 应给tagFlowLayout设置对应的数据List -> beans_chapter.get(position_item).getArticles()
+          对应position_item下的articles
     -> 多虑加了for循环，recyclerView 和 tagFlowLayout 一样都是自己遍历数据，有对应的position放置对应位置数据
  */
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.ViewHolder> {
@@ -59,25 +63,23 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
         tagFlow(holder, position);
     }
 
+
     private void tagFlow(@NonNull ViewHolder holder, int position_item) {
-        TagAdapter<NavigateSite.DataBean> adapter_hot =
-                new TagAdapter<NavigateSite.DataBean>(beans_chapter) {
+        TagAdapter<NavigateSite.DataBean.ArticlesBean> adapter_hot =
+                new TagAdapter<NavigateSite.DataBean.ArticlesBean>(beans_chapter.get(position_item).getArticles()) {  //beans_chapter.size 決定tag數量
                     //chapter 对应 position_item : recyclerView 的位置参数
                     //article 对应 position_tag  : tagFlowLayout 的位置参数
                     @Override
-                    public View getView(FlowLayout parent, int position_tag, NavigateSite.DataBean chapter) {
+                    public View getView(FlowLayout parent, int position_tag, NavigateSite.DataBean.ArticlesBean articlesBean) {
                         if (mContext == null) {
                             mContext = parent.getContext();
                         }
                         TextView navi_tag = (TextView) LayoutInflater.from(mContext)
                                 .inflate(R.layout.tag_flow_tv, parent, false);
                         //todo 多虑加了for循环，recyclerView 和 tagFlowLayout 一样都是自己遍历数据，有对应的position放置对应位置数据
-                        if (position_tag <= beans_chapter.get(position_item).getArticles().size() - 1) {
-                            String tag_navi = beans_chapter.get(position_item).getArticles().get(position_tag).getTitle();
-                            navi_tag.setText(tag_navi);
-                        }
-
-                        navi_tag.setTextColor(position_tag % 2 == 0 ? Color.BLACK : Color.RED); //字體顔色
+                        String tag_navi = articlesBean.getTitle();
+                        navi_tag.setText(tag_navi);
+                        navi_tag.setTextColor(Color.BLACK); //字體顔色
                         navi_tag.setBackgroundResource(R.color.Grey200);
                         return navi_tag;
                     }
@@ -89,8 +91,10 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                         .getArticles().get(position_tag).getTitle();
                 String tag_link = beans_chapter.get(position_item)   //对应item項 position_item
                         .getArticles().get(position_tag).getLink();   //对应tag項 position_tag
-                MyApplication.getDaoSession().getSearchHistoryDao()
-                        .insertOrReplace(new SearchHistory(null, tag_navi));
+                String tag_date = beans_chapter.get(position_item)
+                        .getArticles().get(position_tag).getNiceDate();
+                MyApplication.getDaoSession().getBrowseHistoryDao()
+                        .insertOrReplace(new BrowseHistory(null, tag_navi, tag_link, tag_date));
                 Intent intent = new Intent();
                 intent.setClass(mContext, AgentWebActivity.class)
                         .putExtra(ConstName.TITLE, tag_navi)

@@ -13,6 +13,7 @@
         android:paddingLeft="@dimen/dp_24"
         android:paddingTop="@dimen/dp_60"
         android:paddingRight="@dimen/dp_24">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="800dp"
             android:layout_height="200dp"

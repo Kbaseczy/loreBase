@@ -34,7 +34,8 @@
             android:drawablePadding="@dimen/dp_6"
             android:clickable="true"
             android:text="@string/clear_all"
-            android:textColor="@color/Grey400" />
+            android:textColor="@color/Grey400"
+            android:focusable="true" />
 
         <TextView
             android:id="@+id/history_tv"

@@ -11,11 +11,13 @@ import com.example.lorebase.adapter.ProjectAdapter;
 import com.example.lorebase.bean.Project;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.util.DividerItemGridDecoration;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -29,9 +31,10 @@ public class ItemProjectFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    private int id,page=0;
+    private int id, page = 0;
     private View view;
     private List<Project.DataBean.DatasBean> beans_project;
+    public static RecyclerView recyclerView;
 
     public ItemProjectFragment instance(int id) {
         ItemProjectFragment projectFragment = new ItemProjectFragment();
@@ -58,15 +61,16 @@ public class ItemProjectFragment extends Fragment {
     }
 
     private void initProjectList() {
-        RecyclerView recyclerView = view.findViewById(R.id.project_rv);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(),1);
+        recyclerView = view.findViewById(R.id.project_rv);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
         ProjectAdapter adapter = new ProjectAdapter(beans_project);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getActivity())));
     }
 
     private void getProject() {
-        String url = UrlContainer.baseUrl + "project/list/"+page+"/json?cid="+id;
+        String url = UrlContainer.baseUrl + "project/list/" + page + "/json?cid=" + id;
         OkHttpUtils
                 .get()
                 .url(url)

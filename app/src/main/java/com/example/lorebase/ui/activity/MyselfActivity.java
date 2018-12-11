@@ -14,6 +14,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.MyselfAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.util.DividerItemGridDecoration;
 import com.example.lorebase.util.L;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -93,8 +94,8 @@ public class MyselfActivity extends BaseActivity {
         }
         collapsingToolbarLayout.setTitle("Myself_Collection");
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
-        collapsingToolbarLayout.setBackgroundColor(Color.GRAY);
-        Glide.with(this).load(R.mipmap.cherry).into(portrait);
+        collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
+        Glide.with(this).load(R.drawable.image_store).into(portrait);
         fab_note.setOnClickListener(view -> Toast.makeText(MyselfActivity.this, "悬浮注释输入框", Toast.LENGTH_SHORT).show());
 
         GridLayoutManager manager = new GridLayoutManager(this, 1);
@@ -102,6 +103,7 @@ public class MyselfActivity extends BaseActivity {
 
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
         fab_top.setOnClickListener(v -> nestedScrollView.post(() -> nestedScrollView.fullScroll(View.FOCUS_UP)));
 
     }

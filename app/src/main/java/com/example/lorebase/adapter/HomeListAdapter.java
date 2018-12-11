@@ -30,8 +30,6 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
     private Context mContext;
     private List<Article.DataBean.DatasBean> beanList;
-    private final int ARTICLE = 1;
-    private final int PROJECT = 2;
 
     public HomeListAdapter(List<Article.DataBean.DatasBean> beanList) {
         this.beanList = beanList;
@@ -42,29 +40,22 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         if (mContext == null) {
             mContext = parent.getContext();
         }
-        View view = null;
-        if (viewType == ARTICLE) {
-            view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.lore_list_item, parent, false);
-        } else if (viewType == PROJECT) {
-            view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.project_item, parent, false);
-        }
+        View view = LayoutInflater.from(mContext)
+                .inflate(R.layout.lore_list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Article.DataBean.DatasBean article = beanList.get(position);
-        holder.project_text.setText(article.getTitle());
-        holder.project_author.setText(article.getAuthor());
-        holder.project_desc.setText(article.getDesc());
-        holder.project_date.setText(article.getNiceDate());
-        Glide.with(mContext).load(article.getEnvelopePic()).into(holder.project_image);
+        holder.title.setText(article.getTitle());
+        holder.author.setText(article.getAuthor());
+        holder.chapterName.setText(article.getChapterName());
+        holder.date.setText(article.getNiceDate());
         if (article.isCollect())
-            holder.collect_image.setImageResource(R.drawable.ic_like);
+            holder.collect.setImageResource(R.drawable.ic_like);
         else
-            holder.collect_image.setImageResource(R.drawable.ic_like_not);
+            holder.collect.setImageResource(R.drawable.ic_like_not);
 
         BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
 
@@ -81,18 +72,17 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
         boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
         //todo 收藏图标点击事件
-        holder.collect_image.setOnClickListener(v -> {
+        holder.collect.setOnClickListener(v -> {
                     //获取某子项位置，并得到该项的数据对象
                     if (isLogin) {
                         if (!article.isCollect()) {
                             CollectArticle.collectArticle(mContext, article.getId());
-                            holder.collect_image.setImageResource(R.drawable.ic_like); //点击图标后变为红色表示已收藏
-                            notifyDataSetChanged();
-                        }
-                        if (article.isCollect()) {
+                            holder.collect.setImageResource(R.drawable.ic_like); //点击图标后变为红色表示已收藏
+                            notify();
+                        } else if (article.isCollect()) {
                             CollectArticle.unCollect_originID(mContext, article.getId());
-                            holder.collect_image.setImageResource(R.drawable.ic_like_not);
-                            notifyDataSetChanged();
+                            holder.collect.setImageResource(R.drawable.ic_like_not);
+                            notify();
                         }
                     } else {
                         mContext.startActivity(new Intent(mContext, LoginActivity.class));
@@ -102,29 +92,23 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return beanList.get(position).getEnvelopePic() == null ? ARTICLE : PROJECT;
-    }
-
-    @Override
     public int getItemCount() {
         return beanList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        ImageView project_image, collect_image;
-        TextView project_text, project_author, project_desc, project_date;
+        ImageView collect;
+        TextView title, author, chapterName, date;
 
         ViewHolder(View view) {
             super(view);
-            cardView = (CardView) itemView;
-            project_image = itemView.findViewById(R.id.project_image);
-            collect_image = itemView.findViewById(R.id.item_project_list_like_iv);
-            project_text = itemView.findViewById(R.id.project_name);
-            project_author = itemView.findViewById(R.id.project_author);
-            project_desc = itemView.findViewById(R.id.item_project_list_content_tv);
-            project_date = itemView.findViewById(R.id.item_project_list_time_tv);
+            cardView = (CardView) view;
+            collect = itemView.findViewById(R.id.iv_article_like);
+            title = itemView.findViewById(R.id.article_title);
+            author = itemView.findViewById(R.id.tv_article_author);
+            chapterName = itemView.findViewById(R.id.tv_article_chapterName);
+            date = itemView.findViewById(R.id.tv_article_date);
         }
 
     }

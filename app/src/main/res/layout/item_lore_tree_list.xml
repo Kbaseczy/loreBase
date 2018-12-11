@@ -9,8 +9,9 @@
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="@color/viewBackground"
-    app:cardCornerRadius="30dp"
-    app:cardElevation="@dimen/dp_8">
+    app:cardCornerRadius="2dp"
+    app:cardElevation="@dimen/dp_8"
+    android:focusable="true">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.Project;
 import com.example.lorebase.bean.SearchHistory;
 import com.example.lorebase.contain_const.ConstName;
@@ -64,8 +65,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
 
         }
         holder.cardView.setOnClickListener(v -> {
-            MyApplication.getDaoSession().getSearchHistoryDao()
-                    .insertOrReplace(new SearchHistory(null, project.getTitle()));
+            MyApplication.getDaoSession().getBrowseHistoryDao()
+                    .insertOrReplace(new BrowseHistory(null, project.getTitle(),project.getLink(),project.getNiceDate()));
             Intent intent = new Intent(mContext,AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE,project.getTitle());
             intent.putExtra(ConstName.ID,project.getId());
