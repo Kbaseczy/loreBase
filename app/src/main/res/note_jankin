@@ -1,0 +1,9 @@
+FragmentStatePagerAdapter
+用户切换回来时，保存的实例状态可用来恢复生成新的fragment
+
+FragmentPagerAdapter创建的fragment永远不会被销毁
+
+待修复：
+HomeFragment 刷新后，下方的RecyclerView 会占据全部布局并且无法滚动回banner
+WechatFrgment 重新进入出现空白界面，这与重新刷新一次可以解决空白但不会保存之前浏览状态相矛盾
+ToolBar 被遮挡

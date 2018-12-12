@@ -13,34 +13,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar" />
-
-        <include layout="@layout/container" />
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            style="@style/Widget.Design.BottomNavigationView"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:background="@color/viewBackground"
-            app:elevation="@dimen/dp_16"
-            app:itemBackground="@drawable/bg_home_left_drawer_menu_item"
-            app:itemIconTint="@drawable/nav_item_color_state"
-            app:itemTextColor="@drawable/nav_item_color_state"
-            app:layout_behavior="@string/bye_burger_bottom_behavior"
-            app:menu="@menu/bottom_navigation_main" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="@dimen/dp_80"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:src="@drawable/ic_arrow_upward_white_24dp"
-            app:layout_behavior="@string/bye_burger_float_behavior" />
+            <include layout="@layout/toolbar" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpager_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navigation"
+                style="@style/Widget.Design.BottomNavigationView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/viewBackground"
+                app:elevation="@dimen/dp_16"
+                app:itemIconTint="@drawable/nav_item_color_state"
+                app:itemTextColor="@drawable/nav_item_color_state"
+                app:layout_behavior="@string/bye_burger_bottom_behavior"
+                app:menu="@menu/bottom_navigation_main" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginBottom="@dimen/dp_80"
+                android:src="@drawable/ic_arrow_upward_white_24dp"
+                app:layout_behavior="@string/bye_burger_float_behavior" />
+        </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -50,9 +57,9 @@
         android:layout_gravity="start"
         android:background="@color/viewBackground"
         android:fitsSystemWindows="true"
+        app:itemBackground="@drawable/bg_home_left_drawer_menu_item"
         app:itemIconTint="@color/black"
         app:itemTextColor="@drawable/home_left_drawer_menu_item_text"
-        app:itemBackground="@drawable/bg_home_left_drawer_menu_item"
         app:menu="@menu/nav_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

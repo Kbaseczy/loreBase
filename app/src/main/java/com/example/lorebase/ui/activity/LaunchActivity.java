@@ -12,8 +12,17 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
+import com.example.lorebase.contain_const.UrlContainer;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import okhttp3.Call;
+import okhttp3.Request;
 
 public class LaunchActivity extends BaseActivity {
 
@@ -24,12 +33,12 @@ public class LaunchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        View view = View.inflate(this,R.layout.activity_launch,null);
         setContentView(R.layout.activity_launch);
         mHandler = new Handler();
         launch_layout = findViewById(R.id.launch_layout);
         image_launch = findViewById(R.id.image_launch);
-        Glide.with(getApplicationContext()).load(R.drawable.image_store).into(image_launch);
+//        Glide.with(getApplicationContext()).load(R.drawable.image_store).into(image_launch);
+        getImage(); //获取并设置bing图片
         alphaAnimation = new AlphaAnimation(0.3F,1.0F);
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -76,5 +85,37 @@ public class LaunchActivity extends BaseActivity {
                 finish();
             }
         },3000);
+    }
+
+    private void getImage() {
+        String url = "https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1";
+        OkHttpUtils
+                .get()
+                .url(url)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onBefore(Request request, int id) {
+                        super.onBefore(request, id);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = jsonObject.getJSONArray("images");
+                            String url_image = jsonArray.getJSONObject(0).getString("url");
+                            String fullUrl = UrlContainer.BI_YING +url_image;
+                            Glide.with(getApplicationContext()).load(fullUrl).into(image_launch);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 }

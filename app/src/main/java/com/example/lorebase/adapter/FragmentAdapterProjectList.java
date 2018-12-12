@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 public class FragmentAdapterProjectList extends FragmentStatePagerAdapter {
 
     private List<Fragment> fragments;
-
     private List<ProjectChapter.DataBean> beans;
     public FragmentAdapterProjectList(FragmentManager fm, List<Fragment> fragments,
                                       List<ProjectChapter.DataBean> beans) {
@@ -21,18 +20,22 @@ public class FragmentAdapterProjectList extends FragmentStatePagerAdapter {
         this.beans = beans;
     }
 
+    public FragmentAdapterProjectList(FragmentManager manager){
+        super(manager);
+    }
 
+    public void setList(List<Fragment> fragments){
+        this.fragments = fragments;
+        notifyDataSetChanged();
+    }
     @Override
     public Fragment getItem(int position) {
-
-//        return LoreListFragment.instantiate(childrenBeanList.get(position).getId());
         return fragments.get(position);
     }
 
-
     @Override
     public int getCount() {
-        return beans != null ? beans.size() : 0;
+        return fragments != null ? fragments.size() : 0;
     }
 
     @Nullable

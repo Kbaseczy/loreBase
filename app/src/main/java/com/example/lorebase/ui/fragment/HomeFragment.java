@@ -63,6 +63,14 @@ public class HomeFragment extends Fragment {
     public static NestedScrollView nestedScrollView;
     public static RecyclerView recyclerView;
     private HomeAdapter adapter;
+
+    public static HomeFragment getInstantce(String name){
+        HomeFragment fragment = new HomeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(ConstName.TITLE,name);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
     @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

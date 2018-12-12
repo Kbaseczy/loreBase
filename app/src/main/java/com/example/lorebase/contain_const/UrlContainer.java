@@ -113,4 +113,9 @@ public class UrlContainer {
     * 项目列表 ok
     * */
     public static final String PROJECT_LIST = "project/list/{page}/json?cid=id";
+
+    /*
+        必应
+    */
+    public static final String BI_YING = "https://cn.bing.com/";
 }

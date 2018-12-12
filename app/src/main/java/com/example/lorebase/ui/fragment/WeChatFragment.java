@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.FragmentAdapterWeChat;
 import com.example.lorebase.bean.WeChat;
+import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.L;
@@ -32,6 +33,14 @@ import java.util.List;
 public class WeChatFragment extends Fragment {
     private View view;
     private List<WeChat.DataBean> list_weChat;
+
+    public static WeChatFragment getInstantce(String name){
+        WeChatFragment fragment = new WeChatFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(ConstName.TITLE,name);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
     @SuppressLint("InflateParams")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
