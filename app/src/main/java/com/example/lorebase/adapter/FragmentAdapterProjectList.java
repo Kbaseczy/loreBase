@@ -26,8 +26,9 @@ public class FragmentAdapterProjectList extends FragmentStatePagerAdapter {
 
     public void setList(List<Fragment> fragments){
         this.fragments = fragments;
-        notifyDataSetChanged();
     }
+
+
     @Override
     public Fragment getItem(int position) {
         return fragments.get(position);

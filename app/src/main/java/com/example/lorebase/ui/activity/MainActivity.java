@@ -106,7 +106,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         initView();
         //todo 设置进入后显示的第一个界面
-
         indicateFrag();
     }
 
@@ -154,7 +153,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
             @Override
             public void onPageSelected(int position) {
-                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
             }
 
             @Override
@@ -166,9 +165,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         list.add(homeFragment);
         list.add(loreTreeFragment);
         list.add(relaxFragment);
-        list.add(weChatFragment);
-//        FragmentAdapterProjectList adapter = new FragmentAdapterProjectList(getSupportFragmentManager());
+        list.add(new WeChatFragment()); //todo 当前可以保存状态，出现空白。new 实例 解决空白，不保存状态。
         FragmentStatePagerAdapter adapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+            // FragmentStatePagerAdapter/FragmentPagerAdapter 注意区别
             @Override
             public Fragment getItem(int position) {
                 return list.get(position);
@@ -179,6 +178,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 return list.size();
             }
         };
+
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
         /*---------------------------------------------------------------------*/
@@ -219,6 +219,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         String get_username = getLogin.getString(ConstName.USER_NAME, "");
         navigationView.getMenu().findItem(R.id.nav_logout).setVisible(isLogin);
         navigationView.getMenu().findItem(R.id.nav_collect).setVisible(isLogin);
+        navigationView.getMenu().findItem(R.id.nav_todo).setVisible(isLogin);
         L.v(isLogin + "登陸狀態");
         //如果是登陸狀態(麽有點擊事件),文本設爲"用戶名".如果是未登錄狀態(有點擊事件),文本設爲"login".
         if (isLogin) {
@@ -250,7 +251,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 toolbar.setTitle(R.string.tree);
                 viewPager.setCurrentItem(1);
                 fab.setOnClickListener(v ->
-                        LoreTreeFragment.nestedScrollView.post(()->LoreTreeFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
+                        LoreTreeFragment.nestedScrollView.post(() -> LoreTreeFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
                 break;
             case R.id.action_relax:
                 toolbar.setTitle(R.string.relax);
@@ -261,7 +262,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 toolbar.setTitle(R.string.we_chat);
                 viewPager.setCurrentItem(3);
                 fab.setOnClickListener(v ->
-                        WeChatArticleFragment.nestedScrollView.post(()->WeChatArticleFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
+                        WeChatArticleFragment.nestedScrollView.post(() -> WeChatArticleFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
                 break;
 
             //TODO 侧滑栏navigationView 监听
@@ -276,7 +277,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.nav_browser:
-                startActivity(new Intent(this,BrowseHistoryActivity.class));
+                startActivity(new Intent(this, BrowseHistoryActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.nav_setting:
@@ -293,7 +294,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         .setMessage(R.string.tip_content_logout)
                         .setPositiveButton(R.string.ok, (dialog, which) -> {
                             logout(1);
-                            Toast.makeText(this, "Have logout", Toast.LENGTH_SHORT).show(); })
+                            Toast.makeText(this, "Have logout", Toast.LENGTH_SHORT).show();
+                        })
                         .setNegativeButton(R.string.cancel, (dialog, which) ->
                                 dialog.dismiss());
                 alertDialog.create().show();
@@ -307,15 +309,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         }
         transaction.commitAllowingStateLoss();
         return false;
-    }
-
-    private FragmentTransaction getReplace(FragmentTransaction transaction) {
-        return transaction.setCustomAnimations(
-                R.animator.fragment_slide_left_enter,
-                R.animator.fragment_slide_left_exit,
-                R.animator.fragment_slide_right_exit,
-                R.animator.fragment_slide_right_enter).
-                replace(R.id.content_layout, new WeChatFragment());
     }
 
     private long exit_time;

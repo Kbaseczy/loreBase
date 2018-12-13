@@ -58,19 +58,19 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     public void addList(List<Banner.DataBean> banner_t, List<News.DataBean> beanList_news,
                         List<Article.DataBean.DatasBean> beanList_article) {
-        banner_t.addAll(banner_t);
-        beanList_news.addAll(beanList_news);
-        beanList_article.addAll(beanList_article);
+        this.banner_t.addAll(banner_t);
+        this.beanList_news.addAll(beanList_news);
+        this.beanList_article.addAll(beanList_article);
         notifyDataSetChanged();
     }
 
     public void remove(int position) {
-        banner_t.remove(position);
+        this.banner_t.remove(position);
         notifyDataSetChanged();
     }
 
     public void clear() {
-        banner_t.clear();
+        this.banner_t.clear();
         notifyDataSetChanged();
     }
 
@@ -244,6 +244,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         HomeListAdapter homeListAdapter = new HomeListAdapter(beanList_article);
         ((Holder_article) holder).recyclerView.setLayoutManager(layoutManager);
         ((Holder_article) holder).recyclerView.setAdapter(homeListAdapter);
+        ((Holder_article) holder).recyclerView.clearOnScrollListeners();
         ((Holder_article) holder).recyclerView.addItemDecoration(new DividerItemGridDecoration(context));
 //        ((Holder_article) holder).recyclerView.setNestedScrollingEnabled(true);
         ((Holder_article) holder).smartRefreshLayout.setRefreshHeader(new DropboxHeader(context));

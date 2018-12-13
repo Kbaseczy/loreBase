@@ -51,6 +51,10 @@ import okhttp3.Request;
 /**
  * A simple {@link Fragment} subclass.
  * 1发出请求request——>2得到响应response——>3解析数据——>4List容纳数据——>5适配器适配到recyclerView
+ *
+ *   todo 子RecyclerView 抢夺焦点问题。滑动完全交给NestScrollView 或者 父RecyclerView
+ *     ·android:focusableInTouchMode="true"
+ *     ·android:focusable="true"
  */
 public class HomeFragment extends Fragment {
     private View view;
@@ -87,9 +91,9 @@ public class HomeFragment extends Fragment {
     private void initView() {
         recyclerView = view.findViewById(R.id.recycler_home);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        adapter = new HomeAdapter(getActivity(),banner_t, beanList_news, beanList_article);
-        /*adapter.addList(banner_t, beanList_news, beanList_article);
-        adapter.notifyDataSetChanged();*/
+        adapter = new HomeAdapter(getActivity());
+        adapter.addList(banner_t, beanList_news, beanList_article);
+        adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         nestedScrollView = view.findViewById(R.id.nest_scroll_home);

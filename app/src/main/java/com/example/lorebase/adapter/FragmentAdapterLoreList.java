@@ -27,8 +27,6 @@ public class FragmentAdapterLoreList extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
-//        return LoreListFragment.instantiate(childrenBeanList.get(position).getId());
         return fragments.get(position);
     }
 

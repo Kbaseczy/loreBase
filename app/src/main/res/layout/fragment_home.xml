@@ -3,6 +3,8 @@
     android:id="@+id/nest_scroll_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
     android:fillViewport="true"
     custom:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -13,6 +15,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_home"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

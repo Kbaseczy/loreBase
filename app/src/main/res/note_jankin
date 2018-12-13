@@ -7,3 +7,13 @@ FragmentPagerAdapter创建的fragment永远不会被销毁
 HomeFragment 刷新后，下方的RecyclerView 会占据全部布局并且无法滚动回banner
 WechatFrgment 重新进入出现空白界面，这与重新刷新一次可以解决空白但不会保存之前浏览状态相矛盾
 ToolBar 被遮挡
+
+12.13
+  viewPagerAdapter 的复用，这个是可以复用的。不用每一次使用都新建一个Adapter
+  侧滑栏 "TODO" 图标跟随登陆状态显示或隐藏
+  viewpager 搭配 adapter 实现滑动。可以配合多种角色，Frag,Tab，bottomNavigation等等
+
+  todo toolBar 显示，当滑动时留下空白区域   ok
+   ->  解决toolbar被遮挡问题，给viewPager添加约束行为  - > app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+   bug:HomeFragment 重回之后 子recyclerView 会占据布局，无法回到顶部banner
