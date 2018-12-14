@@ -25,7 +25,7 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 public class LaunchActivity extends BaseActivity {
-
+    LaunchActivity launchActivity;
     AlphaAnimation alphaAnimation;
     ConstraintLayout launch_layout;
     ImageView image_launch;
@@ -34,10 +34,10 @@ public class LaunchActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+        launchActivity = this;
         mHandler = new Handler();
         launch_layout = findViewById(R.id.launch_layout);
         image_launch = findViewById(R.id.image_launch);
-//        Glide.with(getApplicationContext()).load(R.drawable.image_store).into(image_launch);
         getImage(); //获取并设置bing图片
         alphaAnimation = new AlphaAnimation(0.3F,1.0F);
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -111,11 +111,12 @@ public class LaunchActivity extends BaseActivity {
                             JSONArray jsonArray = jsonObject.getJSONArray("images");
                             String url_image = jsonArray.getJSONObject(0).getString("url");
                             String fullUrl = UrlContainer.BI_YING +url_image;
-                            Glide.with(getApplicationContext()).load(fullUrl).into(image_launch);
+                            Glide.with(launchActivity).load(fullUrl).into(image_launch);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 });
     }
+
 }

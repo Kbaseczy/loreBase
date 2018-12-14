@@ -45,6 +45,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
@@ -165,8 +166,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         list.add(homeFragment);
         list.add(loreTreeFragment);
         list.add(relaxFragment);
-        list.add(new WeChatFragment()); //todo 当前可以保存状态，出现空白。new 实例 解决空白，不保存状态。
-        FragmentStatePagerAdapter adapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+        list.add(weChatFragment); //todo 当前可以保存状态，出现空白。new 实例 解决空白，不保存状态。
+        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             // FragmentStatePagerAdapter/FragmentPagerAdapter 注意区别
             @Override
             public Fragment getItem(int position) {
@@ -242,9 +243,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 toolbar.setTitle(R.string.app_name);
                 viewPager.setCurrentItem(0);
                 fab.setOnClickListener(v ->
-//                        HomeFragment.nestedScrollView.post(()->HomeFragment.nestedScrollView.fullScroll(View.FOCUS_UP))
+                        HomeFragment.nestedScrollView.post(()->HomeFragment.nestedScrollView.fullScroll(View.FOCUS_UP))
 //                        HomeFragment.recyclerView.scrollToPosition(0)
-                                Toast.makeText(this, "Welcome in.o(∩_∩)o", Toast.LENGTH_SHORT).show()
+//                                Toast.makeText(this, "Welcome in.o(∩_∩)o", Toast.LENGTH_SHORT).show()
                 );
                 break;
             case R.id.action_lore_tree:

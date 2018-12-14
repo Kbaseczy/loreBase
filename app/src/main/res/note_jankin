@@ -16,4 +16,4 @@ ToolBar 被遮挡
   todo toolBar 显示，当滑动时留下空白区域   ok
    ->  解决toolbar被遮挡问题，给viewPager添加约束行为  - > app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
-   bug:HomeFragment 重回之后 子recyclerView 会占据布局，无法回到顶部banner
+   bug:HomeFragment 重回之后 子recyclerView 会占据布局，无法回到顶部banner ->onResume(),未解决

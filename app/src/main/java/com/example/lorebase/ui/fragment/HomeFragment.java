@@ -64,17 +64,10 @@ public class HomeFragment extends Fragment {
     private List<Banner.DataBean> banner_t = new ArrayList<>();
     private List<News.DataBean> beanList_news = new ArrayList<>();
     private List<Article.DataBean.DatasBean> beanList_article = new ArrayList<>();
+    @SuppressLint("StaticFieldLeak")
     public static NestedScrollView nestedScrollView;
     public static RecyclerView recyclerView;
-    private HomeAdapter adapter;
 
-    public static HomeFragment getInstantce(String name){
-        HomeFragment fragment = new HomeFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(ConstName.TITLE,name);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
     @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,16 +79,18 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+//        initView();
     }
 
     private void initView() {
         recyclerView = view.findViewById(R.id.recycler_home);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        adapter = new HomeAdapter(getActivity());
+        HomeAdapter adapter = new HomeAdapter(getActivity());
         adapter.addList(banner_t, beanList_news, beanList_article);
         adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        recyclerView.stopScroll();
         nestedScrollView = view.findViewById(R.id.nest_scroll_home);
         nestedScrollView.fullScroll(View.FOCUS_UP);
     }
