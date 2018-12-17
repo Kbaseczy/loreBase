@@ -17,6 +17,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+   <!-- 百度语音识别权限-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -29,6 +36,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         android:fullBackupContent="@xml/backup_descriptor">
+        <!--百度map-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="UdZf0ZHferNdYZ2bkB84atKubv46C5MX" />
@@ -36,7 +44,18 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-
+        <!--語音搜索-->
+        <meta-data android:name="com.baidu.speech.APP_ID"
+            android:value="15191001" />
+        <meta-data
+            android:name="com.baidu.speech.API_KEY"
+            android:value="zMYz5CrxUdbn4Zwj8CoB3Bgq" />
+        <meta-data
+            android:name="com.baidu.speech.SECRET_KEY"
+            android:value="KUGG3UD6nHmXLbPWCFaLsIl5ZvYGgl96" />
+        <service
+            android:name="com.baidu.speech.VoiceRecognitionService"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.LaunchActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout"
