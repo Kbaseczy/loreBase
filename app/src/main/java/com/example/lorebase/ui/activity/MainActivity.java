@@ -13,14 +13,13 @@ import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
-import com.example.lorebase.adapter.FragmentAdapterProjectList;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.recog.ActivityUiDialog;
 import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
 import com.example.lorebase.ui.fragment.RelaxFragment;
 import com.example.lorebase.ui.fragment.WeChatFragment;
-import com.example.lorebase.ui.fragment.subFragment.HomeTabListFragment;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.L;
@@ -46,7 +45,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
@@ -71,7 +69,6 @@ import okhttp3.Request;
       todo viewPager.setCurrentItem(position) 解决底部导航图标状态不变化
       todo change: Fragment容器由 container 换为 viewPager ，因此之前报错不能改变片段容器的ID，即是container与viewPager冲突了
                                                                     -> 将container 在布局文件中去掉即可
-
  */
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener
         , NavigationView.OnNavigationItemSelectedListener {
@@ -243,7 +240,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 toolbar.setTitle(R.string.app_name);
                 viewPager.setCurrentItem(0);
                 fab.setOnClickListener(v ->
-                        HomeFragment.nestedScrollView.post(()->HomeFragment.nestedScrollView.fullScroll(View.FOCUS_UP))
+                                HomeFragment.nestedScrollView.post(() -> HomeFragment.nestedScrollView.fullScroll(View.FOCUS_UP))
 //                        HomeFragment.recyclerView.scrollToPosition(0)
 //                                Toast.makeText(this, "Welcome in.o(∩_∩)o", Toast.LENGTH_SHORT).show()
                 );
@@ -279,6 +276,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
             case R.id.nav_browser:
                 startActivity(new Intent(this, BrowseHistoryActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                break;
+            case R.id.nav_speech:
+                startActivity(new Intent(this, ActivityUiDialog.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.nav_setting:

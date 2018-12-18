@@ -46,8 +46,7 @@ public class MyRecognizer {
 
     /**
      * 初始化 提供 EventManagerFactory需要的Context和EventListener
-     *
-     * @param context
+     *  @param context
      * @param eventListener 识别状态和结果回调
      */
     public MyRecognizer(Context context, EventListener eventListener) {

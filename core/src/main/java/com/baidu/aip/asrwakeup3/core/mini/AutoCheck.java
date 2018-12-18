@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import com.baidu.speech.asr.SpeechConstant;
 import org.json.JSONObject;
@@ -24,6 +23,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeSet;
+
+import androidx.core.content.ContextCompat;
 
 public class AutoCheck {
     public static final boolean isOnlineLited = false; // 是否只需要是纯在线识别功能

@@ -17,3 +17,9 @@ ToolBar 被遮挡
    ->  解决toolbar被遮挡问题，给viewPager添加约束行为  - > app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
    bug:HomeFragment 重回之后 子recyclerView 会占据布局，无法回到顶部banner ->onResume(),未解决
+
+todo speech
+根据功能导入module
+
+err:Error: Program type already present: com.baidu.speech
+-> libs内容重复（app 和 core ）

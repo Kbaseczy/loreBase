@@ -3,11 +3,12 @@ package com.baidu.aip.asrwakeup3.core.inputstream;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by fujiayi on 2017/11/27.
