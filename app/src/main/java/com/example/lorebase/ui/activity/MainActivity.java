@@ -129,7 +129,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         }
     }
 
-
     private void initView() {
         drawerLayout = findViewById(R.id.drawer_layout);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -222,11 +221,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         //如果是登陸狀態(麽有點擊事件),文本設爲"用戶名".如果是未登錄狀態(有點擊事件),文本設爲"login".
         if (isLogin) {
             login_username.setText(get_username);
+            //不进行跳转，貌似解决了登录状态用户名可点击
             login_username.setOnClickListener(v -> new Intent(MainActivity.this, MyselfActivity.class));
         } else {
             login_username.setText(R.string.login);
             login_username.setOnClickListener(v ->
-                    startActivity(new Intent(getBaseContext(), LoginActivity.class)));
+                    startActivity(new Intent(this, LoginActivity.class)));
         }
     }
 

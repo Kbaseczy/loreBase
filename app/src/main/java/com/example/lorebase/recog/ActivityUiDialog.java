@@ -10,11 +10,10 @@ import com.baidu.aip.asrwakeup3.core.util.MyLogger;
 import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
 import com.baidu.voicerecognition.android.ui.DigitalDialogInput;
 import com.example.lorebase.R;
+import com.example.lorebase.ui.activity.SearchListActivity;
 
 import java.util.ArrayList;
 import java.util.Map;
-
-
 
 /**
  * UI 界面调用
@@ -37,7 +36,6 @@ public class ActivityUiDialog extends ActivityAbstractRecog {
     public ActivityUiDialog() {
         super(R.raw.uidialog_recog, false);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,18 +75,18 @@ public class ActivityUiDialog extends ActivityAbstractRecog {
         running = false;
         Log.i(TAG, "requestCode" + requestCode);
         if (requestCode == 2) {
-            String message = "对话框的识别结果：";
+            String message = "";
             if (resultCode == RESULT_OK) {
                 ArrayList results = data.getStringArrayListExtra("results");
                 if (results != null && results.size() > 0) {
                     message += results.get(0);
                 }
+                SearchListActivity.actionStart(this, message);  //跳转搜索结果页面
             } else {
                 message += "没有结果";
             }
             MyLogger.info(message);
         }
-
     }
 
     @Override

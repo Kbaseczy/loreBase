@@ -23,3 +23,8 @@ todo speech
 
 err:Error: Program type already present: com.baidu.speech
 -> libs内容重复（app 和 core ）
+
+12.19
+语音识别集成完毕
+  -> 没有改build.gradle中的包名-和语音识别申请时的包名一致。目前未发现不当
+  ->
