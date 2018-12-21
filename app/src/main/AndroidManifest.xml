@@ -118,7 +118,6 @@
         <activity
             android:name=".ui.activity.NavigationActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activity.TestSpeechActivity"/>
 
         <activity
             android:name=".recog.ActivityUiDialog"

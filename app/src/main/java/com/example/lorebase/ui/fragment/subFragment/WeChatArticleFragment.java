@@ -1,5 +1,6 @@
 package com.example.lorebase.ui.fragment.subFragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,9 +37,9 @@ public class WeChatArticleFragment extends Fragment {
     private int we_chat_id, page;
     private List<WeChatArticle.DataBean.DatasBean> beanList_WeChatArticle;
     private View view;
-    private SmartRefreshLayout smartRefreshLayout;
     private WeChatArticleAdapter articleAdapter;
     public static RecyclerView recyclerView;
+    @SuppressLint("StaticFieldLeak")
     public static NestedScrollView nestedScrollView;
 
     public static WeChatArticleFragment getInstance(int we_chat_id) {
@@ -94,7 +95,7 @@ public class WeChatArticleFragment extends Fragment {
 
     private void initWeChatArticle() {
         recyclerView = view.findViewById(R.id.recycler_we_chat);
-        smartRefreshLayout = view.findViewById(R.id.smart_refresh_we_chat_article);
+        SmartRefreshLayout smartRefreshLayout = view.findViewById(R.id.smart_refresh_we_chat_article);
         nestedScrollView = view.findViewById(R.id.nest_scroll_we_chat);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
         articleAdapter = new WeChatArticleAdapter(getActivity(),beanList_WeChatArticle);
