@@ -2,16 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/loreBase.iml" filepath="$PROJECT_DIR$/loreBase.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-=======
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/loreBase.iml" filepath="$PROJECT_DIR$/loreBase.iml" />
       <module fileurl="file://$PROJECT_DIR$/uiasr/uiasr.iml" filepath="$PROJECT_DIR$/uiasr/uiasr.iml" />
       <module fileurl="file://$PROJECT_DIR$/uidialog/uidialog.iml" filepath="$PROJECT_DIR$/uidialog/uidialog.iml" />
->>>>>>> dc865cfba6c0249d4e3dfd55ce3ea0ae95322974
     </modules>
   </component>
 </project>
