@@ -15,11 +15,11 @@ import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.recog.ActivityUiDialog;
 import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
 import com.example.lorebase.ui.fragment.RelaxFragment;
 import com.example.lorebase.ui.fragment.WeChatFragment;
-import com.example.lorebase.ui.fragment.subFragment.HomeTabListFragment;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.L;
@@ -33,6 +33,9 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -41,7 +44,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -60,6 +65,10 @@ import okhttp3.Request;
     ☆自动登陆：获取login_data中字段isAutoLogin的值，由此判断是否登陆。如果为true,则在onCreate()中初始化数据并进行登陆
        涉及到登录状态isLogin变化，均需要刷新UI，  todo 与isLogin相关的有  sign in头布局/ logout / 收藏
       a.isLogin变为true  b.isAutoLogin的值由LoginActivity最初设置 c.登陆后应refreshSign()均在
+
+      todo viewPager.setCurrentItem(position) 解决底部导航图标状态不变化
+      todo change: Fragment容器由 container 换为 viewPager ，因此之前报错不能改变片段容器的ID，即是container与viewPager冲突了
+                                                                    -> 将container 在布局文件中去掉即可
  */
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener
         , NavigationView.OnNavigationItemSelectedListener {
@@ -72,6 +81,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     ImageView nav_header_portrait;
     SharedPreferences sp;
     SharedPreferences.Editor editor;
+    ViewPager viewPager;
 
     HomeFragment homeFragment;
     LoreTreeFragment loreTreeFragment;
@@ -94,7 +104,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         initView();
         //todo 设置进入后显示的第一个界面
-        goFragment(homeFragment);
         indicateFrag();
     }
 
@@ -103,28 +112,21 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         int fragId = getIntent().getIntExtra(ConstName.FRAGMENT, ConstName.fragment.HOME);
         switch (fragId) {
             case 1:
-                goFragment(homeFragment);
+                viewPager.setCurrentItem(0);
                 break;
             case 2:
-                goFragment(loreTreeFragment);
+                viewPager.setCurrentItem(1);
                 break;
             case 3:
-                goFragment(relaxFragment);
+                viewPager.setCurrentItem(2);
                 break;
             case 4:
-                goFragment(weChatFragment);
+                viewPager.setCurrentItem(3);
                 break;
             default:
-                goFragment(homeFragment);
+                viewPager.setCurrentItem(0);
                 break;
         }
-    }
-
-    public void goFragment(Fragment fragment) {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.content_layout, fragment);
-        transaction.commitAllowingStateLoss();
     }
 
     private void initView() {
@@ -138,7 +140,45 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 .findViewById(R.id.login_username);
 //        nav_header_portrait = navigationView.inflateHeaderView(R.layout.nav_header_main)
 //                .findViewById(R.id.nav_header_portrait);//导致2个头布局
+        /*---------------------------------------------------------------------*/
+        viewPager = findViewById(R.id.viewpager_main);
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        List<Fragment> list = new ArrayList<>();
+        list.add(homeFragment);
+        list.add(loreTreeFragment);
+        list.add(relaxFragment);
+        list.add(weChatFragment); //todo 当前可以保存状态，出现空白。new 实例 解决空白，不保存状态。
+        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+            // FragmentStatePagerAdapter/FragmentPagerAdapter 注意区别
+            @Override
+            public Fragment getItem(int position) {
+                return list.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return list.size();
+            }
+        };
+
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(2);
+        /*---------------------------------------------------------------------*/
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -176,15 +216,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         String get_username = getLogin.getString(ConstName.USER_NAME, "");
         navigationView.getMenu().findItem(R.id.nav_logout).setVisible(isLogin);
         navigationView.getMenu().findItem(R.id.nav_collect).setVisible(isLogin);
+        navigationView.getMenu().findItem(R.id.nav_todo).setVisible(isLogin);
         L.v(isLogin + "登陸狀態");
         //如果是登陸狀態(麽有點擊事件),文本設爲"用戶名".如果是未登錄狀態(有點擊事件),文本設爲"login".
         if (isLogin) {
             login_username.setText(get_username);
+            //不进行跳转，貌似解决了登录状态用户名可点击
             login_username.setOnClickListener(v -> new Intent(MainActivity.this, MyselfActivity.class));
         } else {
             login_username.setText(R.string.login);
             login_username.setOnClickListener(v ->
-                    startActivity(new Intent(getBaseContext(), LoginActivity.class)));
+                    startActivity(new Intent(this, LoginActivity.class)));
         }
     }
 
@@ -196,50 +238,29 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         switch (menuItem.getItemId()) {
             case R.id.action_home:
                 toolbar.setTitle(R.string.app_name);
-                transaction.setCustomAnimations(
-                        R.animator.fragment_slide_left_enter,
-                        R.animator.fragment_slide_left_exit,
-                        R.animator.fragment_slide_right_exit,
-                        R.animator.fragment_slide_right_enter).
-                        replace(R.id.content_layout, homeFragment);
+                viewPager.setCurrentItem(0);
                 fab.setOnClickListener(v ->
-//                        HomeFragment.nestedScrollView.post(()->HomeFragment.nestedScrollView.fullScroll(View.FOCUS_UP))
+                                HomeFragment.nestedScrollView.post(() -> HomeFragment.nestedScrollView.fullScroll(View.FOCUS_UP))
 //                        HomeFragment.recyclerView.scrollToPosition(0)
-                                Toast.makeText(this, "Welcome in.o(∩_∩)o", Toast.LENGTH_SHORT).show()
+//                                Toast.makeText(this, "Welcome in.o(∩_∩)o", Toast.LENGTH_SHORT).show()
                 );
-
                 break;
             case R.id.action_lore_tree:
                 toolbar.setTitle(R.string.tree);
-                transaction.setCustomAnimations(
-                        R.animator.fragment_slide_left_enter,
-                        R.animator.fragment_slide_left_exit,
-                        R.animator.fragment_slide_right_exit,
-                        R.animator.fragment_slide_right_enter).
-                        replace(R.id.content_layout, loreTreeFragment);
+                viewPager.setCurrentItem(1);
                 fab.setOnClickListener(v ->
-                        LoreTreeFragment.nestedScrollView.post(()->LoreTreeFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
+                        LoreTreeFragment.nestedScrollView.post(() -> LoreTreeFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
                 break;
             case R.id.action_relax:
                 toolbar.setTitle(R.string.relax);
+                viewPager.setCurrentItem(2);
 //                fab.setVisibility(View.INVISIBLE);   设置在该fragment不可见
-                transaction.setCustomAnimations(
-                        R.animator.fragment_slide_left_enter,
-                        R.animator.fragment_slide_left_exit,
-                        R.animator.fragment_slide_right_exit,
-                        R.animator.fragment_slide_right_enter).
-                        replace(R.id.content_layout, relaxFragment);
                 break;
             case R.id.action_we_chat:
                 toolbar.setTitle(R.string.we_chat);
+                viewPager.setCurrentItem(3);
                 fab.setOnClickListener(v ->
-                        WeChatArticleFragment.nestedScrollView.post(()->WeChatArticleFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
-                transaction.setCustomAnimations(
-                        R.animator.fragment_slide_left_enter,
-                        R.animator.fragment_slide_left_exit,
-                        R.animator.fragment_slide_right_exit,
-                        R.animator.fragment_slide_right_enter).
-                        replace(R.id.content_layout, new WeChatFragment());  // todo 每次重新创建，状态被重置
+                        WeChatArticleFragment.nestedScrollView.post(() -> WeChatArticleFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
                 break;
 
             //TODO 侧滑栏navigationView 监听
@@ -254,7 +275,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.nav_browser:
-                startActivity(new Intent(this,BrowseHistoryActivity.class));
+                startActivity(new Intent(this, BrowseHistoryActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                break;
+            case R.id.nav_speech:
+                startActivity(new Intent(this, ActivityUiDialog.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.nav_setting:
@@ -271,7 +296,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         .setMessage(R.string.tip_content_logout)
                         .setPositiveButton(R.string.ok, (dialog, which) -> {
                             logout(1);
-                            Toast.makeText(this, "Have logout", Toast.LENGTH_SHORT).show(); })
+                            Toast.makeText(this, "Have logout", Toast.LENGTH_SHORT).show();
+                        })
                         .setNegativeButton(R.string.cancel, (dialog, which) ->
                                 dialog.dismiss());
                 alertDialog.create().show();

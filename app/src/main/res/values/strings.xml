@@ -2,17 +2,17 @@
     <string name="app_name" translatable="false">LoreBase</string>
     <string name="username" translatable="false">username</string>
     <string name="login" translatable="false">Sign In</string>
-    <string name="mainpage" translatable="false">Home</string>
-    <string name="tree" translatable="false">Tree</string>
-    <string name="relax">Relaxing</string>
+    <string name="mainpage" translatable="false">首页</string>
+    <string name="tree" translatable="false">知识体系</string>
+    <string name="relax">轻松一瞅</string>
 
     <string name="passWord">password</string>
     <string name="re_enter">password again</string>
-    <string name="remember">Remember</string>
-    <string name="autoLogin">AutoLogin</string>
-    <string name="collect">Collection</string>
-    <string name="we_chat">WeChat</string>
-    <string name="project">Project</string>
+    <string name="remember">记住密码</string>
+    <string name="autoLogin">自动登录</string>
+    <string name="collect">收藏</string>
+    <string name="we_chat">公众号</string>
+    <string name="project">项目</string>
 
     <!-- About-->
     <string name="author">author</string>
@@ -25,34 +25,35 @@
     <string name="viewflipper">ViewFlipper</string>
     <string name="hot_news">tech</string>
     <string name="hot_content">content</string>
-    <string name="navigation">Navigation</string>
+    <string name="navigation">导航</string>
     <!-- addCategory -->
     <string name="categoryName">categoryName</string>
 
     <!-- navMenu-->
-    <string name="nav_my_collect">Collection</string>
+    <string name="nav_my_collect">收藏</string>
     <string name="nav_todo">TODO</string>
-    <string name="nav_browser">Browsing History</string>
-    <string name="nav_position">Position</string>
-    <string name="nav_setting">Setting</string>
-    <string name="nav_about">AboutUs</string>
-    <string name="nav_logout">Logout</string>
+    <string name="nav_browser">浏览历史</string>
+    <string name="nav_position">实时位置</string>
+    <string name="nav_setting">设置</string>
+    <string name="nav_about">关于我们</string>
+    <string name="nav_speech">语音搜索</string>
+    <string name="nav_logout">注销</string>
 
-    <string name="action_share">Share</string>
-    <string name="action_browser">Browser</string>
-    <string name="action_search">Search</string>
+    <string name="action_share">分享</string>
+    <string name="action_browser">浏览器中打开</string>
+    <string name="action_search">搜索</string>
 
-    <string name="hot_search">Hot Search</string>
-    <string name="clear_all">Clear</string>
-    <string name="history_search">History</string>
+    <string name="hot_search">热搜</string>
+    <string name="clear_all">清除</string>
+    <string name="history_search">历史搜索</string>
 
     <string name="start_explore">Start Now</string>
 
     <string name="tip">Tip❤</string>
-    <string name="tip_content_logout">Are sure Logout?</string>
-    <string name="tip_content_clear_history">Are sure clear all?</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
+    <string name="tip_content_logout">确定注销吗?(点击空白处取消)</string>
+    <string name="tip_content_clear_history">确定清除吗?(点击空白处取消)</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
 
     <string name="have_account">Have a account?</string>
     <string name="list_time">list_time</string>
@@ -60,10 +61,10 @@
     <string name="todo">todo</string>
     <string name="like_article">like article</string>
 
-    <string name="feed_back">Feed Back</string>
+    <string name="feed_back">反馈</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="empty">There is empty,waiting to be added.sorry....</string>
+    <string name="empty">抱歉没有记录，等待添加....</string>
     <string name="others">others</string>
     <string name="chapter">chapter</string>
 

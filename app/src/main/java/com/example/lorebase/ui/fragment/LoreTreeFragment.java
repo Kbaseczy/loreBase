@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.LoreTreeAdapter;
 import com.example.lorebase.bean.LoreTree;
+import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.util.DividerItemGridDecoration;
 import com.google.gson.Gson;
@@ -33,6 +34,14 @@ public class LoreTreeFragment extends Fragment {
     private View view;
     private List<LoreTree.DataBean> fatherBeanList;
     public static NestedScrollView nestedScrollView;
+
+    public static LoreTreeFragment getInstantce(String name){
+        LoreTreeFragment fragment = new LoreTreeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(ConstName.TITLE,name);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_lore_tree,null);

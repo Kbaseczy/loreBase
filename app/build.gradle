@@ -49,7 +49,7 @@ dependencies {
     implementation 'com.github.githubwing:ByeBurger:1.2.3'
     implementation 'com.github.LillteZheng:ViewPagerHelper:v0.8'
     //引导页开源库
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.5.2'   //出现过报错   会出现依赖冲突，某个框架重复引用
     implementation 'com.nineoldandroids:library:2.4.0'
     implementation 'com.daimajia.slider:library:1.1.5@aar'
     //轮播图开源库
@@ -68,8 +68,16 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'com.makeramen:roundedimageview:2.3.0'
-    debugImplementation 'com.github.BolexLiu.AutoEx:AutoEx-Lib:v1.0.7' //debug包
-    releaseImplementation 'com.github.BolexLiu.AutoEx:AutoEx-Lib-No-Op:v1.0.7' //release包
+    debugImplementation 'com.github.BolexLiu.AutoEx:AutoEx-Lib:v1.0.7'
+    //debug包
+    releaseImplementation 'com.github.BolexLiu.AutoEx:AutoEx-Lib-No-Op:v1.0.7'
+    //release包
+    implementation project(':core')
+    implementation project(':uiasr')
+    implementation project(':uidialog')
+
+    // 状态栏沉浸：https://github.com/gyf-dev/ImmersionBar
+//    api 'com.gyf.barlibrary:barlibrary:2.3.0'
 }
 
 buildscript {

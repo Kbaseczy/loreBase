@@ -1,16 +1,7 @@
 package com.example.lorebase.ui.fragment;
 
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import okhttp3.Call;
-import okhttp3.Request;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +9,7 @@ import android.view.ViewGroup;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.FragmentAdapterWeChat;
 import com.example.lorebase.bean.WeChat;
+import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.L;
@@ -29,9 +21,26 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+import okhttp3.Call;
+import okhttp3.Request;
+
 public class WeChatFragment extends Fragment {
     private View view;
     private List<WeChat.DataBean> list_weChat;
+
+    public static WeChatFragment getInstantce(String name){
+        WeChatFragment fragment = new WeChatFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(ConstName.TITLE,name);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
     @SuppressLint("InflateParams")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -87,15 +96,40 @@ public class WeChatFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    @Override
+    /*@Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         L.v("onSaveInstanceState test");
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = null;
+        if (manager != null) {
+            transaction = manager.beginTransaction();
+        }
+        for(WeChat.DataBean wechat : list_weChat){
+            if(WeChatArticleFragment.getInstance(wechat.getId()) != null){
+                if (transaction != null) {
+                    transaction.hide(WeChatArticleFragment.getInstance(wechat.getId()));
+                    transaction.commitAllowingStateLoss();
+                }
+            }
+        }
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = null;
+        if (manager != null) {
+            transaction = manager.beginTransaction();
+        }
+        for(WeChat.DataBean wechat : list_weChat){
+            if(WeChatArticleFragment.getInstance(wechat.getId()) != null){
+                if (transaction != null) {
+                    transaction.hide(WeChatArticleFragment.getInstance(wechat.getId()));
+                    transaction.commitAllowingStateLoss();
+                }
+            }
+        }
         super.onViewStateRestored(savedInstanceState);
-        L.v("onViewStateRestored test");
     }
-}
+*/}
