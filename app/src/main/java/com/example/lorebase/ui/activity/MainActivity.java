@@ -141,6 +141,28 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 //        nav_header_portrait = navigationView.inflateHeaderView(R.layout.nav_header_main)
 //                .findViewById(R.id.nav_header_portrait);//导致2个头布局
         /*---------------------------------------------------------------------*/
+        initViewpager();
+        /*---------------------------------------------------------------------*/
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        bottomNavigationView.setLayoutMode(BottomNavigationView.MEASURED_HEIGHT_STATE_SHIFT); //可在配置在布局文件中
+        toolbar.setTitle(R.string.app_name);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.menu);
+        }
+//        toolbar.inflateMenu(R.menu.menu_activity_main);   actionBar的方式使用最下面2个方法，toolbar则需要自己链式加载布局。
+//        toolbar.setNavigationOnClickListener(v ->    //点击home按钮拉出侧滑栏
+//                drawerLayout.openDrawer(GravityCompat.START)
+//        );
+        // 那个menu按钮在下面监听无效，需要在上面监听（TODO 原因待考察 - > need to setSupportActionbar(toolbar)）
+//        toolbar.setOnMenuItemClickListener(this);
+    }
+
+    private void initViewpager() {
         viewPager = findViewById(R.id.viewpager_main);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -178,25 +200,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
-        /*---------------------------------------------------------------------*/
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_SELECTED);
-        bottomNavigationView.setLayoutMode(BottomNavigationView.MEASURED_HEIGHT_STATE_SHIFT);
-        toolbar.setTitle(R.string.app_name);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.menu);
-        }
-//        toolbar.inflateMenu(R.menu.menu_activity_main);   actionBar的方式使用最下面2个方法，toolbar则需要自己链式加载布局。
-//        toolbar.setNavigationOnClickListener(v ->    //点击home按钮拉出侧滑栏
-//                drawerLayout.openDrawer(GravityCompat.START)
-//        );
-        // 那个menu按钮在下面监听无效，需要在上面监听（TODO 原因待考察 - > need to setSupportActionbar(toolbar)）
-//        toolbar.setOnMenuItemClickListener(this);
     }
 
     @Override
@@ -237,7 +240,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         switch (menuItem.getItemId()) {
             case R.id.action_home:
-                toolbar.setTitle(R.string.app_name);
                 viewPager.setCurrentItem(0);
                 fab.setOnClickListener(v ->
                                 HomeFragment.nestedScrollView.post(() -> HomeFragment.nestedScrollView.fullScroll(View.FOCUS_UP))
@@ -246,18 +248,15 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 );
                 break;
             case R.id.action_lore_tree:
-                toolbar.setTitle(R.string.tree);
                 viewPager.setCurrentItem(1);
                 fab.setOnClickListener(v ->
                         LoreTreeFragment.nestedScrollView.post(() -> LoreTreeFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
                 break;
             case R.id.action_relax:
-                toolbar.setTitle(R.string.relax);
                 viewPager.setCurrentItem(2);
 //                fab.setVisibility(View.INVISIBLE);   设置在该fragment不可见
                 break;
             case R.id.action_we_chat:
-                toolbar.setTitle(R.string.we_chat);
                 viewPager.setCurrentItem(3);
                 fab.setOnClickListener(v ->
                         WeChatArticleFragment.nestedScrollView.post(() -> WeChatArticleFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
