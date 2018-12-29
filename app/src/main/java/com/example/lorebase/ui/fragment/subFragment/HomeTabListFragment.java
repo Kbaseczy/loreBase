@@ -85,6 +85,7 @@ public class HomeTabListFragment extends Fragment {
                     }
                 });
     }
+
     //article
     private void initView() {
         RecyclerView recyclerView = view.findViewById(R.id.home_recycler_view);

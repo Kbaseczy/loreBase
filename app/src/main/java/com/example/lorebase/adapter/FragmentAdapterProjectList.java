@@ -13,6 +13,7 @@ public class FragmentAdapterProjectList extends FragmentStatePagerAdapter {
 
     private List<Fragment> fragments;
     private List<ProjectChapter.DataBean> beans;
+
     public FragmentAdapterProjectList(FragmentManager fm, List<Fragment> fragments,
                                       List<ProjectChapter.DataBean> beans) {
         super(fm);
@@ -20,11 +21,11 @@ public class FragmentAdapterProjectList extends FragmentStatePagerAdapter {
         this.beans = beans;
     }
 
-    public FragmentAdapterProjectList(FragmentManager manager){
+    public FragmentAdapterProjectList(FragmentManager manager) {
         super(manager);
     }
 
-    public void setList(List<Fragment> fragments){
+    public void setList(List<Fragment> fragments) {
         this.fragments = fragments;
     }
 

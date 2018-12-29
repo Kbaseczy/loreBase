@@ -22,10 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Request;
@@ -34,25 +31,26 @@ public class WeChatFragment extends Fragment {
     private View view;
     private List<WeChat.DataBean> list_weChat;
 
-    public static WeChatFragment getInstantce(String name){
+    public static WeChatFragment getInstantce(String name) {
         WeChatFragment fragment = new WeChatFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(ConstName.TITLE,name);
+        bundle.putString(ConstName.TITLE, name);
         fragment.setArguments(bundle);
         return fragment;
     }
+
     @SuppressLint("InflateParams")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        super.onCreateView(inflater,container,savedInstanceState);
-        view = inflater.inflate(R.layout.fragment_we_chat,null);
+        super.onCreateView(inflater, container, savedInstanceState);
+        view = inflater.inflate(R.layout.fragment_we_chat, null);
         getWeChat();
         return view;
     }
 
-    private void getWeChat(){
-        String url = UrlContainer.baseUrl+UrlContainer.WX_ARTICLE_CHAPTER;
+    private void getWeChat() {
+        String url = UrlContainer.baseUrl + UrlContainer.WX_ARTICLE_CHAPTER;
         OkHttpUtils
                 .get()
                 .url(url)
@@ -62,10 +60,12 @@ public class WeChatFragment extends Fragment {
                     public void onError(Call call, Exception e, int id) {
                         e.printStackTrace();
                     }
+
                     @Override
                     public void onBefore(Request request, int id) {
                         super.onBefore(request, id);
                     }
+
                     @Override
                     public void onResponse(String response, int id) {
                         L.v("WE_CHAT", response);
@@ -80,22 +80,23 @@ public class WeChatFragment extends Fragment {
         ViewPager viewPager = view.findViewById(R.id.viewpager_we_chat);
         TabLayout tabLayout = view.findViewById(R.id.tab_we_chat);
 
-        for(WeChat.DataBean wechat : list_weChat){
+        for (WeChat.DataBean wechat : list_weChat) {
             tabLayout.addTab(tabLayout.newTab().setText(wechat.getName()));
         }
 
         List<Fragment> fragments = new ArrayList<>();
-        for(WeChat.DataBean wechat : list_weChat){
+        for (WeChat.DataBean wechat : list_weChat) {
             fragments.add(WeChatArticleFragment.getInstance(wechat.getId()));
         }
 
-        FragmentAdapterWeChat adapterWeChat = new FragmentAdapterWeChat(getFragmentManager(),fragments,list_weChat);
+        FragmentAdapterWeChat adapterWeChat = new FragmentAdapterWeChat(getFragmentManager(), fragments, list_weChat);
 
         viewPager.setAdapter(adapterWeChat);
         viewPager.setOffscreenPageLimit(1);
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    //计划数据恢复，重回时界面空白
     /*@Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -132,4 +133,5 @@ public class WeChatFragment extends Fragment {
         }
         super.onViewStateRestored(savedInstanceState);
     }
-*/}
+*/
+}

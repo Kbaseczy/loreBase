@@ -24,7 +24,6 @@ import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.L;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.zhy.http.okhttp.OkHttpUtils;

@@ -13,7 +13,7 @@ public class UrlContainer {
     /**
      * 登出  ok
      */
-    public static final String LOGOUT= "user/logout/json";
+    public static final String LOGOUT = "user/logout/json";
     /**
      * 注册  ok
      */
@@ -105,13 +105,13 @@ public class UrlContainer {
     public static final String NAVI = "navi/json";
 
     /*
-    * 项目分类 ok
-    * */
+     * 项目分类 ok
+     * */
     public static final String PROJECT = "project/tree/json";
 
     /*
-    * 项目列表 ok
-    * */
+     * 项目列表 ok
+     * */
     public static final String PROJECT_LIST = "project/list/{page}/json?cid=id";
 
     /*

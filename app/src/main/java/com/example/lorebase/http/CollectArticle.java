@@ -49,7 +49,7 @@ public class CollectArticle {
     }
 
     //文章列表取消收藏
-    public static void unCollect_originID(Context context,int id){
+    public static void unCollect_originID(Context context, int id) {
         String url = UrlContainer.baseUrl + "lg/uncollect_originId/" + id + "/json";
         OkHttpUtils
                 .post()
@@ -82,7 +82,7 @@ public class CollectArticle {
     }
 
     //收藏页面取消收藏
-    public static void unCollect(Context context,int id){
+    public static void unCollect(Context context, int id) {
         String url = UrlContainer.baseUrl + "lg/uncollect/" + id + "/json";
         OkHttpUtils
                 .post()

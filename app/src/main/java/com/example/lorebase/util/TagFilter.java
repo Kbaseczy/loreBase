@@ -20,6 +20,7 @@ public class TagFilter {
      * 定义空格回车换行符
      */
     private static final String REGEX_SPACE = "\\s*|\t|\r|\n";
+
     public static String delHTMLTag(String htmlStr) {
         // 过滤script标签
         Pattern p_script = Pattern.compile(REGEX_SCRIPT, Pattern.CASE_INSENSITIVE);

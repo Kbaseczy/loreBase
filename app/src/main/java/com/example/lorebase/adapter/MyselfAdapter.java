@@ -49,7 +49,7 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
         holder.author.setText(my_collect.getAuthor());
         holder.date.setText(my_collect.getNiceDate());
         holder.title.setText(my_collect.getTitle());
-        String name =  my_collect.getChapterName();
+        String name = my_collect.getChapterName();
         holder.chapterName.setText(name);
         holder.imageView.setImageResource(R.drawable.ic_like);
 

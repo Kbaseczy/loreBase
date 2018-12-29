@@ -1,6 +1,5 @@
 package com.example.lorebase.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +24,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private EditText passWord;
     private EditText userCount;
     private EditText re_input_pass;
-    private TextView submit,have_account;
+    private TextView submit, have_account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +37,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         have_account = findViewById(R.id.have_account);
         submit.setOnClickListener(this);
         have_account.setOnClickListener(v -> {
-                    startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
-                    overridePendingTransition(R.animator.go_in,R.animator.go_out);
-                });
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            overridePendingTransition(R.animator.go_in, R.animator.go_out);
+        });
     }
 
     @Override
@@ -84,7 +83,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getInt("errorCode") == 0) {
-                                Toast.makeText(RegisterActivity.this,"Sign up Successful", Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterActivity.this, "Sign up Successful", Toast.LENGTH_LONG).show();
                                 Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(i);
                                 overridePendingTransition(R.animator.go_in, R.animator.go_out);

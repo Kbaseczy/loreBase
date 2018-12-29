@@ -29,7 +29,6 @@ import com.example.lorebase.util.DividerItemGridDecoration;
 import com.scwang.smartrefresh.header.DropboxHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +52,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.beanList_article = beanList_article;
     }
 
-    public HomeAdapter(Context context){
+    public HomeAdapter(Context context) {
         this.context = context;
     }
+
     public void addList(List<Banner.DataBean> banner_t, List<News.DataBean> beanList_news,
                         List<Article.DataBean.DatasBean> beanList_article) {
         this.banner_t.addAll(banner_t);

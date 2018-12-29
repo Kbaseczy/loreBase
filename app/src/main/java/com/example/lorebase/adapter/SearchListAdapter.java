@@ -51,8 +51,8 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Article.DataBean.DatasBean search = search_list.get(position);
         String filterTitle = TagFilter.delHTMLTag(search.getTitle()); //过滤搜索带标签的title
-        SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA,Context.MODE_PRIVATE);
-        boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN,false);
+        SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
+        boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
         holder.author.setText(search.getAuthor());
         holder.date.setText(search.getNiceDate());
         holder.title.setText(filterTitle);
@@ -61,7 +61,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
         holder.cardView.setOnClickListener(v -> {
             MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
-               new BrowseHistory(null,filterTitle,search.getLink(),search.getNiceDate()));
+                    new BrowseHistory(null, filterTitle, search.getLink(), search.getNiceDate()));
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, filterTitle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH);
@@ -71,23 +71,23 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         });
 
         holder.imageView.setOnClickListener(v -> {
-            if (isLogin) {
-                if (!search.isCollect()) {
-                    CollectArticle.collectArticle(mContext, search.getId());
-                    holder.imageView.setImageResource(R.drawable.ic_like);
+                    if (isLogin) {
+                        if (!search.isCollect()) {
+                            CollectArticle.collectArticle(mContext, search.getId());
+                            holder.imageView.setImageResource(R.drawable.ic_like);
 
-                } else {
-                    CollectArticle.unCollect_originID(mContext, search.getId());
-                    holder.imageView.setImageResource(R.drawable.ic_like_not);
+                        } else {
+                            CollectArticle.unCollect_originID(mContext, search.getId());
+                            holder.imageView.setImageResource(R.drawable.ic_like_not);
 
-                }
-            }else{
-                mContext.startActivity(new Intent(mContext,LoginActivity.class));
-            }
+                        }
+                    } else {
+                        mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                    }
                 }
         );
-        if(search.isCollect())
-             holder.imageView.setImageResource(R.drawable.ic_like);
+        if (search.isCollect())
+            holder.imageView.setImageResource(R.drawable.ic_like);
         else
             holder.imageView.setImageResource(R.drawable.ic_like_not);
     }

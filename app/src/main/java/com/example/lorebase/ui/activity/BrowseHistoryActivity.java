@@ -3,9 +3,7 @@ package com.example.lorebase.ui.activity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -16,7 +14,6 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.BrowseHistoryAdapter;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.greenDao.BrowseHistoryDao;
-import com.example.lorebase.ui.fragment.subFragment.EmptyFragment;
 import com.example.lorebase.util.DividerItemGridDecoration;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,15 +22,13 @@ import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class BrowseHistoryActivity extends BaseActivity {
 
     private List<BrowseHistory> browseHistoryList;
-    private FloatingActionButton fab_delete,fab_top;
+    private FloatingActionButton fab_delete, fab_top;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +36,7 @@ public class BrowseHistoryActivity extends BaseActivity {
         setContentView(R.layout.activity_browse_history);
         initView();
     }
+
     @SuppressLint("RestrictedApi")
     private void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar_browse_history);
@@ -64,7 +60,7 @@ public class BrowseHistoryActivity extends BaseActivity {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
-        fab_delete.setOnClickListener(v-> {
+        fab_delete.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.tip)
                     .setIcon(R.mipmap.ic_launcher_round)
@@ -84,7 +80,7 @@ public class BrowseHistoryActivity extends BaseActivity {
 
         fab_top.setOnClickListener(v -> nestedScrollView.post(() -> nestedScrollView.fullScroll(View.FOCUS_UP)));
 
-        if(browseHistoryList.size() == 0){
+        if (browseHistoryList.size() == 0) {
             Glide.with(this).load(R.drawable.empty_cup).into(portrait);
         }
     }
@@ -93,7 +89,7 @@ public class BrowseHistoryActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        fab_delete.setVisibility(browseHistoryList.size()==0?View.INVISIBLE:View.VISIBLE);
-        fab_top.setVisibility(browseHistoryList.size()<15?View.INVISIBLE:View.VISIBLE);
+        fab_delete.setVisibility(browseHistoryList.size() == 0 ? View.INVISIBLE : View.VISIBLE);
+        fab_top.setVisibility(browseHistoryList.size() < 15 ? View.INVISIBLE : View.VISIBLE);
     }
 }

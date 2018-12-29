@@ -13,7 +13,6 @@ import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.NavigateSite;
-import com.example.lorebase.bean.SearchHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.zhy.view.flowlayout.FlowLayout;

@@ -35,16 +35,17 @@ public class LoreTreeFragment extends Fragment {
     private List<LoreTree.DataBean> fatherBeanList;
     public static NestedScrollView nestedScrollView;
 
-    public static LoreTreeFragment getInstantce(String name){
+    public static LoreTreeFragment getInstantce(String name) {
         LoreTreeFragment fragment = new LoreTreeFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(ConstName.TITLE,name);
+        bundle.putString(ConstName.TITLE, name);
         fragment.setArguments(bundle);
         return fragment;
     }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_lore_tree,null);
+        view = inflater.inflate(R.layout.fragment_lore_tree, null);
         getLoreTree();//include: initView 初始化视图需要数据填充，获取数据后再初始化视图
         return view;
     }
@@ -60,10 +61,12 @@ public class LoreTreeFragment extends Fragment {
                     public void onError(Call call, Exception e, int id) {
                         e.printStackTrace();
                     }
+
                     @Override
                     public void onBefore(Request request, int id) {
                         super.onBefore(request, id);
                     }
+
                     @Override
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
@@ -79,7 +82,7 @@ public class LoreTreeFragment extends Fragment {
 
         nestedScrollView = view.findViewById(R.id.nest_scroll_lore_tree);
 
-        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
         recyclerView_loreTree.setLayoutManager(manager);
 
