@@ -30,7 +30,7 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
     private List<WeChatArticle.DataBean.DatasBean> we_chat_article_list;
     private Context mContext;
 
-    public WeChatArticleAdapter(Context context,List<WeChatArticle.DataBean.DatasBean> we_chat_article_list) {
+    public WeChatArticleAdapter(Context context, List<WeChatArticle.DataBean.DatasBean> we_chat_article_list) {
         this.we_chat_article_list = we_chat_article_list;
         this.mContext = context;
     }
@@ -50,8 +50,8 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         WeChatArticle.DataBean.DatasBean we_chat_article = we_chat_article_list.get(position);
-        SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA,Context.MODE_PRIVATE);
-        boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN,false);
+        SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
+        boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
         holder.author.setText(we_chat_article.getAuthor());
         holder.date.setText(we_chat_article.getNiceDate());
         holder.title.setText(we_chat_article.getTitle());
@@ -60,32 +60,32 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
 
         holder.cardView.setOnClickListener(v -> {
             MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
-                    new BrowseHistory(null,we_chat_article.getTitle(),we_chat_article.getLink(),we_chat_article.getNiceDate()));
+                    new BrowseHistory(null, we_chat_article.getTitle(), we_chat_article.getLink(), we_chat_article.getNiceDate()));
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, we_chat_article.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN);
-            intent.putExtra(ConstName.FRAGMENT,ConstName.fragment.WE_CHAT);
+            intent.putExtra(ConstName.FRAGMENT, ConstName.fragment.WE_CHAT);
             intent.putExtra(ConstName.ID, we_chat_article.getId());
             intent.setData(Uri.parse(we_chat_article.getLink()));
             mContext.startActivity(intent);
         });
 
         holder.imageView.setOnClickListener(v -> {
-            if (isLogin) {
-                if (!we_chat_article.isCollect()) {
-                    CollectArticle.collectArticle(mContext, we_chat_article.getId());
-                    holder.imageView.setImageResource(R.drawable.ic_like);
-                } else {
-                    CollectArticle.unCollect_originID(mContext, we_chat_article.getId());
-                    holder.imageView.setImageResource(R.drawable.ic_like_not);
-                }
-            }else{
-                mContext.startActivity(new Intent(mContext,LoginActivity.class));
-            }
+                    if (isLogin) {
+                        if (!we_chat_article.isCollect()) {
+                            CollectArticle.collectArticle(mContext, we_chat_article.getId());
+                            holder.imageView.setImageResource(R.drawable.ic_like);
+                        } else {
+                            CollectArticle.unCollect_originID(mContext, we_chat_article.getId());
+                            holder.imageView.setImageResource(R.drawable.ic_like_not);
+                        }
+                    } else {
+                        mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                    }
                 }
         );
-        if(we_chat_article.isCollect())
-             holder.imageView.setImageResource(R.drawable.ic_like);
+        if (we_chat_article.isCollect())
+            holder.imageView.setImageResource(R.drawable.ic_like);
         else
             holder.imageView.setImageResource(R.drawable.ic_like_not);
     }

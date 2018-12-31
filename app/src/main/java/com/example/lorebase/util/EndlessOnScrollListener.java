@@ -25,7 +25,7 @@ public abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListe
     //是否加载数据
     private boolean loading = true;
 
-    protected EndlessOnScrollListener(LinearLayoutManager linearLayoutManager){
+    protected EndlessOnScrollListener(LinearLayoutManager linearLayoutManager) {
         this.mLinearLayoutManager = linearLayoutManager;
     }
 
@@ -36,21 +36,21 @@ public abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListe
         visibleItemCount = recyclerView.getChildCount();
         total_ItemCount = mLinearLayoutManager.getItemCount();
         firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
-        if(loading){
-            if(total_ItemCount > previousTotal){
+        if (loading) {
+            if (total_ItemCount > previousTotal) {
 
                 loading = false;  //数据加载结束
                 previousTotal = total_ItemCount;
             }
         }
 
-        if(!loading && total_ItemCount - visibleItemCount <= firstVisibleItem){
-            current_page ++;
+        if (!loading && total_ItemCount - visibleItemCount <= firstVisibleItem) {
+            current_page++;
             onLoadMore(current_page);
             loading = true;
         }
     }
 
-    public abstract void onLoadMore(int current_page) ;
+    public abstract void onLoadMore(int current_page);
 }
 

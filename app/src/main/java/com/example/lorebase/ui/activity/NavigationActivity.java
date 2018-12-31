@@ -7,10 +7,8 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.NavigationAdapter;
 import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.contain_const.UrlContainer;
-
 import com.example.lorebase.util.DividerItemGridDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -40,7 +38,6 @@ public class NavigationActivity extends Activity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.navigation);
         toolbar.setNavigationOnClickListener(v -> finish());
-
 
 
         FloatingActionButton floatingActionButton = findViewById(R.id.fab_navigate);

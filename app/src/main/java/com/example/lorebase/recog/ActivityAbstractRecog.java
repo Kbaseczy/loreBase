@@ -75,7 +75,7 @@ public abstract class ActivityAbstractRecog extends ActivityUiRecog {
                     synchronized (autoCheck) {
                         String message = autoCheck.obtainErrorMessage(); // autoCheck.obtainAllMessage();
                         txtLog.append(message + "\n");
-                         // 可以用下面一行替代，在logcat中查看代码
+                        // 可以用下面一行替代，在logcat中查看代码
                         // Log.w("AutoCheckMessage", message);
                     }
                 }

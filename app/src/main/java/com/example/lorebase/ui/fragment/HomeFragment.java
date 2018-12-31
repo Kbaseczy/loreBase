@@ -1,60 +1,38 @@
 package com.example.lorebase.ui.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.ViewFlipper;
 
-import com.bumptech.glide.Glide;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.HomeAdapter;
-import com.example.lorebase.adapter.HomeTabAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.Banner;
-import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.News;
-import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.ui.activity.AgentWebActivity;
-import com.example.lorebase.ui.activity.NavigationActivity;
-import com.example.lorebase.ui.activity.ProjectActivity;
-import com.example.lorebase.ui.fragment.subFragment.HomeTabListFragment;
-import com.example.lorebase.util.L;
-import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Request;
 
 /**
  * A simple {@link Fragment} subclass.
  * 1发出请求request——>2得到响应response——>3解析数据——>4List容纳数据——>5适配器适配到recyclerView
- *
- *   todo 子RecyclerView 抢夺焦点问题。滑动完全交给NestScrollView 或者 父RecyclerView
- *     ·android:focusableInTouchMode="true"
- *     ·android:focusable="true"
+ * <p>
+ * todo 子RecyclerView 抢夺焦点问题。滑动完全交给NestScrollView 或者 父RecyclerView
+ * ·android:focusableInTouchMode="true"
+ * ·android:focusable="true"
  */
 public class HomeFragment extends Fragment {
     private View view;

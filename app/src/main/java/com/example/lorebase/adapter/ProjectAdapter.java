@@ -1,9 +1,5 @@
 package com.example.lorebase.adapter;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,13 +15,16 @@ import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.Project;
-import com.example.lorebase.bean.SearchHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.CollectArticle;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * TODO: Replace the implementation with code for your data type.
@@ -34,14 +33,14 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     private List<Project.DataBean.DatasBean> beanList_project;
     private Context mContext;
 
-    public ProjectAdapter(List<Project.DataBean.DatasBean> beanList_project){
+    public ProjectAdapter(List<Project.DataBean.DatasBean> beanList_project) {
         this.beanList_project = beanList_project;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(null== mContext)
+        if (null == mContext)
             mContext = parent.getContext();
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.project_item, parent, false);
@@ -57,36 +56,36 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         holder.author.setText(project.getAuthor());
         holder.time.setText(project.getNiceDate());
         holder.content.setText(project.getDesc());
-        if(project.isCollect()){
+        if (project.isCollect()) {
             holder.image_collect.setImageResource(R.drawable.ic_like);
 
-        }else{
+        } else {
             holder.image_collect.setImageResource(R.drawable.ic_like_not);
 
         }
         holder.cardView.setOnClickListener(v -> {
             MyApplication.getDaoSession().getBrowseHistoryDao()
-                    .insertOrReplace(new BrowseHistory(null, project.getTitle(),project.getLink(),project.getNiceDate()));
-            Intent intent = new Intent(mContext,AgentWebActivity.class);
-            intent.putExtra(ConstName.TITLE,project.getTitle());
-            intent.putExtra(ConstName.ID,project.getId());
-            intent.putExtra(ConstName.ACTIVITY,ConstName.activity.PROJECT);
+                    .insertOrReplace(new BrowseHistory(null, project.getTitle(), project.getLink(), project.getNiceDate()));
+            Intent intent = new Intent(mContext, AgentWebActivity.class);
+            intent.putExtra(ConstName.TITLE, project.getTitle());
+            intent.putExtra(ConstName.ID, project.getId());
+            intent.putExtra(ConstName.ACTIVITY, ConstName.activity.PROJECT);
             intent.setData(Uri.parse(project.getLink()));
             mContext.startActivity(intent);
         });
         SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
         boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
         holder.image_collect.setOnClickListener(v -> {
-            if(isLogin){
-                if(project.isCollect()){
-                    CollectArticle.unCollect_originID(mContext,project.getId());
+            if (isLogin) {
+                if (project.isCollect()) {
+                    CollectArticle.unCollect_originID(mContext, project.getId());
                     holder.image_collect.setImageResource(R.drawable.ic_like_not);
                 }
-                if(!project.isCollect()){
-                    CollectArticle.collectArticle(mContext,project.getId());
+                if (!project.isCollect()) {
+                    CollectArticle.collectArticle(mContext, project.getId());
                 }
-            }else{
-                mContext.startActivity(new Intent(mContext,LoginActivity.class));
+            } else {
+                mContext.startActivity(new Intent(mContext, LoginActivity.class));
             }
         });
     }
@@ -98,8 +97,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        ImageView image_project,image_collect;
-        TextView name,content,author,time;
+        ImageView image_project, image_collect;
+        TextView name, content, author, time;
 
         public ViewHolder(View view) {
             super(view);

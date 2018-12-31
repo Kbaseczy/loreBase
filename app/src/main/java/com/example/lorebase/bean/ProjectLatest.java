@@ -122,7 +122,7 @@ public class ProjectLatest {
              * todo collect : false
              * courseId : 13
              * desc : Beautiful custom View, SeekBar selector, easy to use, and rich in customization.
-             漂亮的区间选择器，贝塞尔曲线优雅实现
+             * 漂亮的区间选择器，贝塞尔曲线优雅实现
              * envelopePic : http://wanandroid.com/blogimgs/f41656d0-5fdd-4fa2-9a01-0723c396e078.png
              * fresh : false
              * id : 7387

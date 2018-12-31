@@ -12,7 +12,7 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 public class OkGet {
-    private static void getData(List<?> list,String urla) {
+    private static void getData(List<?> list, String urla) {
         String url = UrlContainer.baseUrl + urla;
         OkHttpUtils
                 .get()

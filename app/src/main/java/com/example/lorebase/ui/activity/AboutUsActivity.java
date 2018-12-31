@@ -35,7 +35,7 @@ public class AboutUsActivity extends BaseActivity {
                     intent.setClass(AboutUsActivity.this, AgentWebActivity.class);
                     intent.setData(Uri.parse(UrlContainer.FEED_BACK));
                     intent.putExtra(ConstName.TITLE, R.string.feed_back);
-                    intent.putExtra(ConstName.ACTIVITY,ConstName.activity.ABOUT_US);
+                    intent.putExtra(ConstName.ACTIVITY, ConstName.activity.ABOUT_US);
                     startActivity(intent);
                 }
         );

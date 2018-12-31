@@ -1,15 +1,6 @@
 package com.example.lorebase.ui.fragment.subFragment;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.Call;
-import okhttp3.Request;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,17 +13,21 @@ import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.util.DividerItemGridDecoration;
 import com.example.lorebase.util.L;
 import com.google.gson.Gson;
-import com.scwang.smartrefresh.header.FlyRefreshHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.scwang.smartrefresh.layout.header.FalsifyHeader;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import okhttp3.Call;
+import okhttp3.Request;
 
 /**
  * A fragment representing a list of Items.
@@ -44,7 +39,8 @@ public class LoreListFragment extends Fragment {
     private View view;
     private List<Article.DataBean.DatasBean> datasBeanList;
     private int page = 0; //todo 上拉加载
-    private int chapterId ;
+    private int chapterId;
+
     //实例化  -->todo 替代构造方法传递数据（在重新创建Fragment的时候，数据会丢失），
     //          todo 用setArguments(bundle)传递数据更安全。
     public LoreListFragment instantiate(int cid) {
@@ -60,11 +56,11 @@ public class LoreListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.fragment_lore_list, container, false);
+        view = inflater.inflate(R.layout.fragment_lore_list, container, false);
         assert getArguments() != null;
         chapterId = getArguments().getInt(ConstName.CHAPTER_CID);
         //（loreActivity中添加Fragment对象时传递了chapterID）从fragment实例获取chapterID
-        getLore(page,chapterId );
+        getLore(page, chapterId);
         return view;
     }
 
@@ -82,7 +78,7 @@ public class LoreListFragment extends Fragment {
         smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getContext()));
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             datasBeanList.clear();
-            getLore(page,chapterId);
+            getLore(page, chapterId);
             adapter.notifyDataSetChanged();
             refreshLayout.finishRefresh();
         });

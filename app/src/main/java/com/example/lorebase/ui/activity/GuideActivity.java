@@ -2,18 +2,12 @@ package com.example.lorebase.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
-import com.zhengsr.viewpagerlib.anim.MzTransformer;
 import com.zhengsr.viewpagerlib.anim.ZoomOutPageTransformer;
 import com.zhengsr.viewpagerlib.bean.PageBean;
 import com.zhengsr.viewpagerlib.indicator.ZoomIndicator;
@@ -21,10 +15,6 @@ import com.zhengsr.viewpagerlib.view.GlideViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 /*
     1、如果单单使用ViewPager出现这种错误的情况，有可能是在此处出现问题的。

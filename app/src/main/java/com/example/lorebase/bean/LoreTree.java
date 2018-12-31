@@ -3,7 +3,7 @@ package com.example.lorebase.bean;
 import java.io.Serializable;
 import java.util.List;
 
-public class LoreTree implements Serializable{
+public class LoreTree implements Serializable {
 
     private int errorCode;
     private String errorMsg;

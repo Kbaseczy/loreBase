@@ -18,6 +18,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 /*
         1.两个List分别存储父级和子级的信息，这里的item需要的是父级的name字段和子级的name字段 -> err
         2.传递到下一界面的信息是：父级和子级的id
@@ -29,18 +30,20 @@ public class LoreTreeAdapter extends RecyclerView.Adapter<LoreTreeAdapter.ViewHo
 
     private Context mContext;
     private List<LoreTree.DataBean> fatherBeanList;
-    public LoreTreeAdapter(List<LoreTree.DataBean> fatherBeanList){
+
+    public LoreTreeAdapter(List<LoreTree.DataBean> fatherBeanList) {
         this.fatherBeanList = fatherBeanList;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(mContext == null){
+        if (mContext == null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_lore_tree_list,parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_lore_tree_list, parent, false);
         final ViewHolder holder = new ViewHolder(view);
-        holder.cardView.setOnClickListener(v->{
+        holder.cardView.setOnClickListener(v -> {
             int position = holder.getAdapterPosition();
             //获取当前点击项对象,在LoreActivity 也需要对这个对象进行遍历取出每一个子级对象
             //"father":{"child","child","child"};
@@ -48,9 +51,9 @@ public class LoreTreeAdapter extends RecyclerView.Adapter<LoreTreeAdapter.ViewHo
 //
 //            LoreTree.DataBean loreTree_father = new LoreTree.DataBean();
             //包装数据并传递  -> LoreActivity
-            Bundle bundle  = new Bundle();
+            Bundle bundle = new Bundle();
             bundle.putSerializable(ConstName.OBJ, loreTree_father);
-            Intent intent = new Intent(mContext,LoreActivity.class);
+            Intent intent = new Intent(mContext, LoreActivity.class);
             intent.putExtras(bundle);
             mContext.startActivity(intent);
         });
@@ -63,8 +66,8 @@ public class LoreTreeAdapter extends RecyclerView.Adapter<LoreTreeAdapter.ViewHo
         holder.father_name.setText(loreTree_father.getName());
         holder.child_name.setText(" ");
         //通过父级（一级目录名）获取它的子级对象(loreTree_father.getChildren())，然后遍历这个子级对象的数据（二级目录名）
-        for(LoreTree.DataBean.ChildrenBean child : loreTree_father.getChildren()){
-            holder.child_name.append(child.getName()+"   ");
+        for (LoreTree.DataBean.ChildrenBean child : loreTree_father.getChildren()) {
+            holder.child_name.append(child.getName() + "   ");
         }
     }
 
@@ -75,7 +78,8 @@ public class LoreTreeAdapter extends RecyclerView.Adapter<LoreTreeAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        TextView father_name,child_name;
+        TextView father_name, child_name;
+
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = (CardView) itemView;

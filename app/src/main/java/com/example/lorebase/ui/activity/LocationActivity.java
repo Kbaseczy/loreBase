@@ -4,8 +4,6 @@ package com.example.lorebase.ui.activity;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +26,7 @@ import java.util.List;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +37,7 @@ public class LocationActivity extends BaseActivity {
     private MapView mapView;
     private BaiduMap baiduMap;
     private boolean isFistLocate = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         SDKInitializer.initialize(getApplicationContext()); //TODO 需要在加载布局之前运行，初始化地图SDK
@@ -52,28 +52,30 @@ public class LocationActivity extends BaseActivity {
         locationText = findViewById(R.id.text_location);
 
         List<String> permissionList = new ArrayList<>();
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_PHONE_STATE)!=PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             permissionList.add(Manifest.permission.READ_PHONE_STATE);
         }
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
-        if(!permissionList.isEmpty()){
+        if (!permissionList.isEmpty()) {
             String[] permissions = permissionList.toArray(new String[permissionList.size()]); //todo 将permissionList转为Array
-            ActivityCompat.requestPermissions(this,permissions,1);
-        }else{
+            ActivityCompat.requestPermissions(this, permissions, 1);
+        } else {
             initLocation();
         }
 
     }
-    private void initLocation(){
+
+    private void initLocation() {
         updateLocation();
         locationClient.start();
     }
-    private void updateLocation(){
+
+    private void updateLocation() {
         // todo 通过LocationClientOption 实现实时更新定位信息->5s/次
         //todo  LocationClientOption
         LocationClientOption option = new LocationClientOption();
@@ -83,11 +85,11 @@ public class LocationActivity extends BaseActivity {
         locationClient.setLocOption(option);
     }
 
-    private void navigateTo(BDLocation location){
+    private void navigateTo(BDLocation location) {
         //todo baidumap  用到的
         // TODO 获取当前位置map   LatLng,MapStatusUpdate,MapStatusUpdateFactory,animateMapStatus
-        if(isFistLocate){
-            LatLng ll = new LatLng(location.getLatitude(),location.getLongitude());
+        if (isFistLocate) {
+            LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
             MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
             baiduMap.animateMapStatus(update);
             update = MapStatusUpdateFactory.zoomTo(20f); //todo 设置缩放级别
@@ -103,21 +105,21 @@ public class LocationActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
+        switch (requestCode) {
             case 1:
-                if(grantResults.length>0){
-                    for(int result:grantResults){
-                        if(result != PackageManager.PERMISSION_GRANTED){
-                            Toast.makeText(this,"必须同意所有权限才能使用该程序",Toast.LENGTH_SHORT).show();
+                if (grantResults.length > 0) {
+                    for (int result : grantResults) {
+                        if (result != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, "必须同意所有权限才能使用该程序", Toast.LENGTH_SHORT).show();
                             finish();
                             return;
                         }
                     }
                     initLocation();
-                }else{
-                    Toast.makeText(this,"未知错误",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "未知错误", Toast.LENGTH_SHORT).show();
                     finish();
                 }
         }
@@ -126,8 +128,8 @@ public class LocationActivity extends BaseActivity {
     class MyLocationListener extends BDAbstractLocationListener {
         @Override
         public void onReceiveLocation(final BDLocation location) {
-            if(location.getLocType() == BDLocation.TypeGpsLocation ||
-                    location.getLocType() == BDLocation.TypeNetWorkLocation){
+            if (location.getLocType() == BDLocation.TypeGpsLocation ||
+                    location.getLocType() == BDLocation.TypeNetWorkLocation) {
                 navigateTo(location);
             }
 
@@ -141,9 +143,9 @@ public class LocationActivity extends BaseActivity {
                 currentPosition.append("District:").append(location.getDistrict()).append("\n");
                 currentPosition.append("Street:").append(location.getStreet()).append("\t\t\t");
                 currentPosition.append("Location style:");
-                if(location.getLocType() == BDLocation.TypeGpsLocation){
+                if (location.getLocType() == BDLocation.TypeGpsLocation) {
                     currentPosition.append("GPS");
-                }else if(location.getLocType() == BDLocation.TypeNetWorkLocation){
+                } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
                     currentPosition.append("NetWork");
                 }
                 locationText.setText(currentPosition);

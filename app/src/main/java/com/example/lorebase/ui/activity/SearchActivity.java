@@ -161,7 +161,7 @@ public class SearchActivity extends BaseActivity {
                     .setPositiveButton(R.string.ok, (dialog, which) -> {
                         searchHistoryDao.deleteAll();
                         list_history.clear();
-                        visibility_history(list_history,clear_all);
+                        visibility_history(list_history, clear_all);
                         adapter_history.notifyDataChanged();
 
                     }); //清空数据库

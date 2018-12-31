@@ -18,6 +18,7 @@ import java.util.List;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
 /*
         LoreTree(父级)  - cid> Lore（子级）  - > LoreListFrag(标题列表) - link,title> agentWeb
         todo question：子级中cid如何传到LoreListFragment(或者说LoreListFragment如何获取数据源)
@@ -36,7 +37,7 @@ public class LoreActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lore);
         getFromTree();  //获取来自LoreTree的数据：chapterName，父级目录的子级对象（若干个）-子级对象对应着cid->cid获取知识数据
-       // getLore();  //传入cid访问服务器，获取该类下的知识标题（若干项） - fragment的recyclerView的数据来源
+        // getLore();  //传入cid访问服务器，获取该类下的知识标题（若干项） - fragment的recyclerView的数据来源
         toolbar = findViewById(R.id.toolbar_lore);
         toolbar.setTitle(super_name);
         toolbar.setNavigationOnClickListener(v -> {
@@ -79,7 +80,7 @@ public class LoreActivity extends BaseActivity {
             fragments.add(new LoreListFragment().instantiate(child.getId())); //todo ★point
         }
 
-        FragmentAdapterLoreList fragmentAdapterLoreList = new FragmentAdapterLoreList(getSupportFragmentManager(),fragments,childrenBean);
+        FragmentAdapterLoreList fragmentAdapterLoreList = new FragmentAdapterLoreList(getSupportFragmentManager(), fragments, childrenBean);
         viewPager.setAdapter(fragmentAdapterLoreList);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);

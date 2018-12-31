@@ -60,6 +60,7 @@ public class WeChat {
         private List<?> children;
 
         private int imageId;
+
         public int getImageId() {
             return imageId;
         }
