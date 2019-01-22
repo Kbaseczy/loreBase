@@ -186,7 +186,7 @@ public class LocationActivity extends BaseActivity {
                     baiduMap.setMyLocationData(locData);
                     // 设置自定义图标
                     BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
-                            .fromResource(R.drawable.navi_map_gps_locked);
+                            .fromResource(R.drawable.icon_navigation);
                     MyLocationConfiguration config = new MyLocationConfiguration(
                             mCurrentMode, true, mCurrentMarker);
                     baiduMap.setMyLocationConfigeration(config);
@@ -197,7 +197,7 @@ public class LocationActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
-        myOrientationListener.onStart();
+        myOrientationListener.start();
     }
 
     @Override
