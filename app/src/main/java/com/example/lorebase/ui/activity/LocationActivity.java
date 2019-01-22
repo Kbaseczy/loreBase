@@ -13,17 +13,22 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
+import com.example.lorebase.util.MyOrientationListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -37,7 +42,7 @@ public class LocationActivity extends BaseActivity {
     private MapView mapView;
     private BaiduMap baiduMap;
     private boolean isFistLocate = true;
-
+    private MyLocationConfiguration.LocationMode mCurrentMode = MyLocationConfiguration.LocationMode.NORMAL;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         SDKInitializer.initialize(getApplicationContext()); //TODO 需要在加载布局之前运行，初始化地图SDK
@@ -73,6 +78,7 @@ public class LocationActivity extends BaseActivity {
     private void initLocation() {
         updateLocation();
         locationClient.start();
+        initOritationListener();
     }
 
     private void updateLocation() {
@@ -105,7 +111,7 @@ public class LocationActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 1:
@@ -157,6 +163,37 @@ public class LocationActivity extends BaseActivity {
             super.onConnectHotSpotMessage(s, i);
         }
     }
+
+    /**
+     * 初始化方向传感器
+     */
+    private void initOritationListener() {
+        BDLocation location = new BDLocation();
+        MyOrientationListener myOrientationListener = new MyOrientationListener(
+                getApplicationContext());
+        myOrientationListener
+                .setOnOrientationListener(x -> {
+
+                    // 构造定位数据
+                    MyLocationData locData = new MyLocationData.Builder()
+                            .accuracy(location.getRadius())
+                            // 此处设置开发者获取到的方向信息，顺时针0-360
+                            .direction(x)
+                            .latitude(location.getLatitude())
+                            .longitude(location.getLongitude()).build();
+                    // 设置定位数据
+                    baiduMap.setMyLocationData(locData);
+                    // 设置自定义图标
+                    BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
+                            .fromResource(R.drawable.navi_map_gps_locked);
+                    MyLocationConfiguration config = new MyLocationConfiguration(
+                            mCurrentMode, true, mCurrentMarker);
+                    baiduMap.setMyLocationConfigeration(config);
+
+                });
+    }
+
+
 
     @Override
     public void onPause() {
