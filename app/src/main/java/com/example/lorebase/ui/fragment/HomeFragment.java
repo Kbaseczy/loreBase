@@ -65,10 +65,10 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         HomeAdapter adapter = new HomeAdapter(getActivity());
         adapter.addList(banner_t, beanList_news, beanList_article);
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-        recyclerView.stopScroll();
+//        recyclerView.stopScroll();
         nestedScrollView = view.findViewById(R.id.nest_scroll_home);
         nestedScrollView.fullScroll(View.FOCUS_UP);
     }
