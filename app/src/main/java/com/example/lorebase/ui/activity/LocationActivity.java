@@ -43,6 +43,7 @@ public class LocationActivity extends BaseActivity {
     private BaiduMap baiduMap;
     private boolean isFistLocate = true;
     private MyLocationConfiguration.LocationMode mCurrentMode = MyLocationConfiguration.LocationMode.NORMAL;
+    private MyOrientationListener myOrientationListener;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         SDKInitializer.initialize(getApplicationContext()); //TODO 需要在加载布局之前运行，初始化地图SDK
@@ -169,7 +170,7 @@ public class LocationActivity extends BaseActivity {
      */
     private void initOritationListener() {
         BDLocation location = new BDLocation();
-        MyOrientationListener myOrientationListener = new MyOrientationListener(
+         myOrientationListener = new MyOrientationListener(
                 getApplicationContext());
         myOrientationListener
                 .setOnOrientationListener(x -> {
@@ -193,7 +194,11 @@ public class LocationActivity extends BaseActivity {
                 });
     }
 
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        myOrientationListener.onStart();
+    }
 
     @Override
     public void onPause() {
@@ -212,6 +217,7 @@ public class LocationActivity extends BaseActivity {
         super.onDestroy();
         locationClient.stop();
         mapView.onDestroy();
+        myOrientationListener.stop();
         baiduMap.setMyLocationEnabled(false);
     }
 
