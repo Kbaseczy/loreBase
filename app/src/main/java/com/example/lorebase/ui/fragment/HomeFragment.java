@@ -1,6 +1,7 @@
 package com.example.lorebase.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +69,7 @@ public class HomeFragment extends Fragment {
 //        adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        recyclerView.setBackgroundColor(Color.WHITE);
 //        recyclerView.stopScroll();
         nestedScrollView = view.findViewById(R.id.nest_scroll_home);
         nestedScrollView.fullScroll(View.FOCUS_UP);
