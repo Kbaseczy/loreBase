@@ -35,6 +35,8 @@ import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
+ *
+ * 权限申请和变量实例化先后顺序  导致的crash -->具体表现为：权限申请后才实例化
  */
 public class LocationActivity extends BaseActivity {
     public LocationClient locationClient;
@@ -44,6 +46,7 @@ public class LocationActivity extends BaseActivity {
     private boolean isFistLocate = true;
     private MyLocationConfiguration.LocationMode mCurrentMode = MyLocationConfiguration.LocationMode.NORMAL;
     private MyOrientationListener myOrientationListener;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         SDKInitializer.initialize(getApplicationContext()); //TODO 需要在加载布局之前运行，初始化地图SDK
@@ -68,7 +71,7 @@ public class LocationActivity extends BaseActivity {
             permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
         if (!permissionList.isEmpty()) {
-            String[] permissions = permissionList.toArray(new String[permissionList.size()]); //todo 将permissionList转为Array
+            String[] permissions = permissionList.toArray(new String[0]); //todo 将permissionList转为Array
             ActivityCompat.requestPermissions(this, permissions, 1);
         } else {
             initLocation();
@@ -170,7 +173,7 @@ public class LocationActivity extends BaseActivity {
      */
     private void initOritationListener() {
         BDLocation location = new BDLocation();
-         myOrientationListener = new MyOrientationListener(
+        myOrientationListener = new MyOrientationListener(
                 getApplicationContext());
         myOrientationListener
                 .setOnOrientationListener(x -> {
