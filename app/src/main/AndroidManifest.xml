@@ -15,9 +15,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <!-- 百度语音识别权限 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 百度语音识别权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -36,7 +34,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <service
+            android:name=".AlarmService"
+            android:enabled="true"
+            android:exported="true"></service>
         <!-- 百度map -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -45,8 +46,7 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
-        <!-- 語音搜索 -->
+            android:process=":remote" /> <!-- 語音搜索 -->
         <meta-data
             android:name="com.baidu.speech.APP_ID"
             android:value="15191001" />
@@ -70,9 +70,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- MainActivity -->
+        </activity> <!-- MainActivity -->
         <activity
             android:name=".ui.activity.RegisterActivity"
             android:launchMode="singleTask" />
@@ -118,7 +116,6 @@
         <activity
             android:name=".ui.activity.NavigationActivity"
             android:launchMode="singleTask" />
-
         <activity
             android:name=".recog.ActivityUiDialog"
             android:configChanges="orientation|keyboardHidden|screenLayout"
@@ -126,6 +123,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="com.baidu.speech.recognizerdemo.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
