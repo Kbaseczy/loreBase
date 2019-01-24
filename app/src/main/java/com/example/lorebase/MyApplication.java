@@ -1,6 +1,7 @@
 package com.example.lorebase;
 
 import android.app.Application;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
 
@@ -36,6 +37,8 @@ public class MyApplication extends Application {
         okHttpCookie();
         initGreenDao();
         AutoEx.apply(); // autoEx 异常堆栈
+
+        startService(new Intent(this,AlarmService.class));
     }
 
     private void initGreenDao() {

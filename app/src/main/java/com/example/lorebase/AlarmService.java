@@ -71,7 +71,7 @@ public class AlarmService extends Service {
         }
         Notification notification = new NotificationCompat.Builder(this,"chat")
                 .setContentTitle("LoreBase提醒")
-                .setContentText("提升时间到啦~")
+                .setContentText("阅读：提升时间到啦~")
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
