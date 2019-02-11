@@ -38,7 +38,7 @@ public class MyApplication extends Application {
         initGreenDao();
         AutoEx.apply(); // autoEx 异常堆栈
 
-        startService(new Intent(this,AlarmService.class));
+        startService(new Intent(this,AlarmService.class));//测试
     }
 
     private void initGreenDao() {

@@ -28,7 +28,7 @@ public class AlarmService extends Service {
         return  null;
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
+    @TargetApi(Build.VERSION_CODES.P)
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -49,7 +49,7 @@ public class AlarmService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.P)
     private void createNotificationChannel(String id, String name, int importance){
         NotificationChannel channel = new NotificationChannel(id,name,importance);
         channel.setShowBadge(true);
