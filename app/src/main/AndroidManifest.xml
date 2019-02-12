@@ -36,11 +36,15 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="true"/>
+
         <service
             android:name=".AlarmService"
             android:enabled="true"
-            android:exported="true"/>
-        <!-- 百度map -->
+            android:exported="true" /> <!-- 百度map -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="UdZf0ZHferNdYZ2bkB84atKubv46C5MX" />
