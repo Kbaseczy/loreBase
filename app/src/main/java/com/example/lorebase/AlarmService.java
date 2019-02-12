@@ -7,6 +7,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -14,6 +15,11 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.widget.Toast;
+
+import com.example.lorebase.ui.activity.MainActivity;
+import com.google.gson.internal.bind.SqlDateTypeAdapter;
+
+import org.apache.http.impl.conn.tsccm.PoolEntryRequest;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -69,6 +75,13 @@ public class AlarmService extends Service {
                 Toast.makeText(this, "请手动打开通知", Toast.LENGTH_SHORT).show();
             }
         }
+
+        Intent intent = new Intent(this, MainActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(intent);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+
         Notification notification = new NotificationCompat.Builder(this,"chat")
                 .setContentTitle("LoreBase提醒")
                 .setContentText("阅读：提升时间到啦~")
@@ -76,6 +89,7 @@ public class AlarmService extends Service {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
                 .setNumber(2)
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .build();
         manager.notify(1,notification);
