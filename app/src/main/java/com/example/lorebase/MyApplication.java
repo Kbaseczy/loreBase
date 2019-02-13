@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.bolex.autoEx.AutoEx;
 import com.example.lorebase.greenDao.DaoMaster;
 import com.example.lorebase.greenDao.DaoSession;
+import com.example.lorebase.util.L;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
 import com.zhy.http.okhttp.cookie.store.MemoryCookieStore;
@@ -17,8 +19,6 @@ import com.zhy.http.okhttp.log.LoggerInterceptor;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-
-import static com.baidu.mapapi.BMapManager.getContext;
 
 public class MyApplication extends Application {
     private static DaoSession daoSession;
@@ -41,11 +41,18 @@ public class MyApplication extends Application {
         initGreenDao();
         AutoEx.apply(); // autoEx 异常堆栈
 
+        manageAlarm();
+    }
+
+    private void manageAlarm() {
         boolean isOpen = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext())
                 .getBoolean("example_switch", true);
+        L.v("isOpen", isOpen + "----check");
         if (isOpen)
-            startService(new Intent(this, AlarmService.class));//测试
+            startService(new Intent(this, AlarmService.class));
+        else
+            stopService(new Intent(this, AlarmService.class));
     }
 
     private void initGreenDao() {
