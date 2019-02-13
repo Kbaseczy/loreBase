@@ -81,6 +81,7 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
                             CollectArticle.unCollect_originID(mContext, we_chat_article.getId());
                             holder.imageView.setImageResource(R.drawable.ic_like_not);
                         }
+                        notifyDataSetChanged();
                     } else {
                         mContext.startActivity(new Intent(mContext, LoginActivity.class));
                     }

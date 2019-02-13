@@ -3,6 +3,7 @@ package com.example.lorebase.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,13 +62,13 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
             intent.putExtra(ConstName.TITLE, my_collect.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MYSELF);
             intent.setData(Uri.parse(my_collect.getLink()));
-            intent.putExtra(ConstName.IS_COLLECT,my_collect.isCollect());
+            intent.putExtra(ConstName.IS_COLLECT,true);
+            Log.v("myself_isCollect",my_collect.isCollect()+" statue");
             mContext.startActivity(intent);
         });
 
         //todo 发送请求400，接口地址有问题
-        holder.imageView.setOnClickListener(v -> CollectArticle.unCollect(mContext, my_collect.getId())
-        );
+        holder.imageView.setOnClickListener(v -> CollectArticle.unCollect(mContext, my_collect.getId()));
     }
 
     @Override

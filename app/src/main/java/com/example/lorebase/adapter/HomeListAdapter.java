@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             intent.putExtra(ConstName.PROJECT_AUTHOR, article.getAuthor());
             intent.putExtra(ConstName.ID, article.getId());
             intent.putExtra(ConstName.IS_COLLECT,article.isCollect());
+            Log.v("HomeList_isCollect",article.isCollect()+" statue");
             intent.setData(Uri.parse(article.getLink()));
             mContext.startActivity(intent);
         });

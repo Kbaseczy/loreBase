@@ -58,7 +58,7 @@ public class AgentWebActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.menu);
+            actionBar.setHomeAsUpIndicator(R.drawable.back);
         }
         linearLayout = findViewById(R.id.web_parent);
         agentWeb = AgentWeb.with(this)
@@ -71,7 +71,6 @@ public class AgentWebActivity extends BaseActivity {
                 .go(String.valueOf(getIntent().getData()));
     }
 
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (agentWeb.handleKeyEvent(keyCode, event)) {
@@ -81,13 +80,19 @@ public class AgentWebActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+
+        super.onResume();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_agent_web, menu);
         menuItem = menu.findItem(R.id.web_collect);
         if(is_collect)
-            menuItem.setTitle(R.string.nav_my_collect);
-        else
             menuItem.setTitle(R.string.nav_my_uncollect);
+        else
+            menuItem.setTitle(R.string.nav_my_collect);
         return super.onCreateOptionsMenu(menu);
     }
 
