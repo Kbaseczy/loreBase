@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 
 import com.bolex.autoEx.AutoEx;
 import com.example.lorebase.greenDao.DaoMaster;
@@ -16,6 +17,8 @@ import com.zhy.http.okhttp.log.LoggerInterceptor;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+
+import static com.baidu.mapapi.BMapManager.getContext;
 
 public class MyApplication extends Application {
     private static DaoSession daoSession;
@@ -38,7 +41,11 @@ public class MyApplication extends Application {
         initGreenDao();
         AutoEx.apply(); // autoEx 异常堆栈
 
-        startService(new Intent(this,AlarmService.class));//测试
+        boolean isOpen = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext())
+                .getBoolean("example_switch", true);
+        if (isOpen)
+            startService(new Intent(this, AlarmService.class));//测试
     }
 
     private void initGreenDao() {
