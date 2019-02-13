@@ -64,6 +64,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             intent.putExtra(ConstName.TITLE, article.getTitle());
             intent.putExtra(ConstName.PROJECT_AUTHOR, article.getAuthor());
             intent.putExtra(ConstName.ID, article.getId());
+            intent.putExtra(ConstName.IS_COLLECT,article.isCollect());
             intent.setData(Uri.parse(article.getLink()));
             mContext.startActivity(intent);
         });

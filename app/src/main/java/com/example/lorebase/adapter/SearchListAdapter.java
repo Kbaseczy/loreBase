@@ -66,6 +66,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
             intent.putExtra(ConstName.TITLE, filterTitle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH);
             intent.putExtra(ConstName.ID, search.getId());
+            intent.putExtra(ConstName.IS_COLLECT,search.isCollect());
             intent.setData(Uri.parse(search.getLink()));
             mContext.startActivity(intent);
         });

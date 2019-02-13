@@ -48,6 +48,7 @@ public class ProjectLatestAdapter extends RecyclerView.Adapter<ProjectLatestAdap
             intent.putExtra(ConstName.TITLE, project.getTitle());
             intent.putExtra(ConstName.PROJECT_AUTHOR, project.getAuthor());
             intent.putExtra(ConstName.ID, project.getId());
+            intent.putExtra(ConstName.IS_COLLECT,project.isCollect());
             intent.setData(Uri.parse(project.getLink()));
             mContext.startActivity(intent);
         });

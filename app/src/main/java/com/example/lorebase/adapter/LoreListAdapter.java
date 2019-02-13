@@ -53,6 +53,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
             intent.putExtra(ConstName.TITLE, datasBean.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.LORE);
             intent.putExtra(ConstName.ID, datasBean.getId());
+            intent.putExtra(ConstName.IS_COLLECT,datasBean.isCollect());
             intent.setData(Uri.parse(datasBean.getLink()));
             mContext.startActivity(intent);
 

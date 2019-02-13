@@ -25,7 +25,7 @@
             app:navigationIcon="@drawable/back"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:layout_scrollFlags="scroll|enterAlways|snap"></androidx.appcompat.widget.Toolbar>
+            app:layout_scrollFlags="scroll|enterAlways|snap"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

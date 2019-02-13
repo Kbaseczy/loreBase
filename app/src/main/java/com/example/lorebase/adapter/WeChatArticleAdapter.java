@@ -19,6 +19,7 @@ import com.example.lorebase.http.CollectArticle;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 
+import java.lang.invoke.ConstantCallSite;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -66,6 +67,7 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN);
             intent.putExtra(ConstName.FRAGMENT, ConstName.fragment.WE_CHAT);
             intent.putExtra(ConstName.ID, we_chat_article.getId());
+            intent.putExtra(ConstName.IS_COLLECT,we_chat_article.isCollect());
             intent.setData(Uri.parse(we_chat_article.getLink()));
             mContext.startActivity(intent);
         });

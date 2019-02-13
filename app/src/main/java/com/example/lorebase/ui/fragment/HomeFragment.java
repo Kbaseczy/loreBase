@@ -55,12 +55,6 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//        initView();
-    }
-
     private void initView() {
         recyclerView = view.findViewById(R.id.recycler_home);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
@@ -152,13 +146,6 @@ public class HomeFragment extends Fragment {
                         initView();
                     }
                 });
-    }
-
-    @Override
-    public void onStop() {
-        // TODO Auto-generated method stub
-//        HomeAdapter.Holder_banner
-        super.onStop();
     }
 
 }

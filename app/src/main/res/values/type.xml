@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="type_entities">
+        <item>TYPE1</item>
+        <item>TYPE2</item>
+        <item>TYPE3</item>
+        <item>TYPE4</item>
+        <item>TYPE5</item>
+    </string-array>
+    <string-array name="type_values">
+        <item>类型1</item>
+        <item>类型2</item>
+        <item>类型3</item>
+        <item>类型4</item>
+        <item>类型5</item>
+    </string-array>
+</resources>

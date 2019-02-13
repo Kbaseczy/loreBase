@@ -61,6 +61,7 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
             intent.putExtra(ConstName.TITLE, my_collect.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MYSELF);
             intent.setData(Uri.parse(my_collect.getLink()));
+            intent.putExtra(ConstName.IS_COLLECT,my_collect.isCollect());
             mContext.startActivity(intent);
         });
 

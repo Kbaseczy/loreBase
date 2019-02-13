@@ -3,6 +3,7 @@ package com.example.lorebase.contain_const;
 public class ConstName {
     public static final String TITLE = "title";
     public static final String ID = "id";
+    public static final String IS_COLLECT = "is_collect";
     public static final String PROJECT_AUTHOR = "project_author";
     public static final String PROJECT_PIC = "project_pic";
     public static final String PROJECT_link = "project_link";

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="wifi_entities">
+        <item>WIFI1</item>
+        <item>WIFI2</item>
+        <item>WIFI3</item>
+        <item>WIFI4</item>
+        <item>WIFI5</item>
+        <item>WIFI6</item>
+    </string-array>
+    <string-array name="wifi_values">
+        <item>无线网络1</item>
+        <item>无线网络2</item>
+        <item>无线网络3</item>
+        <item>无线网络4</item>
+        <item>无线网络5</item>
+        <item>无线网络6</item>
+    </string-array>
+</resources>

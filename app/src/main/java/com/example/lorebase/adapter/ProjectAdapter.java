@@ -70,6 +70,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             intent.putExtra(ConstName.TITLE, project.getTitle());
             intent.putExtra(ConstName.ID, project.getId());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.PROJECT);
+            intent.putExtra(ConstName.IS_COLLECT,project.isCollect());
             intent.setData(Uri.parse(project.getLink()));
             mContext.startActivity(intent);
         });
