@@ -151,4 +151,6 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_my_setting">MySettingActivity</string>
+    <string name="cn_launch">每日阅读，根本停不下来。</string>
+    <string name="en_launch">Reading every day, can\'t stop at all.</string>
 </resources>

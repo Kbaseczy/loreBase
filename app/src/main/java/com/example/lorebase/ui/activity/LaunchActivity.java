@@ -1,16 +1,13 @@
 package com.example.lorebase.ui.activity;
 
+import android.animation.FloatEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -28,10 +25,9 @@ import org.json.JSONObject;
 import okhttp3.Call;
 import okhttp3.Request;
 
-public class LaunchActivity extends BaseActivity implements Animation.AnimationListener {
+public class LaunchActivity extends BaseActivity {
     LaunchActivity launchActivity;
     ImageView image_launch;
-    TextView app_name;
     Handler mHandler;
 
     @Override
@@ -45,23 +41,28 @@ public class LaunchActivity extends BaseActivity implements Animation.AnimationL
         image_launch = findViewById(R.id.image_launch);
 //        app_name = findViewById(R.id.app_launch);
         getImage(); //获取并设置bing图片
-        initView();
-    }
-
-    protected void initView() {
-        //初始化动画
         initStartAnim();
-        //设置状态栏和导航栏参数
-
     }
 
     private void initStartAnim() {
         // 渐变展示启动屏
-        AlphaAnimation aa = new AlphaAnimation(0.3f, 1.0f);
-        aa.setDuration(1000);
-        aa.setAnimationListener(this);
-        image_launch.startAnimation(aa);
-//        app_name.startAnimation(aaa);
+//        AlphaAnimation aa = new AlphaAnimation(0.3f, 1.0f);
+//        aa.setDuration(1000);
+//        aa.setAnimationListener(this);
+//        image_launch.startAnimation(aa);
+
+        ValueAnimator animator = ValueAnimator.ofObject(new FloatEvaluator(), 1.0f, 1.2f);
+        animator.setDuration(3000);
+        animator.addUpdateListener(animation -> {
+            Float value = (Float) animation.getAnimatedValue();
+            if (value != 1.2f) {
+                image_launch.setScaleX(value);
+                image_launch.setScaleY(value);
+            } else {
+                jump();
+            }
+        });
+        animator.start();
     }
 
     private void jump() {
@@ -122,17 +123,17 @@ public class LaunchActivity extends BaseActivity implements Animation.AnimationL
     }
 
 
-    @Override
-    public void onAnimationStart(Animation animation) { }
-
-    @Override
-    public void onAnimationEnd(Animation animation) {
-        jump();
-    }
-
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-
-    }
+//    @Override
+//    public void onAnimationStart(Animation animation) { }
+//
+//    @Override
+//    public void onAnimationEnd(Animation animation) {
+//        jump();
+//    }
+//
+//    @Override
+//    public void onAnimationRepeat(Animation animation) {
+//
+//    }
 
 }
