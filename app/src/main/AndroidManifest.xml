@@ -61,7 +61,11 @@
         <service
             android:name=".AlarmService"
             android:enabled="true"
-            android:exported="true" /> <!-- 百度map -->
+            android:exported="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.alarm.AlarmService" />
+            </intent-filter>
+        </service><!-- 百度map -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="UdZf0ZHferNdYZ2bkB84atKubv46C5MX" />

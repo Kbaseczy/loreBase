@@ -66,7 +66,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="empty">抱歉没有记录，等待添加....</string>
-    <string name="others">others</string>
+    <string name="others">其他</string>
     <string name="chapter">chapter</string>
 
     <!-- SearchView -->
