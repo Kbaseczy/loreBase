@@ -28,3 +28,7 @@ err:Error: Program type already present: com.baidu.speech
 语音识别集成完毕
   -> 没有改build.gradle中的包名-和语音识别申请时的包名一致。目前未发现不当
   ->
+
+
+  android P toolBar显示异常
+  ---> 布局文件适配 对应 v28的XML文件 
