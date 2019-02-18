@@ -20,7 +20,6 @@ import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.TagFilter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -33,7 +32,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     private List<Article.DataBean.DatasBean> search_list;
     private Context mContext;
 
-    public SearchListAdapter(Context context,List<Article.DataBean.DatasBean> search_list){
+    public SearchListAdapter(Context context, List<Article.DataBean.DatasBean> search_list) {
         this.search_list = search_list;
         this.mContext = context;
     }

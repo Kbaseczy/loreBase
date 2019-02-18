@@ -16,6 +16,7 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.ui.fragment.subFragment.EmptyFragment;
 import com.example.lorebase.util.DividerItemGridDecoration;
+import com.example.lorebase.util.L;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -125,6 +126,7 @@ public class SearchListActivity extends BaseActivity {
 //                        L.e(response);
                         Gson gson = new Gson();
                         search_list = gson.fromJson(response, Article.class).getData().getDatas();
+                        L.v("2000",search_list.size()+"  search size");
                         if (search_list.size() == 0) {
                             goEmpty();
                         } else {
