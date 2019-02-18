@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.LoreListAdapter;
 import com.example.lorebase.bean.Article;
@@ -13,9 +14,6 @@ import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.util.DividerItemGridDecoration;
 import com.example.lorebase.util.L;
 import com.google.gson.Gson;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -39,7 +37,6 @@ public class LoreListFragment extends Fragment {
     private View view;
     private List<Article.DataBean.DatasBean> datasBeanList;
     private int page = 0; //todo 上拉加载
-    private int chapterId;
 
     //实例化  -->todo 替代构造方法传递数据（在重新创建Fragment的时候，数据会丢失），
     //          todo 用setArguments(bundle)传递数据更安全。
@@ -58,7 +55,7 @@ public class LoreListFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_lore_list, container, false);
         assert getArguments() != null;
-        chapterId = getArguments().getInt(ConstName.CHAPTER_CID);
+        int chapterId = getArguments().getInt(ConstName.CHAPTER_CID);
         //（loreActivity中添加Fragment对象时传递了chapterID）从fragment实例获取chapterID
         getLore(page, chapterId);
         return view;
@@ -73,26 +70,18 @@ public class LoreListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getContext())));
 
-        SmartRefreshLayout smartRefreshLayout = view.findViewById(R.id.smart_refresh_lore);
-        smartRefreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));
-        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getContext()));
-        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            datasBeanList.clear();
-            getLore(page, chapterId);
-            adapter.notifyDataSetChanged();
-            refreshLayout.finishRefresh();
+        EasyRefreshLayout easyRefreshLayout = view.findViewById(R.id.easy_refresh_lore);
+        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onRefreshing() {
+
+            }
         });
-        smartRefreshLayout.autoLoadMore(200);
-        //上拉加载 -> cause the list chaos
-//        recyclerView.addOnScrollListener(new EndlessOnScrollListener(manager) {
-//                    @Override
-//                    public void onLoadMore(int current_page) {
-//                        page ++;     //页码加1，  todo 这里是否要去控制page的页码上限
-//                        getLore(page,getArguments().getInt(ConstName.CHAPTER_CID));
-//                        //todo 上拉加载的BUG可能出现在这里，最后没有保存上一page页面的内容
-//                          adapter.notifyDataSetChanged(); //wait to identity->no useful
-//                    }
-//                });
     }
 
     private void getLore(int page, int chapterID) {

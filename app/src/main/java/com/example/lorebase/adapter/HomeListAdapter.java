@@ -23,6 +23,7 @@ import com.example.lorebase.ui.activity.LoginActivity;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +36,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         this.beanList = beanList;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mContext == null) {
@@ -80,11 +82,11 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                         if (!article.isCollect()) {
                             CollectArticle.collectArticle(mContext, article.getId());
                             holder.collect.setImageResource(R.drawable.ic_like); //点击图标后变为红色表示已收藏
-                            notify();
+                            notifyDataSetChanged();
                         } else if (article.isCollect()) {
                             CollectArticle.unCollect_originID(mContext, article.getId());
                             holder.collect.setImageResource(R.drawable.ic_like_not);
-                            notify();
+                            notifyDataSetChanged();
                         }
                     } else {
                         mContext.startActivity(new Intent(mContext, LoginActivity.class));

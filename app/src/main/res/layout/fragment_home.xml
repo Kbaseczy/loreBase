@@ -1,6 +1,6 @@
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ajguan.library.EasyRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nest_scroll_home"
+    android:id="@+id/easy_refresh_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -11,5 +11,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</androidx.core.widget.NestedScrollView>
+        android:layout_height="match_parent"
+        custom:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</com.ajguan.library.EasyRefreshLayout>

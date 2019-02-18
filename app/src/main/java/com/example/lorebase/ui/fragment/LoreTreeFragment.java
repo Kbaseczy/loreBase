@@ -33,7 +33,6 @@ public class LoreTreeFragment extends Fragment {
     public static RecyclerView recyclerView_loreTree;
     private View view;
     private List<LoreTree.DataBean> fatherBeanList;
-    public static NestedScrollView nestedScrollView;
 
     public static LoreTreeFragment getInstantce(String name) {
         LoreTreeFragment fragment = new LoreTreeFragment();
@@ -79,8 +78,6 @@ public class LoreTreeFragment extends Fragment {
 
     private void initView() {
         recyclerView_loreTree = view.findViewById(R.id.recycler_lore_tree);
-
-        nestedScrollView = view.findViewById(R.id.nest_scroll_lore_tree);
 
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 

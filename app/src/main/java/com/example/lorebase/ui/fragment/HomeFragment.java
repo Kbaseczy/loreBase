@@ -3,10 +3,12 @@ package com.example.lorebase.ui.fragment;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.HomeAdapter;
 import com.example.lorebase.bean.Article;
@@ -17,10 +19,8 @@ import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,15 +37,13 @@ import okhttp3.Request;
  */
 public class HomeFragment extends Fragment {
     private View view;
-
     private int page = 0;
-
-    private List<Banner.DataBean> banner_t = new ArrayList<>();
-    private List<News.DataBean> beanList_news = new ArrayList<>();
-    private List<Article.DataBean.DatasBean> beanList_article = new ArrayList<>();
-    @SuppressLint("StaticFieldLeak")
-    public static NestedScrollView nestedScrollView;
+    private List<Banner.DataBean> banner_t;
+    private List<News.DataBean> beanList_news;
+    private List<Article.DataBean.DatasBean> beanList_article;
     public static RecyclerView recyclerView;
+    private EasyRefreshLayout easyRefreshLayout;
+    private HomeAdapter adapter;
 
     @SuppressLint("InflateParams")
     @Override
@@ -57,16 +55,43 @@ public class HomeFragment extends Fragment {
 
     private void initView() {
         recyclerView = view.findViewById(R.id.recycler_home);
+        easyRefreshLayout = view.findViewById(R.id.easy_refresh_home);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        HomeAdapter adapter = new HomeAdapter(getActivity());
+        adapter = new HomeAdapter(getActivity());
         adapter.addList(banner_t, beanList_news, beanList_article);
-//        adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         recyclerView.setBackgroundColor(Color.WHITE);
-//        recyclerView.stopScroll();
-        nestedScrollView = view.findViewById(R.id.nest_scroll_home);
-        nestedScrollView.fullScroll(View.FOCUS_UP);
+
+        easyRefreshLayout.autoRefresh();
+        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                getDataList();
+            }
+
+            @Override
+            public void onRefreshing() {
+                getDataList();
+            }
+        });
+
+    }
+
+    private void getDataList() {
+        new Handler().postDelayed(() -> {
+            if (easyRefreshLayout.isRefreshing()) {
+                page = 0;
+                getArticle();
+                adapter.setBeanList_article(beanList_article);
+                easyRefreshLayout.refreshComplete();
+            } else {
+                page++;
+                getArticle();
+                adapter.setBeanList_article(beanList_article);
+                easyRefreshLayout.loadMoreComplete();
+            }
+        }, 500);
     }
 
     private void getBanner() {

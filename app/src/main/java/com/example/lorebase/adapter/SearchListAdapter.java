@@ -20,6 +20,7 @@ import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.TagFilter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -28,11 +29,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolder> {
 
+
     private List<Article.DataBean.DatasBean> search_list;
     private Context mContext;
 
-    public SearchListAdapter(List<Article.DataBean.DatasBean> search_list) {
+    public SearchListAdapter(Context context,List<Article.DataBean.DatasBean> search_list){
         this.search_list = search_list;
+        this.mContext = context;
+    }
+
+    public void setSearch_list(List<Article.DataBean.DatasBean> search_list) {
+        this.search_list.addAll(search_list);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -66,7 +74,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
             intent.putExtra(ConstName.TITLE, filterTitle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH);
             intent.putExtra(ConstName.ID, search.getId());
-            intent.putExtra(ConstName.IS_COLLECT,search.isCollect());
+            intent.putExtra(ConstName.IS_COLLECT, search.isCollect());
             intent.setData(Uri.parse(search.getLink()));
             mContext.startActivity(intent);
         });
@@ -76,11 +84,11 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
                         if (!search.isCollect()) {
                             CollectArticle.collectArticle(mContext, search.getId());
                             holder.imageView.setImageResource(R.drawable.ic_like);
-
+                            notifyDataSetChanged();
                         } else {
                             CollectArticle.unCollect_originID(mContext, search.getId());
                             holder.imageView.setImageResource(R.drawable.ic_like_not);
-
+                            notifyDataSetChanged();
                         }
                     } else {
                         mContext.startActivity(new Intent(mContext, LoginActivity.class));

@@ -26,31 +26,23 @@ import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.NavigationActivity;
 import com.example.lorebase.ui.activity.ProjectActivity;
 import com.example.lorebase.util.DividerItemGridDecoration;
-import com.scwang.smartrefresh.header.DropboxHeader;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Banner.DataBean> banner_t = new ArrayList<>();
     private List<News.DataBean> beanList_news = new ArrayList<>();
+
+
     private List<Article.DataBean.DatasBean> beanList_article = new ArrayList<>();
     private Context context;
-
-    public HomeAdapter(Context context, List<Banner.DataBean> banner_t, List<News.DataBean> beanList_news,
-                       List<Article.DataBean.DatasBean> beanList_article) {
-        this.context = context;
-        this.banner_t = banner_t;
-        this.beanList_news = beanList_news;
-        this.beanList_article = beanList_article;
-    }
 
     public HomeAdapter(Context context) {
         this.context = context;
@@ -60,6 +52,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         List<Article.DataBean.DatasBean> beanList_article) {
         this.banner_t.addAll(banner_t);
         this.beanList_news.addAll(beanList_news);
+        this.beanList_article.addAll(beanList_article);
+        notifyDataSetChanged();
+    }
+
+    public void setBeanList_article(List<Article.DataBean.DatasBean> beanList_article) {
         this.beanList_article.addAll(beanList_article);
         notifyDataSetChanged();
     }
@@ -175,12 +172,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static class Holder_article extends RecyclerView.ViewHolder {
         RecyclerView recyclerView;
-        SmartRefreshLayout smartRefreshLayout;
+        NestedScrollView nestedScrollView;
 
         Holder_article(View view) {
             super(view);
             recyclerView = view.findViewById(R.id.lore_rv);
-            smartRefreshLayout = view.findViewById(R.id.smart_refresh_lore);
+            nestedScrollView = view.findViewById(R.id.nest_refresh_lore);
         }
     }
 
@@ -240,18 +237,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //bind article data
     private void initArticle(RecyclerView.ViewHolder holder) {
 
-        GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
+        GridLayoutManager manager = new GridLayoutManager(context, 2);
         HomeListAdapter homeListAdapter = new HomeListAdapter(beanList_article);
-        ((Holder_article) holder).recyclerView.setLayoutManager(layoutManager);
+        ((Holder_article) holder).recyclerView.setLayoutManager(manager);
         ((Holder_article) holder).recyclerView.setAdapter(homeListAdapter);
-        ((Holder_article) holder).recyclerView.clearOnScrollListeners();
         ((Holder_article) holder).recyclerView.addItemDecoration(new DividerItemGridDecoration(context));
-//        ((Holder_article) holder).recyclerView.setNestedScrollingEnabled(true);
-        ((Holder_article) holder).smartRefreshLayout.setRefreshHeader(new DropboxHeader(context));
-        ((Holder_article) holder).smartRefreshLayout.setRefreshFooter(new BallPulseFooter(context));
-//        ((Holder_article) holder).smartRefreshLayout.autoRefresh();
-//        ((Holder_article) holder).smartRefreshLayout.autoLoadMore();
     }
-
 
 }

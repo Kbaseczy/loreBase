@@ -2,11 +2,13 @@ package com.example.lorebase.ui.fragment.subFragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.WeChatArticleAdapter;
 import com.example.lorebase.bean.WeChatArticle;
@@ -14,15 +16,13 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.util.DividerItemGridDecoration;
 import com.google.gson.Gson;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -38,6 +38,7 @@ public class WeChatArticleFragment extends Fragment {
     private View view;
     private WeChatArticleAdapter articleAdapter;
     public static RecyclerView recyclerView;
+    private EasyRefreshLayout easyRefreshLayout;
     @SuppressLint("StaticFieldLeak")
     public static NestedScrollView nestedScrollView;
 
@@ -58,7 +59,7 @@ public class WeChatArticleFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_we_chat_article, container, false);
         getWeChatArticle(we_chat_id);
@@ -94,26 +95,42 @@ public class WeChatArticleFragment extends Fragment {
 
     private void initWeChatArticle() {
         recyclerView = view.findViewById(R.id.recycler_we_chat);
-        SmartRefreshLayout smartRefreshLayout = view.findViewById(R.id.smart_refresh_we_chat_article);
+        easyRefreshLayout = view.findViewById(R.id.easy_refresh_we_chat_article);
         nestedScrollView = view.findViewById(R.id.nest_scroll_we_chat);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
         articleAdapter = new WeChatArticleAdapter(getActivity(), beanList_WeChatArticle);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(articleAdapter);
         recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getContext())));
-        smartRefreshLayout.setRefreshHeader(new ClassicsHeader(Objects.requireNonNull(getContext())));
-        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(getContext()));
-        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            beanList_WeChatArticle.clear();
-            getWeChatArticle(we_chat_id);
-            articleAdapter.notifyDataSetChanged();
-            refreshLayout.finishRefresh();
+
+        easyRefreshLayout.autoRefresh();
+        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                getDataList();
+            }
+
+            @Override
+            public void onRefreshing() {
+                getDataList();
+            }
         });
-//        smartRefreshLayout.autoLoadMore(200);  //没有完全，自动加载。仍有没加载部分
-        smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            page++;
-            getWeChatArticle(we_chat_id); //include the initWeChatArticle();
-        });
+    }
+
+    private void getDataList() {
+        new Handler().postDelayed(() -> {
+            if (easyRefreshLayout.isRefreshing()) {
+                page = 0;
+                getWeChatArticle(we_chat_id);
+                articleAdapter.setWe_chat_article_list(beanList_WeChatArticle);
+                easyRefreshLayout.refreshComplete();
+            } else {
+                page++;
+                getWeChatArticle(we_chat_id);
+                articleAdapter.setWe_chat_article_list(beanList_WeChatArticle);
+                easyRefreshLayout.loadMoreComplete();
+            }
+        }, 1000);
     }
 
     @Override

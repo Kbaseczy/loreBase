@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <!--标题栏-->
     <com.google.android.material.appbar.AppBarLayout
@@ -46,11 +46,17 @@
         android:background="@color/viewBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/my_collect_list"
+        <com.ajguan.library.EasyRefreshLayout
+            android:id="@+id/easy_refresh_myself"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/lore_list_item" />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_collect_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/lore_list_item" />
+        </com.ajguan.library.EasyRefreshLayout>
     </androidx.core.widget.NestedScrollView>
 
     <!--悬浮按钮-->
@@ -68,8 +74,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="@dimen/dp_80"
         android:layout_marginEnd="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_80"
         android:src="@drawable/ic_arrow_upward_white_24dp"
         app:layout_behavior="@string/bye_burger_float_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

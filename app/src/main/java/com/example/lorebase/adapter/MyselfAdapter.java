@@ -27,9 +27,14 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder> {
 
     private Context mContext;
+
     private List<Article.DataBean.DatasBean> datasBeanList;
 
     public MyselfAdapter(List<Article.DataBean.DatasBean> datasBeanList) {
+        this.datasBeanList = datasBeanList;
+    }
+
+    public void setDatasBeanList(List<Article.DataBean.DatasBean> datasBeanList) {
         this.datasBeanList = datasBeanList;
     }
 
@@ -62,8 +67,8 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
             intent.putExtra(ConstName.TITLE, my_collect.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MYSELF);
             intent.setData(Uri.parse(my_collect.getLink()));
-            intent.putExtra(ConstName.IS_COLLECT,true);
-            Log.v("myself_isCollect",my_collect.isCollect()+" statue");
+            intent.putExtra(ConstName.IS_COLLECT, true);
+            Log.v("myself_isCollect", my_collect.isCollect() + " statue");
             mContext.startActivity(intent);
         });
 

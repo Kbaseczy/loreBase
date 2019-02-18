@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.SearchListAdapter;
@@ -15,16 +18,14 @@ import com.example.lorebase.ui.fragment.subFragment.EmptyFragment;
 import com.example.lorebase.util.DividerItemGridDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
-import com.scwang.smartrefresh.header.FlyRefreshHeader;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-import com.zhy.http.okhttp.utils.L;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -41,19 +42,12 @@ import okhttp3.Request;
 @SuppressLint("Registered")
 public class SearchListActivity extends BaseActivity {
     private int page;
-    private List<Article.DataBean.DatasBean> search_list;
-    private RecyclerView recyclerView;
-    private EmptyFragment emptyFragment;
-
     private String key_word;
-    //Fragment方式  接收数据
-//    public SearchListActivity instance(String key_word){
-//        SearchListActivity instance_frag = new SearchListActivity();
-//        Bundle bundle = new Bundle();
-//        bundle.putString(ConstName.KEY_WORD,key_word);
-//        instance_frag.setArguments(bundle);
-//        return instance_frag;
-//    }
+    private List<Article.DataBean.DatasBean> search_list ;
+    private EmptyFragment emptyFragment;
+    private NestedScrollView nestedScrollView;
+    private EasyRefreshLayout easyRefreshLayout;
+    private SearchListAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,39 +56,50 @@ public class SearchListActivity extends BaseActivity {
         emptyFragment = new EmptyFragment();
         Toolbar toolbar = findViewById(R.id.toolbar_search);
         key_word = getIntent().getStringExtra(ConstName.KEY_WORD);
-        L.e("关键词：" + key_word);
         toolbar.setTitle(key_word);
         toolbar.setNavigationOnClickListener(v -> finish());
         search(key_word);  // zai 該方法中運行了initSearch()
     }
 
     private void initSearch() {
-        recyclerView = findViewById(R.id.lore_rv);
+        RecyclerView recyclerView = findViewById(R.id.lore_rv);
+        nestedScrollView = findViewById(R.id.nest_refresh_lore);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
-        SearchListAdapter adapter = new SearchListAdapter(search_list);
+        adapter = new SearchListAdapter(this, search_list);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
-        SmartRefreshLayout smartRefreshLayout = findViewById(R.id.smart_refresh_lore);
-        smartRefreshLayout.setRefreshHeader(new FlyRefreshHeader(this));
-        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(this));
-        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            search_list.clear();
-            search(key_word);
-            adapter.notifyDataSetChanged();
-            refreshLayout.finishRefresh();
-        });
-        smartRefreshLayout.autoLoadMore(200);
-        smartRefreshLayout.finishLoadMoreWithNoMoreData();
-//                setOnLoadMoreListener(refreshLayout -> {
-//            page++;//修复
-//            search(key_word);
-//            adapter.notifyDataSetChanged();
-//            refreshLayout.finishLoadMore();
-//        });
+        easyRefreshLayout = findViewById(R.id.easy_refresh_lore);
+        easyRefreshLayout.autoRefresh();
+        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                getDataList();
+            }
 
+            @Override
+            public void onRefreshing() {
+                getDataList();
+            }
+        });
         FloatingActionButton fab = findViewById(R.id.fab_search_list);
-        fab.setOnClickListener(v -> recyclerView.scrollToPosition(0));
+        fab.setOnClickListener(v -> nestedScrollView.fullScroll(View.FOCUS_UP));
+    }
+
+    private void getDataList() {
+        new Handler().postDelayed(() -> {
+            if (easyRefreshLayout.isRefreshing()) {
+                page = 0;
+                search(key_word);
+                adapter.setSearch_list(search_list);
+                easyRefreshLayout.refreshComplete();
+            } else {
+                page++;
+                search(key_word);
+                adapter.setSearch_list(search_list);
+                easyRefreshLayout.loadMoreComplete();
+            }
+        }, 1000);
     }
 
     private void search(String keyWord) {

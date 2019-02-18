@@ -240,16 +240,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         switch (menuItem.getItemId()) {
             case R.id.action_home:
                 viewPager.setCurrentItem(0);
-                fab.setOnClickListener(v ->
-                                HomeFragment.nestedScrollView.post(() -> HomeFragment.nestedScrollView.fullScroll(View.FOCUS_UP))
-//                        HomeFragment.recyclerView.scrollToPosition(0)
-//                                Toast.makeText(this, "Welcome in.o(∩_∩)o", Toast.LENGTH_SHORT).show()
-                );
+                fab.setOnClickListener(v -> HomeFragment.recyclerView.scrollToPosition(0));
                 break;
             case R.id.action_lore_tree:
                 viewPager.setCurrentItem(1);
                 fab.setOnClickListener(v ->
-                        LoreTreeFragment.nestedScrollView.post(() -> LoreTreeFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
+                        LoreTreeFragment.recyclerView_loreTree.scrollToPosition(0));
                 break;
             case R.id.action_relax:
                 viewPager.setCurrentItem(2);
