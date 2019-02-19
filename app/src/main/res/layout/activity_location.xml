@@ -6,16 +6,17 @@
     android:orientation="vertical"
     tools:context=".ui.activity.MainActivity">
 
-    <TextView
+    <include layout="@layout/toolbar" />
+
+    <!--<TextView
         android:id="@+id/text_location"
         android:layout_width="wrap_content"
-        android:layout_height="80dp" />
+        android:layout_height="80dp" />-->
 
     <com.baidu.mapapi.map.MapView
         android:id="@+id/bMap_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:clickable="true"
         android:focusable="true" />
 
