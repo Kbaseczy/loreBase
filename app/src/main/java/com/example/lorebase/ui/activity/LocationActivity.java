@@ -49,7 +49,6 @@ public class LocationActivity extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        SDKInitializer.initialize(getApplicationContext()); //TODO 需要在加载布局之前运行，初始化地图SDK
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
         locationClient = new LocationClient(this);
@@ -58,6 +57,7 @@ public class LocationActivity extends BaseActivity {
         mapView = findViewById(R.id.bMap_view);
         baiduMap = mapView.getMap();
         baiduMap.setMyLocationEnabled(true);
+        baiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
         locationText = findViewById(R.id.text_location);
 
         List<String> permissionList = new ArrayList<>();
@@ -76,7 +76,6 @@ public class LocationActivity extends BaseActivity {
         } else {
             initLocation();
         }
-
     }
 
     private void initLocation() {
@@ -193,7 +192,6 @@ public class LocationActivity extends BaseActivity {
                     MyLocationConfiguration config = new MyLocationConfiguration(
                             mCurrentMode, true, mCurrentMarker);
                     baiduMap.setMyLocationConfigeration(config);
-
                 });
     }
 

@@ -7,6 +7,8 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.baidu.mapapi.CoordType;
+import com.baidu.mapapi.SDKInitializer;
 import com.bolex.autoEx.AutoEx;
 import com.example.lorebase.greenDao.DaoMaster;
 import com.example.lorebase.greenDao.DaoSession;
@@ -37,11 +39,14 @@ public class MyApplication extends Application {
         //解决android N（>=24）系统以上分享 路径为file://时的 android.os.FileUriExposedException异常
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
+        //Map SDK init.
+        SDKInitializer.initialize(this);
+        SDKInitializer.setCoordType(CoordType.BD09LL);
         okHttpCookie();
         initGreenDao();
         AutoEx.apply(); // autoEx 异常堆栈
 
-        manageAlarm();
+        manageAlarm(); //定时通知
     }
 
     private void manageAlarm() {
