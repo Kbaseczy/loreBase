@@ -122,7 +122,6 @@ public class WeChatArticleFragment extends Fragment {
     @Override
     public void onResume() {
         easyRefreshLayout = view.findViewById(R.id.easy_refresh_we_chat_article);
-        easyRefreshLayout.autoRefresh(100);
         easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {

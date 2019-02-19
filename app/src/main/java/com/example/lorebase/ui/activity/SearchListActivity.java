@@ -65,16 +65,10 @@ public class SearchListActivity extends BaseActivity {
         search(key_word);  // zai 該方法中運行了initSearch()
     }
 
-    private void initSearch() {
-        RecyclerView recyclerView = findViewById(R.id.lore_rv);
-        GridLayoutManager manager = new GridLayoutManager(this, 1);
-        adapter = new SearchListAdapter(this, search_list);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
+    @Override
+    protected void onResume() {
         easyRefreshLayout = findViewById(R.id.easy_refresh_lore);
 //        easyRefreshLayout.setRefreshHeadView(customizabaleView);
-        easyRefreshLayout.autoRefresh();
         easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {
@@ -86,6 +80,16 @@ public class SearchListActivity extends BaseActivity {
                 getDataList();
             }
         });
+        super.onResume();
+    }
+
+    private void initSearch() {
+        RecyclerView recyclerView = findViewById(R.id.lore_rv);
+        GridLayoutManager manager = new GridLayoutManager(this, 1);
+        adapter = new SearchListAdapter(this, search_list);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
         FloatingActionButton fab = findViewById(R.id.fab_search_list);
         fab.setOnClickListener(v -> recyclerView.scrollToPosition(0));
     }

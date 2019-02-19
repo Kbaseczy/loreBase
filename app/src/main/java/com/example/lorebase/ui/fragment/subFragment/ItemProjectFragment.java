@@ -1,11 +1,13 @@
 package com.example.lorebase.ui.fragment.subFragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.ProjectAdapter;
 import com.example.lorebase.bean.Project;
@@ -35,6 +37,8 @@ public class ItemProjectFragment extends Fragment {
     private View view;
     private List<Project.DataBean.DatasBean> beans_project;
     public static RecyclerView recyclerView;
+    private EasyRefreshLayout easyRefreshLayout;
+    private ProjectAdapter adapter;
 
     public ItemProjectFragment instance(int id) {
         ItemProjectFragment projectFragment = new ItemProjectFragment();
@@ -60,10 +64,45 @@ public class ItemProjectFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        easyRefreshLayout = view.findViewById(R.id.easy_refresh_project);
+        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                getDataList();
+            }
+
+            @Override
+            public void onRefreshing() {
+                getDataList();
+            }
+        });
+        super.onResume();
+    }
+
+    private void getDataList() {
+        new Handler().postDelayed(() -> {
+            if (easyRefreshLayout.isRefreshing()) {
+                page = 0;
+                getProject();
+//                adapter.setBeanList_article(beanList_article);
+                adapter.addBeanList_project(beans_project);
+                easyRefreshLayout.refreshComplete();
+            } else {
+                page++;
+                getProject();
+//                adapter.setBeanList_article(beanList_article);
+                adapter.addBeanList_project(beans_project);
+                easyRefreshLayout.loadMoreComplete();
+            }
+        }, 500);
+    }
+
     private void initProjectList() {
         recyclerView = view.findViewById(R.id.project_rv);
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
-        ProjectAdapter adapter = new ProjectAdapter(beans_project);
+        adapter = new ProjectAdapter(getActivity(),beans_project);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getActivity())));

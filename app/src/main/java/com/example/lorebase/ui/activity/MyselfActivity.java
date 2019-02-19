@@ -50,7 +50,6 @@ public class MyselfActivity extends BaseActivity {
     @Override
     protected void onResume() {
         easyRefreshLayout = findViewById(R.id.easy_refresh_myself);
-        easyRefreshLayout.autoRefresh(100);
         easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {

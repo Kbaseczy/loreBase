@@ -30,13 +30,19 @@ import androidx.recyclerview.widget.RecyclerView;
  * TODO: Replace the implementation with code for your data type.
  */
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
+
+
     private List<Project.DataBean.DatasBean> beanList_project;
     private Context mContext;
 
-    public ProjectAdapter(List<Project.DataBean.DatasBean> beanList_project) {
+    public ProjectAdapter(Context context,List<Project.DataBean.DatasBean> beanList_project) {
         this.beanList_project = beanList_project;
+        this.mContext = context;
     }
-
+    public void addBeanList_project(List<Project.DataBean.DatasBean> beanList_project) {
+        this.beanList_project.addAll(beanList_project);
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -21,6 +21,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,23 +48,15 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("InflateParams")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, null);
         getBanner();
         return view;
     }
 
-    private void initView() {
-        recyclerView = view.findViewById(R.id.recycler_home);
+    @Override
+    public void onResume() {
         easyRefreshLayout = view.findViewById(R.id.easy_refresh_home);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        adapter = new HomeAdapter(getActivity(),banner_t, beanList_news, beanList_article);
-        adapter.addList(banner_t, beanList_news, beanList_article);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setBackgroundColor(Color.WHITE);
-
-        easyRefreshLayout.autoRefresh();
         easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {
@@ -75,7 +68,18 @@ public class HomeFragment extends Fragment {
                 getDataList();
             }
         });
+        super.onResume();
+    }
 
+    private void initView() {
+        recyclerView = view.findViewById(R.id.recycler_home);
+
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        adapter = new HomeAdapter(getActivity(), banner_t, beanList_news, beanList_article);
+        adapter.addList(banner_t, beanList_news, beanList_article);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setBackgroundColor(Color.WHITE);
     }
 
     private void getDataList() {
