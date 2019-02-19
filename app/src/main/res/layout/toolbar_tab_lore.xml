@@ -4,15 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
-    android:theme="@style/AppTheme.AppBarOverlay"
-    app:elevation="0dp">
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:theme="@style/AppTheme.AppBarOverlay">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_lore"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/back"
         app:layout_scrollFlags="scroll|enterAlways"
+        app:navigationIcon="@drawable/back"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     <com.google.android.material.tabs.TabLayout

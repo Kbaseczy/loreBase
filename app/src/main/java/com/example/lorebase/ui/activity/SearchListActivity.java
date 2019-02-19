@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
+import android.view.MenuItem;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.example.lorebase.BaseActivity;
@@ -22,11 +22,10 @@ import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -44,9 +43,8 @@ import okhttp3.Request;
 public class SearchListActivity extends BaseActivity {
     private int page;
     private String key_word;
-    private List<Article.DataBean.DatasBean> search_list ;
+    private List<Article.DataBean.DatasBean> search_list;
     private EmptyFragment emptyFragment;
-    private NestedScrollView nestedScrollView;
     private EasyRefreshLayout easyRefreshLayout;
     private SearchListAdapter adapter;
 
@@ -58,19 +56,24 @@ public class SearchListActivity extends BaseActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_search);
         key_word = getIntent().getStringExtra(ConstName.KEY_WORD);
         toolbar.setTitle(key_word);
-        toolbar.setNavigationOnClickListener(v -> finish());
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.back);
+        }
         search(key_word);  // zai 該方法中運行了initSearch()
     }
 
     private void initSearch() {
         RecyclerView recyclerView = findViewById(R.id.lore_rv);
-        nestedScrollView = findViewById(R.id.nest_refresh_lore);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         adapter = new SearchListAdapter(this, search_list);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
         easyRefreshLayout = findViewById(R.id.easy_refresh_lore);
+//        easyRefreshLayout.setRefreshHeadView(customizabaleView);
         easyRefreshLayout.autoRefresh();
         easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
@@ -84,7 +87,7 @@ public class SearchListActivity extends BaseActivity {
             }
         });
         FloatingActionButton fab = findViewById(R.id.fab_search_list);
-        fab.setOnClickListener(v -> nestedScrollView.fullScroll(View.FOCUS_UP));
+        fab.setOnClickListener(v -> recyclerView.scrollToPosition(0));
     }
 
     private void getDataList() {
@@ -126,7 +129,7 @@ public class SearchListActivity extends BaseActivity {
 //                        L.e(response);
                         Gson gson = new Gson();
                         search_list = gson.fromJson(response, Article.class).getData().getDatas();
-                        L.v("2000",search_list.size()+"  search size");
+                        L.v("2000", search_list.size() + "  search size");
                         if (search_list.size() == 0) {
                             goEmpty();
                         } else {
@@ -154,6 +157,17 @@ public class SearchListActivity extends BaseActivity {
                 R.animator.fragment_slide_right_enter).
                 replace(R.id.coordinator_search_result, emptyFragment);
         transaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                startActivity(new Intent(this, SearchActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

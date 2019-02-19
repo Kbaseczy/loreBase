@@ -172,12 +172,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static class Holder_article extends RecyclerView.ViewHolder {
         RecyclerView recyclerView;
-        NestedScrollView nestedScrollView;
 
         Holder_article(View view) {
             super(view);
             recyclerView = view.findViewById(R.id.lore_rv);
-            nestedScrollView = view.findViewById(R.id.nest_refresh_lore);
         }
     }
 

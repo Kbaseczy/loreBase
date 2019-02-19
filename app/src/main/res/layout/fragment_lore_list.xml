@@ -5,24 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nest_refresh_lore"
+    <com.ajguan.library.EasyRefreshLayout
+        android:id="@+id/easy_refresh_lore"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.ajguan.library.EasyRefreshLayout
-            android:id="@+id/easy_refresh_lore"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lore_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lore_rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/viewBackground"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:listitem="@layout/lore_list_item" />
-        </com.ajguan.library.EasyRefreshLayout>
-    </androidx.core.widget.NestedScrollView>
+            android:layout_height="match_parent"
+            android:background="@color/viewBackground"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/lore_list_item" />
+    </com.ajguan.library.EasyRefreshLayout>
 </LinearLayout>
