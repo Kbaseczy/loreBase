@@ -1,6 +1,7 @@
 package com.example.lorebase.ui.fragment.subFragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,9 @@ public class LoreListFragment extends Fragment {
     private View view;
     private List<Article.DataBean.DatasBean> datasBeanList;
     private int page = 0; //todo 上拉加载
+    private int chapterId;
+    private EasyRefreshLayout easyRefreshLayout;
+    private LoreListAdapter adapter;
 
     //实例化  -->todo 替代构造方法传递数据（在重新创建Fragment的时候，数据会丢失），
     //          todo 用setArguments(bundle)传递数据更安全。
@@ -55,36 +59,58 @@ public class LoreListFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_lore_list, container, false);
         assert getArguments() != null;
-        int chapterId = getArguments().getInt(ConstName.CHAPTER_CID);
+        chapterId = getArguments().getInt(ConstName.CHAPTER_CID);
         //（loreActivity中添加Fragment对象时传递了chapterID）从fragment实例获取chapterID
-        getLore(page, chapterId);
+        getLore(chapterId);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        easyRefreshLayout = view.findViewById(R.id.easy_refresh_lore);
+        easyRefreshLayout.autoRefresh(100);
+        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                getDataList();
+            }
+
+            @Override
+            public void onRefreshing() {
+                getDataList();
+            }
+        });
+        super.onResume();
     }
 
     private void initRecycler() {
         RecyclerView recyclerView = view.findViewById(R.id.lore_rv);
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
-
         recyclerView.setLayoutManager(manager);
-        LoreListAdapter adapter = new LoreListAdapter(datasBeanList);
+        adapter = new LoreListAdapter(getActivity(), datasBeanList);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getContext())));
-
-        EasyRefreshLayout easyRefreshLayout = view.findViewById(R.id.easy_refresh_lore);
-        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
-            @Override
-            public void onLoadMore() {
-
-            }
-
-            @Override
-            public void onRefreshing() {
-
-            }
-        });
     }
 
-    private void getLore(int page, int chapterID) {
+    private void getDataList() {
+        new Handler().postDelayed(() -> {
+            if (easyRefreshLayout.isRefreshing()) {
+                page = 0;
+                getLore(chapterId);
+//                adapter.setBeanList_article(beanList_article);
+                adapter.addDatasBeanList(datasBeanList);
+                easyRefreshLayout.refreshComplete();
+            } else {
+                page++;
+                getLore(chapterId);
+//                adapter.setBeanList_article(beanList_article);
+                adapter.addDatasBeanList(datasBeanList);
+                easyRefreshLayout.loadMoreComplete();
+            }
+        }, 500);
+    }
+
+    private void getLore(int chapterID) {
         String url = UrlContainer.baseUrl + "article/list/" + page + "/json?cid=" + chapterID;
         OkHttpUtils
                 .get()

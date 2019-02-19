@@ -95,26 +95,12 @@ public class WeChatArticleFragment extends Fragment {
 
     private void initWeChatArticle() {
         recyclerView = view.findViewById(R.id.recycler_we_chat);
-        easyRefreshLayout = view.findViewById(R.id.easy_refresh_we_chat_article);
         nestedScrollView = view.findViewById(R.id.nest_scroll_we_chat);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
         articleAdapter = new WeChatArticleAdapter(getActivity(), beanList_WeChatArticle);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(articleAdapter);
         recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getContext())));
-
-        easyRefreshLayout.autoRefresh();
-        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
-            @Override
-            public void onLoadMore() {
-                getDataList();
-            }
-
-            @Override
-            public void onRefreshing() {
-                getDataList();
-            }
-        });
     }
 
     private void getDataList() {
@@ -135,7 +121,19 @@ public class WeChatArticleFragment extends Fragment {
 
     @Override
     public void onResume() {
-        super.onResume();
+        easyRefreshLayout = view.findViewById(R.id.easy_refresh_we_chat_article);
+        easyRefreshLayout.autoRefresh(100);
+        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                getDataList();
+            }
 
+            @Override
+            public void onRefreshing() {
+                getDataList();
+            }
+        });
+        super.onResume();
     }
 }

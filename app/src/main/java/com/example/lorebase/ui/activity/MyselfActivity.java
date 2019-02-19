@@ -3,8 +3,8 @@ package com.example.lorebase.ui.activity;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -27,7 +27,6 @@ import java.util.List;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.Call;
@@ -36,15 +35,34 @@ import okhttp3.Request;
 public class MyselfActivity extends BaseActivity {
 
     private List<Article.DataBean.DatasBean> datasBeanList;
-    private NestedScrollView nestedScrollView;
+    private EasyRefreshLayout easyRefreshLayout;
     private int page = 0;
+    private MyselfAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myself);
         getCollect();
-//        LoadAndRefresh();
+    }
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    protected void onResume() {
+        easyRefreshLayout = findViewById(R.id.easy_refresh_myself);
+        easyRefreshLayout.autoRefresh(100);
+        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                getDataList();
+            }
+
+            @Override
+            public void onRefreshing() {
+                getDataList();
+            }
+        });
+        super.onResume();
     }
 
     private void getCollect() {
@@ -76,13 +94,11 @@ public class MyselfActivity extends BaseActivity {
 
     private void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar_myself);
-        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar_myself);
         ImageView portrait = findViewById(R.id.portrait_image_view);
         RecyclerView recyclerView = findViewById(R.id.my_collect_list);
         FloatingActionButton fab_note = findViewById(R.id.fab_myself_note);
         FloatingActionButton fab_top = findViewById(R.id.fab_myself_top);
-        EasyRefreshLayout easyRefreshLayout = findViewById(R.id.easy_refresh_myself);
-        nestedScrollView = findViewById(R.id.nest_scroll_myself);
 
         setSupportActionBar(toolbar); //todo 1.导包 2.父类为 AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
@@ -96,26 +112,32 @@ public class MyselfActivity extends BaseActivity {
         fab_note.setOnClickListener(view -> Toast.makeText(MyselfActivity.this, "悬浮注释输入框", Toast.LENGTH_SHORT).show());
 
         GridLayoutManager manager = new GridLayoutManager(this, 1);
-        MyselfAdapter adapter = new MyselfAdapter(datasBeanList);
+        adapter = new MyselfAdapter(this, datasBeanList);
 
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
-        fab_top.setOnClickListener(v -> nestedScrollView.post(() -> nestedScrollView.fullScroll(View.FOCUS_UP)));
+        fab_top.setOnClickListener(v -> recyclerView.scrollToPosition(0));
 
-        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
-            @Override
-            public void onLoadMore() {
-
-            }
-
-            @Override
-            public void onRefreshing() {
-
-            }
-        });
     }
 
+    private void getDataList() {
+        new Handler().postDelayed(() -> {
+            if (easyRefreshLayout.isRefreshing()) {
+                page = 0;
+                getCollect();
+//                adapter.setBeanList_article(beanList_article);
+                adapter.addDatasBeanList(datasBeanList);
+                easyRefreshLayout.refreshComplete();
+            } else {
+                page++;
+                getCollect();
+//                adapter.setBeanList_article(beanList_article);
+                adapter.addDatasBeanList(datasBeanList);
+                easyRefreshLayout.loadMoreComplete();
+            }
+        }, 500);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -127,9 +149,5 @@ public class MyselfActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressLint("RestrictedApi")
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+
 }

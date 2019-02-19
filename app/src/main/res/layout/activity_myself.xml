@@ -13,7 +13,7 @@
         android:focusableInTouchMode="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
+            android:id="@+id/collapsing_toolbar_myself"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -39,25 +39,19 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nest_scroll_myself"
+
+    <com.ajguan.library.EasyRefreshLayout
+        android:id="@+id/easy_refresh_myself"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/viewBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.ajguan.library.EasyRefreshLayout
-            android:id="@+id/easy_refresh_myself"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_collect_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/my_collect_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/lore_list_item" />
-        </com.ajguan.library.EasyRefreshLayout>
-    </androidx.core.widget.NestedScrollView>
+            android:layout_height="match_parent"
+            tools:listitem="@layout/lore_list_item" />
+    </com.ajguan.library.EasyRefreshLayout>
 
     <!--悬浮按钮-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

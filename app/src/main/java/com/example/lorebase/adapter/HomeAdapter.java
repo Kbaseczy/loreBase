@@ -27,24 +27,24 @@ import com.example.lorebase.ui.activity.NavigationActivity;
 import com.example.lorebase.ui.activity.ProjectActivity;
 import com.example.lorebase.util.DividerItemGridDecoration;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<Banner.DataBean> banner_t = new ArrayList<>();
-    private List<News.DataBean> beanList_news = new ArrayList<>();
-
-
-    private List<Article.DataBean.DatasBean> beanList_article = new ArrayList<>();
+    private List<Banner.DataBean> banner_t;
+    private List<News.DataBean> beanList_news;
+    private List<Article.DataBean.DatasBean> beanList_article;
     private Context context;
 
-    public HomeAdapter(Context context) {
+    public HomeAdapter(Context context, List<Banner.DataBean> banner_t, List<News.DataBean> beanList_news,
+                       List<Article.DataBean.DatasBean> beanList_article) {
+        this.banner_t = banner_t;
+        this.beanList_news = beanList_news;
+        this.beanList_article = beanList_article;
         this.context = context;
     }
 

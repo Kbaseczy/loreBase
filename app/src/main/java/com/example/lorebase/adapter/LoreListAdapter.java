@@ -27,11 +27,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHolder> {
 
+
     private List<Article.DataBean.DatasBean> datasBeanList;
     private Context mContext;
 
-    public LoreListAdapter(List<Article.DataBean.DatasBean> datasBeanList) {
+    public LoreListAdapter(Context context, List<Article.DataBean.DatasBean> datasBeanList) {
         this.datasBeanList = datasBeanList;
+        this.mContext = context;
+    }
+
+    public void addDatasBeanList(List<Article.DataBean.DatasBean> datasBeanList) {
+        this.datasBeanList.addAll(datasBeanList);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -53,7 +60,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
             intent.putExtra(ConstName.TITLE, datasBean.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.LORE);
             intent.putExtra(ConstName.ID, datasBean.getId());
-            intent.putExtra(ConstName.IS_COLLECT,datasBean.isCollect());
+            intent.putExtra(ConstName.IS_COLLECT, datasBean.isCollect());
             intent.setData(Uri.parse(datasBean.getLink()));
             mContext.startActivity(intent);
 
@@ -73,17 +80,14 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
                 if (!datasBean.isCollect()) {
                     CollectArticle.collectArticle(mContext, article_id);
                     holder.imageView.setImageResource(R.drawable.ic_like);
-                }
-                if (datasBean.isCollect()) {
+                    notifyDataSetChanged();
+                } else if (datasBean.isCollect()) {
                     if (datasBean.isCollect()) {
 
                         if (datasBean.isCollect()) {
-
-                            if (datasBean.isCollect()) {
-
-                                CollectArticle.unCollect_originID(mContext, article_id);
-                                holder.imageView.setImageResource(R.drawable.ic_like_not);
-                            }
+                            CollectArticle.unCollect_originID(mContext, article_id);
+                            holder.imageView.setImageResource(R.drawable.ic_like_not);
+                            notifyDataSetChanged();
                         } else {
                             mContext.startActivity(new Intent(mContext, LoginActivity.class));
                         }

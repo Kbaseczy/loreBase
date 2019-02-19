@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_home);
         easyRefreshLayout = view.findViewById(R.id.easy_refresh_home);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        adapter = new HomeAdapter(getActivity());
+        adapter = new HomeAdapter(getActivity(),banner_t, beanList_news, beanList_article);
         adapter.addList(banner_t, beanList_news, beanList_article);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
@@ -83,12 +83,14 @@ public class HomeFragment extends Fragment {
             if (easyRefreshLayout.isRefreshing()) {
                 page = 0;
                 getArticle();
-                adapter.setBeanList_article(beanList_article);
+//                adapter.setBeanList_article(beanList_article);
+                adapter.addList(banner_t, beanList_news, beanList_article);
                 easyRefreshLayout.refreshComplete();
             } else {
                 page++;
                 getArticle();
-                adapter.setBeanList_article(beanList_article);
+//                adapter.setBeanList_article(beanList_article);
+                adapter.addList(banner_t, beanList_news, beanList_article);
                 easyRefreshLayout.loadMoreComplete();
             }
         }, 500);

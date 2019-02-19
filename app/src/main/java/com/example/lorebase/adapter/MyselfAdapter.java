@@ -30,12 +30,14 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
 
     private List<Article.DataBean.DatasBean> datasBeanList;
 
-    public MyselfAdapter(List<Article.DataBean.DatasBean> datasBeanList) {
+    public MyselfAdapter(Context context, List<Article.DataBean.DatasBean> datasBeanList) {
         this.datasBeanList = datasBeanList;
+        this.mContext = context;
     }
 
-    public void setDatasBeanList(List<Article.DataBean.DatasBean> datasBeanList) {
-        this.datasBeanList = datasBeanList;
+    public void addDatasBeanList(List<Article.DataBean.DatasBean> datasBeanList) {
+        this.datasBeanList.addAll(datasBeanList);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -73,7 +75,10 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
         });
 
         //todo 发送请求400，接口地址有问题
-        holder.imageView.setOnClickListener(v -> CollectArticle.unCollect(mContext, my_collect.getId()));
+        holder.imageView.setOnClickListener(v -> {
+            CollectArticle.unCollect(mContext, my_collect.getId());
+            notifyDataSetChanged();
+        });
     }
 
     @Override
