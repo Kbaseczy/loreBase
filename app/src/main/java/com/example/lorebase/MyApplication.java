@@ -45,14 +45,13 @@ public class MyApplication extends Application {
         okHttpCookie();
         initGreenDao();
         AutoEx.apply(); // autoEx 异常堆栈
-
         manageAlarm(); //定时通知
     }
 
     private void manageAlarm() {
         boolean isOpen = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext())
-                .getBoolean("example_switch", true);
+                .getBoolean("setting_switch", true);   //获取general文件中该key的值
         L.v("isOpen", isOpen + "----check");
         if (isOpen)
             startService(new Intent(this, AlarmService.class));
