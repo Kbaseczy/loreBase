@@ -65,15 +65,17 @@
             <intent-filter android:priority="1000">
                 <action android:name="android.alarm.AlarmService" />
             </intent-filter>
-        </service><!-- 百度map -->
+        </service>
+        <!-- 百度map -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="UdZf0ZHferNdYZ2bkB84atKubv46C5MX" />
+            android:value="fwmKq0piTw8DWbalGCPafYQvhwZnaY8T" />
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" /> <!-- 語音搜索 -->
+            android:process=":remote" />
+        <!-- 語音搜索 -->
         <meta-data
             android:name="com.baidu.speech.APP_ID"
             android:value="15191001" />

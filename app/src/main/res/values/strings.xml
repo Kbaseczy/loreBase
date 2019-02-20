@@ -15,9 +15,9 @@
     <string name="project">项目</string>
 
     <!-- About-->
-    <string name="author">author</string>
-    <string name="Github">Github Code</string>
-    <string name="API">API</string>
+    <string name="author">jankinChen</string>
+    <string name="github">github.com/kBaseczy</string>
+    <string name="email">folio96@163.com</string>
     <string name="AI">AI</string>
     <string name="SDK">BaiDu SDK</string>
 
@@ -153,4 +153,8 @@
     <string name="title_activity_my_setting">MySettingActivity</string>
     <string name="cn_launch">每日阅读，根本停不下来。</string>
     <string name="en_launch">Reading every day, can\'t stop at all.</string>
+    <string name="githb">Github</string>
+    <string name="mail">邮箱</string>
+    <string name="contact">联系方式</string>
+    <string name="_2019_lorebase">㉧ 2019 LoreBase</string>
 </resources>

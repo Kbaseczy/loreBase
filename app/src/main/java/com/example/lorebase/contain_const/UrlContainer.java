@@ -93,6 +93,10 @@ public class UrlContainer {
      */
     public static final String FEED_BACK = "http://support.qq.com/product/41496";
 
+    /*
+    github
+     */
+    public static final String GITHUB = "github.com/kBaseczy";
 
     /**
      * 常用网站 ok

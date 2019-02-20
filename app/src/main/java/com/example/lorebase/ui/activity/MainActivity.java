@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
@@ -29,6 +31,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -278,7 +281,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
             case R.id.nav_setting:
                 Toast.makeText(this, "test click setting", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this,MySettingActivity.class));
+                startActivity(new Intent(this, MySettingActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.nav_about_us:

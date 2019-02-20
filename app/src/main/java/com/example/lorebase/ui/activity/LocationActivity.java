@@ -1,6 +1,5 @@
 package com.example.lorebase.ui.activity;
 
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.pm.PackageManager;
@@ -13,8 +12,6 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -90,7 +87,7 @@ public class LocationActivity extends BaseActivity {
             LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
             MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
             baiduMap.animateMapStatus(update);
-            update = MapStatusUpdateFactory.zoomTo(20f); //todo 设置缩放级别
+            update = MapStatusUpdateFactory.zoomTo(20f); //todo 设置缩放级别`
             baiduMap.animateMapStatus(update);
             isFistLocate = false;
         }
@@ -145,21 +142,13 @@ public class LocationActivity extends BaseActivity {
         myOrientationListener.registerListener();
         myOrientationListener
                 .setOnOrientationListener((azimuth, pitch, roll) -> {
-                    // 构造定位数据
-                    MyLocationData locData = new MyLocationData.Builder()
-                            .accuracy(location.getRadius())
-                            // 此处设置开发者获取到的方向信息，顺时针0-360
-                            .direction(100)
-                            .latitude(location.getLatitude())
-                            .longitude(location.getLongitude()).build();
-                    // 设置定位数据
-                    baiduMap.setMyLocationData(locData);
-                    // 设置自定义图标
-                    BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
-                            .fromResource(R.drawable.icon_navigation);
-                    MyLocationConfiguration config = new MyLocationConfiguration(
-                            mCurrentMode, true, mCurrentMarker);
-                    baiduMap.setMyLocationConfigeration(config);
+                    navigateTo(location);
+//                    // 设置自定义图标
+//                    BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
+//                            .fromResource(R.drawable.icon_navigation);
+//                    MyLocationConfiguration config = new MyLocationConfiguration(
+//                            mCurrentMode, true, mCurrentMarker);
+//                    baiduMap.setMyLocationConfigeration(config);
                 });
     }
 

@@ -121,19 +121,4 @@ public class LaunchActivity extends BaseActivity {
                     }
                 });
     }
-
-
-//    @Override
-//    public void onAnimationStart(Animation animation) { }
-//
-//    @Override
-//    public void onAnimationEnd(Animation animation) {
-//        jump();
-//    }
-//
-//    @Override
-//    public void onAnimationRepeat(Animation animation) {
-//
-//    }
-
 }

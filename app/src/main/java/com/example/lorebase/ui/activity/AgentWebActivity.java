@@ -17,6 +17,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.CollectArticle;
 import com.just.agentweb.AgentWeb;
+import com.just.agentweb.NestedScrollAgentWebView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +33,7 @@ public class AgentWebActivity extends BaseActivity {
     LinearLayout linearLayout;
     Toolbar toolbar;
     AgentWeb agentWeb;
+    NestedScrollAgentWebView scrollAgentWebView;
     SharedPreferences sp;
     boolean isCollect = false;
     MenuItem menuItem;
