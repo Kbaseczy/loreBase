@@ -96,7 +96,7 @@ public class UrlContainer {
     /*
     github
      */
-    public static final String GITHUB = "github.com/kBaseczy";
+    public static final String GITHUB = "https://github.com/Kbaseczy";
 
     /**
      * 常用网站 ok
