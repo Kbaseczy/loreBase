@@ -17,9 +17,6 @@ import android.provider.Settings;
 import android.widget.Toast;
 
 import com.example.lorebase.ui.activity.MainActivity;
-import com.google.gson.internal.bind.SqlDateTypeAdapter;
-
-import org.apache.http.impl.conn.tsccm.PoolEntryRequest;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;

@@ -45,11 +45,6 @@ public class LaunchActivity extends BaseActivity {
     }
 
     private void initStartAnim() {
-        // 渐变展示启动屏
-//        AlphaAnimation aa = new AlphaAnimation(0.3f, 1.0f);
-//        aa.setDuration(1000);
-//        aa.setAnimationListener(this);
-//        image_launch.startAnimation(aa);
 
         ValueAnimator animator = ValueAnimator.ofObject(new FloatEvaluator(), 1.0f, 1.2f);
         animator.setDuration(3000);
@@ -87,7 +82,7 @@ public class LaunchActivity extends BaseActivity {
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
-        }, 3000);
+        }, 2000);
     }
 
     private void getImage() {
