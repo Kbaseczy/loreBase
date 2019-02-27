@@ -1,16 +1,115 @@
 package com.example.lorebase.ui.activity;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
+import com.example.lorebase.ui.fragment.TodoFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class TODOActivity extends Activity {
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+public class TODOActivity extends BaseActivity {
+
+    Toolbar toolbar;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
+        initView();
+    }
+
+    void initView() {
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.todo);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        bottomNavigationView = findViewById(R.id.bottom_navigation_TODO);
+        ViewPager viewPager = findViewById(R.id.viewpager_TODO);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        List<Fragment> list = new ArrayList<>();
+        list.add(TodoFragment.getInstance(true));
+        list.add(TodoFragment.getInstance(false));
+        TodoViewPagerAdapter adapter = new TodoViewPagerAdapter(getSupportFragmentManager(),list);
+        viewPager.setAdapter(adapter);
+    }
+
+    //load the menu file
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_todo, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //toolbar menu click_event
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                startActivity(new Intent(this, MainActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                break;
+            case R.id.action_add_todo:
+                Toast.makeText(this, "tododododo", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, TodoAddActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //viewpager adapter
+    private static class TodoViewPagerAdapter extends FragmentPagerAdapter {
+        private List<Fragment> mFragments;
+
+        TodoViewPagerAdapter(FragmentManager fm, List<Fragment> fragments) {
+            super(fm);
+            mFragments = fragments;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.size();
+        }
     }
 }
 

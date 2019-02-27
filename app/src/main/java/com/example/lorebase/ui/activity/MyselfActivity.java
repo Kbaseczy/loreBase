@@ -1,6 +1,7 @@
 package com.example.lorebase.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -142,7 +143,8 @@ public class MyselfActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                startActivity(new Intent(this, MainActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
         }
         return super.onOptionsItemSelected(item);

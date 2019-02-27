@@ -59,7 +59,7 @@
     <string name="have_account">已经有账号?</string>
     <string name="list_time">list_time</string>
     <string name="description">description</string>
-    <string name="todo">todo</string>
+    <string name="todo">待办清单</string>
     <string name="like_article">like article</string>
 
     <string name="feed_back">反馈</string>
@@ -157,4 +157,9 @@
     <string name="mail">邮箱</string>
     <string name="contact">联系方式</string>
     <string name="_2019_lorebase">㉧ 2019 LoreBase</string>
+
+
+    //todo
+    <string name="todo01">待办</string>
+    <string name="todo02">已完成</string>
 </resources>

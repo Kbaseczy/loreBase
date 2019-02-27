@@ -15,10 +15,9 @@ import androidx.fragment.app.Fragment;
  */
 public class RelaxFragment extends Fragment {
 
-    public static RelaxFragment getInstantce(String name) {
+    public static RelaxFragment getInstantce() {
         RelaxFragment fragment = new RelaxFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(ConstName.TITLE, name);
         fragment.setArguments(bundle);
         return fragment;
     }

@@ -54,4 +54,6 @@ public class ConstName {
     public static final int TAB_HOME = 1;
     public static final int FLIPPER_HOME = 2;
     public static final int ARTICLE_HOME = 3;
+
+    public static final String IS_DONE = "is_done";
 }

@@ -11,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
@@ -31,7 +29,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -94,10 +91,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        homeFragment = new HomeFragment();
-        loreTreeFragment = new LoreTreeFragment();
-        relaxFragment = new RelaxFragment();
-        weChatFragment = new WeChatFragment();
+        homeFragment = HomeFragment.getInstantce();
+        loreTreeFragment = LoreTreeFragment.getInstantce();
+        relaxFragment = RelaxFragment.getInstantce();
+        weChatFragment = WeChatFragment.getInstantce();
         sp = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
 
         //根據自動登陸boolean去做登陸操作 ， 也是在二次及以後進入app所需要的。 初始值在LoginActivity中
@@ -265,6 +262,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 startActivity(new Intent(MainActivity.this, MyselfActivity.class));
                 break;
             case R.id.nav_todo:
+                startActivity(new Intent(this,TODOActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 Toast.makeText(this, "登陆状态：" + sp.getBoolean(ConstName.IS_LOGIN, false), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_position:

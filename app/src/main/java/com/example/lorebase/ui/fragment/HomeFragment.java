@@ -46,6 +46,14 @@ public class HomeFragment extends Fragment {
     private EasyRefreshLayout easyRefreshLayout;
     private HomeAdapter adapter;
 
+
+    public static HomeFragment getInstantce() {
+        Bundle args = new Bundle();
+        HomeFragment fragment = new HomeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @SuppressLint("InflateParams")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

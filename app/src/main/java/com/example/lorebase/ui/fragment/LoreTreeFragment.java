@@ -34,10 +34,9 @@ public class LoreTreeFragment extends Fragment {
     private View view;
     private List<LoreTree.DataBean> fatherBeanList;
 
-    public static LoreTreeFragment getInstantce(String name) {
+    public static LoreTreeFragment getInstantce() {
         LoreTreeFragment fragment = new LoreTreeFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(ConstName.TITLE, name);
         fragment.setArguments(bundle);
         return fragment;
     }
