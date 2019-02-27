@@ -234,9 +234,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-
         switch (menuItem.getItemId()) {
             case R.id.action_home:
                 viewPager.setCurrentItem(0);
@@ -307,7 +304,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 finish();
                 break;
         }
-        transaction.commitAllowingStateLoss();
         return false;
     }
 

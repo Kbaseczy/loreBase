@@ -10,10 +10,12 @@ import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.ui.fragment.TodoFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -21,10 +23,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-public class TODOActivity extends BaseActivity {
+public class TODOActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class TODOActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         bottomNavigationView = findViewById(R.id.bottom_navigation_TODO);
+        fab = findViewById(R.id.btn_fab_TODO);
+        fab.setOnClickListener(v -> Toast.makeText(this, "回到顶部", Toast.LENGTH_SHORT).show());
         ViewPager viewPager = findViewById(R.id.viewpager_TODO);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -63,7 +68,7 @@ public class TODOActivity extends BaseActivity {
         List<Fragment> list = new ArrayList<>();
         list.add(TodoFragment.getInstance(true));
         list.add(TodoFragment.getInstance(false));
-        TodoViewPagerAdapter adapter = new TodoViewPagerAdapter(getSupportFragmentManager(),list);
+        TodoViewPagerAdapter adapter = new TodoViewPagerAdapter(getSupportFragmentManager(), list);
         viewPager.setAdapter(adapter);
     }
 
@@ -90,6 +95,24 @@ public class TODOActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //底部导航  点击事件
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        switch (menuItem.getItemId()) {
+            case R.id.action_todo:
+                startActivity(new Intent(this, TodoAddActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                break;
+            case R.id.action_complete:
+                startActivity(new Intent(this, TodoEditActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                break;
+        }
+
+        return false;
     }
 
     //viewpager adapter
