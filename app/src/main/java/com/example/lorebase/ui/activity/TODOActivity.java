@@ -45,6 +45,7 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         bottomNavigationView = findViewById(R.id.bottom_navigation_TODO);
+        bottomNavigationView.setLayoutMode(BottomNavigationView.MEASURED_HEIGHT_STATE_SHIFT); //可在配置在布局文件中
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         fab = findViewById(R.id.btn_fab_TODO);
 
