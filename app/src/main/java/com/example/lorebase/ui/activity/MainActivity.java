@@ -42,9 +42,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Request;
@@ -257,6 +255,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             //TODO 侧滑栏navigationView 监听
             case R.id.nav_collect:
                 startActivity(new Intent(MainActivity.this, MyselfActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.nav_todo:
                 startActivity(new Intent(this,TODOActivity.class));
@@ -282,6 +281,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
             case R.id.nav_about_us:
                 startActivity(new Intent(getApplicationContext(), AboutUsActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+
                 break;
             case R.id.nav_logout:
                 //默認佈局
@@ -443,6 +444,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case R.id.action_search_main:
                 Intent search_action = new Intent(this, SearchActivity.class);
                 startActivity(search_action);
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
         }
         return super.onOptionsItemSelected(item);

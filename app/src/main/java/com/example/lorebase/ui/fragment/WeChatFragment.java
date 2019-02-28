@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.FragmentAdapterWeChat;
 import com.example.lorebase.bean.WeChat;
-import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.L;

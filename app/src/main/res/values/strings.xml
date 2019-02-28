@@ -162,4 +162,11 @@
     //todo
     <string name="todo01">待办</string>
     <string name="todo02">已完成</string>
+    <string name="input_todo_name">输入待办名称，如：准备演示PPT</string>
+    <string name="input_todo_des">输入待办详情，非必填，如：\n1、制作演示PPT\n2、预定会议室\n3、通知参加会议人员\n4、提前10分钟准备会议环境</string>
+    <string name="save">保存</string>
+    <string name="todo_title">标题</string>
+    <string name="des">内容</string>
+    <string name="todoAdd">添加</string>
+    <string name="todoEdit">编辑</string>
 </resources>

@@ -33,4 +33,6 @@
     <color name="colorPrimaryDark_night">#902b2b</color>
     <color name="colorAccent_night">#902b2b</color>
     <color name="colorDefault_night">#adaeb3</color>
+
+    <color name="button_pressed">#449577</color>
 </resources>

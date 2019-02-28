@@ -28,7 +28,7 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
     FloatingActionButton fab;
-
+    ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +36,7 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
         initView();
     }
 
-    void initView() {
+    private void initView() {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.todo);
         setSupportActionBar(toolbar);
@@ -45,9 +45,10 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         bottomNavigationView = findViewById(R.id.bottom_navigation_TODO);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
         fab = findViewById(R.id.btn_fab_TODO);
-        fab.setOnClickListener(v -> Toast.makeText(this, "回到顶部", Toast.LENGTH_SHORT).show());
-        ViewPager viewPager = findViewById(R.id.viewpager_TODO);
+
+        viewPager = findViewById(R.id.viewpager_TODO);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -88,7 +89,6 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.action_add_todo:
-                Toast.makeText(this, "tododododo", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, TodoAddActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
@@ -100,18 +100,16 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
     //底部导航  点击事件
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
         switch (menuItem.getItemId()) {
             case R.id.action_todo:
-                startActivity(new Intent(this, TodoAddActivity.class));
-                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                viewPager.setCurrentItem(0);
+                fab.setOnClickListener(v -> Toast.makeText(this, "回到顶部 action_todo", Toast.LENGTH_SHORT).show());
                 break;
             case R.id.action_complete:
-                startActivity(new Intent(this, TodoEditActivity.class));
-                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                viewPager.setCurrentItem(1);
+                fab.setOnClickListener(v -> Toast.makeText(this, "回到顶部 action_complete", Toast.LENGTH_SHORT).show());
                 break;
         }
-
         return false;
     }
 

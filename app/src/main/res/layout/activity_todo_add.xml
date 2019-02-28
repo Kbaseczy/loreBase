@@ -1,9 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.TodoAddActivity">
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/toolbar" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/todo_add_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@null"
+        android:hint="@string/input_todo_name"
+        android:textColor="@android:color/black"
+        android:textColorHint="#B5B3B5"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="5dp"
+        android:background="#B5B3B5" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/todo_add_des"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@null"
+        android:gravity="left|top"
+        android:hint="@string/input_todo_des"
+        android:minLines="8"
+        android:textColor="@android:color/black"
+        android:textColorHint="#B5B3B5"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="5dp"
+        android:background="#B5B3B5" />
+
+    <TextView
+        android:id="@+id/todo_add_date"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/date"
+        android:drawablePadding="5dp"
+        android:padding="@dimen/dp_10"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="1dp"
+        android:background="#B5B3B5" />
+
+    <Button
+        android:id="@+id/save_todo_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/selector_button"
+        android:text="@string/save"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+</LinearLayout>

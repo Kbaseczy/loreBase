@@ -12,20 +12,18 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-
-import androidx.appcompat.app.ActionBar;
-
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-import androidx.core.app.NavUtils;
-
 import com.example.lorebase.R;
 
 import java.util.List;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.core.app.NavUtils;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

@@ -3,6 +3,7 @@ package com.example.lorebase.ui.activity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -89,7 +90,8 @@ public class SearchActivity extends BaseActivity {
                     e.printStackTrace();
                 }
             } else {
-                finish();
+                startActivity(new Intent(this, MainActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
             }
         });
 

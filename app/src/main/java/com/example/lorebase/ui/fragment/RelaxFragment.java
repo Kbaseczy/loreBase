@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.lorebase.R;
-import com.example.lorebase.contain_const.ConstName;
 
 import androidx.fragment.app.Fragment;
 
