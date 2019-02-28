@@ -1,19 +1,24 @@
 package com.example.lorebase.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.lorebase.R;
 import com.example.lorebase.bean.TodoTodo;
+import com.example.lorebase.contain_const.ConstName;
+import com.example.lorebase.http.OkGet;
+import com.example.lorebase.ui.activity.TodoEditActivity;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
@@ -48,8 +53,29 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         holder.item_desc.setText(datasBean.getContent());
         holder.item_date.setText(datasBean.getDateStr());
 
-        holder.action_complete.setOnClickListener(v -> Toast.makeText(mContext, is_done?"标记为完成":"标记为待办", Toast.LENGTH_SHORT).show());
-        holder.action_delete.setOnClickListener(v -> Toast.makeText(mContext, "删除", Toast.LENGTH_SHORT).show());
+        holder.action_complete.setOnClickListener(v -> {
+            OkGet.todoComplete(datasBean.getId(), mContext, is_done ? 0 : 1, is_done);
+            notifyDataSetChanged();
+        });
+
+        holder.action_delete.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setTitle(R.string.tip)
+                    .setMessage(R.string.tip_content_clear_history)
+                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.ok, (dialogInterface, i) ->
+                            OkGet.todoDelete(datasBean.getId(), mContext))
+                    .show();
+            notifyDataSetChanged();
+            notifyItemRemoved(position);
+        });
+
+        holder.view.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ConstName.TODO_BEAN, datasBean);
+            mContext.startActivity(new Intent(mContext, TodoEditActivity.class)
+                    .putExtra(ConstName.TODO_BEAN, bundle)); //todo 未测试，获取list时登陆没通过。  通过序列化传递bean对象
+        });
     }
 
     @Override
@@ -60,6 +86,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView item_name, item_desc, item_date;
         ImageView action_complete, action_delete;
+        View view;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,6 +95,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
             item_date = itemView.findViewById(R.id.item_date);
             action_complete = itemView.findViewById(R.id.item_action_complete);
             action_delete = itemView.findViewById(R.id.item_action_delete);
+            view = itemView.findViewById(R.id.todo_layout);
         }
     }
+
+
 }

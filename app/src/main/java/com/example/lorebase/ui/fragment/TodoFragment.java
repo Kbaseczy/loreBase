@@ -34,6 +34,8 @@ import okhttp3.Request;
 
 /**
  * A simple {@link Fragment} subclass.
+ * todo 逻辑代码完成。   需要注意：界面UI item的动态变化情况，和之前的收藏类似  --> 收藏图标需要刷新后可更新
+ * todo err： 请求数据时，始终提示 ”请登录“。
  */
 public class TodoFragment extends Fragment {
 

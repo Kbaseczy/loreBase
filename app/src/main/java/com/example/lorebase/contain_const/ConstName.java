@@ -56,4 +56,5 @@ public class ConstName {
     public static final int ARTICLE_HOME = 3;
 
     public static final String IS_DONE = "is_done";
+    public static final String TODO_BEAN = "todo_bean";
 }

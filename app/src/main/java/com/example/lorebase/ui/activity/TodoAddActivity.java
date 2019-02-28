@@ -3,6 +3,7 @@ package com.example.lorebase.ui.activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +35,6 @@ public class TodoAddActivity extends BaseActivity implements View.OnClickListene
     Toolbar toolbar;
     EditText todo_name,todo_desc;
     Button save;
-    String title,desc;
     TextView s_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +78,8 @@ public class TodoAddActivity extends BaseActivity implements View.OnClickListene
         OkHttpUtils
                 .post()
                 .url(uri)
-                .addParams("title",title)
-                .addParams("content",desc)
+                .addParams("title",todo_name.getText().toString())
+                .addParams("content",todo_desc.getText().toString())
                 .addParams("date", s_date.getText().toString())
                 .build()
                 .execute(new StringCallback() {
@@ -118,8 +118,14 @@ public class TodoAddActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.save_todo_add){
-            title = todo_name.getText().toString();
-            desc = todo_desc.getText().toString();
+            todo_name.setError(null);
+            if (TextUtils.isEmpty(todo_name.getText())) {
+                todo_name.setError(getString(R.string.input_todo_name_toast));
+                todo_name.setFocusable(true);
+                todo_name.setFocusableInTouchMode(true);
+                todo_name.requestFocus();
+                return;
+            }
             postData();
         }else if(v.getId() == R.id.todo_add_date){
             Calendar calendar = Calendar.getInstance();

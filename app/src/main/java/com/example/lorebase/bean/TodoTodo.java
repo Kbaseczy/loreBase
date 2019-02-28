@@ -1,5 +1,6 @@
 package com.example.lorebase.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class TodoTodo {
@@ -113,7 +114,7 @@ public class TodoTodo {
             this.datas = datas;
         }
 
-        public static class DatasBean {
+        public static class DatasBean implements Serializable {
             /**
              * completeDate : null
              * completeDateStr :

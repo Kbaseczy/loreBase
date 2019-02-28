@@ -131,7 +131,7 @@ public class UrlContainer {
     /*
      * TODO 删除一个todo
      * */
-    public static final String TODO_DELETE = "http://www.wanandroid.com/lg/todo/delete/83/json";
+    public static final String TODO_DELETE = "http://www.wanandroid.com/lg/todo/delete/";
 
     /*
      * TODO 修改一个todo
@@ -145,7 +145,7 @@ public class UrlContainer {
 	    type: ；
 	    priority: ；
      * */
-    public static final String TODO_UPDATE = "http://www.wanandroid.com/lg/todo/update/83/json";
+    public static final String TODO_UPDATE = "http://www.wanandroid.com/lg/todo/update/";
 
     /*
      * TODO 添加一个TODO
@@ -159,6 +159,11 @@ public class UrlContainer {
      * */
     public static final String TODO_ADD = "http://www.wanandroid.com/lg/todo/add/json";
 
+    /*
+      TODO 更新todo状态（待办0 已完成1）
+     */
+
+    public static final String DONE_TODO_URI = "http://www.wanandroid.com/lg/todo/done/";
     /*
         必应  ok
     */

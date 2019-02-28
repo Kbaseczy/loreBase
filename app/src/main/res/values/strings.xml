@@ -169,4 +169,5 @@
     <string name="des">内容</string>
     <string name="todoAdd">添加</string>
     <string name="todoEdit">编辑</string>
+    <string name="input_todo_name_toast">请输入待办名称</string>
 </resources>
