@@ -47,7 +47,6 @@ public class OkGet {
                 });
     }
 
-
     public static void todoDelete(int id, Context context) {
         String url = UrlContainer.TODO_DELETE + id + "/json";
         OkHttpUtils

@@ -6,11 +6,6 @@
     android:orientation="vertical"
     tools:context=".ui.fragment.TodoFragment">
 
-    <TextView
-        android:id="@+id/text_todo"
-        android:textSize="@dimen/dp_20"
-        android:layout_width="match_parent"
-        android:layout_height="30dp" />
     <com.ajguan.library.EasyRefreshLayout
         android:id="@+id/easy_refresh_todo"
         android:layout_width="match_parent"

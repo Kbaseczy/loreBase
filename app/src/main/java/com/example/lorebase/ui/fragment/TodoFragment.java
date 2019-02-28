@@ -70,8 +70,6 @@ public class TodoFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_todo, container, false);
         getTodoList();
-        TextView textView = view.findViewById(R.id.text_todo);
-        textView.setText(is_done ? "待办" : "完成");
         return view;
     }
 
