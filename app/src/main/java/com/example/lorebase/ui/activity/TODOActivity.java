@@ -29,6 +29,7 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
     BottomNavigationView bottomNavigationView;
     FloatingActionButton fab;
     ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

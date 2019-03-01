@@ -1,12 +1,10 @@
 package com.example.lorebase.ui.fragment;
 
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.example.lorebase.R;
@@ -82,8 +80,6 @@ public class TodoFragment extends Fragment {
 
     @Override
     public void onResume() {
-
-        L.v("TodoFragment", is_done ? "Todo" : "complete");
         easyRefreshLayout = view.findViewById(R.id.easy_refresh_todo);
         easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
@@ -151,4 +147,10 @@ public class TodoFragment extends Fragment {
                 });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (null != view)
+            view = null;
+    }
 }

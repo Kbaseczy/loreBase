@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
-import com.bolex.autoEx.AutoEx;
 import com.example.lorebase.greenDao.DaoMaster;
 import com.example.lorebase.greenDao.DaoSession;
 import com.example.lorebase.util.L;
@@ -43,7 +42,6 @@ public class MyApplication extends Application {
         SDKInitializer.setCoordType(CoordType.BD09LL);
         okHttpCookie();
         initGreenDao();
-        AutoEx.apply(); // autoEx 异常堆栈
         manageAlarm(); //定时通知
     }
 

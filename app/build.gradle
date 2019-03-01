@@ -65,16 +65,9 @@ dependencies {
     implementation 'com.github.anzaizai:EasyRefreshLayout:1.3.1'
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'com.makeramen:roundedimageview:2.3.0'
-    debugImplementation 'com.github.BolexLiu.AutoEx:AutoEx-Lib:v1.0.7'
-    //debug包
-    releaseImplementation 'com.github.BolexLiu.AutoEx:AutoEx-Lib-No-Op:v1.0.7'
-    //release包
     implementation project(':core')
     implementation project(':uiasr')
     implementation project(':uidialog')
-
-    // 状态栏沉浸：https://github.com/gyf-dev/ImmersionBar
-//    api 'com.gyf.barlibrary:barlibrary:2.3.0'
 }
 
 buildscript {
