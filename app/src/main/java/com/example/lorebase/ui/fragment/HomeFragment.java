@@ -95,13 +95,11 @@ public class HomeFragment extends Fragment {
             if (easyRefreshLayout.isRefreshing()) {
                 page = 0;
                 getArticle();
-//                adapter.setBeanList_article(beanList_article);
                 adapter.addList(banner_t, beanList_news, beanList_article);
                 easyRefreshLayout.refreshComplete();
             } else {
                 page++;
                 getArticle();
-//                adapter.setBeanList_article(beanList_article);
                 adapter.addList(banner_t, beanList_news, beanList_article);
                 easyRefreshLayout.loadMoreComplete();
             }

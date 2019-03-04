@@ -36,13 +36,13 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_fab"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="@dimen/dp_20"
             android:layout_marginBottom="@dimen/dp_80"
             android:src="@drawable/ic_arrow_upward_white_24dp"
+            android:visibility="gone"
             app:layout_behavior="@string/bye_burger_float_behavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
