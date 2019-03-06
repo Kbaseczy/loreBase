@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
     private HomeAdapter adapter;
 
 
-    public static HomeFragment getInstantce() {
+    public static HomeFragment getInstance() {
         Bundle args = new Bundle();
         HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);

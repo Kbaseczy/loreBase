@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.lorebase.R;
-import com.example.lorebase.adapter.FragmentAdapterWeChat;
-import com.example.lorebase.bean.WeChat;
 import com.example.lorebase.ui.fragment.subFragment.RelaxListFragment;
-import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
+import com.example.lorebase.util.IndicatorLineUtil;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -21,11 +21,18 @@ import androidx.viewpager.widget.ViewPager;
 
 /**
  * A simple {@link Fragment} subclass.
+ * <p>
+ *
+ * 1.设置自定义View 失败
+ * 2.视频播放不出
  */
 public class RelaxFragment extends Fragment {
     private View view;
 
-    public static RelaxFragment getInstantce() {
+    private int images[] = {R.drawable.icon_tab, R.drawable.icon_tab2, R.drawable.icon_tab3};
+    private String[] title = {"category1", "category2", "category3"};
+
+    public static RelaxFragment getInstance() {
         RelaxFragment fragment = new RelaxFragment();
         Bundle bundle = new Bundle();
 
@@ -45,14 +52,18 @@ public class RelaxFragment extends Fragment {
         ViewPager viewPager = view.findViewById(R.id.viewpager_relax);
         TabLayout tabLayout = view.findViewById(R.id.tab_relax);
 
-        String[] title = {"category1","category2","category3"};
-        int[] identity = {0,1,2};
-        for (String aTitle : title) {
-            tabLayout.addTab(tabLayout.newTab().setText(aTitle));
-        }
+        tabLayout.post(() -> IndicatorLineUtil.setIndicator(tabLayout, 40, 40));
 
+        int[] identity = {0, 1, 2};
+        for (int i = 0; i < title.length; i++) {
+            tabLayout.addTab(tabLayout.newTab());
+        }
+        for (int i = 0; i < title.length; i++) {
+//            tabLayout.getTabAt(i).setCustomView(customTab(i));
+            tabLayout.getTabAt(i).setText(title[i]).setIcon(images[i]);
+        }
         List<Fragment> fragments = new ArrayList<>();
-        for (int ident:identity) {
+        for (int ident : identity) {
             fragments.add(RelaxListFragment.getInstance(ident));
         }
 
@@ -76,5 +87,15 @@ public class RelaxFragment extends Fragment {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(1);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private View customTab(int position) {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.custom_tab, null);
+        ImageView imageView = view.findViewById(R.id.custom_tab_image);
+        TextView textView = view.findViewById(R.id.custom_tab_title);
+        imageView.setImageResource(images[position]);
+
+        textView.setText(title[position]);
+        return view;
     }
 }

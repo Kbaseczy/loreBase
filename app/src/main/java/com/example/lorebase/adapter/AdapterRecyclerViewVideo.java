@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.VideoConstant;
@@ -41,6 +42,7 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
         holder.jzvdStd.setUp(
                 VideoConstant.videoUrls[0][position],
                 VideoConstant.videoTitles[0][position], Jzvd.SCREEN_WINDOW_LIST);
+        holder.name.setText(VideoConstant.videoTitles[0][position]);
 //        Glide.with(holder.jzvdStd.getContext()).load(VideoConstant.videoThumbs[0][position]).into(holder.jzvdStd.thumbImageView);
         LoadVideoScreenShot.loadVideoScreenshot(
                 holder.jzvdStd.getContext(),
@@ -55,10 +57,12 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         JzvdStd jzvdStd;
+        TextView name;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
             jzvdStd = itemView.findViewById(R.id.video_player);
+            name = itemView.findViewById(R.id.relax_item_name);
         }
     }
 

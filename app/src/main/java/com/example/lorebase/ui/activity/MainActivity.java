@@ -89,10 +89,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        homeFragment = HomeFragment.getInstantce();
-        loreTreeFragment = LoreTreeFragment.getInstantce();
-        relaxFragment = RelaxFragment.getInstantce();
-        weChatFragment = WeChatFragment.getInstantce();
+        homeFragment = HomeFragment.getInstance();
+        loreTreeFragment = LoreTreeFragment.getInstance();
+        relaxFragment = RelaxFragment.getInstance();
+        weChatFragment = WeChatFragment.getInstance();
         sp = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
 
         //根據自動登陸boolean去做登陸操作 ， 也是在二次及以後進入app所需要的。 初始值在LoginActivity中

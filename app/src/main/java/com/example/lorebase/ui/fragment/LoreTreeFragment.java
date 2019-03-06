@@ -32,7 +32,7 @@ public class LoreTreeFragment extends Fragment {
     private View view;
     private List<LoreTree.DataBean> fatherBeanList;
 
-    public static LoreTreeFragment getInstantce() {
+    public static LoreTreeFragment getInstance() {
         LoreTreeFragment fragment = new LoreTreeFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);

@@ -30,7 +30,7 @@ public class WeChatFragment extends Fragment {
     private View view;
     private List<WeChat.DataBean> list_weChat;
 
-    public static WeChatFragment getInstantce() {
+    public static WeChatFragment getInstance() {
         WeChatFragment fragment = new WeChatFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
