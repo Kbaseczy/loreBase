@@ -2,15 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_relax"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabMode="scrollable" />
 
-    <ListView
-        android:id="@+id/kBase_list"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_relax"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#cccccc"
-        android:dividerHeight="0.5dp" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </LinearLayout>

@@ -39,7 +39,6 @@ public class FragmentAdapterWeChat extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-
         return beanList_we_chat.get(position).getName();
     }
 }

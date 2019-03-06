@@ -68,6 +68,8 @@ dependencies {
     implementation project(':core')
     implementation project(':uiasr')
     implementation project(':uidialog')
+
+    implementation 'cn.jzvd:jiaozivideoplayer:6.4.1'
 }
 
 buildscript {
