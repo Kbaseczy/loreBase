@@ -244,7 +244,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
             case R.id.action_relax:
                 viewPager.setCurrentItem(2);
-//                fab.setVisibility(View.INVISIBLE);   设置在该fragment不可见
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setDisplayShowHomeEnabled(true);
+                getSupportActionBar().setDisplayShowTitleEnabled(true);
+                getSupportActionBar().setDisplayUseLogoEnabled(false);
                 break;
             case R.id.action_we_chat:
                 viewPager.setCurrentItem(3);

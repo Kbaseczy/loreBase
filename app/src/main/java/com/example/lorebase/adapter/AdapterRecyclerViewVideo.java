@@ -12,13 +12,14 @@ import com.example.lorebase.R;
 import com.example.lorebase.contain_const.VideoConstant;
 import com.example.lorebase.util.LoadVideoScreenShot;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
 public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecyclerViewVideo.MyViewHolder> {
 
-    public static final String TAG = "AdapterRecyclerViewVideo";
+    private static final String TAG = "AdapterRecyclerViewVideo";
     int[] videoIndexs = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     private Context context;
 
@@ -26,6 +27,7 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
         this.context = context;
     }
 
+    @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MyViewHolder holder = new MyViewHolder(LayoutInflater.from(

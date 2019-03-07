@@ -7,9 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.lorebase.R;
 import com.example.lorebase.ui.fragment.subFragment.RelaxListFragment;
-import com.example.lorebase.util.IndicatorLineUtil;
+import com.example.lorebase.util.L;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class RelaxFragment extends Fragment {
     private View view;
 
     private int images[] = {R.drawable.icon_tab, R.drawable.icon_tab2, R.drawable.icon_tab3};
-    private String[] title = {"category1", "category2", "category3"};
+    private String[] title = {"1", "2", "3"};
 
     public static RelaxFragment getInstance() {
         RelaxFragment fragment = new RelaxFragment();
@@ -52,16 +53,17 @@ public class RelaxFragment extends Fragment {
         ViewPager viewPager = view.findViewById(R.id.viewpager_relax);
         TabLayout tabLayout = view.findViewById(R.id.tab_relax);
 
-        tabLayout.post(() -> IndicatorLineUtil.setIndicator(tabLayout, 40, 40));
+//        tabLayout.post(() -> IndicatorLineUtil.setIndicator(tabLayout, 40, 40));
 
         int[] identity = {0, 1, 2};
-        for (int i = 0; i < title.length; i++) {
+        for (int i=0;i<title.length;i++) {
             tabLayout.addTab(tabLayout.newTab());
         }
         for (int i = 0; i < title.length; i++) {
+//            tabLayout.addTab(tabLayout.newTab());
 //            tabLayout.getTabAt(i).setCustomView(customTab(i));
-            tabLayout.getTabAt(i).setText(title[i]).setIcon(images[i]);
         }
+
         List<Fragment> fragments = new ArrayList<>();
         for (int ident : identity) {
             fragments.add(RelaxListFragment.getInstance(ident));
@@ -90,11 +92,12 @@ public class RelaxFragment extends Fragment {
     }
 
     private View customTab(int position) {
+        L.v("customTab","运行勒吗。");
         View view = LayoutInflater.from(getContext()).inflate(R.layout.custom_tab, null);
         ImageView imageView = view.findViewById(R.id.custom_tab_image);
         TextView textView = view.findViewById(R.id.custom_tab_title);
-        imageView.setImageResource(images[position]);
-
+//        imageView.setImageResource(images[position]);
+        Glide.with(getActivity()).load(images[position]).into(imageView);
         textView.setText(title[position]);
         return view;
     }

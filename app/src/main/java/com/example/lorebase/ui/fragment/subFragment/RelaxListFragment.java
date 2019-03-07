@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.AdapterRecyclerViewVideo;
 import com.example.lorebase.contain_const.ConstName;
+import com.example.lorebase.util.JZMediaIjkplayer;
 
 import java.util.Objects;
 
@@ -51,6 +53,7 @@ public class RelaxListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_relax_list, container, false);
+        Jzvd.setMediaInterface(new JZMediaIjkplayer());
         initView();
         return view;
     }
@@ -64,20 +67,22 @@ public class RelaxListFragment extends Fragment {
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(View view) {
-
+                Jzvd.onChildViewAttachedToWindow(view, R.id.video_player);
             }
 
             @Override
             public void onChildViewDetachedFromWindow(View view) {
-                Jzvd jzvd = view.findViewById(R.id.video_player);
-                if (jzvd != null && jzvd.jzDataSource.containsTheUrl(JZMediaManager.getCurrentUrl())) {
-                    Jzvd currentJzvd = JzvdMgr.getCurrentJzvd();
-                    if (currentJzvd != null && currentJzvd.currentScreen != Jzvd.SCREEN_WINDOW_FULLSCREEN) {
-                        Jzvd.releaseAllVideos();
-                    }
-                }
+//                Jzvd jzvd = view.findViewById(R.id.video_player);
+//                if (jzvd != null && jzvd.jzDataSource.containsTheUrl(JZMediaManager.getCurrentUrl())) {
+//                    Jzvd currentJzvd = JzvdMgr.getCurrentJzvd();
+//                    if (currentJzvd != null && currentJzvd.currentScreen != Jzvd.SCREEN_WINDOW_FULLSCREEN) {
+//                        Jzvd.releaseAllVideos();
+//                    }
+//                }
+                Jzvd.onChildViewDetachedFromWindow(view);
             }
         });
+
     }
 
 //    @Override
