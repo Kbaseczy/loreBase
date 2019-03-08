@@ -1,18 +1,19 @@
 package com.example.lorebase.ui.fragment.subFragment;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.AdapterRecyclerViewVideo;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.util.JZMediaIjkplayer;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.model.VideoOptionModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -20,9 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import cn.jzvd.JZMediaManager;
-import cn.jzvd.Jzvd;
-import cn.jzvd.JzvdMgr;
+import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,8 +29,8 @@ import cn.jzvd.JzvdMgr;
 public class RelaxListFragment extends Fragment {
     private int identity_id;
     private View view;
-    private RecyclerView recyclerView;
     private AdapterRecyclerViewVideo adapterVideoList;
+    private LinearLayoutManager linearLayoutManager;
 
     public static RelaxListFragment getInstance(int we_chat_id) {
         RelaxListFragment relaxListFragment = new RelaxListFragment();
@@ -53,51 +52,77 @@ public class RelaxListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_relax_list, container, false);
-        Jzvd.setMediaInterface(new JZMediaIjkplayer());
+        VideoOptionModel videoOptionModel = new VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "enable-accurate-seek", 1);
+        List<VideoOptionModel> list = new ArrayList<>();
+        list.add(videoOptionModel);
+        GSYVideoManager.instance().setOptionModelList(list);
         initView();
         return view;
     }
 
     private void initView() {
-        recyclerView = view.findViewById(R.id.recycler_relax_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_relax_list);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         adapterVideoList = new AdapterRecyclerViewVideo(getContext());
         recyclerView.setAdapter(adapterVideoList);
-        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int firstVisibleItem, lastVisibleItem;
+
             @Override
-            public void onChildViewAttachedToWindow(@NonNull View view) {
-                Jzvd.onChildViewAttachedToWindow(view, R.id.video_player);
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
             }
 
             @Override
-            public void onChildViewDetachedFromWindow(@NonNull View view) {
-//                Jzvd jzvd = view.findViewById(R.id.video_player);
-//                if (jzvd != null && jzvd.jzDataSource.containsTheUrl(JZMediaManager.getCurrentUrl())) {
-//                    Jzvd currentJzvd = JzvdMgr.getCurrentJzvd();
-//                    if (currentJzvd != null && currentJzvd.currentScreen != Jzvd.SCREEN_WINDOW_FULLSCREEN) {
-//                        Jzvd.releaseAllVideos();
-//                    }
-//                }
-                Jzvd.onChildViewDetachedFromWindow(view);
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                //大于0说明有播放
+                if (GSYVideoManager.instance().getPlayPosition() >= 0) {
+                    //当前播放的位置
+                    int position = GSYVideoManager.instance().getPlayPosition();
+                    //对应的播放列表TAG
+                    if (GSYVideoManager.instance().getPlayTag().equals(AdapterRecyclerViewVideo.MyViewHolder.TAG)
+                            && (position < firstVisibleItem || position > lastVisibleItem)) {
+                        //如果滑出去了上面和下面就是否，和今日头条一样
+                        if (!GSYVideoManager.isFullState(getActivity())) {
+                            GSYVideoManager.releaseAllVideos();
+                            adapterVideoList.notifyDataSetChanged();
+                        }
+                    }
+                }
             }
         });
 
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (Jzvd.backPress()) {
-//            return;
-//        }
-//        super.onBackPressed();
-//    }
 
+    public boolean onBackPressed() {
+        if (GSYVideoManager.backFromWindowFull(getActivity())) {
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void onPause() {
         super.onPause();
-        Jzvd.releaseAllVideos();
+        GSYVideoManager.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        GSYVideoManager.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        GSYVideoManager.releaseAllVideos();
     }
 
     @Override

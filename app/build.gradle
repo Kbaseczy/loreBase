@@ -69,10 +69,13 @@ dependencies {
     implementation project(':uiasr')
     implementation project(':uidialog')
 
-    implementation 'cn.jzvd:jiaozivideoplayer:6.4.1'
-    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
-    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.4'
-    implementation 'com.danikula:videocache:2.7.0'
+//    implementation 'cn.jzvd:jiaozivideoplayer:6.4.1'
+//    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
+//    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.4'
+//    implementation 'com.danikula:videocache:2.7.0'
+
+    implementation 'com.shuyu:GSYVideoPlayer:7.0.0-beta1'
+
 }
 
 buildscript {

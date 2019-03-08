@@ -56,10 +56,10 @@ public class RelaxFragment extends Fragment {
 //        tabLayout.post(() -> IndicatorLineUtil.setIndicator(tabLayout, 40, 40));
 
         int[] identity = {0, 1, 2};
-        for (int i=0;i<title.length;i++) {
+        for (String aTitle : title) {
             tabLayout.addTab(tabLayout.newTab());
         }
-        for (int i = 0; i < title.length; i++) {
+        for (String aTitle : title) {
 //            tabLayout.addTab(tabLayout.newTab());
 //            tabLayout.getTabAt(i).setCustomView(customTab(i));
         }
@@ -87,7 +87,7 @@ public class RelaxFragment extends Fragment {
         };
 
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
     }
 

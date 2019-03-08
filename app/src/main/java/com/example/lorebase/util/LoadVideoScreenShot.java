@@ -11,6 +11,7 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,7 @@ public class LoadVideoScreenShot {
             @Override
             public void updateDiskCacheKey(MessageDigest messageDigest) {
                 try {
-                    messageDigest.update((context.getPackageName() + "RotateTransform").getBytes("utf-8"));
+                    messageDigest.update((context.getPackageName() + "RotateTransform").getBytes(StandardCharsets.UTF_8));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -63,7 +63,7 @@ import okhttp3.Request;
        涉及到登录状态isLogin变化，均需要刷新UI，  todo 与isLogin相关的有  sign in头布局/ logout / 收藏
       a.isLogin变为true  b.isAutoLogin的值由LoginActivity最初设置 c.登陆后应refreshSign()均在
 
-      todo viewPager.setCurrentItem(position) 解决底部导航图标状态不变化
+      todo viewPager.setCurrentItem(position) 解决了底部导航图标状态不变化
       todo change: Fragment容器由 container 换为 viewPager ，因此之前报错不能改变片段容器的ID，即是container与viewPager冲突了
                                                                     -> 将container 在布局文件中去掉即可
  */
@@ -244,10 +244,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 break;
             case R.id.action_relax:
                 viewPager.setCurrentItem(2);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                getSupportActionBar().setDisplayShowHomeEnabled(true);
-                getSupportActionBar().setDisplayShowTitleEnabled(true);
-                getSupportActionBar().setDisplayUseLogoEnabled(false);
                 break;
             case R.id.action_we_chat:
                 viewPager.setCurrentItem(3);
@@ -333,6 +329,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         }
         return super.onKeyDown(keyCode, event);
     }
+
 
     private void logout(int flag) {
         String url = UrlContainer.baseUrl + UrlContainer.LOGOUT;
