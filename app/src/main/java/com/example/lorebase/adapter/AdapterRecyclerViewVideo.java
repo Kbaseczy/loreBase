@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.VideoConstant;
 import com.example.lorebase.util.LoadVideoScreenShot;
@@ -20,7 +21,7 @@ import cn.jzvd.JzvdStd;
 public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecyclerViewVideo.MyViewHolder> {
 
     private static final String TAG = "AdapterRecyclerViewVideo";
-    int[] videoIndexs = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    private int[] videoIndexs = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     private Context context;
 
     public AdapterRecyclerViewVideo(Context context) {
@@ -42,8 +43,10 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
         Log.i(TAG, "onBindViewHolder [" + holder.jzvdStd.hashCode() + "] position=" + position);
 
         holder.jzvdStd.setUp(
-                VideoConstant.videoUrls[0][position],
+                MyApplication.getProxy(context).getProxyUrl(VideoConstant.videoUrls[0][position]),
                 VideoConstant.videoTitles[0][position], Jzvd.SCREEN_WINDOW_LIST);
+
+        //todo ApplicationDemo.getProxy(this).getProxyUrl
         holder.name.setText(VideoConstant.videoTitles[0][position]);
 //        Glide.with(holder.jzvdStd.getContext()).load(VideoConstant.videoThumbs[0][position]).into(holder.jzvdStd.thumbImageView);
         LoadVideoScreenShot.loadVideoScreenshot(

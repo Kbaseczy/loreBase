@@ -66,12 +66,12 @@ public class RelaxListFragment extends Fragment {
         recyclerView.setAdapter(adapterVideoList);
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
-            public void onChildViewAttachedToWindow(View view) {
+            public void onChildViewAttachedToWindow(@NonNull View view) {
                 Jzvd.onChildViewAttachedToWindow(view, R.id.video_player);
             }
 
             @Override
-            public void onChildViewDetachedFromWindow(View view) {
+            public void onChildViewDetachedFromWindow(@NonNull View view) {
 //                Jzvd jzvd = view.findViewById(R.id.video_player);
 //                if (jzvd != null && jzvd.jzDataSource.containsTheUrl(JZMediaManager.getCurrentUrl())) {
 //                    Jzvd currentJzvd = JzvdMgr.getCurrentJzvd();
