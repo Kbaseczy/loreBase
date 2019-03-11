@@ -12,6 +12,7 @@
 
     <TextView
         android:id="@+id/relax_item_name"
+        android:visibility="gone"
         android:textStyle="italic"
         android:text="@string/app_name"
         android:layout_width="match_parent"

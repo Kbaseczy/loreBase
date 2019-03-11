@@ -23,7 +23,7 @@ import androidx.viewpager.widget.ViewPager;
 /**
  * A simple {@link Fragment} subclass.
  * <p>
- *
+ * <p>
  * 1.设置自定义View 失败
  * 2.视频播放不出
  */
@@ -31,7 +31,7 @@ public class RelaxFragment extends Fragment {
     private View view;
 
     private int images[] = {R.drawable.icon_tab, R.drawable.icon_tab2, R.drawable.icon_tab3};
-    private String[] title = {"1", "2", "3"};
+    private String[] title = {"安卓", "网络", "UI"};
 
     public static RelaxFragment getInstance() {
         RelaxFragment fragment = new RelaxFragment();
@@ -90,7 +90,7 @@ public class RelaxFragment extends Fragment {
     }
 
     private View customTab(int position) {
-        L.v("customTab","运行勒吗。");
+        L.v("customTab", "运行勒吗。");
         View view = LayoutInflater.from(getContext()).inflate(R.layout.custom_tab, null);
         ImageView imageView = view.findViewById(R.id.custom_tab_image);
         TextView textView = view.findViewById(R.id.custom_tab_title);

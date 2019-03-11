@@ -138,6 +138,4 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
         }
     }
 
-
-
 }
