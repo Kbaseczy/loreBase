@@ -31,6 +31,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
+
         <activity android:name=".ui.activity.TodoEditActivity" />
         <activity android:name=".ui.activity.TodoAddActivity" />
         <activity
@@ -96,7 +97,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- MainActivity -->
+        </activity>
         <activity
             android:name=".ui.activity.RegisterActivity"
             android:launchMode="singleTask" />
@@ -109,6 +110,7 @@
             android:name=".ui.activity.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTask"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.LoginActivity"

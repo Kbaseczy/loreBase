@@ -53,8 +53,6 @@ public class RelaxFragment extends Fragment {
         ViewPager viewPager = view.findViewById(R.id.viewpager_relax);
         TabLayout tabLayout = view.findViewById(R.id.tab_relax);
 
-//        tabLayout.post(() -> IndicatorLineUtil.setIndicator(tabLayout, 40, 40));
-
         int[] identity = {0, 1, 2};
         for (String aTitle : title) {
             tabLayout.addTab(tabLayout.newTab());

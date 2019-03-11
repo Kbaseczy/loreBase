@@ -31,7 +31,7 @@ public class LoadVideoScreenShot {
                 return toTransform;
             }
             @Override
-            public void updateDiskCacheKey(MessageDigest messageDigest) {
+            public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
                 try {
                     messageDigest.update((context.getPackageName() + "RotateTransform").getBytes(StandardCharsets.UTF_8));
                 } catch (Exception e) {

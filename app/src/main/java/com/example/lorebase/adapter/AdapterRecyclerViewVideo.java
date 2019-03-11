@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.VideoConstant;
 import com.example.lorebase.holder.BaseHolder;
@@ -71,7 +70,7 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
             name.setText(VideoConstant.videoTitles[0][position]);
             //增加封面
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            LoadVideoScreenShot.loadVideoScreenshot(context,"https://www.imooc.com/video/15064",imageView,1000);
+            LoadVideoScreenShot.loadVideoScreenshot(context,"http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4",imageView,1000);
             if (imageView.getParent() != null) {
                 ViewGroup viewGroup = (ViewGroup) imageView.getParent();
                 viewGroup.removeView(imageView);
@@ -80,12 +79,10 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
             Map<String, String> header = new HashMap<>();
             header.put("ee", "33");
 
-            //防止错位，离开释放
-            //gsyVideoPlayer.initUIState();
             gsyVideoOptionBuilder
                     .setIsTouchWiget(false)
                     .setThumbImageView(imageView)
-                    .setUrl("https://www.imooc.com/video/15064")
+                    .setUrl("http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4")
 //             VideoConstant.videoUrls[0][position]
                     .setVideoTitle(VideoConstant.videoTitles[0][position])
                     .setCacheWithPlay(false)
@@ -111,6 +108,7 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
                             super.onQuitFullscreen(url, objects);
                             //全屏不静音
                             GSYVideoManager.instance().setNeedMute(true);
+//                            windowIsTranslucent=true;
                         }
 
                         @Override
@@ -123,7 +121,7 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
 
 
             //增加title
-            videoPlayer.getTitleTextView().setVisibility(View.GONE);
+            videoPlayer.getTitleTextView().setVisibility(View.VISIBLE);
 
             //设置返回键
             videoPlayer.getBackButton().setVisibility(View.GONE);
@@ -136,8 +134,10 @@ public class AdapterRecyclerViewVideo extends RecyclerView.Adapter<AdapterRecycl
          * 全屏幕按键处理
          */
         private void resolveFullBtn(final StandardGSYVideoPlayer standardGSYVideoPlayer) {
-            standardGSYVideoPlayer.startWindowFullscreen(context, true, true);
+            standardGSYVideoPlayer.startWindowFullscreen(context, false, true);
         }
     }
+
+
 
 }

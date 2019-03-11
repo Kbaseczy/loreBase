@@ -3,27 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/dp_6"
     android:orientation="vertical">
 
     <com.shuyu.gsyvideoplayer.video.GSYSampleADVideoPlayer
         android:id="@+id/video_player"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="300dp" />
 
     <TextView
         android:id="@+id/relax_item_name"
         android:textStyle="italic"
         android:text="@string/app_name"
         android:layout_width="match_parent"
-        android:textSize="@dimen/dp_20"
+        android:textSize="@dimen/dp_16"
         android:layout_marginStart="@dimen/dp_6"
         android:layout_height="22dp"
         tools:ignore="SpUsage" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:scrollbarStyle="insideInset"
-        android:background="@color/black" />
+        android:background="@color/Blue" />
 </LinearLayout>
