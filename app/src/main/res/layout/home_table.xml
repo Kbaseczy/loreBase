@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_20"
         android:layout_weight="1"
+        android:elevation="2dp"
         android:orientation="vertical">
 
         <ImageView
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_20"
         android:layout_weight="1"
+        android:elevation="2dp"
         android:orientation="vertical">
 
         <ImageView

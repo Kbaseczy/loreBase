@@ -12,7 +12,7 @@
     android:padding="@dimen/dp_20"
     app:cardBackgroundColor="@color/viewBackground"
     app:cardCornerRadius="2dp"
-    app:cardElevation="@dimen/dp_20">
+    app:cardElevation="2dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
