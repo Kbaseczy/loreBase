@@ -35,3 +35,5 @@ err:Error: Program type already present: com.baidu.speech
 
   todo 界面渲染，之前一直无法绘出需要的界面，加上后好使
   android:hardwareAccelerated="true"
+
+  资源复用，修改时可以减少麻烦
