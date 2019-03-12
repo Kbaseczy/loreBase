@@ -18,6 +18,7 @@ import com.example.lorebase.adapter.RecyclerBaseAdapter;
 import com.example.lorebase.bean.VideoModel;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.holder.RecyclerItemViewHolder;
+import com.example.lorebase.util.L;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.shuyu.gsyvideoplayer.utils.CommonUtil;
@@ -75,6 +76,7 @@ public class RelaxListFragment extends Fragment {
 //        list.add(videoOptionModel);
 //        GSYVideoManager.instance().setOptionModelList(list);
         initView();
+        L.v("small video","onCreateView execute.");
         return view;
     }
 
