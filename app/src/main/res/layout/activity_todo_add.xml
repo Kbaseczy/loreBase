@@ -52,6 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/date"
+        android:hint="@string/dead_line"
         android:drawablePadding="5dp"
         android:padding="@dimen/dp_10"
         android:textColor="@android:color/black"
