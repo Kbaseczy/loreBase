@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.AdapterRecyclerViewVideo;
 import com.example.lorebase.adapter.RecyclerBaseAdapter;
@@ -119,7 +120,6 @@ public class RelaxListFragment extends Fragment {
                         recyclerBaseAdapter.notifyDataSetChanged();
                     }
                 }
-
             }
         });
 
@@ -163,7 +163,7 @@ public class RelaxListFragment extends Fragment {
                         //如果是小窗口就不需要处理
                         if (!smallVideoHelper.isSmall() && !smallVideoHelper.isFull()) {
                             //小窗口
-                            int size = CommonUtil.dip2px(getActivity(), 150);
+                            int size = CommonUtil.dip2px(MyApplication.getAppContext(), 150);
                             //actionbar为true才不会掉下面去
                             smallVideoHelper.showSmallVideo(new Point(size, size), true, true);
                         }
@@ -187,32 +187,10 @@ public class RelaxListFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        GSYVideoManager.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        GSYVideoManager.onResume();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         smallVideoHelper.releaseVideoPlayer();
         GSYVideoManager.releaseAllVideos();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Objects.requireNonNull(getActivity()).finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void resolveData() {

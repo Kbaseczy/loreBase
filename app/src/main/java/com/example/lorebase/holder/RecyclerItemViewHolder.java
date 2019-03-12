@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.example.lorebase.R;
 import com.example.lorebase.bean.VideoModel;
+import com.example.lorebase.util.LoadVideoScreenShot;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoHelper;
 
 public class RecyclerItemViewHolder extends BaseHolder {
@@ -37,7 +38,9 @@ public class RecyclerItemViewHolder extends BaseHolder {
 
         //增加封面
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageResource(R.mipmap.cherry);
+        LoadVideoScreenShot.loadVideoScreenshot(context
+                , "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4"
+                ,imageView,1000);
 
         smallVideoHelper.addVideoPlayer(position, imageView, TAG, listItemContainer, listItemBtn);
 
@@ -45,7 +48,7 @@ public class RecyclerItemViewHolder extends BaseHolder {
             smallVideoHelper.setPlayPositionAndTag(position, TAG);
             getAdapter().notifyDataSetChanged();
             //listVideoUtil.setLoop(true);
-            String url = "http://wdquan-space.b0.upaiyun.com/VIDEO/2018/11/22/ae0645396048_hls_time10.m3u8";
+            String url = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
             //listVideoUtil.setCachePath(new File(FileUtils.getPath()));
 
             gsySmallVideoHelperBuilder.setVideoTitle("title " + position).setUrl(url);
