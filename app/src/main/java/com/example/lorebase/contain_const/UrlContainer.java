@@ -4,7 +4,7 @@ package com.example.lorebase.contain_const;
  * Api接口地址
  */
 public class UrlContainer {
-    public static final String baseUrl = "http://wanandroid.com/";
+    public static final String baseUrl = "https://wanandroid.com/";
     /**
      * 登录  ok
      */
@@ -121,17 +121,17 @@ public class UrlContainer {
     /*
      * TODO 未完成列表
      * */
-    public static final String TODO_TODO = "http://www.wanandroid.com/lg/todo/v2/list/";
+    public static final String TODO_TODO = "https://www.wanandroid.com/lg/todo/v2/list/";
 
     /*
      * TODO 完成列表
      * */
-    public static final String TODO_COMPLETE = "http://www.wanandroid.com/lg/todo/v2/list/";
+    public static final String TODO_COMPLETE = "https://www.wanandroid.com/lg/todo/v2/list/";
 
     /*
      * TODO 删除一个todo
      * */
-    public static final String TODO_DELETE = "http://www.wanandroid.com/lg/todo/delete/";
+    public static final String TODO_DELETE = "https://www.wanandroid.com/lg/todo/delete/";
 
     /*
      * TODO 修改一个todo
@@ -145,7 +145,7 @@ public class UrlContainer {
 	    type: ；
 	    priority: ；
      * */
-    public static final String TODO_UPDATE = "http://www.wanandroid.com/lg/todo/update/";
+    public static final String TODO_UPDATE = "https://www.wanandroid.com/lg/todo/update/";
 
     /*
      * TODO 添加一个TODO
@@ -157,13 +157,13 @@ public class UrlContainer {
 	    type: 大于0的整数（可选）；
 	    priority 大于0的整数（可选）；
      * */
-    public static final String TODO_ADD = "http://www.wanandroid.com/lg/todo/add/json";
+    public static final String TODO_ADD = "https://www.wanandroid.com/lg/todo/add/json";
 
     /*
       TODO 更新todo状态（待办0 已完成1）
      */
 
-    public static final String DONE_TODO_URI = "http://www.wanandroid.com/lg/todo/done/";
+    public static final String DONE_TODO_URI = "https://www.wanandroid.com/lg/todo/done/";
     /*
         必应  ok
     */

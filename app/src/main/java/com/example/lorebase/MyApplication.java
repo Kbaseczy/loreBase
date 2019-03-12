@@ -1,7 +1,6 @@
 package com.example.lorebase;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
@@ -9,13 +8,13 @@ import android.preference.PreferenceManager;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
-import com.danikula.videocache.HttpProxyCacheServer;
 import com.example.lorebase.greenDao.DaoMaster;
 import com.example.lorebase.greenDao.DaoSession;
 import com.example.lorebase.util.L;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
-import com.zhy.http.okhttp.cookie.store.MemoryCookieStore;
+import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
+import com.zhy.http.okhttp.https.HttpsUtils;
 import com.zhy.http.okhttp.log.LoggerInterceptor;
 
 import java.util.concurrent.TimeUnit;
@@ -25,7 +24,7 @@ import okhttp3.OkHttpClient;
 public class MyApplication extends Application {
     private static DaoSession daoSession;
 
-    public static MyApplication instance() {
+    public static MyApplication getAppContext() {
         return MyApplicationHolder.MY_APPLICATION;
     }
 
@@ -42,6 +41,7 @@ public class MyApplication extends Application {
         //Map SDK init.
         SDKInitializer.initialize(this);
         SDKInitializer.setCoordType(CoordType.BD09LL);
+
         okHttpCookie();
         initGreenDao();
         manageAlarm(); //定时通知
@@ -70,17 +70,18 @@ public class MyApplication extends Application {
     }
 
     private void okHttpCookie() {
-        CookieJarImpl cookieJar1 = new CookieJarImpl(new MemoryCookieStore());
+//        CookieJarImpl cookieJar1 = new CookieJarImpl(new MemoryCookieStore());
+        CookieJarImpl cookieJar = new CookieJarImpl(new PersistentCookieStore(getApplicationContext()));
+        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(15000L, TimeUnit.MILLISECONDS)
                 .readTimeout(15000L, TimeUnit.MILLISECONDS)
                 .addInterceptor(new LoggerInterceptor("jankin"))
-                .cookieJar(cookieJar1)
+                .cookieJar(cookieJar)
                 .hostnameVerifier((hostname, session) -> true)
+                .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .build();
         OkHttpUtils.initClient(okHttpClient);
     }
-
-    private HttpProxyCacheServer proxy;
 
 }
