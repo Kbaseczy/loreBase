@@ -110,7 +110,6 @@
             android:name=".ui.activity.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTask"
-            android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.LoginActivity"
@@ -144,7 +143,9 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.RelaxActivity"
-            android:launchMode="singleTask" />
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.NavigationActivity"
             android:launchMode="singleTask" />
