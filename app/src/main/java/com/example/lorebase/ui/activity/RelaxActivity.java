@@ -36,7 +36,7 @@ public class RelaxActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_relax);
+        setContentView(R.layout.activity_relax);
         initRelax();
     }
 
@@ -48,13 +48,13 @@ public class RelaxActivity extends BaseActivity {
         TabLayout tabLayout = findViewById(R.id.tab_lore_title);
 
         int[] identity = {0, 1, 2};
-        for (String aTitle : title) {
-            tabLayout.addTab(tabLayout.newTab());
-        }
-        for (int i = 0; i < title.length; i++) {
-            tabLayout.addTab(tabLayout.newTab());
-            tabLayout.getTabAt(i).setCustomView(customTab(i));
-        }
+//        for (String aTitle : title) {
+//            tabLayout.addTab(tabLayout.newTab());
+//        }
+//        for (int i = 0; i < title.length; i++) {
+//            tabLayout.addTab(tabLayout.newTab());
+//            tabLayout.getTabAt(i).setCustomView(customTab(i));
+//        }
 
         List<Fragment> fragments = new ArrayList<>();
         for (int ident : identity) {

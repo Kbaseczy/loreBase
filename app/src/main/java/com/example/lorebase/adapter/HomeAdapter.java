@@ -236,11 +236,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //bind article data
     private void initArticle(RecyclerView.ViewHolder holder) {
 
-        GridLayoutManager manager = new GridLayoutManager(context, 2);
+        GridLayoutManager manager = new GridLayoutManager(context, 1);
         HomeListAdapter homeListAdapter = new HomeListAdapter(beanList_article);
         ((Holder_article) holder).recyclerView.setLayoutManager(manager);
         ((Holder_article) holder).recyclerView.setAdapter(homeListAdapter);
-        ((Holder_article) holder).recyclerView.addItemDecoration(new DividerItemGridDecoration(context));
+//        ((Holder_article) holder).recyclerView.addItemDecoration(new DividerItemGridDecoration(context));
     }
 
 }

@@ -37,13 +37,10 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RelaxListFragment extends Fragment {
     private int identity_id;
     private View view;
-    private AdapterRecyclerViewVideo adapterVideoList;
     private RecyclerBaseAdapter recyclerBaseAdapter;
     private List<VideoModel> dataList = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private GSYVideoHelper smallVideoHelper;
-
-    private GSYVideoHelper.GSYVideoHelperBuilder gsySmallVideoHelperBuilder;
 
     private int firstVisibleItem, lastVisibleItem;
     public static RelaxListFragment getInstance(int we_chat_id) {
@@ -71,24 +68,24 @@ public class RelaxListFragment extends Fragment {
 //        list.add(videoOptionModel);
 //        GSYVideoManager.instance().setOptionModelList(list);
         initView();
-        L.v("small video","onCreateView execute.");
+        L.v("onCreateView execute.  "+identity_id);
         return view;
     }
 
     private void initView() {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_relax_list);
-        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         FrameLayout frameLayout = view.findViewById(R.id.video_full_container);
         resolveData();
         //配置 小窗口
-        recyclerBaseAdapter = new RecyclerBaseAdapter(getContext(), dataList);
-        recyclerView.setAdapter(adapterVideoList);
+        recyclerBaseAdapter = new RecyclerBaseAdapter(getActivity(), dataList);
+        recyclerView.setAdapter(recyclerBaseAdapter);
 
         smallVideoHelper = new GSYVideoHelper(getActivity(), new NormalGSYVideoPlayer(getActivity()));
         smallVideoHelper.setFullViewContainer(frameLayout);
 
-        gsySmallVideoHelperBuilder = new GSYVideoHelper.GSYVideoHelperBuilder();
+        GSYVideoHelper.GSYVideoHelperBuilder gsySmallVideoHelperBuilder = new GSYVideoHelper.GSYVideoHelperBuilder();
         gsySmallVideoHelperBuilder
                 .setHideActionBar(true)
                 .setHideStatusBar(true)
@@ -137,20 +134,6 @@ public class RelaxListFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                /*//大于0说明有播放
-                if (GSYVideoManager.instance().getPlayPosition() >= 0) {
-                    //当前播放的位置
-                    int position = GSYVideoManager.instance().getPlayPosition();
-                    //对应的播放列表TAG
-                    if (GSYVideoManager.instance().getPlayTag().equals(AdapterRecyclerViewVideo.MyViewHolder.TAG)
-                            && (position < firstVisibleItem || position > lastVisibleItem)) {
-                        //如果滑出去了上面和下面就是否，和今日头条一样
-                        if (!GSYVideoManager.isFullState(getActivity())) {
-                            GSYVideoManager.releaseAllVideos();
-                            adapterVideoList.notifyDataSetChanged();
-                        }
-                    }
-                }*/
                 //大于0说明有播放,//对应的播放列表TAG
                 if (smallVideoHelper.getPlayPosition() >= 0 && smallVideoHelper.getPlayTAG().equals(RecyclerItemViewHolder.TAG)) {
                     //当前播放的位置
@@ -160,7 +143,7 @@ public class RelaxListFragment extends Fragment {
                         //如果是小窗口就不需要处理
                         if (!smallVideoHelper.isSmall() && !smallVideoHelper.isFull()) {
                             //小窗口
-                            int size = CommonUtil.dip2px(MyApplication.getAppContext(), 150);
+                            int size = CommonUtil.dip2px(getActivity(), 150);  //上下文环境 this --context -->point
                             //actionbar为true才不会掉下面去
                             smallVideoHelper.showSmallVideo(new Point(size, size), true, true);
                         }
@@ -170,14 +153,9 @@ public class RelaxListFragment extends Fragment {
                         }
                     }
                 }
-
             }
         });
 
-    }
-
-    public boolean onBackPressed() {
-        return GSYVideoManager.backFromWindowFull(getActivity());
     }
 
     @Override

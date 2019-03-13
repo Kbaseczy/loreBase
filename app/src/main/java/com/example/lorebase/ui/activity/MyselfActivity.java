@@ -18,6 +18,7 @@ import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.util.DividerItemGridDecoration;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -105,18 +106,18 @@ public class MyselfActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true); //todo
         }
-        collapsingToolbarLayout.setTitle("Myself_Collection");
+        collapsingToolbarLayout.setTitle("我的收藏");
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
         collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
         Glide.with(this).load(R.drawable.image_store).into(portrait);
-        fab_note.setOnClickListener(view -> Toast.makeText(MyselfActivity.this, "悬浮注释输入框", Toast.LENGTH_SHORT).show());
+        fab_note.setOnClickListener(view -> ToastUtil.showShortToastCenter("别点我"));
 
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         adapter = new MyselfAdapter(this, datasBeanList);
 
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
+//        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
         fab_top.setOnClickListener(v -> recyclerView.scrollToPosition(0));
 
     }

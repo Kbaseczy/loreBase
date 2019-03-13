@@ -42,7 +42,7 @@ public class ProjectFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_project, null);
+        view = inflater.inflate(R.layout.fragment_project, null);
         getProjectChapter();
         return view;
     }

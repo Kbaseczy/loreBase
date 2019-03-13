@@ -59,7 +59,7 @@ public class BrowseHistoryActivity extends BaseActivity {
         BrowseHistoryAdapter adapter = new BrowseHistoryAdapter(browseHistoryList);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
+//        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
         fab_delete.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.tip)

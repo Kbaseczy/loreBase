@@ -84,6 +84,6 @@ public class LoreTreeFragment extends Fragment {
 
         recyclerView_loreTree.setAdapter(loreTreeAdapter);
 
-        recyclerView_loreTree.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getActivity())));
+//        recyclerView_loreTree.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getActivity())));
     }
 }

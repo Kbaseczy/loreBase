@@ -88,7 +88,7 @@ public class LoreListFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         adapter = new LoreListAdapter(getActivity(), datasBeanList);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getContext())));
+//        recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getContext())));
     }
 
     private void getDataList() {

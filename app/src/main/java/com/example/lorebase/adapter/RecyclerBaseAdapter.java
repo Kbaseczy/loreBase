@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.VideoModel;
 import com.example.lorebase.holder.RecyclerItemViewHolder;
+import com.example.lorebase.util.L;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoHelper;
 
 import java.util.List;
@@ -16,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerBaseAdapter extends RecyclerView.Adapter {
-
 
     private List<VideoModel> itemDataList;
 
@@ -29,17 +29,20 @@ public class RecyclerBaseAdapter extends RecyclerView.Adapter {
     public RecyclerBaseAdapter(Context context, List<VideoModel> itemDataList) {
         this.itemDataList = itemDataList;
         this.context = context;
+        L.v("RecyclerBaseAdapter execute.  "+context);
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        L.v("onCreateViewHolder execute.  "+viewType);
         View v = LayoutInflater.from(context).inflate(R.layout.list_video_item, parent, false);
         return new RecyclerItemViewHolder(context, v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
+        L.v("onBindViewHolder execute.  "+position);
         RecyclerItemViewHolder recyclerItemViewHolder = (RecyclerItemViewHolder) holder;
         recyclerItemViewHolder.setVideoHelper(smallVideoHelper, gsySmallVideoHelperBuilder);
         recyclerItemViewHolder.setAdapter(this);
@@ -70,6 +73,4 @@ public class RecyclerBaseAdapter extends RecyclerView.Adapter {
         this.smallVideoHelper = smallVideoHelper;
         this.gsySmallVideoHelperBuilder = gsySmallVideoHelperBuilder;
     }
-
-
 }

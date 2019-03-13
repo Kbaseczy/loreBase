@@ -105,7 +105,7 @@ public class ItemProjectFragment extends Fragment {
         adapter = new ProjectAdapter(getActivity(),beans_project);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getActivity())));
+//        recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getActivity())));
     }
 
     private void getProject() {

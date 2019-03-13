@@ -22,6 +22,6 @@
         android:layout_height="wrap_content"
         app:tabIndicatorFullWidth="false"
         android:background="@color/viewBackground"
-        app:tabIndicatorColor="@color/Blue"
-        app:tabMode="fixed" />
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabMode="scrollable" />
 </com.google.android.material.appbar.AppBarLayout>

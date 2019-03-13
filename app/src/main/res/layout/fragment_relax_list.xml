@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="@color/viewBackground"
         custom:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/item_relax_list" />
+        tools:listitem="@layout/list_video_item" />
 
     <FrameLayout
         android:id="@+id/video_full_container"

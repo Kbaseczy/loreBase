@@ -7,12 +7,11 @@
     android:orientation="vertical"
     tools:context="com.example.lorebase.ui.fragment.ProjectFragment">
 
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_lore_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/Blue"
+        app:tabIndicatorColor="@color/colorPrimary"
         app:tabIndicatorFullWidth="false"
         app:tabMode="scrollable" />
 

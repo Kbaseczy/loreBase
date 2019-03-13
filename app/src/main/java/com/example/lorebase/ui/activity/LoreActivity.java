@@ -2,21 +2,22 @@ package com.example.lorebase.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
-import com.example.lorebase.adapter.FragmentAdapterLoreList;
 import com.example.lorebase.bean.LoreTree;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.fragment.subFragment.LoreListFragment;
+import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 /*
@@ -58,7 +59,7 @@ public class LoreActivity extends BaseActivity {
         if (bundle != null) {
             father_bean = (LoreTree.DataBean) bundle.getSerializable(ConstName.OBJ);
         } else {
-            Toast.makeText(this, "unexpected err.", Toast.LENGTH_SHORT).show();
+            ToastUtil.showShortToastCenter("unexpected err.");
         }
         if (father_bean != null) {
             //父级目录进入子级目录,获取当前父级目录名
@@ -80,7 +81,23 @@ public class LoreActivity extends BaseActivity {
             fragments.add(new LoreListFragment().instantiate(child.getId())); //todo ★point
         }
 
-        FragmentAdapterLoreList fragmentAdapterLoreList = new FragmentAdapterLoreList(getSupportFragmentManager(), fragments, childrenBean);
+        FragmentStatePagerAdapter fragmentAdapterLoreList = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fragments.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return childrenBean != null ? childrenBean.size() : 0;
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return childrenBean.get(position).getName();
+            }
+        };
         viewPager.setAdapter(fragmentAdapterLoreList);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);

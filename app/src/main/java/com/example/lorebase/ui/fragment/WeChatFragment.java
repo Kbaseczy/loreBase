@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.lorebase.R;
-import com.example.lorebase.adapter.FragmentAdapterWeChat;
 import com.example.lorebase.bean.WeChat;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
@@ -21,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Request;
@@ -87,10 +88,26 @@ public class WeChatFragment extends Fragment {
             fragments.add(WeChatArticleFragment.getInstance(wechat.getId()));
         }
 
-        FragmentAdapterWeChat adapterWeChat = new FragmentAdapterWeChat(getFragmentManager(), fragments, list_weChat);
+        FragmentStatePagerAdapter adapterWeChat = new FragmentStatePagerAdapter(getFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fragments.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return list_weChat != null ? list_weChat.size() : 0;
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return list_weChat.get(position).getName();
+            }
+        };
 
         viewPager.setAdapter(adapterWeChat);
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
     }
 
