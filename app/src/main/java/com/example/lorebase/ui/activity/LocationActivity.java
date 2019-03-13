@@ -12,6 +12,8 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -144,11 +146,11 @@ public class LocationActivity extends BaseActivity {
                 .setOnOrientationListener((azimuth, pitch, roll) -> {
                     navigateTo(location);
 //                    // 设置自定义图标
-//                    BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
-//                            .fromResource(R.drawable.icon_navigation);
-//                    MyLocationConfiguration config = new MyLocationConfiguration(
-//                            mCurrentMode, true, mCurrentMarker);
-//                    baiduMap.setMyLocationConfigeration(config);
+                    BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
+                            .fromResource(R.drawable.icon_navigation);
+                    MyLocationConfiguration config = new MyLocationConfiguration(
+                            mCurrentMode, true, mCurrentMarker);
+                    baiduMap.setMyLocationConfigeration(config);
                 });
     }
 
