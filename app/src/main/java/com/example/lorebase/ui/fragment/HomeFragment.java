@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -37,6 +38,10 @@ import okhttp3.Request;
  * ·android:focusable="true"
  */
 public class HomeFragment extends Fragment {
+    @BindView(R.id.recycler_home)
+    RecyclerView recyclerHome;
+    @BindView(R.id.easy_refresh_home)
+    EasyRefreshLayout easyRefreshHome;
     private View view;
     private int page = 0;
     private List<Banner.DataBean> banner_t;
@@ -64,30 +69,27 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onResume() {
-        easyRefreshLayout = view.findViewById(R.id.easy_refresh_home);
-        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
-            @Override
-            public void onLoadMore() {
-                getDataList();
-            }
-
-            @Override
-            public void onRefreshing() {
-                getDataList();
-            }
-        });
+//        easyRefreshHome.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+//            @Override
+//            public void onLoadMore() {
+//                getDataList();
+//            }
+//
+//            @Override
+//            public void onRefreshing() {
+//                getDataList();
+//            }
+//        });
         super.onResume();
     }
 
     private void initView() {
-        recyclerView = view.findViewById(R.id.recycler_home);
-
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         adapter = new HomeAdapter(getActivity(), banner_t, beanList_news, beanList_article);
         adapter.addList(banner_t, beanList_news, beanList_article);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setBackgroundColor(Color.WHITE);
+        recyclerHome.setLayoutManager(manager);
+        recyclerHome.setAdapter(adapter);
+        recyclerHome.setBackgroundColor(Color.WHITE);
     }
 
     private void getDataList() {

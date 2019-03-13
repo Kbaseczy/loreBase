@@ -40,7 +40,7 @@ public class HttpUtil {
         try {
             return NetWorkHelper.isMobileDataEnable(context);
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            L.e(TAG, e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -53,7 +53,7 @@ public class HttpUtil {
         try {
             return NetWorkHelper.isWifiDataEnable(context);
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            L.e(TAG, e.getMessage());
             e.printStackTrace();
             return false;
         }
