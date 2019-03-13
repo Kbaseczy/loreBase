@@ -16,11 +16,11 @@
         android:title="@string/tree"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_relax"
+        android:id="@+id/action_project"
         android:orderInCategory="100"
         android:enabled="true"
         android:icon="@drawable/keyboard"
-        android:title="@string/relax"
+        android:title="@string/project"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_we_chat"

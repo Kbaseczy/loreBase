@@ -1,14 +1,14 @@
-package com.example.lorebase.ui.activity;
+package com.example.lorebase.ui.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
-import com.example.lorebase.adapter.FragmentAdapterProjectList;
 import com.example.lorebase.bean.ProjectChapter;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.ui.fragment.subFragment.ItemProjectFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -17,8 +17,10 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Request;
@@ -26,26 +28,23 @@ import okhttp3.Request;
 /*
     和LoreActivity 共用的toolBar_tab_lore布局
  */
-public class ProjectActivity extends BaseActivity {
+public class ProjectFragment extends Fragment {
 
-    private ViewPager viewPager;
     private List<ProjectChapter.DataBean> beanList_chapter;
+    View view;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_project);
-        initView();
-        getProjectChapter();
+    public static ProjectFragment getInstance() {
+        ProjectFragment fragment = new ProjectFragment();
+        Bundle bundle = new Bundle();
+        fragment.setArguments(bundle);
+        return fragment;
     }
-
-    private void initView() {
-        Toolbar toolbar = findViewById(R.id.toolbar_lore);
-        FloatingActionButton floatingActionButton = findViewById(R.id.fab_project);
-        toolbar.setTitle(R.string.project);
-        toolbar.setNavigationOnClickListener(v -> finish());
-        viewPager = findViewById(R.id.vp_project);
-        floatingActionButton.setOnClickListener(v -> ItemProjectFragment.recyclerView.scrollToPosition(0));
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.activity_project, null);
+        getProjectChapter();
+        return view;
     }
 
     private void getProjectChapter() {
@@ -75,7 +74,8 @@ public class ProjectActivity extends BaseActivity {
     }
 
     private void initViewPager() {
-        TabLayout tabLayout = findViewById(R.id.tab_lore_title);
+        ViewPager viewPager = view.findViewById(R.id.vp_project);
+        TabLayout tabLayout = view.findViewById(R.id.tab_lore_title);
         for (ProjectChapter.DataBean project : beanList_chapter) {
             tabLayout.addTab(tabLayout.newTab().setText(project.getName()));
         }
@@ -85,10 +85,27 @@ public class ProjectActivity extends BaseActivity {
             fragments.add(new ItemProjectFragment().instance(project.getId())); //todo ★point
         }
 
-        FragmentAdapterProjectList fragmentAdapterProjectList =
-                new FragmentAdapterProjectList(getSupportFragmentManager(), fragments, beanList_chapter);
+        FragmentStatePagerAdapter fragmentAdapterProjectList =
+                new FragmentStatePagerAdapter(getFragmentManager()) {
+                    @Override
+                    public Fragment getItem(int position) {
+                        return fragments.get(position);
+                    }
+
+                    @Override
+                    public int getCount() {
+                        return fragments.size();
+                    }
+
+                    @Nullable
+                    @Override
+                    public CharSequence getPageTitle(int position) {
+                        return beanList_chapter.get(position).getName();
+                    }
+                };
         viewPager.setAdapter(fragmentAdapterProjectList);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
     }
+
 }

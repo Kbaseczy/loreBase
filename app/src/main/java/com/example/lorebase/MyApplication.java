@@ -23,6 +23,12 @@ import okhttp3.OkHttpClient;
 
 public class MyApplication extends Application {
     private static DaoSession daoSession;
+    PersistentCookieStore persistentCookieStore;
+
+    public PersistentCookieStore getPersistentCookieStore() {
+        return persistentCookieStore;
+    }
+
 
     public static MyApplication getAppContext() {
         return MyApplicationHolder.MY_APPLICATION;
@@ -70,8 +76,9 @@ public class MyApplication extends Application {
     }
 
     private void okHttpCookie() {
+        persistentCookieStore = new PersistentCookieStore(getApplicationContext());
 //        CookieJarImpl cookieJar1 = new CookieJarImpl(new MemoryCookieStore());
-        CookieJarImpl cookieJar = new CookieJarImpl(new PersistentCookieStore(getApplicationContext()));
+        CookieJarImpl cookieJar = new CookieJarImpl(persistentCookieStore);
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(15000L, TimeUnit.MILLISECONDS)

@@ -18,7 +18,7 @@ import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.recog.ActivityUiDialog;
 import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
-import com.example.lorebase.ui.fragment.RelaxFragment;
+import com.example.lorebase.ui.fragment.ProjectFragment;
 import com.example.lorebase.ui.fragment.WeChatFragment;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.ActivityCollector;
@@ -82,7 +82,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     HomeFragment homeFragment;
     LoreTreeFragment loreTreeFragment;
-    RelaxFragment relaxFragment;
+    ProjectFragment projectFragment;
     WeChatFragment weChatFragment;
 
     @Override
@@ -91,10 +91,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         setContentView(R.layout.activity_main);
         homeFragment = HomeFragment.getInstance();
         loreTreeFragment = LoreTreeFragment.getInstance();
-        relaxFragment = RelaxFragment.getInstance();
+        projectFragment = ProjectFragment.getInstance();
         weChatFragment = WeChatFragment.getInstance();
-        sp = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
 
+        sp = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
         //根據自動登陸boolean去做登陸操作 ， 也是在二次及以後進入app所需要的。 初始值在LoginActivity中
         boolean isAuto = sp.getBoolean(ConstName.IS_AUTO_LOGIN, false);
         if (isAuto) autoLogin();
@@ -151,12 +151,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.menu);
         }
-//        toolbar.inflateMenu(R.menu.menu_activity_main);   actionBar的方式使用最下面2个方法，toolbar则需要自己链式加载布局。
-//        toolbar.setNavigationOnClickListener(v ->    //点击home按钮拉出侧滑栏
-//                drawerLayout.openDrawer(GravityCompat.START)
-//        );
-        // 那个menu按钮在下面监听无效，需要在上面监听（TODO 原因待考察 - > need to setSupportActionbar(toolbar)）
-//        toolbar.setOnMenuItemClickListener(this);
     }
 
     private void initViewpager() {
@@ -180,7 +174,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         List<Fragment> list = new ArrayList<>();
         list.add(homeFragment);
         list.add(loreTreeFragment);
-        list.add(relaxFragment);
+        list.add(projectFragment);
         list.add(weChatFragment); //todo 当前可以保存状态，出现空白。new 实例 解决空白，不保存状态。
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             // FragmentStatePagerAdapter/FragmentPagerAdapter 注意区别
@@ -242,7 +236,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 fab.setOnClickListener(v ->
                         LoreTreeFragment.recyclerView_loreTree.scrollToPosition(0));
                 break;
-            case R.id.action_relax:
+            case R.id.action_project:
                 viewPager.setCurrentItem(2);
                 break;
             case R.id.action_we_chat:
@@ -257,7 +251,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.nav_todo:
-                startActivity(new Intent(this,TODOActivity.class));
+                startActivity(new Intent(this, TODOActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 Toast.makeText(this, "登陆状态：" + sp.getBoolean(ConstName.IS_LOGIN, false), Toast.LENGTH_SHORT).show();
                 break;
@@ -329,7 +323,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
     private void logout(int flag) {
         String url = UrlContainer.baseUrl + UrlContainer.LOGOUT;
@@ -422,7 +415,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         super.onDestroy();
         homeFragment = null;
         loreTreeFragment = null;
-        relaxFragment = null;
+        projectFragment = null;
         weChatFragment = null;
         //退出程序應該自動注銷,登陸狀態改爲false
         logout(2);

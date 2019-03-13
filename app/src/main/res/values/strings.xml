@@ -4,7 +4,7 @@
     <string name="login" translatable="false">登陆</string>
     <string name="mainpage" translatable="false">首页</string>
     <string name="tree" translatable="false">知识体系</string>
-    <string name="relax">轻松一瞅</string>
+    <string name="relax">视频学习</string>
 
     <string name="passWord">密码</string>
     <string name="re_enter">再次输入密码</string>

@@ -1,14 +1,10 @@
 package com.example.lorebase.ui.fragment.subFragment;
 
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
-import android.transition.Explode;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.FrameLayout;
 
 import com.example.lorebase.MyApplication;
@@ -28,7 +24,6 @@ import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -182,10 +177,7 @@ public class RelaxListFragment extends Fragment {
     }
 
     public boolean onBackPressed() {
-        if (GSYVideoManager.backFromWindowFull(getActivity())) {
-            return true;
-        }
-        return false;
+        return GSYVideoManager.backFromWindowFull(getActivity());
     }
 
     @Override

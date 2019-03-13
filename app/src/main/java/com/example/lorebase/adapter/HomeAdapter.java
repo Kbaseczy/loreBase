@@ -24,7 +24,8 @@ import com.example.lorebase.bean.News;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.NavigationActivity;
-import com.example.lorebase.ui.activity.ProjectActivity;
+import com.example.lorebase.ui.activity.RelaxActivity;
+import com.example.lorebase.ui.fragment.ProjectFragment;
 import com.example.lorebase.util.DividerItemGridDecoration;
 
 import java.util.List;
@@ -211,7 +212,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Glide.with(Objects.requireNonNull(context)).load(R.drawable.icon_project).into(((Holder_tab) holder).image_project);
         Glide.with(context).load(R.drawable.icon_navigation).into(((Holder_tab) holder).image_navigation);
 
-        ((Holder_tab) holder).project.setOnClickListener(v -> context.startActivity(new Intent(context, ProjectActivity.class)));
+        ((Holder_tab) holder).project.setOnClickListener(v -> context.startActivity(new Intent(context, RelaxActivity.class)));
         ((Holder_tab) holder).navigation.setOnClickListener(v -> context.startActivity(new Intent(context, NavigationActivity.class)));
     }
 

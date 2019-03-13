@@ -16,6 +16,7 @@ import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.CollectArticle;
+import com.example.lorebase.ui.fragment.ProjectFragment;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.NestedScrollAgentWebView;
 
@@ -174,7 +175,7 @@ public class AgentWebActivity extends BaseActivity {
                 intent.setClass(AgentWebActivity.this, BrowseHistoryActivity.class);
                 break;
             case ConstName.activity.PROJECT:
-                intent.setClass(AgentWebActivity.this, ProjectActivity.class);
+                intent.setClass(AgentWebActivity.this, ProjectFragment.class);
                 break;
             case ConstName.activity.NAVIGATION:
                 intent.setClass(AgentWebActivity.this, NavigationActivity.class);

@@ -109,6 +109,7 @@ public class TodoEditActivity extends Activity implements View.OnClickListener {
         String uri = UrlContainer.TODO_UPDATE + id + "/json";
         OkHttpUtils
                 .post()
+                .addHeader("Cookie", String.valueOf(OkHttpUtils.getInstance().getOkHttpClient().cookieJar()))
                 .url(uri)
                 .addParams("title", todo_name.getText().toString())
                 .addParams("content", todo_desc.getText().toString())
