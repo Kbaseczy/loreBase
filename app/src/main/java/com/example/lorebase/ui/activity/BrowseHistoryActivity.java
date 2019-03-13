@@ -14,7 +14,6 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.BrowseHistoryAdapter;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.greenDao.BrowseHistoryDao;
-import com.example.lorebase.util.DividerItemGridDecoration;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

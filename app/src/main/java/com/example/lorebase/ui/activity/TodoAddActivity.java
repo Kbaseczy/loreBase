@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
-import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.util.L;

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.bumptech.glide.Glide;
@@ -16,7 +15,6 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.MyselfAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.util.DividerItemGridDecoration;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;

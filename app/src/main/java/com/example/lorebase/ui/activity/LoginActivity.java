@@ -13,23 +13,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
-import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.util.L;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 import okhttp3.Call;
-import okhttp3.Cookie;
-import okhttp3.HttpUrl;
 import okhttp3.Request;
 
 
