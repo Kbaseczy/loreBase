@@ -7,9 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
-import com.example.lorebase.adapter.AdapterRecyclerViewVideo;
 import com.example.lorebase.adapter.RecyclerBaseAdapter;
 import com.example.lorebase.bean.VideoModel;
 import com.example.lorebase.contain_const.ConstName;

@@ -22,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import butterknife.BindView;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -31,11 +30,8 @@ import okhttp3.Request;
  */
 public class ProjectFragment extends Fragment {
 
-    @BindView(R.id.tab_lore_title)
-    TabLayout tabLoreTitle;
-    @BindView(R.id.vp_project)
-    ViewPager vpProject;
     private List<ProjectChapter.DataBean> beanList_chapter;
+    View view;
 
     public static ProjectFragment getInstance() {
         ProjectFragment fragment = new ProjectFragment();
@@ -43,11 +39,10 @@ public class ProjectFragment extends Fragment {
         fragment.setArguments(bundle);
         return fragment;
     }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_project, null);
+        view = inflater.inflate(R.layout.fragment_project, null);
         getProjectChapter();
         return view;
     }
@@ -79,8 +74,10 @@ public class ProjectFragment extends Fragment {
     }
 
     private void initViewPager() {
+        ViewPager viewPager = view.findViewById(R.id.vp_project);
+        TabLayout tabLayout = view.findViewById(R.id.tab_lore_title);
         for (ProjectChapter.DataBean project : beanList_chapter) {
-            tabLoreTitle.addTab(tabLoreTitle.newTab().setText(project.getName()));
+            tabLayout.addTab(tabLayout.newTab().setText(project.getName()));
         }
 
         List<Fragment> fragments = new ArrayList<>();
@@ -106,9 +103,9 @@ public class ProjectFragment extends Fragment {
                         return beanList_chapter.get(position).getName();
                     }
                 };
-        vpProject.setAdapter(fragmentAdapterProjectList);
-        vpProject.setOffscreenPageLimit(2);
-        tabLoreTitle.setupWithViewPager(vpProject);
+        viewPager.setAdapter(fragmentAdapterProjectList);
+        viewPager.setOffscreenPageLimit(2);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
 }
