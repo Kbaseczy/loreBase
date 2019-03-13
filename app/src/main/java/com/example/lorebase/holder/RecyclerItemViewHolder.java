@@ -35,8 +35,8 @@ public class RecyclerItemViewHolder extends BaseHolder {
     }
 
     public void onBind(final int position, VideoModel videoModel) {
-        String url = "https://www.cniao5.com/lesson/play/21907c4e04f811e9991600163e0b2c81.html";
-//        String url = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
+//        String url = "https://www.cniao5.com/lesson/play/21907c4e04f811e9991600163e0b2c81.html";
+        String url = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
         //增加封面
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         LoadVideoScreenShot.loadVideoScreenshot(context
