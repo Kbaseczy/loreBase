@@ -19,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -30,10 +29,15 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
     FloatingActionButton fab;
     ViewPager viewPager;
 
+    TodoFragment todoFragment;
+    TodoFragment todoDoneFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
+        todoFragment = TodoFragment.getInstance(false);
+        todoDoneFragment = TodoFragment.getInstance(true);
         initView();
     }
 
@@ -69,10 +73,22 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
         });
 
         List<Fragment> list = new ArrayList<>();
-        list.add(TodoFragment.getInstance(false));
-        list.add(TodoFragment.getInstance(true));
-        TodoViewPagerAdapter adapter = new TodoViewPagerAdapter(getSupportFragmentManager(), list);
+        list.add(todoFragment);
+        list.add(todoDoneFragment);
+        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public int getCount() {
+                return list.size();
+            }
+
+            @Override
+            public Fragment getItem(int position) {
+                return list.get(position);
+            }
+        };
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(2);
+
     }
 
     //load the menu file
@@ -115,24 +131,13 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
         return false;
     }
 
-    //viewpager adapter
-    private static class TodoViewPagerAdapter extends FragmentPagerAdapter {
-        private List<Fragment> mFragments;
-
-        TodoViewPagerAdapter(FragmentManager fm, List<Fragment> fragments) {
-            super(fm);
-            mFragments = fragments;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragments.size();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (todoFragment != null)
+            todoFragment = null;
+        if (todoDoneFragment != null)
+            todoDoneFragment = null;
     }
 }
 

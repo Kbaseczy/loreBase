@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -12,8 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.TimeUtils;
 import com.example.lorebase.util.ToastUtil;
@@ -25,11 +29,16 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import okhttp3.Call;
 import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class TodoAddActivity extends BaseActivity implements View.OnClickListener {
 
@@ -68,7 +77,7 @@ public class TodoAddActivity extends BaseActivity implements View.OnClickListene
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, TODOActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
         }
@@ -76,45 +85,34 @@ public class TodoAddActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void postData() {
-        String uri = UrlContainer.TODO_ADD;
-
-        OkHttpUtils
-                .post()
-                .url(uri)
-                .addParams("title", todo_name.getText().toString())
-                .addParams("content", todo_desc.getText().toString())
-                .addParams("date", s_date.getText().toString())
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        Map<String,String> map = new HashMap<>();
+        map.put("title",todo_name.getText().toString());
+        map.put("content",todo_desc.getText().toString());
+        map.put("date",s_date.getText().toString());
+        retrofit2.Call<TodoTodo> todoAddCall = api.postAddTodo(map);
+        todoAddCall.enqueue(new Callback<TodoTodo>() {
+            @Override
+            public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
+                if (response.body() != null) {
+                    if(response.body().getErrorCode()==0){
+                        Intent i = new Intent(TodoAddActivity.this, TODOActivity.class);
+                        startActivity(i);
+                        overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                        Toast.makeText(TodoAddActivity.this, "添加成功", Toast.LENGTH_LONG).show();
+                        finish();
+                    } else {
+                        ToastUtil.showShortToastCenter(response.body().getErrorMsg());
+                        Toast.makeText(TodoAddActivity.this, response.body().getErrorMsg(), Toast.LENGTH_LONG).show();
                     }
+                }
+            }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+            @Override
+            public void onFailure(retrofit2.Call<TodoTodo> call, Throwable t) {
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.e(response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.getInt("errorCode") == 0) {
-                                Intent i = new Intent(TodoAddActivity.this, TODOActivity.class);
-                                startActivity(i);
-                                overridePendingTransition(R.animator.go_in, R.animator.go_out);
-                                ToastUtil.showShortToastCenter("添加成功");
-                                finish();
-                            } else {
-                                Toast.makeText(TodoAddActivity.this, jsonObject.getString("errorMsg"), Toast.LENGTH_LONG).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+            }
+        });
     }
 
     @Override

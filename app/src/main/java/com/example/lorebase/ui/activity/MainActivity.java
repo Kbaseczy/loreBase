@@ -181,7 +181,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         list.add(homeFragment);
         list.add(loreTreeFragment);
         list.add(projectFragment);
-        list.add(weChatFragment); //todo 当前可以保存状态，出现空白。new 实例 解决空白，不保存状态。
+        list.add(weChatFragment);
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             // FragmentStatePagerAdapter/FragmentPagerAdapter 注意区别
             @Override

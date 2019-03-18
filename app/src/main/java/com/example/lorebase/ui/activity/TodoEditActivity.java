@@ -11,25 +11,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.util.L;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.lorebase.http.RetrofitApi;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
-import okhttp3.Call;
-import okhttp3.Request;
+import androidx.appcompat.widget.Toolbar;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TodoEditActivity extends Activity implements View.OnClickListener {
     TodoTodo.DataBean.DatasBean datasBean;
@@ -106,44 +103,71 @@ public class TodoEditActivity extends Activity implements View.OnClickListener {
     }
 
     private void updateData(int id) {
-        String uri = UrlContainer.TODO_UPDATE + id + "/json";
-        OkHttpUtils
-                .post()
-                .addHeader("Cookie", String.valueOf(OkHttpUtils.getInstance().getOkHttpClient().cookieJar()))
-                .url(uri)
-                .addParams("title", todo_name.getText().toString())
-                .addParams("content", todo_desc.getText().toString())
-                .addParams("date", s_date.getText().toString())
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        Map<String,String> map = new HashMap<>();
+        map.put("title",todo_name.getText().toString());
+        map.put("content",todo_desc.getText().toString());
+        map.put("date",s_date.getText().toString());
+        retrofit2.Call<TodoTodo> todoEditCall = api.postEditTodo(id,map);
+        todoEditCall.enqueue(new Callback<TodoTodo>() {
+            @Override
+            public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
+                if(response.body()!=null){
+                    Intent i = new Intent(TodoEditActivity.this, TODOActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                    finish();
+                }else {
+                    assert response.body() != null;
+                    Toast.makeText(TodoEditActivity.this, response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.e(response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.getInt("errorCode") == 0) {
-                                Intent i = new Intent(TodoEditActivity.this, TODOActivity.class);
-                                startActivity(i);
-                                overridePendingTransition(R.animator.go_in, R.animator.go_out);
-                                finish();
-                            } else {
-                                Toast.makeText(TodoEditActivity.this, jsonObject.getString("errorMsg"), Toast.LENGTH_LONG).show();
+            @Override
+            public void onFailure(retrofit2.Call<TodoTodo> call, Throwable t) {
 
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+            }
+        });
+
+
+//        String uri = UrlContainer.TODO_UPDATE + id + "/json";
+//        OkHttpUtils
+//                .post()
+//                .url(uri)
+//                .addParams("title", todo_name.getText().toString())
+//                .addParams("content", todo_desc.getText().toString())
+//                .addParams("date", s_date.getText().toString())
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int id) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    @Override
+//                    public void onBefore(Request request, int id) {
+//                        super.onBefore(request, id);
+//                    }
+//
+//                    @Override
+//                    public void onResponse(String response, int id) {
+//                        L.e(response);
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(response);
+//                            if (jsonObject.getInt("errorCode") == 0) {
+//                                Intent i = new Intent(TodoEditActivity.this, TODOActivity.class);
+//                                startActivity(i);
+//                                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+//                                finish();
+//                            } else {
+//                                Toast.makeText(TodoEditActivity.this, jsonObject.getString("errorMsg"), Toast.LENGTH_LONG).show();
+//
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
     }
 }

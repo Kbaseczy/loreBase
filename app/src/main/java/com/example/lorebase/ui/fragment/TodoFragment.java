@@ -2,7 +2,6 @@ package com.example.lorebase.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.util.L;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -30,14 +28,14 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  * todo 逻辑代码完成。   需要注意：界面UI item的动态变化情况，和之前的收藏类似  --> 收藏图标需要刷新后可更新
- * todo err： 请求数据时，始终提示 ”请登录“。
+ * todo err： 请求数据时，始终提示 ”请登录“。--持久化cookie
  */
 public class TodoFragment extends Fragment {
 
     private Boolean is_done;
     private View view;
     private int page = 1;
-    private List<TodoTodo.DataBean.DatasBean> list_todo ;
+    private List<TodoTodo.DataBean.DatasBean> list_todo;
     public static RecyclerView recyclerView;
     private EasyRefreshLayout easyRefreshLayout;
     private TodoAdapter todoAdapter;
@@ -55,6 +53,7 @@ public class TodoFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             is_done = bundle.getBoolean(ConstName.IS_DONE);
+            L.v(is_done ? "true-onCreate" : "false-onCreate");
         }
         super.onCreate(savedInstanceState);
     }
@@ -63,7 +62,7 @@ public class TodoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_todo, container, false);
-        getTodoList();
+
         return view;
     }
 
@@ -76,6 +75,8 @@ public class TodoFragment extends Fragment {
 
     @Override
     public void onResume() {
+        L.v(is_done ? "true-onResume" : "false-onResume");
+        getTodoList(is_done);
         easyRefreshLayout = view.findViewById(R.id.easy_refresh_todo);
         easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
@@ -95,19 +96,19 @@ public class TodoFragment extends Fragment {
         new Handler().postDelayed(() -> {
             if (easyRefreshLayout.isRefreshing()) {
                 page = 1;
-                getTodoList();
+                getTodoList(is_done);
                 todoAdapter.addList_todo(list_todo);
                 easyRefreshLayout.refreshComplete();
             } else {
                 page++;
-                getTodoList();
+                getTodoList(is_done);
                 todoAdapter.addList_todo(list_todo);
                 easyRefreshLayout.loadMoreComplete();
             }
         }, 500);
     }
 
-    private void getTodoList() {
+    private void getTodoList(Boolean is_done) {
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
         retrofit2.Call<TodoTodo> todoCall;
         if (is_done) {
@@ -121,7 +122,7 @@ public class TodoFragment extends Fragment {
             public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
                 if (response.body() != null) {
                     list_todo = response.body().getData().getDatas();
-                    L.v(list_todo.size()+ "  size");
+                    L.v(list_todo.size() + "  size");
                     initView();
                 }
             }

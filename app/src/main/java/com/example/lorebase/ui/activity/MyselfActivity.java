@@ -11,10 +11,12 @@ import android.widget.ImageView;
 import com.ajguan.library.EasyRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.example.lorebase.BaseActivity;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.MyselfAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -31,6 +33,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.Call;
 import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MyselfActivity extends BaseActivity {
 
@@ -46,7 +51,6 @@ public class MyselfActivity extends BaseActivity {
         getCollect();
     }
 
-    @SuppressLint("RestrictedApi")
     @Override
     protected void onResume() {
         easyRefreshLayout = findViewById(R.id.easy_refresh_myself);
@@ -65,30 +69,22 @@ public class MyselfActivity extends BaseActivity {
     }
 
     private void getCollect() {
-        String url = UrlContainer.baseUrl + "lg/collect/list/" + page + "/json";
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<Article> articleCall = api.getCollect(page);
+        articleCall.enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(retrofit2.Call<Article> call, Response<Article> response) {
+                if (response.body() != null) {
+                    datasBeanList = response.body().getData().getDatas();
+                    initView();
+                }
+            }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+            @Override
+            public void onFailure(retrofit2.Call<Article> call, Throwable t) {
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.v(response);
-                        Gson gson = new Gson();
-                        datasBeanList = gson.fromJson(response, Article.class).getData().getDatas();
-                        initView();
-                    }
-                });
+            }
+        });
     }
 
     private void initView() {
@@ -125,13 +121,11 @@ public class MyselfActivity extends BaseActivity {
             if (easyRefreshLayout.isRefreshing()) {
                 page = 0;
                 getCollect();
-//                adapter.setBeanList_article(beanList_article);
                 adapter.addDatasBeanList(datasBeanList);
                 easyRefreshLayout.refreshComplete();
             } else {
                 page++;
                 getCollect();
-//                adapter.setBeanList_article(beanList_article);
                 adapter.addDatasBeanList(datasBeanList);
                 easyRefreshLayout.loadMoreComplete();
             }
