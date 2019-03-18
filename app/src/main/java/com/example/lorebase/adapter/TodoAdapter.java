@@ -12,10 +12,10 @@ import android.widget.TextView;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.http.OkGet;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.TodoEditActivity;
+import com.example.lorebase.util.L;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -55,8 +55,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         holder.item_date.setText(datasBean.getDateStr());
 
         holder.action_complete.setOnClickListener(v -> {
-            OkGet.todoComplete(datasBean.getId(), mContext, is_done ? 0 : 1, is_done);
-            notifyDataSetChanged();
+            RetrofitUtil.todoComplete(datasBean.getId(), mContext, is_done);
+            notifyItemChanged(position);
         });
 
         holder.action_delete.setOnClickListener(v -> {
@@ -65,9 +65,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
                     .setMessage(R.string.tip_content_clear_history)
                     .setNegativeButton(R.string.cancel, null)
                     .setPositiveButton(R.string.ok, (dialogInterface, i) ->
-                            OkGet.todoDelete(datasBean.getId(), mContext))
+                            RetrofitUtil.todoDelete(datasBean.getId(), mContext))
                     .show();
-            notifyDataSetChanged();
             notifyItemRemoved(position);
         });
 
@@ -75,7 +74,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
             Bundle bundle = new Bundle();
             bundle.putSerializable(ConstName.TODO_BEAN, datasBean);
             mContext.startActivity(new Intent(mContext, TodoEditActivity.class)
-                    .putExtra(ConstName.TODO_BEAN, bundle)); //todo 未测试，获取list时登陆没通过。  通过序列化传递bean对象
+                    .putExtra(ConstName.TODO_BEAN_NAME, bundle));
         });
     }
 
@@ -99,8 +98,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
             view = itemView.findViewById(R.id.todo_layout);
         }
     }
-
-
 }
 
 

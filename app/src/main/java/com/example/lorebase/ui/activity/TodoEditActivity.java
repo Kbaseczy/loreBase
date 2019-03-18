@@ -17,6 +17,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.util.L;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -25,6 +26,7 @@ import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -38,10 +40,11 @@ public class TodoEditActivity extends Activity implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        Bundle bundle = getIntent().getBundleExtra(ConstName.TODO_BEAN);
+        Bundle bundle = getIntent().getBundleExtra(ConstName.TODO_BEAN_NAME);
         if (bundle == null)
             return;
         datasBean = (TodoTodo.DataBean.DatasBean) bundle.getSerializable(ConstName.TODO_BEAN);
+        L.v("bundle不为空");
     }
 
     @Override
@@ -129,45 +132,5 @@ public class TodoEditActivity extends Activity implements View.OnClickListener {
 
             }
         });
-
-
-//        String uri = UrlContainer.TODO_UPDATE + id + "/json";
-//        OkHttpUtils
-//                .post()
-//                .url(uri)
-//                .addParams("title", todo_name.getText().toString())
-//                .addParams("content", todo_desc.getText().toString())
-//                .addParams("date", s_date.getText().toString())
-//                .build()
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onError(Call call, Exception e, int id) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    @Override
-//                    public void onBefore(Request request, int id) {
-//                        super.onBefore(request, id);
-//                    }
-//
-//                    @Override
-//                    public void onResponse(String response, int id) {
-//                        L.e(response);
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(response);
-//                            if (jsonObject.getInt("errorCode") == 0) {
-//                                Intent i = new Intent(TodoEditActivity.this, TODOActivity.class);
-//                                startActivity(i);
-//                                overridePendingTransition(R.animator.go_in, R.animator.go_out);
-//                                finish();
-//                            } else {
-//                                Toast.makeText(TodoEditActivity.this, jsonObject.getString("errorMsg"), Toast.LENGTH_LONG).show();
-//
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
     }
 }
