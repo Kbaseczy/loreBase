@@ -13,18 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.util.L;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.example.lorebase.http.RetrofitApi;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import okhttp3.Call;
-import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /*
@@ -121,56 +117,43 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
         }
     }
+
     private void login(String userName, String password) {
-        String url = UrlContainer.baseUrl + UrlContainer.LOGIN;
-        OkHttpUtils
-                .post()
-                .url(url)
-                .addParams("username", userName)
-                .addParams("password", password)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<User> loginCall = api.login(userName, password);
+        loginCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(retrofit2.Call<User> call, Response<User> response) {
+                if (response.body().getErrorCode() == 0) {
+                    editor = pref.edit();
+                    editor.putBoolean(ConstName.IS_LOGIN, true); //存储登陆状态的Boolean
+                    editor.putString(ConstName.USER_NAME, userName);
+                    //根据CheckBox判断  存储 checkBox boolean/账号/密码
+                    if (remember_pass.isChecked()) {
+                        editor.putBoolean(ConstName.IS_REMEMBER, true);
+                        editor.putString(ConstName.PASS_WORD, password);
+                    } else {
+                        editor.clear(); //用于第二次及以后登陆时  如果取消勾选则清除数据
                     }
+                    editor.apply(); //提交保存数据
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+                    Toast.makeText(LoginActivity.this, "sign in Successful", Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                    finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, response.body().getErrorMsg(), Toast.LENGTH_LONG).show();
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.e(response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.getInt("errorCode") == 0) {
-                                editor = pref.edit();
-                                editor.putBoolean(ConstName.IS_LOGIN, true); //存储登陆状态的Boolean
-                                editor.putString(ConstName.USER_NAME, userName);
-                                //根据CheckBox判断  存储 checkBox boolean/账号/密码
-                                if (remember_pass.isChecked()) {
-                                    editor.putBoolean(ConstName.IS_REMEMBER, true);
-                                    editor.putString(ConstName.PASS_WORD, password);
-                                } else {
-                                    editor.clear(); //用于第二次及以后登陆时  如果取消勾选则清除数据
-                                }
-                                editor.apply(); //提交保存数据
+                }
+            }
 
-                                Toast.makeText(LoginActivity.this, "sign in Successful", Toast.LENGTH_LONG).show();
-                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(i);
-                                overridePendingTransition(R.animator.go_in, R.animator.go_out);
-                                finish();
-                            } else {
-                                Toast.makeText(LoginActivity.this, jsonObject.getString("errorMsg"), Toast.LENGTH_LONG).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+            @Override
+            public void onFailure(retrofit2.Call<User> call, Throwable t) {
+                Log.v("sdfasdf", t.getMessage() + "  yhujg");
+            }
+        });
+
     }
 
     private boolean checkNetwork() {

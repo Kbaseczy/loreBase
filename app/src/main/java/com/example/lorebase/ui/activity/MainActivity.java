@@ -3,6 +3,7 @@ package com.example.lorebase.ui.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,9 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.recog.ActivityUiDialog;
 import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
@@ -46,6 +50,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /*
     ☆ Lambda 里面不能intent 定义，使用需要在外部定义，在里面用new Intent().setClass()  個別
@@ -408,6 +414,35 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         }
                     }
                 });
+
+       /* RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<User> loginCall = api.login(userName, password);
+        loginCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(retrofit2.Call<User> call, Response<User> response) {
+                if (response.body().getErrorCode() == 0) {
+                    editor = sp.edit();
+                    editor.putBoolean(ConstName.IS_LOGIN, true); //自動登陸后，登陸狀態改爲true
+                    editor.apply(); //提交保存数据
+
+                    refreshSign();  //自动登陆后刷新界面
+                    Toast.makeText(MainActivity.this, "sign in Successful", Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(MainActivity.this, MainActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                    finish();
+                } else {
+                    Toast.makeText(MainActivity.this, response.body().getErrorMsg(), Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<User> call, Throwable t) {
+                Log.v("sdfasdf", t.getMessage() + "  yhujg");
+            }
+        });*/
+
     }
 
     @Override

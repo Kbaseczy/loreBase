@@ -8,9 +8,14 @@ import android.preference.PreferenceManager;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
+import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.greenDao.DaoMaster;
 import com.example.lorebase.greenDao.DaoSession;
 import com.example.lorebase.util.L;
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
 import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
@@ -20,15 +25,12 @@ import com.zhy.http.okhttp.log.LoggerInterceptor;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyApplication extends Application {
     private static DaoSession daoSession;
-    PersistentCookieStore persistentCookieStore;
-
-    public PersistentCookieStore getPersistentCookieStore() {
-        return persistentCookieStore;
-    }
-
+    public static Retrofit retrofit;
 
     public static MyApplication getAppContext() {
         return MyApplicationHolder.MY_APPLICATION;
@@ -76,19 +78,20 @@ public class MyApplication extends Application {
     }
 
     private void okHttpCookie() {
-        persistentCookieStore = new PersistentCookieStore(getApplicationContext());
-//        CookieJarImpl cookieJar1 = new CookieJarImpl(new MemoryCookieStore());
-        CookieJarImpl cookieJar = new CookieJarImpl(persistentCookieStore);
-        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
+        ClearableCookieJar cookieJar =
+                new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplicationContext()));
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(15000L, TimeUnit.MILLISECONDS)
                 .readTimeout(15000L, TimeUnit.MILLISECONDS)
-                .addInterceptor(new LoggerInterceptor("jankin"))
+//                .addInterceptor(new ReceivedCookiesInterceptor())
+//                .addInterceptor(new AddCookiesInterceptor())
                 .cookieJar(cookieJar)
-                .hostnameVerifier((hostname, session) -> true)
-                .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .build();
-        OkHttpUtils.initClient(okHttpClient);
+        retrofit = new Retrofit.Builder()
+                .baseUrl(UrlContainer.baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
     }
 
 }

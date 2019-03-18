@@ -2,24 +2,21 @@ package com.example.lorebase.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ajguan.library.EasyRefreshLayout;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.TodoAdapter;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.util.L;
-import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -27,8 +24,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.Call;
-import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +37,7 @@ public class TodoFragment extends Fragment {
     private Boolean is_done;
     private View view;
     private int page = 1;
-    private List<TodoTodo.DataBean.DatasBean> list_todo;
+    private List<TodoTodo.DataBean.DatasBean> list_todo ;
     public static RecyclerView recyclerView;
     private EasyRefreshLayout easyRefreshLayout;
     private TodoAdapter todoAdapter;
@@ -65,7 +62,6 @@ public class TodoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_todo, container, false);
         getTodoList();
         return view;
@@ -112,39 +108,29 @@ public class TodoFragment extends Fragment {
     }
 
     private void getTodoList() {
-        String uri_todo = UrlContainer.TODO_TODO + page + "/json?status=0";
-        String uri_complete = UrlContainer.TODO_COMPLETE + page + "/json?status=1&orderby=2";
-        OkHttpUtils
-                .get()
-                .url(is_done ? uri_complete : uri_todo)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<TodoTodo> todoCall;
+        if (is_done) {
+            todoCall = api.getDoneTodoList(page);
+        } else {
+            todoCall = api.getUnTodoList(page);
+        }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+        todoCall.enqueue(new Callback<TodoTodo>() {
+            @Override
+            public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
+                if (response.body() != null) {
+                    list_todo = response.body().getData().getDatas();
+                    L.v(list_todo.size()+ "  size");
+                    initView();
+                }
+            }
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.d("TAGTODO", response);
-                        try {
-                            if (new JSONObject(response).getInt("errorCode") == 0) {
-                                Gson gson = new Gson();
-                                list_todo = gson.fromJson(response, TodoTodo.class).getData().getDatas();
-                                initView();
-                            } else {
-                                L.e("TAGTODO", new JSONObject(response).getString("errorMsg") + "  有没有");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+            @Override
+            public void onFailure(retrofit2.Call<TodoTodo> call, Throwable t) {
+                L.v("sdfasdf", t.getMessage() + "is there having.");
+            }
+        });
     }
 
     @Override

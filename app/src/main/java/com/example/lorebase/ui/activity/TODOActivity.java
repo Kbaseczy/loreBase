@@ -69,8 +69,8 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
         });
 
         List<Fragment> list = new ArrayList<>();
-        list.add(TodoFragment.getInstance(true));
         list.add(TodoFragment.getInstance(false));
+        list.add(TodoFragment.getInstance(true));
         TodoViewPagerAdapter adapter = new TodoViewPagerAdapter(getSupportFragmentManager(), list);
         viewPager.setAdapter(adapter);
     }
