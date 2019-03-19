@@ -57,11 +57,8 @@
                             android:background="@null"
                             android:gravity="center"
                             android:tag="tips_wait_net"
-<<<<<<< HEAD
 
-=======
-                           
->>>>>>> parent of f63e7ad... remove unused resource
+
                             android:textColor="#424242"
                             android:textSize="18sp" />
 
