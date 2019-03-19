@@ -333,7 +333,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         logoutCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(retrofit2.Call<User> call, Response<User> response) {
-                L.v(response.body() != null ? response.body().getErrorCode() + " " : " -1");
+                L.v(response.body() != null ? response.body().getErrorCode() + "<--ErrorCode " : " -1");
                 //發送請求，獲得響應，為true則在服務器清除成功 --> 更新isLogin的值
                 editor = sp.edit();
                 if (flag == 1) {
