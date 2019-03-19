@@ -28,7 +28,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  * todo 逻辑代码完成。   需要注意：界面UI item的动态变化情况，和之前的收藏类似  --> 收藏图标需要刷新后可更新
- * todo err： 请求数据时，始终提示 ”请登录“。--持久化cookie
+ * todo err： 请求数据时，始终提示 ”请登录“。--持久化cookie  --ok
  */
 public class TodoFragment extends Fragment {
 
@@ -62,7 +62,6 @@ public class TodoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_todo, container, false);
-
         return view;
     }
 

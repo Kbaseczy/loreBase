@@ -259,7 +259,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case R.id.nav_todo:
                 startActivity(new Intent(this, TODOActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
-                Toast.makeText(this, "登陆状态：" + sp.getBoolean(ConstName.IS_LOGIN, false), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_position:
                 startActivity(new Intent(this, LocationActivity.class));
@@ -274,7 +273,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.nav_setting:
-                Toast.makeText(this, "test click setting", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, MySettingActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;

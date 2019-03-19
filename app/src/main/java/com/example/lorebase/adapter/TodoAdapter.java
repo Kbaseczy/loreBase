@@ -14,7 +14,6 @@ import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.TodoEditActivity;
-import com.example.lorebase.util.L;
 
 import java.util.List;
 

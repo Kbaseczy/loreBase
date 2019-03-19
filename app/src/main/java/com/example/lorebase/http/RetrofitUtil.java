@@ -58,7 +58,7 @@ public class RetrofitUtil {
             public void onResponse(Call<Article> call, Response<Article> response) {
                 if (response.body() != null)
                     Toast.makeText(context, response.body().getErrorCode() == 0 ?
-                            "取消收藏成功" : response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
+                            "删除成功" : response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

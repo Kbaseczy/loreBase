@@ -80,38 +80,4 @@ public class CollectArticle {
                     }
                 });
     }
-
-    //收藏页面取消收藏
-    public static void unCollect(Context context, int id) {
-        String url = UrlContainer.baseUrl + "lg/uncollect/" + id + "/json";
-        OkHttpUtils
-                .post()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.e(response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.getInt("errorCode") == 0) {
-                                Toast.makeText(context, "have unCollected.", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-    }
-
 }

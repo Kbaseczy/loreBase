@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -17,14 +16,12 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
-import com.example.lorebase.util.L;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,31 +34,30 @@ public class TodoEditActivity extends Activity implements View.OnClickListener {
     TextView s_date;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_todo_edit);
         Bundle bundle = getIntent().getBundleExtra(ConstName.TODO_BEAN_NAME);
         if (bundle == null)
             return;
         datasBean = (TodoTodo.DataBean.DatasBean) bundle.getSerializable(ConstName.TODO_BEAN);
-        L.v("bundle不为空");
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_todo_edit);
         initData();
     }
 
     private void initData() {
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.todoEdit);
+        toolbar.setNavigationOnClickListener(v -> {
+            startActivity(new Intent(this, TODOActivity.class));
+            overridePendingTransition(R.animator.go_in, R.animator.go_out);
+        });
+        toolbar.setTitle(datasBean.getStatus() == 1 ? R.string.todoDetail : R.string.todoEdit);
         todo_name = findViewById(R.id.todo_edit_name);
         todo_desc = findViewById(R.id.todo_edit_des);
         s_date = findViewById(R.id.todo_edit_date);
         save = findViewById(R.id.save_todo_edit);
         if (!TextUtils.isEmpty(datasBean.getContent()))
             todo_desc.setText(datasBean.getContent());
+        todo_name.setText(datasBean.getTitle());
         s_date.setText(datasBean.getDateStr());
 
         if (datasBean.getStatus() == 1) {
@@ -73,7 +69,6 @@ public class TodoEditActivity extends Activity implements View.OnClickListener {
             s_date.setEnabled(false);
             s_date.setFocusable(false);
         }
-
         s_date.setOnClickListener(this);
         save.setOnClickListener(this);
     }
@@ -107,20 +102,20 @@ public class TodoEditActivity extends Activity implements View.OnClickListener {
     private void updateData(int id) {
 
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
-        Map<String,String> map = new HashMap<>();
-        map.put("title",todo_name.getText().toString());
-        map.put("content",todo_desc.getText().toString());
-        map.put("date",s_date.getText().toString());
-        retrofit2.Call<TodoTodo> todoEditCall = api.postEditTodo(id,map);
+        Map<String, String> map = new HashMap<>();
+        map.put("title", todo_name.getText().toString());
+        map.put("content", todo_desc.getText().toString());
+        map.put("date", s_date.getText().toString());
+        retrofit2.Call<TodoTodo> todoEditCall = api.postEditTodo(id, map);
         todoEditCall.enqueue(new Callback<TodoTodo>() {
             @Override
             public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
-                if(response.body()!=null){
+                if (response.body() != null) {
                     Intent i = new Intent(TodoEditActivity.this, TODOActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.animator.go_in, R.animator.go_out);
                     finish();
-                }else {
+                } else {
                     assert response.body() != null;
                     Toast.makeText(TodoEditActivity.this, response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
                 }

@@ -40,3 +40,10 @@ err:Error: Program type already present: com.baidu.speech
 
 todo recycler无数据显示，适配器设置错误。耽误大量时间。 get it~
 -->recyclerView.setAdapter(recyclerBaseAdapter);
+
+todo bundle传数据时
+onCreate(@Nullable Bundle savedInstanceState,
+            @Nullable PersistableBundle persistentState)        取因意外退出activity时的数据--PersistableBundle persistentState
+onCreate(Bundle savedInstanceState)                             一般用方法
+
+todo retrofit获取todo列表，数据没获取到  cause by:请求地址写错了
