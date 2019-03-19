@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 日间模式下app背景色 -->
+    <color name="custom_color_app_bg_day">#FFFFFF</color>
     <!-- 日间模式下app标题栏背景色 -->
+    <color name="custom_color_app_title_layout_bg_day">#FF2F3A4C</color>
+    <color name="custom_color_user_photo_place_holder_bg_day">#29303B</color>
+    <color name="custom_color_text_pressed_day">@color/Grey400</color>
+    <color name="custom_color_text_day">@color/Grey200</color>
     <!-- 夜间模式下app背景色 -->
+    <color name="custom_color_app_bg_night">#1F1F1F</color>
     <!-- 夜间模式下app标题栏背景色 -->
+    <color name="custom_color_app_title_layout_bg_night">#FF1D1D1D</color>
+
+    <color name="custom_color_user_photo_place_holder_bg_night">#171717</color>
+    <color name="custom_color_text_pressed_night">@color/Blue_Grey</color>
+    <color name="custom_color_text_night">@color/colorPrimary_night</color>
 
 </resources>
