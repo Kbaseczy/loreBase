@@ -1,6 +1,5 @@
 package com.example.lorebase.http;
 
-
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.Project;
 import com.example.lorebase.bean.TodoTodo;
@@ -23,6 +22,10 @@ public interface RetrofitApi {
     @POST("user/login")
     Call<User> login(@Query("username") String username,
                      @Query("password") String password);
+
+    //注销
+    @GET(UrlContainer.LOGOUT)
+    Call<User> logout();
 
     //首页文章列表
     @GET(UrlContainer.HOME_LIST)

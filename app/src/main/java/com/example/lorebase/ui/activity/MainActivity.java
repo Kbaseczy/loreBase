@@ -12,9 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.recog.ActivityUiDialog;
 import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
@@ -46,6 +49,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /*
     ☆ Lambda 里面不能intent 定义，使用需要在外部定义，在里面用new Intent().setClass()  個別
@@ -323,49 +328,30 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private void logout(int flag) {
-        String url = UrlContainer.baseUrl + UrlContainer.LOGOUT;
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                        L.v("onErr");
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<User> logoutCall = api.logout();
+        logoutCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(retrofit2.Call<User> call, Response<User> response) {
+                L.v(response.body() != null ? response.body().getErrorCode() + " " : " -1");
+                //發送請求，獲得響應，為true則在服務器清除成功 --> 更新isLogin的值
+                editor = sp.edit();
+                if (flag == 1) {
+                    //界面内點擊注銷 ， 清除用戶信息，無保留
+                    editor.clear();
+                } else {
+                    //未注銷，直接退出應用 ， 保留用戶名/密碼
+                    editor.putBoolean(ConstName.IS_LOGIN, false);//重新写入isLogin覆盖掉原来的值
+                }
+                editor.apply();
+                refreshSign();
+            }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                        L.v("onBefore");
-                    }
+            @Override
+            public void onFailure(retrofit2.Call<User> call, Throwable t) {
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.v(response + "logout");
-                        try {
-                            //question:這個if判斷沒有執行下去 -> 字段打錯了 errCode -errorCode
-
-                            if (new JSONObject(response).getInt("errorCode") == 0) {
-                                //發送請求，獲得響應，為true則在服務器清除成功 --> 更新isLogin的值
-                                editor = sp.edit();
-
-                                if (flag == 1) {
-                                    //界面内點擊注銷 ， 清除用戶信息，無保留
-                                    editor.clear();
-                                } else {
-                                    //未注銷，直接退出應用 ， 保留用戶名/密碼
-                                    editor.putBoolean(ConstName.IS_LOGIN, false);//重新写入isLogin覆盖掉原来的值
-                                }
-                                editor.apply();
-                                refreshSign();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+            }
+        });
     }
 
     private void autoLogin() {
