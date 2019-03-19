@@ -25,8 +25,6 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.NavigationActivity;
 import com.example.lorebase.ui.activity.RelaxActivity;
-import com.example.lorebase.ui.fragment.ProjectFragment;
-import com.example.lorebase.util.DividerItemGridDecoration;
 
 import java.util.List;
 import java.util.Objects;

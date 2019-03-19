@@ -7,26 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ajguan.library.EasyRefreshLayout;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.LoreListAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.util.DividerItemGridDecoration;
-import com.example.lorebase.util.L;
-import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.example.lorebase.http.RetrofitApi;
 
 import java.util.List;
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.Call;
-import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A fragment representing a list of Items.
@@ -110,45 +105,21 @@ public class LoreListFragment extends Fragment {
     }
 
     private void getLore(int chapterID) {
-        String url = UrlContainer.baseUrl + "article/list/" + page + "/json?cid=" + chapterID;
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<Article> loreListLall = api.getLoreList(page,chapterID);
+        loreListLall.enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(retrofit2.Call<Article> call, Response<Article> response) {
+                if (response.body() != null) {
+                    datasBeanList = response.body().getData().getDatas();
+                    initRecycler();
+                }
+            }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+            @Override
+            public void onFailure(retrofit2.Call<Article> call, Throwable t) {
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.v("LoreListFragment " + response);
-
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(response);
-//                            Gson gson = new Gson();
-//                            Type type = new TypeToken<List<Article>>(){}.getType();
-//                            datasBeanList = gson.fromJson(jsonObject.getJSONArray("data").toString(),type);
-//
-//                            for(Article.DataBean.DatasBean article : datasBeanList){
-//                                Log.v("get_ArticleData",article.getTitle());
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-
-                        //TODO :Expected Object but Array -> ok
-                        // todo 请求服务器正常，并获取响应。   数据解析存储ok
-                        Gson gson = new Gson();
-                        datasBeanList = gson.fromJson(response, Article.class).getData().getDatas();
-                        initRecycler();
-                    }
-                });
+            }
+        });
     }
 }

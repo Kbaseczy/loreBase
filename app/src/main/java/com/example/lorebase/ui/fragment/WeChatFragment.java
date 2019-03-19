@@ -110,43 +110,4 @@ public class WeChatFragment extends Fragment {
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
     }
-
-    //计划数据恢复，重回时界面空白
-    /*@Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        L.v("onSaveInstanceState test");
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = null;
-        if (manager != null) {
-            transaction = manager.beginTransaction();
-        }
-        for(WeChat.DataBean wechat : list_weChat){
-            if(WeChatArticleFragment.getInstance(wechat.getId()) != null){
-                if (transaction != null) {
-                    transaction.hide(WeChatArticleFragment.getInstance(wechat.getId()));
-                    transaction.commitAllowingStateLoss();
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = null;
-        if (manager != null) {
-            transaction = manager.beginTransaction();
-        }
-        for(WeChat.DataBean wechat : list_weChat){
-            if(WeChatArticleFragment.getInstance(wechat.getId()) != null){
-                if (transaction != null) {
-                    transaction.hide(WeChatArticleFragment.getInstance(wechat.getId()));
-                    transaction.commitAllowingStateLoss();
-                }
-            }
-        }
-        super.onViewStateRestored(savedInstanceState);
-    }
-*/
 }

@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.http.CollectArticle;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.fragment.ProjectFragment;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.NestedScrollAgentWebView;
@@ -108,10 +108,10 @@ public class AgentWebActivity extends BaseActivity {
                     //收藏接口  ,  根据isCollect(默认是false),false则调用收藏，true则调用取消收藏
 
                     if (!is_collect) {  //疑惑，当二次进入时。如何区分不同文章，进行收藏、取消操作
-                        CollectArticle.collectArticle(this, article_id);
+                        RetrofitUtil.collectArticle(article_id,this);
                         isCollect = true;
                     } else {
-                        CollectArticle.unCollect_originID(this, article_id);
+                        RetrofitUtil.unCollectArticle(article_id,this);
                         isCollect = false;
                     }
 
@@ -122,7 +122,6 @@ public class AgentWebActivity extends BaseActivity {
                 break;
 
             case R.id.web_share:
-                Toast.makeText(this, "share action", Toast.LENGTH_SHORT).show();
                 Intent intent_share = new Intent();
                 intent_share.setAction(Intent.ACTION_SEND);
                 intent_share.setType("text/plain");

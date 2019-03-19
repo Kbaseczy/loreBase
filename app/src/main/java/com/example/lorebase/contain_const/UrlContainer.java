@@ -84,7 +84,7 @@ public class UrlContainer {
     public static final String SEARCH = "article/query/{page}/json";
 
     /**
-     * 搜索热词  ok
+     *   ok
      */
     public static final String HOT_KEYWORD = "/hotkey/json";
 
@@ -116,7 +116,7 @@ public class UrlContainer {
     /*
      * 项目列表 ok
      * */
-    public static final String PROJECT_LIST = "project/list/{page}/json?cid=id";
+    public static final String PROJECT_LIST = "project/list/{page}/json";
 
     /*
      * TODO 未完成列表

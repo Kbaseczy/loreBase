@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ajguan.library.EasyRefreshLayout;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.HomeAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.Banner;
 import com.example.lorebase.bean.News;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.http.RetrofitApi;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -27,6 +29,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.Call;
 import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,18 +67,18 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onResume() {
-//        easyRefreshLayout = view.findViewById(R.id.easy_refresh_home);
-//        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
-//            @Override
-//            public void onLoadMore() {
+        easyRefreshLayout = view.findViewById(R.id.easy_refresh_home);
+        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
 //                getDataList();
-//            }
-//
-//            @Override
-//            public void onRefreshing() {
-//                getDataList();
-//            }
-//        });
+            }
+
+            @Override
+            public void onRefreshing() {
+                getDataList();
+            }
+        });
         super.onResume();
     }
 
@@ -133,6 +137,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getFlipper() {
+
         String url = UrlContainer.baseUrl + UrlContainer.FRIEND;
         OkHttpUtils
                 .get()
@@ -159,29 +164,21 @@ public class HomeFragment extends Fragment {
     }
 
     private void getArticle() {
-        String url = UrlContainer.baseUrl + "article/list/" + page + "/json";
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<Article> homeArticleCall = api.getHomeArticle(page);
+        homeArticleCall.enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(retrofit2.Call<Article> call, Response<Article> response) {
+                if (response.body() != null) {
+                    beanList_article = response.body().getData().getDatas();
+                    initView();
+                }
+            }
+            @Override
+            public void onFailure(retrofit2.Call<Article> call, Throwable t) {
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Gson gson = new Gson();
-                        beanList_article = gson.fromJson(response, Article.class).getData().getDatas();
-                        initView();
-                    }
-                });
+            }
+        });
     }
 
 }

@@ -15,8 +15,6 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.http.CollectArticle;
-import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 

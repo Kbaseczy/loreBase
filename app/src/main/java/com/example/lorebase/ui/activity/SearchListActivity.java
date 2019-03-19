@@ -9,18 +9,15 @@ import android.view.MenuItem;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.example.lorebase.BaseActivity;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.SearchListAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.ui.fragment.subFragment.EmptyFragment;
 import com.example.lorebase.util.DividerItemGridDecoration;
-import com.example.lorebase.util.L;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 
@@ -30,8 +27,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.Call;
-import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A fragment representing a list of Items.
@@ -107,41 +104,30 @@ public class SearchListActivity extends BaseActivity {
                 adapter.setSearch_list(search_list);
                 easyRefreshLayout.loadMoreComplete();
             }
-        }, 1000);
+        }, 500);
     }
 
     private void search(String keyWord) {
-        String url = UrlContainer.baseUrl + "article/query/" + page + "/json";
-        OkHttpUtils
-                .post()
-                .url(url)
-                .addParams(ConstName.KEY_WORD, keyWord)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<Article> searchArticleCall = api.getSearchArticle(page,keyWord);
+        searchArticleCall.enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(retrofit2.Call<Article> call, Response<Article> response) {
+                if (response.body() != null) {
+                    search_list = response.body().getData().getDatas();
+                    if (search_list.size() != 0) {
+                        initSearch();
+                    } else {
+                        goEmpty();
                     }
+                }
+            }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+            @Override
+            public void onFailure(retrofit2.Call<Article> call, Throwable t) {
 
-                    @Override
-                    public void onResponse(String response, int id) {
-//                        L.e(response);
-                        Gson gson = new Gson();
-                        search_list = gson.fromJson(response, Article.class).getData().getDatas();
-                        L.v("2000", search_list.size() + "  search size");
-                        if (search_list.size() == 0) {
-                            goEmpty();
-                        } else {
-                            initSearch();
-                        }
-                    }
-                });
-
+            }
+        });
     }
 
     // 启动该活动传递数据的封装。  一目了然传递了哪些数据

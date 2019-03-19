@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,10 @@ import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.greenDao.BrowseHistoryDao;
-import com.example.lorebase.http.CollectArticle;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
+import com.example.lorebase.util.L;
 
 import java.util.List;
 
@@ -69,7 +68,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             intent.putExtra(ConstName.PROJECT_AUTHOR, article.getAuthor());
             intent.putExtra(ConstName.ID, article.getId());
             intent.putExtra(ConstName.IS_COLLECT,article.isCollect());
-            Log.v("HomeList_isCollect",article.isCollect()+" statue");
+            L.v("HomeList_isCollect",article.isCollect()+" statue");
             intent.setData(Uri.parse(article.getLink()));
             mContext.startActivity(intent);
         });
@@ -85,7 +84,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                             holder.collect.setImageResource(R.drawable.ic_like); //点击图标后变为红色表示已收藏
                             notifyDataSetChanged();
                         } else if (article.isCollect()) {
-                            CollectArticle.unCollect_originID(mContext, article.getId());
+                            RetrofitUtil.unCollectArticle(article.getId(),mContext);
                             RetrofitUtil.unCollectArticle(article.getId(),mContext);
                             holder.collect.setImageResource(R.drawable.ic_like_not);
                             notifyDataSetChanged();

@@ -2,6 +2,7 @@ package com.example.lorebase.http;
 
 
 import com.example.lorebase.bean.Article;
+import com.example.lorebase.bean.Project;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.UrlContainer;
@@ -22,6 +23,23 @@ public interface RetrofitApi {
     @POST("user/login")
     Call<User> login(@Query("username") String username,
                      @Query("password") String password);
+
+    //首页文章列表
+    @GET(UrlContainer.HOME_LIST)
+    Call<Article> getHomeArticle(@Path("page") int page);
+
+    //微信公众号文章
+    @GET(UrlContainer.WX_ARTICLE_LIST)
+    Call<Article> getWXList(@Path("id") int id,@Path("page") int page);
+
+    //项目列表
+    @GET(UrlContainer.PROJECT_LIST)
+    Call<Project> getProjectList(@Path("page") int page,@Query("cid") int cid);
+
+    //搜索
+    @FormUrlEncoded
+    @POST(UrlContainer.SEARCH)
+    Call<Article> getSearchArticle(@Path("page") int page,@Field("k") String key_word);
 
     //获取完成事项
     @GET("lg/todo/v2/list/{page}/json?status=1&orderby=2")
@@ -56,15 +74,21 @@ public interface RetrofitApi {
     @POST(UrlContainer.COLLECT_ARTICLE)
     Call<Article> collectArticle(@Path("id") int id);
 
-    //取消收藏 收藏界面
+    //取消收藏 收藏界面  ok
     @POST(UrlContainer.DELETE_COLLECT_ARTICLE)
     @FormUrlEncoded
     Call<Article> deleteArticle(@Path("id") int id, @Field("originId") int originId);
 
-    //取消收藏 文章列表文章 站内文章
+    //取消收藏 文章列表文章 站内文章  ok
     @POST(UrlContainer.UNCOLLECT_ARTICLE)
-    @FormUrlEncoded
     Call<Article> cancellPageArticle(@Path("id") int id);
+
+    //知识体系下文章列表
+    @GET(UrlContainer.TREE_LIST)
+    Call<Article> getLoreList(@Path("page") int page, @Query("cid") int cid);
+
+
+
 
 
 }

@@ -12,10 +12,9 @@ import android.widget.TextView;
 
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.BrowseHistory;
-import com.example.lorebase.bean.WeChatArticle;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.http.CollectArticle;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
@@ -29,15 +28,15 @@ import androidx.recyclerview.widget.RecyclerView;
 public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdapter.ViewHolder> {
 
 
-    private List<WeChatArticle.DataBean.DatasBean> we_chat_article_list;
+    private List<Article.DataBean.DatasBean> we_chat_article_list;
     private Context mContext;
 
-    public WeChatArticleAdapter(Context context, List<WeChatArticle.DataBean.DatasBean> we_chat_article_list) {
+    public WeChatArticleAdapter(Context context, List<Article.DataBean.DatasBean> we_chat_article_list) {
         this.we_chat_article_list = we_chat_article_list;
         this.mContext = context;
     }
 
-    public void setWe_chat_article_list(List<WeChatArticle.DataBean.DatasBean> we_chat_article_list) {
+    public void setWe_chat_article_list(List<Article.DataBean.DatasBean> we_chat_article_list) {
         this.we_chat_article_list.addAll(we_chat_article_list);
         notifyDataSetChanged();
     }
@@ -56,7 +55,7 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        WeChatArticle.DataBean.DatasBean we_chat_article = we_chat_article_list.get(position);
+        Article.DataBean.DatasBean we_chat_article = we_chat_article_list.get(position);
         SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
         boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
         holder.author.setText(we_chat_article.getAuthor());

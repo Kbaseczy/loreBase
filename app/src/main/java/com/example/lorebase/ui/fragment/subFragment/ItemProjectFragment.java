@@ -2,30 +2,25 @@ package com.example.lorebase.ui.fragment.subFragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ajguan.library.EasyRefreshLayout;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.ProjectAdapter;
 import com.example.lorebase.bean.Project;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.util.DividerItemGridDecoration;
-import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.example.lorebase.http.RetrofitApi;
 
 import java.util.List;
-import java.util.Objects;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.Call;
-import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ItemProjectFragment extends Fragment {
 
@@ -109,29 +104,21 @@ public class ItemProjectFragment extends Fragment {
     }
 
     private void getProject() {
-        String url = UrlContainer.baseUrl + "project/list/" + page + "/json?cid=" + id;
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<Project> projectCall = api.getProjectList(page,id);
+        projectCall.enqueue(new Callback<Project>() {
+            @Override
+            public void onResponse(retrofit2.Call<Project> call, Response<Project> response) {
+                if (response.body() != null) {
+                    beans_project = response.body().getData().getDatas();
+                    initProjectList();
+                }
+            }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+            @Override
+            public void onFailure(retrofit2.Call<Project> call, Throwable t) {
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Log.v("flipper ", response);
-                        Gson gson = new Gson();
-                        beans_project = gson.fromJson(response, Project.class).getData().getDatas();
-                        initProjectList();
-                    }
-                });
+            }
+        });
     }
 }
