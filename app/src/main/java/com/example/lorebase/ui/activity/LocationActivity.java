@@ -1,9 +1,12 @@
 package com.example.lorebase.ui.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,15 +17,18 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
-import com.example.lorebase.util.MyOrientationListener;
+import com.example.lorebase.util.L;
+import com.example.lorebase.util.PositionInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,19 +44,23 @@ import androidx.fragment.app.Fragment;
  * <p>
  * 权限申请和变量实例化先后顺序  导致的crash -->具体表现为：权限申请后才实例化
  */
-public class LocationActivity extends BaseActivity {
+public class LocationActivity extends Activity {
     public LocationClient locationClient;
     private TextView locationText;
     private MapView mapView;
     private BaiduMap baiduMap;
     private boolean isFistLocate = true;
     private MyLocationConfiguration.LocationMode mCurrentMode = MyLocationConfiguration.LocationMode.FOLLOWING;
-    private MyOrientationListener myOrientationListener;
     private StringBuilder currentPosition;
+    private PositionInterface positionInterface;
+    public void setPositionInterface(PositionInterface positionInterface) {
+        this.positionInterface = positionInterface;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        L.v("LocationActivity","onCreate");
         setContentView(R.layout.activity_location);
         locationClient = new LocationClient(this);
         locationClient.registerLocationListener(new MyLocationListener());
@@ -67,17 +77,40 @@ public class LocationActivity extends BaseActivity {
         checkPermission();
     }
 
+    private void overLay(BDLocation location) {
+        LatLng point = new LatLng(location.getLatitude(), location.getLongitude());
+        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.position);
+        //构建MarkerOption，用于在地图上添加Marker
+        OverlayOptions option = new MarkerOptions()
+                .position(point)
+                .icon(bitmap);
+        //在地图上添加Marker，并显示
+        baiduMap.addOverlay(option);
+
+        //用来构造InfoWindow的Button
+        Button button = new Button(getApplicationContext());
+        button.setBackgroundResource(R.color.Grey);
+        button.setText("InfoWindow");
+
+        //构造InfoWindow
+        //point 描述的位置点
+        //-100 InfoWindow相对于point在y轴的偏移量
+        InfoWindow mInfoWindow = new InfoWindow(button, point, -100);
+
+        //使InfoWindow生效
+        baiduMap.showInfoWindow(mInfoWindow);
+    }
+
     private void initLocation() {
         updateLocation();
         locationClient.start();
-        initOritationListener();
     }
 
     private void updateLocation() {
         // todo 通过LocationClientOption 实现实时更新定位信息->5s/次
         //todo  LocationClientOption
         LocationClientOption option = new LocationClientOption();
-//        option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors); todo 设置定位方式GPS
+        option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors); //todo 设置定位方式GPS
         option.setScanSpan(5000);
         option.setIsNeedAddress(true);
         option.setOpenGps(true);
@@ -96,9 +129,16 @@ public class LocationActivity extends BaseActivity {
         // todo 获取当前所在位置  MyLocationData.Builder   MyLocationData  setMyLocationData
         MyLocationData locationData = new MyLocationData.Builder()
                 .accuracy(location.getRadius())
-                .direction(100).latitude(location.getLatitude())
-                .longitude(location.getLongitude()).build();
+                .direction(100)
+                .latitude(location.getLatitude())
+                .longitude(location.getLongitude())
+                .build();
         baiduMap.setMyLocationData(locationData);
+
+        overLay(location);
+
+        if (positionInterface != null)
+            positionInterface.transferPosition(location.getLatitude(), location.getLongitude());
     }
 
     class MyLocationListener extends BDAbstractLocationListener {
@@ -134,42 +174,24 @@ public class LocationActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 初始化方向传感器
-     */
-    private void initOritationListener() {
-        BDLocation location = new BDLocation();
-        myOrientationListener = new MyOrientationListener(
-                getApplicationContext());
-        myOrientationListener.registerListener();
-        myOrientationListener
-                .setOnOrientationListener((azimuth, pitch, roll) -> {
-                    navigateTo(location);
-//                    // 设置自定义图标
-                    BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
-                            .fromResource(R.drawable.icon_navigation);
-                    MyLocationConfiguration config = new MyLocationConfiguration(
-                            mCurrentMode, true, mCurrentMarker);
-                    baiduMap.setMyLocationConfigeration(config);
-                });
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-        myOrientationListener.start();
+        L.v("LocationActivity","onStart");
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mapView.onPause();
+        L.v("LocationActivity","onPause");
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        L.v("LocationActivity","onResume");
     }
 
     @Override
@@ -177,8 +199,8 @@ public class LocationActivity extends BaseActivity {
         super.onDestroy();
         locationClient.stop();
         mapView.onDestroy();
-        myOrientationListener.unregisterListener();
         baiduMap.setMyLocationEnabled(false);
+        L.v("LocationActivity","onDestroy");
     }
 
     @Override
@@ -228,4 +250,6 @@ public class LocationActivity extends BaseActivity {
                 .setMessage(currentPosition);//清空数据库
         builder.create().show(); //遗漏
     }
+
+
 }

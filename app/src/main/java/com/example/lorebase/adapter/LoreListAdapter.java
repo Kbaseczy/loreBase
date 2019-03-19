@@ -27,10 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHolder> {
 
-
     private List<Article.DataBean.DatasBean> datasBeanList;
     private Context mContext;
-
     public LoreListAdapter(Context context, List<Article.DataBean.DatasBean> datasBeanList) {
         this.datasBeanList = datasBeanList;
         this.mContext = context;
@@ -52,7 +50,6 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
                 .inflate(R.layout.lore_list_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         holder.cardView.setOnClickListener(v -> {
-
             int position = holder.getAdapterPosition();
             Article.DataBean.DatasBean datasBean = datasBeanList.get(position);
             //跳转到LoreAgentWeb  need:link/title
