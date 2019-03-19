@@ -8,6 +8,7 @@ import com.example.lorebase.bean.User;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -50,5 +51,16 @@ public interface RetrofitApi {
     //更新TODO状态  待办/完成
     @POST("lg/todo/done/{id}/json")
     Call<TodoTodo> postDoneTodo(@Path("id") int id,@Query("status") int status);
+
+    //取消收藏 收藏页面文章
+    @POST("lg/uncollect_originId/{id}/json")
+    @FormUrlEncoded
+    Call<Article> cancellArticle(@Path("id") int id, @Field("originId") int originId);
+
+    //取消收藏 文章列表文章 站内文章
+    @POST("lg/uncollect/{id}/json")
+    @FormUrlEncoded
+    Call<Article> cancellPageArticle(@Path("id") int id, @Field("originId") int originId);
+
 
 }

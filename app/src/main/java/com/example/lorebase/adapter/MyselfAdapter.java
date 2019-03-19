@@ -16,6 +16,8 @@ import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.CollectArticle;
+import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 
 import java.util.List;
@@ -74,9 +76,9 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
             mContext.startActivity(intent);
         });
 
-        //todo 发送请求400，接口地址有问题
+        //todo 发送请求400，接口地址有问题  更改为retrofit
         holder.imageView.setOnClickListener(v -> {
-            CollectArticle.unCollect(mContext, my_collect.getId());
+            RetrofitUtil.cancellArticle(my_collect.getId(),mContext);
             notifyDataSetChanged();
         });
     }

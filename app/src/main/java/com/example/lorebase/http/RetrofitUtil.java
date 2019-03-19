@@ -4,8 +4,10 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.example.lorebase.MyApplication;
+import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.TodoTodo;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -48,6 +50,23 @@ public class RetrofitUtil {
         });
     }
 
+    public static void cancellArticle(int id, Context context) {
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<Article> articleCancellCall = api.cancellArticle(id, -1);
+        articleCancellCall.enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(Call<Article> call, Response<Article> response) {
+                if (response.body() != null)
+                    Toast.makeText(context, response.body().getErrorCode() == 0 ?
+                            "取消收藏成功" : response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Article> call, Throwable t) {
+
+            }
+        });
+    }
 
 
 }
