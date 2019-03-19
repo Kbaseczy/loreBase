@@ -2,6 +2,7 @@ package com.example.lorebase.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -46,7 +47,10 @@ public class BrowseHistoryActivity extends BaseActivity {
         fab_delete = findViewById(R.id.fab_browse_history_delete);
         NestedScrollView nestedScrollView = findViewById(R.id.nest_scroll_bh);
 
-        toolbar.setNavigationOnClickListener(v -> finish());
+        toolbar.setNavigationOnClickListener(v ->{
+            startActivity(new Intent(this, MainActivity.class));
+            overridePendingTransition(R.animator.go_in, R.animator.go_out);
+        });
         collapsingToolbarLayout.setTitle("Browsing History");
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
         collapsingToolbarLayout.setBackgroundColor(Color.GRAY);

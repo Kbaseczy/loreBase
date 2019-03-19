@@ -17,13 +17,17 @@ public class BrowseHistory {
     String link;
     private
     String date;
+    private
+    boolean is_colloct;
 
-    @Generated(hash = 1864434839)
-    public BrowseHistory(Long id_browse, String title, String link, String date) {
+    @Generated(hash = 725290064)
+    public BrowseHistory(Long id_browse, String title, String link, String date,
+            boolean is_colloct) {
         this.id_browse = id_browse;
         this.title = title;
         this.link = link;
         this.date = date;
+        this.is_colloct = is_colloct;
     }
 
     @Generated(hash = 772159025)
@@ -60,5 +64,13 @@ public class BrowseHistory {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public boolean getIs_colloct() {
+        return this.is_colloct;
+    }
+
+    public void setIs_colloct(boolean is_colloct) {
+        this.is_colloct = is_colloct;
     }
 }

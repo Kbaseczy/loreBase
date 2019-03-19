@@ -188,7 +188,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 textSliderView.description(banner.getTitle());
                 textSliderView.setOnSliderClickListener(slider -> {
                     MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
-                            new BrowseHistory(null, banner.getTitle(), banner.getUrl(), null));
+                            new BrowseHistory(null, banner.getTitle(), banner.getUrl(), null,false));
                     Intent web_intent = new Intent(context, AgentWebActivity.class);
 
                     Uri uri = Uri.parse(banner.getUrl());

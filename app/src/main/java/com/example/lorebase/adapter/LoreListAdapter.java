@@ -65,8 +65,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
             mContext.startActivity(intent);
 
             MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                    null, datasBean.getTitle(), datasBean.getLink(), datasBean.getNiceDate()
-            ));
+                    null, datasBean.getTitle(), datasBean.getLink(), datasBean.getNiceDate(),datasBean.isCollect()));
         });
 
         SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);

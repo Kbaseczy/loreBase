@@ -62,7 +62,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
 
         holder.cardView.setOnClickListener(v -> {
-            browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(), article.getLink(), article.getNiceDate()));
+            browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(), article.getLink(), article.getNiceDate(),article.isCollect()));
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, article.getTitle());
             intent.putExtra(ConstName.PROJECT_AUTHOR, article.getAuthor());

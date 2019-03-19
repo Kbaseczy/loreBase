@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.bumptech.glide.Glide;
@@ -95,7 +96,7 @@ public class MyselfActivity extends BaseActivity {
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
         collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
         Glide.with(this).load(R.drawable.image_store).into(portrait);
-        fab_note.setOnClickListener(view -> ToastUtil.showShortToastCenter("别点我"));
+        fab_note.setOnClickListener(view -> Toast.makeText(this, "别点我", Toast.LENGTH_SHORT).show());
 
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         adapter = new MyselfAdapter(this, datasBeanList);

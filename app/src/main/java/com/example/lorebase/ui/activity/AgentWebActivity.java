@@ -185,6 +185,7 @@ public class AgentWebActivity extends BaseActivity {
                 break;
         }
         startActivity(intent);
+        overridePendingTransition(R.animator.go_in, R.animator.go_out);
     }
 
     @Override

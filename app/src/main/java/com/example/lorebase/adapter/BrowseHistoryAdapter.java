@@ -49,6 +49,7 @@ public class BrowseHistoryAdapter extends RecyclerView.Adapter<BrowseHistoryAdap
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, browseHistory.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.BROWSE_HOSTORY);
+            intent.putExtra(ConstName.IS_COLLECT, browseHistory.getIs_colloct());
             intent.setData(Uri.parse(browseHistory.getLink()));
             mContext.startActivity(intent);
         });

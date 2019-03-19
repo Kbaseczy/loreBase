@@ -28,6 +28,7 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
         public final static Property Title = new Property(1, String.class, "title", false, "TITLE");
         public final static Property Link = new Property(2, String.class, "link", false, "LINK");
         public final static Property Date = new Property(3, String.class, "date", false, "DATE");
+        public final static Property Is_colloct = new Property(4, boolean.class, "is_colloct", false, "IS_COLLOCT");
     }
 
 
@@ -46,7 +47,8 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id_browse
                 "\"TITLE\" TEXT UNIQUE ," + // 1: title
                 "\"LINK\" TEXT," + // 2: link
-                "\"DATE\" TEXT);"); // 3: date
+                "\"DATE\" TEXT," + // 3: date
+                "\"IS_COLLOCT\" INTEGER NOT NULL );"); // 4: is_colloct
     }
 
     /** Drops the underlying database table. */
@@ -78,6 +80,7 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
         if (date != null) {
             stmt.bindString(4, date);
         }
+        stmt.bindLong(5, entity.getIs_colloct() ? 1L: 0L);
     }
 
     @Override
@@ -103,6 +106,7 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
         if (date != null) {
             stmt.bindString(4, date);
         }
+        stmt.bindLong(5, entity.getIs_colloct() ? 1L: 0L);
     }
 
     @Override
@@ -116,7 +120,8 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id_browse
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // title
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // link
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // date
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // date
+            cursor.getShort(offset + 4) != 0 // is_colloct
         );
         return entity;
     }
@@ -127,6 +132,7 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
         entity.setTitle(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setLink(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setDate(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setIs_colloct(cursor.getShort(offset + 4) != 0);
      }
     
     @Override

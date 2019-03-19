@@ -68,7 +68,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
         holder.cardView.setOnClickListener(v -> {
             MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
-                    new BrowseHistory(null, filterTitle, search.getLink(), search.getNiceDate()));
+                    new BrowseHistory(null, filterTitle, search.getLink(), search.getNiceDate(),search.isCollect()));
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, filterTitle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH);

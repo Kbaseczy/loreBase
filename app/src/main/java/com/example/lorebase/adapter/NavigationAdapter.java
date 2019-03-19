@@ -92,8 +92,10 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                         .getArticles().get(position_tag).getLink();   //对应tag項 position_tag
                 String tag_date = beans_chapter.get(position_item)
                         .getArticles().get(position_tag).getNiceDate();
+                boolean is_collect = beans_chapter.get(position_item)
+                        .getArticles().get(position_tag).isCollect();
                 MyApplication.getDaoSession().getBrowseHistoryDao()
-                        .insertOrReplace(new BrowseHistory(null, tag_navi, tag_link, tag_date));
+                        .insertOrReplace(new BrowseHistory(null, tag_navi, tag_link, tag_date,is_collect));
                 Intent intent = new Intent();
                 intent.setClass(mContext, AgentWebActivity.class)
                         .putExtra(ConstName.TITLE, tag_navi)

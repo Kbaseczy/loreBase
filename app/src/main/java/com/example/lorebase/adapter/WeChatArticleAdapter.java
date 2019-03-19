@@ -66,7 +66,7 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
 
         holder.cardView.setOnClickListener(v -> {
             MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
-                    new BrowseHistory(null, we_chat_article.getTitle(), we_chat_article.getLink(), we_chat_article.getNiceDate()));
+                    new BrowseHistory(null, we_chat_article.getTitle(), we_chat_article.getLink(), we_chat_article.getNiceDate(),we_chat_article.isCollect()));
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, we_chat_article.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN);

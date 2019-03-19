@@ -64,7 +64,7 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
         holder.cardView.setOnClickListener(v -> {
             MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
                     new BrowseHistory(null, my_collect.getTitle(),
-                            my_collect.getLink(), my_collect.getNiceDate()));
+                            my_collect.getLink(), my_collect.getNiceDate(),my_collect.isCollect()));
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, my_collect.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MYSELF);
