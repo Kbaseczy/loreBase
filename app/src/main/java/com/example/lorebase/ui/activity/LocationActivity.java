@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Button;
@@ -67,7 +68,10 @@ public class LocationActivity extends Activity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("实时位置");
-        toolbar.setNavigationOnClickListener(v -> finish());
+        toolbar.setNavigationOnClickListener(v -> {
+            startActivity(new Intent(this,MainActivity.class));
+            overridePendingTransition(R.animator.go_in, R.animator.go_out);
+        });
         mapView = findViewById(R.id.bMap_view);
         mapView.setOnClickListener(v -> alertText());
         baiduMap = mapView.getMap();
