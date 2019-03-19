@@ -24,12 +24,6 @@
     </style>
     <!--Toolbar与menu的整合-->
 
-    <style name="TabLayoutTextStyle" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">@dimen/item_tv_title</item>
-        <item name="textAllCaps">false</item>
-        <item name="android:background">@color/colorPrimary</item>
-    </style>
-
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
