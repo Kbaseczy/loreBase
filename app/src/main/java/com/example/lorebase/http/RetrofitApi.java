@@ -4,6 +4,7 @@ package com.example.lorebase.http;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.bean.User;
+import com.example.lorebase.contain_const.UrlContainer;
 
 import java.util.Map;
 
@@ -37,12 +38,12 @@ public interface RetrofitApi {
     // 添加TODO
     @FormUrlEncoded
     @POST("lg/todo/add/json")
-    Call<TodoTodo> postAddTodo(@FieldMap Map<String,String> map);
+    Call<TodoTodo> postAddTodo(@FieldMap Map<String, String> map);
 
     //修改TODO
     @FormUrlEncoded
     @POST("lg/todo/update/{id}/json")
-    Call<TodoTodo> postEditTodo(@Path("id") int id,@FieldMap Map<String,String> map);
+    Call<TodoTodo> postEditTodo(@Path("id") int id, @FieldMap Map<String, String> map);
 
     //刪除TODO
     @POST("lg/todo/delete/{id}/json")
@@ -50,17 +51,20 @@ public interface RetrofitApi {
 
     //更新TODO状态  待办/完成
     @POST("lg/todo/done/{id}/json")
-    Call<TodoTodo> postDoneTodo(@Path("id") int id,@Query("status") int status);
+    Call<TodoTodo> postDoneTodo(@Path("id") int id, @Query("status") int status);
 
-    //取消收藏 收藏页面文章
-    @POST("lg/uncollect_originId/{id}/json")
+    @POST(UrlContainer.COLLECT_ARTICLE)
+    Call<Article> collectArticle(@Path("id") int id);
+
+    //取消收藏 收藏界面
+    @POST(UrlContainer.DELETE_COLLECT_ARTICLE)
     @FormUrlEncoded
-    Call<Article> cancellArticle(@Path("id") int id, @Field("originId") int originId);
+    Call<Article> deleteArticle(@Path("id") int id, @Field("originId") int originId);
 
     //取消收藏 文章列表文章 站内文章
-    @POST("lg/uncollect/{id}/json")
+    @POST(UrlContainer.UNCOLLECT_ARTICLE)
     @FormUrlEncoded
-    Call<Article> cancellPageArticle(@Path("id") int id, @Field("originId") int originId);
+    Call<Article> cancellPageArticle(@Path("id") int id);
 
 
 }

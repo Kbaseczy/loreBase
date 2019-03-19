@@ -17,6 +17,7 @@ import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.Project;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.CollectArticle;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 
@@ -85,11 +86,11 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         holder.image_collect.setOnClickListener(v -> {
             if (isLogin) {
                 if (project.isCollect()) {
-                    CollectArticle.unCollect_originID(mContext, project.getId());
+                    RetrofitUtil.unCollectArticle( project.getId(),mContext);
                     holder.image_collect.setImageResource(R.drawable.ic_like_not);
                 }
                 if (!project.isCollect()) {
-                    CollectArticle.collectArticle(mContext, project.getId());
+                    RetrofitUtil.collectArticle(project.getId(),mContext);
                 }
             } else {
                 mContext.startActivity(new Intent(mContext, LoginActivity.class));

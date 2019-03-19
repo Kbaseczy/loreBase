@@ -16,6 +16,7 @@ import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.CollectArticle;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.TagFilter;
@@ -81,11 +82,11 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         holder.imageView.setOnClickListener(v -> {
                     if (isLogin) {
                         if (!search.isCollect()) {
-                            CollectArticle.collectArticle(mContext, search.getId());
+                            RetrofitUtil.collectArticle(search.getId(),mContext);
                             holder.imageView.setImageResource(R.drawable.ic_like);
                             notifyDataSetChanged();
                         } else {
-                            CollectArticle.unCollect_originID(mContext, search.getId());
+                            RetrofitUtil.unCollectArticle( search.getId(),mContext);
                             holder.imageView.setImageResource(R.drawable.ic_like_not);
                             notifyDataSetChanged();
                         }

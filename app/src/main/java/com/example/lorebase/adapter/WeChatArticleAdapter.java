@@ -16,6 +16,7 @@ import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.WeChatArticle;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.CollectArticle;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 
@@ -80,10 +81,10 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
         holder.imageView.setOnClickListener(v -> {
                     if (isLogin) {
                         if (!we_chat_article.isCollect()) {
-                            CollectArticle.collectArticle(mContext, we_chat_article.getId());
+                            RetrofitUtil.collectArticle(we_chat_article.getId(),mContext);
                             holder.imageView.setImageResource(R.drawable.ic_like);
                         } else {
-                            CollectArticle.unCollect_originID(mContext, we_chat_article.getId());
+                            RetrofitUtil.unCollectArticle(we_chat_article.getId(),mContext);
                             holder.imageView.setImageResource(R.drawable.ic_like_not);
                         }
                         notifyDataSetChanged();

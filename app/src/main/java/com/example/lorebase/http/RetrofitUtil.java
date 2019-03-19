@@ -12,7 +12,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RetrofitUtil {
-
+    private static RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
     public static void todoDelete(int id, Context context) {
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
         retrofit2.Call<TodoTodo> todoDeleteCall = api.postDeleteTodo(id);
@@ -50,9 +50,25 @@ public class RetrofitUtil {
         });
     }
 
-    public static void cancellArticle(int id, Context context) {
+    public static void collectArticle(int id,Context context){
+        retrofit2.Call<Article> collectCall = api.collectArticle(id);
+        collectCall.enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(Call<Article> call, Response<Article> response) {
+                Toast.makeText(context, "收藏成功", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Article> call, Throwable t) {
+
+            }
+        });
+    }
+
+    //收藏界面
+    public static void deleteArticle(int id, Context context) {
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
-        retrofit2.Call<Article> articleCancellCall = api.cancellArticle(id, -1);
+        retrofit2.Call<Article> articleCancellCall = api.deleteArticle(id, -1);
         articleCancellCall.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
@@ -68,5 +84,19 @@ public class RetrofitUtil {
         });
     }
 
+    //普通列表界面
+    public static void unCollectArticle(int id ,Context context){
+        retrofit2.Call<Article> cancelArticleCall = api.cancellPageArticle(id);
+        cancelArticleCall.enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(Call<Article> call, Response<Article> response) {
+                Toast.makeText(context, "取消成功", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onFailure(Call<Article> call, Throwable t) {
+
+            }
+        });
+    }
 }

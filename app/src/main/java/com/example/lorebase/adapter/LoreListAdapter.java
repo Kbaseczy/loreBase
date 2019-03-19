@@ -16,6 +16,7 @@ import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.CollectArticle;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 
@@ -78,14 +79,14 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
 
             if (isLogin) {
                 if (!datasBean.isCollect()) {
-                    CollectArticle.collectArticle(mContext, article_id);
+                    RetrofitUtil.collectArticle(article_id,mContext);
                     holder.imageView.setImageResource(R.drawable.ic_like);
                     notifyDataSetChanged();
                 } else if (datasBean.isCollect()) {
                     if (datasBean.isCollect()) {
 
                         if (datasBean.isCollect()) {
-                            CollectArticle.unCollect_originID(mContext, article_id);
+                            RetrofitUtil.unCollectArticle(article_id,mContext);
                             holder.imageView.setImageResource(R.drawable.ic_like_not);
                             notifyDataSetChanged();
                         } else {

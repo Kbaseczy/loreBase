@@ -18,6 +18,7 @@ import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.greenDao.BrowseHistoryDao;
 import com.example.lorebase.http.CollectArticle;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 
@@ -80,11 +81,12 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                     //获取某子项位置，并得到该项的数据对象
                     if (isLogin) {
                         if (!article.isCollect()) {
-                            CollectArticle.collectArticle(mContext, article.getId());
+                            RetrofitUtil.collectArticle(article.getId(),mContext);
                             holder.collect.setImageResource(R.drawable.ic_like); //点击图标后变为红色表示已收藏
                             notifyDataSetChanged();
                         } else if (article.isCollect()) {
                             CollectArticle.unCollect_originID(mContext, article.getId());
+                            RetrofitUtil.unCollectArticle(article.getId(),mContext);
                             holder.collect.setImageResource(R.drawable.ic_like_not);
                             notifyDataSetChanged();
                         }

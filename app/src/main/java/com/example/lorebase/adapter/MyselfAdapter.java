@@ -78,7 +78,7 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
 
         //todo 发送请求400，接口地址有问题  更改为retrofit
         holder.imageView.setOnClickListener(v -> {
-            RetrofitUtil.cancellArticle(my_collect.getId(),mContext);
+            RetrofitUtil.deleteArticle(my_collect.getId(),mContext);
             notifyDataSetChanged();
         });
     }
