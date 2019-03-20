@@ -35,14 +35,4 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme_Light" >
-        <item name="textColor">@android:color/black</ item>
-        <item name="android:background">@android:color/white</ item>
-    </style>
-
-    <style name="AppTheme_Night">
-        <item name="textColor">@android:color/white</ item>
-        <item name="android:background">@android:color/black</ item>
-    </style>
-
 </resources>
