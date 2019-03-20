@@ -47,3 +47,6 @@ onCreate(@Nullable Bundle savedInstanceState,
 onCreate(Bundle savedInstanceState)                             一般用方法
 
 todo retrofit获取todo列表，数据没获取到  cause by:请求地址写错了
+
+todo app打包出现问题，jks文件放在 app目录下
+-->否则出现的err: “  ’.jks' not found for signing config ‘ 。。’”

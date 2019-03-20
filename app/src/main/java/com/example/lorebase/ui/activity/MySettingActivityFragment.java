@@ -10,7 +10,6 @@ import android.preference.SwitchPreference;
 import android.widget.Toast;
 
 import com.example.lorebase.R;
-import com.example.lorebase.util.L;
 
 import androidx.fragment.app.Fragment;
 import skin.support.SkinCompatManager;

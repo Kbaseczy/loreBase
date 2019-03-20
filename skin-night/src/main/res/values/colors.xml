@@ -20,4 +20,11 @@
 
     <color name="text_color_description">#7d7d7d</color>
     <color name="text_color">#adadad</color>
+
+    //夜间模式
+    <color name="viewBackground">#ff2e2e2e</color>
+    <color name="item_author">#dfffffff</color>
+    <color name="item_desc">#dfffffff</color>
+    <color name="item_date">#dfffffff</color>
+    <color name="black">#dfffffff</color>
 </resources>

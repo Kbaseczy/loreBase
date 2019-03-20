@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ximsfei.skin.night">
+    package="com.example.lorebase.night">
 
     <application
         android:allowBackup="true"

@@ -39,7 +39,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <com.ajguan.library.EasyRefreshLayout
         android:id="@+id/easy_refresh_myself"
         android:layout_width="match_parent"
