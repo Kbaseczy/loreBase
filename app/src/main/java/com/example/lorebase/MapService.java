@@ -1,22 +1,14 @@
 package com.example.lorebase;
 
 import android.app.IntentService;
+import android.app.Service;
 import android.content.Intent;
-import android.content.Context;
-import android.widget.TextView;
+import android.os.IBinder;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.model.LatLng;
-import com.example.lorebase.ui.activity.LocationActivity;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PositionInterface;
 
@@ -30,9 +22,8 @@ import androidx.core.app.JobIntentService;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class MapService extends JobIntentService {
+public class MapService extends Service {
     public LocationClient locationClient;
-    private BaiduMap baiduMap;
     private PositionInterface positionInterface;
     public void setPositionInterface(PositionInterface positionInterface) {
         this.positionInterface = positionInterface;
@@ -43,12 +34,17 @@ public class MapService extends JobIntentService {
     }
 
     @Override
-    protected void onHandleWork(@NonNull Intent intent) {
-        getLocation();
-
-        L.v("onHandleWork");
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        getLocation();
+        L.v("mapService","onStartCommand_map_service");
+        return super.onStartCommand(intent, flags, startId);
+
+    }
 
     void getLocation(){
         locationClient = new LocationClient(this);

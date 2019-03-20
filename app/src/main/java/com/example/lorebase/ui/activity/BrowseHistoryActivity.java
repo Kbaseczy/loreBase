@@ -193,7 +193,7 @@ public class BrowseHistoryActivity extends BaseActivity {
             LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
             MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
             baiduMap.animateMapStatus(update);
-            update = MapStatusUpdateFactory.zoomTo(200f); //todo 设置缩放级别`
+            update = MapStatusUpdateFactory.zoomTo(10f); //todo 设置缩放级别`
             baiduMap.animateMapStatus(update);
             isFistLocate = false;
         }

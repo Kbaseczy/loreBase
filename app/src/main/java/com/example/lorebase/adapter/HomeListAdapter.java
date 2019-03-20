@@ -65,7 +65,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
         holder.cardView.setOnClickListener(v -> {
             new MapService().setPositionInterface((Latitude, Longitude)
-                    -> L.v(Latitude+" \n" + Longitude));
+                    -> L.v(Latitude+" \n" + Longitude+"  有没有啊"));
 
             browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(),
                     article.getLink(), article.getNiceDate(),article.isCollect()));
