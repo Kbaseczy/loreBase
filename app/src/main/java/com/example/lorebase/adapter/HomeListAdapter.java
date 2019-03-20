@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lorebase.MapService;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;
@@ -20,6 +21,7 @@ import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.PositionInterface;
 
 import java.util.List;
 
@@ -62,7 +64,11 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
 
         holder.cardView.setOnClickListener(v -> {
-            browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(), article.getLink(), article.getNiceDate(),article.isCollect()));
+            new MapService().setPositionInterface((Latitude, Longitude)
+                    -> L.v(Latitude+" \n" + Longitude));
+
+            browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(),
+                    article.getLink(), article.getNiceDate(),article.isCollect()));
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, article.getTitle());
             intent.putExtra(ConstName.PROJECT_AUTHOR, article.getAuthor());

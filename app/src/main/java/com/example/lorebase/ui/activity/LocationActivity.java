@@ -1,43 +1,26 @@
 package com.example.lorebase.ui.activity;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.example.lorebase.R;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PositionInterface;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -73,36 +56,10 @@ public class LocationActivity extends Activity {
             overridePendingTransition(R.animator.go_in, R.animator.go_out);
         });
         mapView = findViewById(R.id.bMap_view);
-        mapView.setOnClickListener(v -> alertText());
         baiduMap = mapView.getMap();
         baiduMap.setMyLocationEnabled(true);
-//        baiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
-//        locationText = findViewById(R.id.text_location);
-        checkPermission();
-    }
-
-    private void overLay(BDLocation location) {
-        LatLng point = new LatLng(location.getLatitude(), location.getLongitude());
-        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.position);
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(point)
-                .icon(bitmap);
-        //在地图上添加Marker，并显示
-        baiduMap.addOverlay(option);
-
-        //用来构造InfoWindow的Button
-        Button button = new Button(getApplicationContext());
-        button.setBackgroundResource(R.color.Grey);
-        button.setText("InfoWindow");
-
-        //构造InfoWindow
-        //point 描述的位置点
-        //-100 InfoWindow相对于point在y轴的偏移量
-        InfoWindow mInfoWindow = new InfoWindow(button, point, -100);
-
-        //使InfoWindow生效
-        baiduMap.showInfoWindow(mInfoWindow);
+        baiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);  //地图显示类型
+        initLocation();
     }
 
     private void initLocation() {
@@ -138,11 +95,6 @@ public class LocationActivity extends Activity {
                 .longitude(location.getLongitude())
                 .build();
         baiduMap.setMyLocationData(locationData);
-
-        overLay(location);
-
-        if (positionInterface != null)
-            positionInterface.transferPosition(location.getLatitude(), location.getLongitude());
     }
 
     class MyLocationListener extends BDAbstractLocationListener {
@@ -179,12 +131,6 @@ public class LocationActivity extends Activity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        L.v("LocationActivity","onStart");
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         mapView.onPause();
@@ -206,54 +152,4 @@ public class LocationActivity extends Activity {
         baiduMap.setMyLocationEnabled(false);
         L.v("LocationActivity","onDestroy");
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0) {
-                    for (int result : grantResults) {
-                        if (result != PackageManager.PERMISSION_GRANTED) {
-                            Toast.makeText(this, "必须同意所有权限才能使用该程序", Toast.LENGTH_SHORT).show();
-                            finish();
-                            return;
-                        }
-                    }
-                    initLocation();
-                } else {
-                    Toast.makeText(this, "未知错误", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-        }
-    }
-
-    private void checkPermission() {
-        List<String> permissionList = new ArrayList<>();
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.READ_PHONE_STATE);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (!permissionList.isEmpty()) {
-            String[] permissions = permissionList.toArray(new String[0]); //todo 将permissionList转为Array
-            ActivityCompat.requestPermissions(this, permissions, 1);
-        } else {
-            initLocation();
-        }
-    }
-
-    private void alertText() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.tip)
-                .setIcon(R.mipmap.ic_launcher_round)
-                .setMessage(currentPosition);//清空数据库
-        builder.create().show(); //遗漏
-    }
-
-
 }

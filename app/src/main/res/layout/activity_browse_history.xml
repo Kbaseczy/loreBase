@@ -1,49 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <!--标题栏-->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="500dp"
         android:focusableInTouchMode="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/browse_history__collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
             android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:fitsSystemWindows="true">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
                 android:id="@+id/browse_history_portrait_image_view"
-                android:src="@mipmap/cherry"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                android:fitsSystemWindows="true" />
+                android:visibility="gone"
+                app:layout_collapseMode="parallax" />
+
+            <com.baidu.mapapi.map.MapView
+                android:id="@+id/bMap_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true" />
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_browse_history"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:navigationIcon="@drawable/back"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/back" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nest_scroll_bh"
-        android:background="@color/viewBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/viewBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -68,8 +76,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="@dimen/dp_80"
         android:layout_marginEnd="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_80"
         android:src="@drawable/ic_arrow_upward_white_24dp"
         app:layout_behavior="@string/bye_burger_float_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

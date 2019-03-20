@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.lorebase">
+
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -31,6 +32,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
+        <service
+            android:name=".MapService"
+            android:exported="true"
+            android:enabled="true"
+            android:process=":mapService"/>
 
         <activity android:name=".ui.activity.TodoEditActivity" />
         <activity android:name=".ui.activity.TodoAddActivity" />
@@ -103,9 +109,7 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.SearchActivity"
-            android:launchMode="singleTask" />
-
-        <!--main-->
+            android:launchMode="singleTask" /> <!-- main -->
         <activity
             android:name=".ui.activity.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -134,8 +138,7 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.LocationActivity"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".ui.activity.TODOActivity"
             android:launchMode="singleTask" />
