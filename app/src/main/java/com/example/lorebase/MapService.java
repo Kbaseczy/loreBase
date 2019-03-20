@@ -43,7 +43,6 @@ public class MapService extends Service {
         getLocation();
         L.v("mapService","onStartCommand_map_service");
         return super.onStartCommand(intent, flags, startId);
-
     }
 
     void getLocation(){
