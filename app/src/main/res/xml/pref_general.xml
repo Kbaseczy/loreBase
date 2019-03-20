@@ -6,6 +6,12 @@
         android:summary="@string/pref_description_social_recommendations"
         android:title="@string/pref_title_social_recommendations" />
 
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="setting_switch_skin"
+        android:summary=""
+        android:title="夜间模式" />
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
     <EditTextPreference

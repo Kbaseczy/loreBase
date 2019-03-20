@@ -51,6 +51,7 @@ import okhttp3.Call;
 import okhttp3.Request;
 import retrofit2.Callback;
 import retrofit2.Response;
+import skin.support.SkinCompatManager;
 
 /*
     ☆ Lambda 里面不能intent 定义，使用需要在外部定义，在里面用new Intent().setClass()  個別
@@ -278,7 +279,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case R.id.nav_about_us:
                 startActivity(new Intent(getApplicationContext(), AboutUsActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
-
                 break;
             case R.id.nav_logout:
                 //默認佈局
@@ -297,8 +297,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
             case R.id.nav_exit:
                 //todo 需要添加管理activity的類，統一關閉所有activity
-                ActivityCollector.finishAll();
-                finish();
+//                ActivityCollector.finishAll();
+//                finish();
+                SkinCompatManager.getInstance().loadSkin("night.skin", SkinCompatManager.SKIN_LOADER_STRATEGY_ASSETS);
                 break;
         }
         return false;

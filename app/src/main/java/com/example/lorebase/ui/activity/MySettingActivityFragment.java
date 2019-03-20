@@ -1,20 +1,21 @@
 package com.example.lorebase.ui.activity;
 
-
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
+import android.preference.SwitchPreference;
+import android.widget.Toast;
 
 import com.example.lorebase.R;
+import com.example.lorebase.util.L;
 
 import androidx.fragment.app.Fragment;
+import skin.support.SkinCompatManager;
+
+import static skin.support.SkinCompatManager.SKIN_LOADER_STRATEGY_ASSETS;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,28 +37,14 @@ public class MySettingActivityFragment extends PreferenceFragment {
                             ? listPreference.getEntries()[index]
                             : null);
 
-        } else if (preference instanceof RingtonePreference) {
-            // For ringtone preferences, look up the correct display value
-            // using RingtoneManager.
-            if (TextUtils.isEmpty(stringValue)) {
-                // Empty values correspond to 'silent' (no ringtone).
-                preference.setSummary(R.string.pref_ringtone_silent);
-
+        } else if (preference instanceof SwitchPreference) {
+            if (stringValue.contains("true")) {
+//                SkinCompatManager.getInstance().loadSkin("night.skin", 0);
+                Toast.makeText(preference.getContext(), "夜间模式", Toast.LENGTH_SHORT).show();
+                SkinCompatManager.getInstance().loadSkin("night.skin", null, SKIN_LOADER_STRATEGY_ASSETS);//加载夜间模式  这个不闪屏啥的
             } else {
-                Ringtone ringtone = RingtoneManager.getRingtone(
-                        preference.getContext(), Uri.parse(stringValue));
-
-                if (ringtone == null) {
-                    // Clear the summary if there was a lookup error.
-                    preference.setSummary(null);
-                } else {
-                    // Set the summary to reflect the new ringtone display
-                    // name.
-                    String name = ringtone.getTitle(preference.getContext());
-                    preference.setSummary(name);
-                }
+                SkinCompatManager.getInstance().restoreDefaultTheme();
             }
-
         } else {
             // For all other preferences, set the summary to the value's
             // simple string representation.
@@ -72,10 +59,18 @@ public class MySettingActivityFragment extends PreferenceFragment {
 
         // Trigger the listener immediately with the preference's
         // current value.
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
+        if (preference instanceof ListPreference || preference instanceof EditTextPreference) {
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+                    PreferenceManager
+                            .getDefaultSharedPreferences(preference.getContext())
+                            .getString(preference.getKey(), ""));
+        } else {
+            //接口回调
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+                    PreferenceManager
+                            .getDefaultSharedPreferences(preference.getContext())
+                            .getBoolean(preference.getKey(), false));
+        }
     }
 
     @Override
@@ -90,6 +85,6 @@ public class MySettingActivityFragment extends PreferenceFragment {
         // guidelines.
         bindPreferenceSummaryToValue(findPreference("example_text"));
         bindPreferenceSummaryToValue(findPreference("example_list"));
+        bindPreferenceSummaryToValue(findPreference("setting_switch_skin"));
     }
-
 }

@@ -48,6 +48,7 @@
                 android:id="@+id/nav_exit"
                 android:icon="@drawable/back"
                 android:title="@string/Exit" />
+
         </menu>
     </item>
 </menu>
