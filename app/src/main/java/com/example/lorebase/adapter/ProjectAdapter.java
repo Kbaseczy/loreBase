@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.lorebase.MapService;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.BrowseHistory;
@@ -19,6 +20,7 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
+import com.example.lorebase.util.L;
 
 import java.util.List;
 
@@ -70,8 +72,13 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
 
         }
         holder.cardView.setOnClickListener(v -> {
-            MyApplication.getDaoSession().getBrowseHistoryDao()
-                    .insertOrReplace(new BrowseHistory(null, project.getTitle(), project.getLink(), project.getNiceDate(),project.isCollect()));
+            new MapService().setPositionInterface((Latitude, Longitude) -> {
+                L.v(Latitude + " \n" + Longitude + "  有没有啊");
+                MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
+                        null, project.getTitle(), project.getLink(), project.getNiceDate(),project.isCollect()
+                        ,Latitude,Longitude));
+            });
+
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, project.getTitle());
             intent.putExtra(ConstName.ID, project.getId());

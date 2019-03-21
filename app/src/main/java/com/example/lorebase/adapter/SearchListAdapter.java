@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lorebase.MapService;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;
@@ -18,6 +19,7 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
+import com.example.lorebase.util.L;
 import com.example.lorebase.util.TagFilter;
 
 import java.util.List;
@@ -67,8 +69,12 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         holder.chapterName.setText(name);
 
         holder.cardView.setOnClickListener(v -> {
-            MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
-                    new BrowseHistory(null, filterTitle, search.getLink(), search.getNiceDate(),search.isCollect()));
+            new MapService().setPositionInterface((Latitude, Longitude) -> {
+                L.v(Latitude + " \n" + Longitude + "  有没有啊");
+                MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
+                        null, filterTitle, search.getLink(), search.getNiceDate(),search.isCollect()
+                        ,Latitude,Longitude));
+            });
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, filterTitle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH);

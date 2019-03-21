@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lorebase.MapService;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;
@@ -18,6 +19,7 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
+import com.example.lorebase.util.L;
 
 import java.util.List;
 
@@ -65,8 +67,14 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
         holder.chapterName.setText(name);
 
         holder.cardView.setOnClickListener(v -> {
-            MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
-                    new BrowseHistory(null, we_chat_article.getTitle(), we_chat_article.getLink(), we_chat_article.getNiceDate(),we_chat_article.isCollect()));
+
+            new MapService().setPositionInterface((Latitude, Longitude) -> {
+                L.v(Latitude + " \n" + Longitude );
+                MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
+                        null, we_chat_article.getTitle(), we_chat_article.getLink(), we_chat_article.getNiceDate(),we_chat_article.isCollect()
+                        ,Latitude,Longitude));
+            });
+
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, we_chat_article.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN);
@@ -90,8 +98,7 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
                     } else {
                         mContext.startActivity(new Intent(mContext, LoginActivity.class));
                     }
-                }
-        );
+                });
         if (we_chat_article.isCollect())
             holder.imageView.setImageResource(R.drawable.ic_like);
         else

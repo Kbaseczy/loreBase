@@ -60,7 +60,6 @@ public class MyApplication extends Application {
                 .setSkinWindowBackgroundEnable(false)                   // 关闭windowBackground换肤，默认打开[可选]
                 .loadSkin();
 
-        startService(new Intent(this,MapService.class));
     }
 
     private void manageAlarm() {
@@ -102,8 +101,6 @@ public class MyApplication extends Application {
                 .client(okHttpClient)
                 .build();
     }
-
-
 
 
 }

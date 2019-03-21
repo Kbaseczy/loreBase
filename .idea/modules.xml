@@ -6,8 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/loreBase.iml" filepath="$PROJECT_DIR$/loreBase.iml" />
       <module fileurl="file://$PROJECT_DIR$/skin-night/skin-night.iml" filepath="$PROJECT_DIR$/skin-night/skin-night.iml" />
-      <module fileurl="file://$PROJECT_DIR$/skin-night/skin-night.iml" filepath="$PROJECT_DIR$/skin-night/skin-night.iml" />
-      <module fileurl="file://$PROJECT_DIR$/skin-white/skin-white.iml" filepath="$PROJECT_DIR$/skin-white/skin-white.iml" />
       <module fileurl="file://$PROJECT_DIR$/skin-white/skin-white.iml" filepath="$PROJECT_DIR$/skin-white/skin-white.iml" />
       <module fileurl="file://$PROJECT_DIR$/uiasr/uiasr.iml" filepath="$PROJECT_DIR$/uiasr/uiasr.iml" />
       <module fileurl="file://$PROJECT_DIR$/uidialog/uidialog.iml" filepath="$PROJECT_DIR$/uidialog/uidialog.iml" />

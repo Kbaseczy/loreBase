@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
+import com.example.lorebase.MapService;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.User;
@@ -114,6 +115,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         indicateFrag();
 
         checkPermission();
+        startService(new Intent(this, MapService.class));
     }
 
     //返回MainActivity指定顯示的fragment,類似的用法在agentWeb也有體現.
@@ -439,6 +441,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         weChatFragment = null;
         //退出程序應該自動注銷,登陸狀態改爲false
         logout(2);
+        stopService(new Intent(this,MapService.class));
     }
 
     //actionBar的处理方式，ToolBar的处理直接用ToolBar.链式

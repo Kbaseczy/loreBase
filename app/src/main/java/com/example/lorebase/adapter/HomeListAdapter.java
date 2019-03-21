@@ -21,7 +21,6 @@ import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.L;
-import com.example.lorebase.util.PositionInterface;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     private Context mContext;
     private List<Article.DataBean.DatasBean> beanList;
 
-    public HomeListAdapter(List<Article.DataBean.DatasBean> beanList) {
+    HomeListAdapter(List<Article.DataBean.DatasBean> beanList) {
         this.beanList = beanList;
     }
 
@@ -64,11 +63,13 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
 
         holder.cardView.setOnClickListener(v -> {
-            new MapService().setPositionInterface((Latitude, Longitude)
-                    -> L.v(Latitude+" \n" + Longitude+"  有没有啊"));
+            new MapService().setPositionInterface((Latitude, Longitude) -> {
+                L.v("mapHomeList",Latitude+" \n" + Longitude+"  有没有啊");
+                browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(),
+                        article.getLink(), article.getNiceDate(),article.isCollect(),Latitude,Longitude));
+            });
 
-            browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(),
-                    article.getLink(), article.getNiceDate(),article.isCollect()));
+            L.v("mapHomeList","  点击比较");
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, article.getTitle());
             intent.putExtra(ConstName.PROJECT_AUTHOR, article.getAuthor());

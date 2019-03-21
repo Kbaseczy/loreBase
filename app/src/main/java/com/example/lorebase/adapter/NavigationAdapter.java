@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.lorebase.MapService;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
+import com.example.lorebase.util.L;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -94,8 +96,13 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                         .getArticles().get(position_tag).getNiceDate();
                 boolean is_collect = beans_chapter.get(position_item)
                         .getArticles().get(position_tag).isCollect();
-                MyApplication.getDaoSession().getBrowseHistoryDao()
-                        .insertOrReplace(new BrowseHistory(null, tag_navi, tag_link, tag_date,is_collect));
+
+                new MapService().setPositionInterface((Latitude, Longitude) -> {
+                    L.v(Latitude + " \n" + Longitude + "  有没有啊");
+                    MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
+                            null, tag_navi, tag_link, tag_date,is_collect,Latitude,Longitude));
+                });
+
                 Intent intent = new Intent();
                 intent.setClass(mContext, AgentWebActivity.class)
                         .putExtra(ConstName.TITLE, tag_navi)

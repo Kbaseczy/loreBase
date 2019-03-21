@@ -32,11 +32,25 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
+        <receiver
+            android:name=".MapReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":mapReceiver">
+            <intent-filter>
+                <action android:name="android.map.MapReceiver" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".MapService"
-            android:exported="true"
             android:enabled="true"
-            android:process=":mapService"/>
+            android:exported="true"
+            android:process=":mapService">
+            <intent-filter android:priority="1000">
+                <action android:name="android.map.MapService" />
+            </intent-filter>
+        </service>
 
         <activity android:name=".ui.activity.TodoEditActivity" />
         <activity android:name=".ui.activity.TodoAddActivity" />
@@ -49,6 +63,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.lorebase.ui.activity.MainActivity" />
         </activity>
+
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
@@ -58,11 +73,8 @@
             android:name=".AlarmService"
             android:enabled="true"
             android:exported="true"
-            android:process=":BackgroundService">
-            <intent-filter android:priority="1000">
-                <action android:name="android.alarm.AlarmService" />
-            </intent-filter>
-        </service> <!-- 百度map -->
+            android:process=":BackgroundService" />
+        <!-- 百度map -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="fwmKq0piTw8DWbalGCPafYQvhwZnaY8T" />
@@ -129,7 +141,7 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.LocationActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.TODOActivity"
             android:launchMode="singleTask" />

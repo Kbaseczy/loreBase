@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lorebase.MapService;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;
@@ -18,6 +19,7 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
+import com.example.lorebase.util.L;
 
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
 
     private List<Article.DataBean.DatasBean> datasBeanList;
     private Context mContext;
+
     public LoreListAdapter(Context context, List<Article.DataBean.DatasBean> datasBeanList) {
         this.datasBeanList = datasBeanList;
         this.mContext = context;
@@ -60,9 +63,12 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
             intent.putExtra(ConstName.IS_COLLECT, datasBean.isCollect());
             intent.setData(Uri.parse(datasBean.getLink()));
             mContext.startActivity(intent);
-
-            MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                    null, datasBean.getTitle(), datasBean.getLink(), datasBean.getNiceDate(),datasBean.isCollect()));
+            new MapService().setPositionInterface((Latitude, Longitude) -> {
+                L.v(Latitude + " \n" + Longitude + "  有没有啊");
+                MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
+                        null, datasBean.getTitle(), datasBean.getLink()
+                        , datasBean.getNiceDate(), datasBean.isCollect(), Latitude, Longitude));
+            });
         });
 
         SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
@@ -74,14 +80,14 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
 
             if (isLogin) {
                 if (!datasBean.isCollect()) {
-                    RetrofitUtil.collectArticle(article_id,mContext);
+                    RetrofitUtil.collectArticle(article_id, mContext);
                     holder.imageView.setImageResource(R.drawable.ic_like);
                     notifyDataSetChanged();
                 } else if (datasBean.isCollect()) {
                     if (datasBean.isCollect()) {
 
                         if (datasBean.isCollect()) {
-                            RetrofitUtil.unCollectArticle(article_id,mContext);
+                            RetrofitUtil.unCollectArticle(article_id, mContext);
                             holder.imageView.setImageResource(R.drawable.ic_like_not);
                             notifyDataSetChanged();
                         } else {

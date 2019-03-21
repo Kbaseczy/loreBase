@@ -3,17 +3,18 @@ package com.example.lorebase;
 import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PositionInterface;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.JobIntentService;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -25,12 +26,9 @@ import androidx.core.app.JobIntentService;
 public class MapService extends Service {
     public LocationClient locationClient;
     private PositionInterface positionInterface;
+
     public void setPositionInterface(PositionInterface positionInterface) {
         this.positionInterface = positionInterface;
-    }
-
-    public MapService() {
-
     }
 
     @Override
@@ -41,23 +39,27 @@ public class MapService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         getLocation();
-        L.v("mapService","onStartCommand_map_service");
+        L.v("mapService", "运行了吗");
         return super.onStartCommand(intent, flags, startId);
     }
 
-    void getLocation(){
+    void getLocation() {
         locationClient = new LocationClient(this);
         locationClient.registerLocationListener(new MyLocationListener());
         updateLocation();
         locationClient.start();
     }
-   public class MyLocationListener extends BDAbstractLocationListener {
+
+    public class MyLocationListener extends BDAbstractLocationListener {
         @Override
         public void onReceiveLocation(final BDLocation location) {
             if (location.getLocType() == BDLocation.TypeGpsLocation ||
                     location.getLocType() == BDLocation.TypeNetWorkLocation) {
                 if (positionInterface != null)
                     positionInterface.transferPosition(location.getLatitude(), location.getLongitude());
+                L.v("mapService", location.getLatitude() + "\t" + location.getLongitude() + "   here");
+
+                receiver(location.getLatitude(), location.getLongitude());
             }
         }
 
@@ -76,5 +78,29 @@ public class MapService extends Service {
         option.setIsNeedAddress(true);
         option.setOpenGps(true);
         locationClient.setLocOption(option);
+    }
+
+    @Override
+    public void onDestroy() {
+        locationClient.stop();
+        localBroadcastManager.unregisterReceiver(receiver);
+        super.onDestroy();
+    }
+
+    LocalBroadcastManager localBroadcastManager;
+    MapReceiver receiver;
+
+    private void receiver(double latitude, double longitude) {
+        receiver = new MapReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+//        intentFilter.addAction("MAP_RECEIVER");
+        localBroadcastManager.registerReceiver(receiver, intentFilter);
+
+        Intent intent = new Intent();
+        intent.setAction("android.map.MapReceiver");
+        intent.putExtra(ConstName.LATITUDE, latitude);
+        intent.putExtra(ConstName.LONGITUDE, longitude);
+        localBroadcastManager.sendBroadcast(intent);
     }
 }
