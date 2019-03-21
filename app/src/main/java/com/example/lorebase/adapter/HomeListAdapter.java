@@ -30,11 +30,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHolder> {
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    void setPosition(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+    private double latitude,longitude;
     private Context mContext;
     private List<Article.DataBean.DatasBean> beanList;
 
     HomeListAdapter(List<Article.DataBean.DatasBean> beanList) {
         this.beanList = beanList;
+    }
+
+    HomeListAdapter() {
+
     }
 
     @NonNull
@@ -63,19 +80,19 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
 
         holder.cardView.setOnClickListener(v -> {
-            new MapService().setPositionInterface((Latitude, Longitude) -> {
-                L.v("mapHomeList",Latitude+" \n" + Longitude+"  有没有啊");
+            MapService.receiver.setPositionInterface((Latitude, Longitude) -> {
+                L.v("mapHomeList", Latitude + " \n" + Longitude + "  有没有啊");
                 browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(),
-                        article.getLink(), article.getNiceDate(),article.isCollect(),Latitude,Longitude));
+                        article.getLink(), article.getNiceDate(), article.isCollect(), Latitude, Longitude));
             });
 
-            L.v("mapHomeList","  点击比较");
+            L.v("mapHomeList", "  点击比较"+latitude+"\t"+longitude);
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, article.getTitle());
             intent.putExtra(ConstName.PROJECT_AUTHOR, article.getAuthor());
             intent.putExtra(ConstName.ID, article.getId());
-            intent.putExtra(ConstName.IS_COLLECT,article.isCollect());
-            L.v("HomeList_isCollect",article.isCollect()+" statue");
+            intent.putExtra(ConstName.IS_COLLECT, article.isCollect());
+            L.v("HomeList_isCollect", article.isCollect() + " statue");
             intent.setData(Uri.parse(article.getLink()));
             mContext.startActivity(intent);
         });
@@ -84,23 +101,22 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
         //todo 收藏图标点击事件
         holder.collect.setOnClickListener(v -> {
-                    //获取某子项位置，并得到该项的数据对象
-                    if (isLogin) {
-                        if (!article.isCollect()) {
-                            RetrofitUtil.collectArticle(article.getId(),mContext);
-                            holder.collect.setImageResource(R.drawable.ic_like); //点击图标后变为红色表示已收藏
-                            notifyDataSetChanged();
-                        } else if (article.isCollect()) {
-                            RetrofitUtil.unCollectArticle(article.getId(),mContext);
-                            RetrofitUtil.unCollectArticle(article.getId(),mContext);
-                            holder.collect.setImageResource(R.drawable.ic_like_not);
-                            notifyDataSetChanged();
-                        }
-                    } else {
-                        mContext.startActivity(new Intent(mContext, LoginActivity.class));
-                    }
+            //获取某子项位置，并得到该项的数据对象
+            if (isLogin) {
+                if (!article.isCollect()) {
+                    RetrofitUtil.collectArticle(article.getId(), mContext);
+                    holder.collect.setImageResource(R.drawable.ic_like); //点击图标后变为红色表示已收藏
+                    notifyDataSetChanged();
+                } else if (article.isCollect()) {
+                    RetrofitUtil.unCollectArticle(article.getId(), mContext);
+                    RetrofitUtil.unCollectArticle(article.getId(), mContext);
+                    holder.collect.setImageResource(R.drawable.ic_like_not);
+                    notifyDataSetChanged();
                 }
-        );
+            } else {
+                mContext.startActivity(new Intent(mContext, LoginActivity.class));
+            }
+        });
     }
 
     @Override

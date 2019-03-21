@@ -33,10 +33,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
         <receiver
-            android:name=".MapReceiver"
+            android:name=".adapter.MapReceiver"
             android:enabled="true"
-            android:exported="false"
-            android:process=":mapReceiver">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.map.MapReceiver" />
             </intent-filter>
@@ -45,18 +44,13 @@
         <service
             android:name=".MapService"
             android:enabled="true"
-            android:exported="true"
-            android:process=":mapService">
-            <intent-filter android:priority="1000">
-                <action android:name="android.map.MapService" />
-            </intent-filter>
+            android:exported="false">
         </service>
 
         <activity android:name=".ui.activity.TodoEditActivity" />
         <activity android:name=".ui.activity.TodoAddActivity" />
         <activity
             android:name=".ui.activity.MySettingActivity"
-            android:label="@string/title_activity_my_setting"
             android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -67,13 +61,16 @@
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.alarm.AlarmReceiver" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".AlarmService"
             android:enabled="true"
-            android:exported="true"
-            android:process=":BackgroundService" />
+            android:exported="false" />
         <!-- 百度map -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -20,6 +21,7 @@ import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
@@ -32,9 +34,11 @@ import com.example.lorebase.adapter.BrowseHistoryAdapter;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.greenDao.BrowseHistoryDao;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
@@ -59,6 +63,7 @@ public class BrowseHistoryActivity extends BaseActivity {
         setContentView(R.layout.activity_browse_history);
         initRecycler();
         initMap();
+        overLay();
     }
 
     @SuppressLint("RestrictedApi")
@@ -75,7 +80,7 @@ public class BrowseHistoryActivity extends BaseActivity {
             startActivity(new Intent(this, MainActivity.class));
             overridePendingTransition(R.animator.go_in, R.animator.go_out);
         });
-        collapsingToolbarLayout.setTitle("Browsing History");
+        collapsingToolbarLayout.setTitle(getString(R.string.nav_browser));
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
         collapsingToolbarLayout.setBackgroundColor(Color.GRAY);
         Glide.with(this).load(R.drawable.image_timetree).into(portrait);
@@ -99,6 +104,7 @@ public class BrowseHistoryActivity extends BaseActivity {
                         }
                         fab_delete.setVisibility(View.INVISIBLE);
                         fab_top.setVisibility(View.INVISIBLE);
+                        baiduMap.clear();  //清除覆盖物
                         adapter.notifyDataSetChanged();
                         Glide.with(this).load(R.drawable.empty_cup).into(portrait);
                     }); //清空数据库
@@ -123,9 +129,7 @@ public class BrowseHistoryActivity extends BaseActivity {
         L.v("LocationActivity", "onResume");
     }
 
-    /*
-        Map
-     */
+    //todo map
 
     void initMap() {
         locationClient = new LocationClient(this);
@@ -138,6 +142,7 @@ public class BrowseHistoryActivity extends BaseActivity {
                     navigateTo(location);
                 }
             }
+
             @Override
             public void onConnectHotSpotMessage(String s, int i) {
                 super.onConnectHotSpotMessage(s, i);
@@ -151,28 +156,38 @@ public class BrowseHistoryActivity extends BaseActivity {
         locationClient.start();
     }
 
-    private void overLay(BDLocation location) {
-        LatLng point = new LatLng(location.getLatitude(), location.getLongitude());
-        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.position);
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(point)
-                .icon(bitmap);
-        //在地图上添加Marker，并显示
-        baiduMap.addOverlay(option);
+    //图层
+    private void overLay() {
+        //38.86145	121.523533
+        BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
+        browseHistoryDao.insertOrReplace(new BrowseHistory(null,"first","link1","date1",false,38.86145,121.523533));
+        browseHistoryDao.insertOrReplace(new BrowseHistory(null,"double","link2","date2",false,37.86145,122.523533));
+        browseHistoryDao.insertOrReplace(new BrowseHistory(null,"three","link3","date3",false,35.86145,123.523533));
+        browseHistoryDao.insertOrReplace(new BrowseHistory(null,"four","link4","date4",false,34.86145,124.523533));
+        List<BrowseHistory> list = MyApplication.getDaoSession().getBrowseHistoryDao().queryBuilder().list();
+        L.v("overlay",list.size()  +" size");
+        for (BrowseHistory browseHistory:list) {
 
-        //用来构造InfoWindow的Button
-        Button button = new Button(getApplicationContext());
-        button.setBackgroundResource(R.color.Grey);
-        button.setText("InfoWindow");
+            L.v("overlay",browseHistory.getTitle());
+            L.v("overlay",browseHistory.getLatidude()+"  latitude");
+            L.v("overlay",browseHistory.getLongitude()+" longitude");
 
-        //构造InfoWindow
-        //point 描述的位置点
-        //-100 InfoWindow相对于point在y轴的偏移量
-        InfoWindow mInfoWindow = new InfoWindow(button, point, -100);
+            LatLng point = new LatLng(browseHistory.getLatidude(),browseHistory.getLongitude());
+            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.position);
+            //构建MarkerOption，用于在地图上添加Marker
+            OverlayOptions option = new MarkerOptions()
+                    .position(point)
+                    .icon(bitmap)
+                    .title(browseHistory.getTitle());
+            //在地图上添加Marker，并显示
+            baiduMap.addOverlay(option);
+            baiduMap.setOnMarkerClickListener(marker -> {
+                ToastUtil.showLongToastCenter(marker.getTitle(),this);
+                return true;
+            });
 
-        //使InfoWindow生效
-        baiduMap.showInfoWindow(mInfoWindow);
+
+        }
     }
 
     //更新位置
@@ -187,7 +202,7 @@ public class BrowseHistoryActivity extends BaseActivity {
         locationClient.setLocOption(option);
     }
 
-    //定位当前位置
+    //定位当前位置  显示map时，使当前位置为第一视图
     private void navigateTo(BDLocation location) {
         if (isFistLocate) {
             LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
@@ -206,7 +221,7 @@ public class BrowseHistoryActivity extends BaseActivity {
                 .build();
         baiduMap.setMyLocationData(locationData);
 
-        overLay(location);
+//        overLay(location);
     }
 
     @Override
