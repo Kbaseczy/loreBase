@@ -50,10 +50,6 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         this.beanList = beanList;
     }
 
-    HomeListAdapter() {
-
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -80,7 +76,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
 
         holder.cardView.setOnClickListener(v -> {
-            MapService.receiver.setPositionInterface((Latitude, Longitude) -> {
+            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v("mapHomeList", Latitude + " \n" + Longitude + "  有没有啊");
                 browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(),
                         article.getLink(), article.getNiceDate(), article.isCollect(), Latitude, Longitude));

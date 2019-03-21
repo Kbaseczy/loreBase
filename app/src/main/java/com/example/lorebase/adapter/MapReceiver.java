@@ -10,7 +10,14 @@ import com.example.lorebase.util.PositionInterface;
 
 public class MapReceiver extends BroadcastReceiver {
 
-    HomeListAdapter homeListAdapter = new HomeListAdapter();
+    public static class MapReceiverHolder {
+        static final MapReceiver MAP_RECEIVER = new MapReceiver();
+    }
+
+    public static MapReceiver getInstance() {
+        return MapReceiverHolder.MAP_RECEIVER;
+    }
+
     public void setPositionInterface(PositionInterface positionInterface) {
         this.positionInterface = positionInterface;
     }
@@ -25,8 +32,5 @@ public class MapReceiver extends BroadcastReceiver {
             positionInterface.transferPosition(intent.getDoubleExtra(ConstName.LATITUDE, 0)
                     , intent.getDoubleExtra(ConstName.LONGITUDE, 0));
         }
-        homeListAdapter.setPosition(intent.getDoubleExtra(ConstName.LATITUDE, 0),
-                intent.getDoubleExtra(ConstName.LONGITUDE, 0));
-
     }
 }

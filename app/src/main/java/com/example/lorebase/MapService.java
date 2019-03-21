@@ -84,19 +84,17 @@ public class MapService extends Service {
     @Override
     public void onDestroy() {
         locationClient.stop();
-        localBroadcastManager.unregisterReceiver(receiver);
+        localBroadcastManager.unregisterReceiver(MapReceiver.getInstance());
         super.onDestroy();
     }
 
     LocalBroadcastManager localBroadcastManager;
-    public static MapReceiver receiver;
 
     private void receiver(double latitude, double longitude) {
-        receiver = new MapReceiver();
         IntentFilter intentFilter = new IntentFilter();
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         intentFilter.addAction("android.map.MapReceiver");
-        localBroadcastManager.registerReceiver(receiver, intentFilter);
+        localBroadcastManager.registerReceiver(MapReceiver.getInstance(), intentFilter);
         L.v("mapService"," execute");
         Intent intent = new Intent();
         intent.setAction("android.map.MapReceiver");
