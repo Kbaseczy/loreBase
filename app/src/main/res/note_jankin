@@ -73,3 +73,8 @@ todo 断网后进入app，没有数据显示，应用内开启网络刷新数据
  -->1.遇到没有更多数据，加载后出现白班
     2.有更多数据，加载后之前的数据被覆盖
     point:增加数据判断，recycler的延展性
+
+
+  err: android.view.InflateException: Binary XML file line #37: Attempt to invoke virtual method 'boolean java.lang.String.equals(java.lang.Object)' on a null object reference
+       Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.lang.String.equals(java.lang.Object)' on a null object reference
+  resolve:  这个是系统解析xml时出现错误，那么说明问题所在就是您的xml里的控件声明有误。 大家都很容易把View写出小写view。那么这样就会报错。

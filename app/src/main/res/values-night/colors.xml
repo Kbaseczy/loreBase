@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="viewBackground">#ff2e2e2e</color>
+    <color name="item_author">#dfffffff</color>
+    <color name="item_desc">#dfffffff</color>
+    <color name="item_date">#dfffffff</color>
+    <color name="item_title">#dfffffff</color>
+    <color name="colorPrimary">#ff2e2e2e</color>
+    <color name="colorPrimaryDark">#aaa</color>
+    <color name="colorAccent">#dfffffff</color>
+</resources>

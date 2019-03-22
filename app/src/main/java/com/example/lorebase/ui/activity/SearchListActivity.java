@@ -57,7 +57,6 @@ public class SearchListActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.back);
         }
         search(key_word);  // zai 該方法中運行了initSearch()
     }

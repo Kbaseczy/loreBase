@@ -20,10 +20,6 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import skin.support.SkinCompatManager;
-import skin.support.app.SkinCardViewInflater;
-import skin.support.constraint.app.SkinConstraintViewInflater;
-import skin.support.design.app.SkinMaterialViewInflater;
 
 public class MyApplication extends Application {
     private static DaoSession daoSession;
@@ -51,14 +47,6 @@ public class MyApplication extends Application {
         initGreenDao();
         manageAlarm(); //定时通知
 
-        SkinCompatManager.withoutActivity(this)                         // 基础控件换肤初始化
-                .addInflater(new SkinMaterialViewInflater())            // material design 控件换肤初始化[可选]
-                .addInflater(new SkinConstraintViewInflater())          // ConstraintLayout 控件换肤初始化[可选]
-                .addInflater(new SkinCardViewInflater())                // CardView v7 控件换肤初始化[可选]
-//                .setSkinStatusBarColorEnable(false)                     // 关闭状态栏换肤，默认打开[可选]
-                .setSkinWindowBackgroundEnable(false)                   // 关闭windowBackground换肤，默认打开[可选]
-                .loadSkin();
-
     }
 
     private void manageAlarm() {
@@ -69,10 +57,6 @@ public class MyApplication extends Application {
         boolean nightMode = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext())
                 .getBoolean("setting_switch_skin", true);   //获取general文件中该key的值
-//        if (isOpen)
-//            startService(new Intent(this, AlarmService.class));
-//        else
-//            stopService(new Intent(this, AlarmService.class));
     }
 
     private void initGreenDao() {

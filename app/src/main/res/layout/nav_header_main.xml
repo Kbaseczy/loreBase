@@ -12,24 +12,6 @@
         android:src="@mipmap/cherry"
         android:layout_centerInParent="true" />
 
-    <!--<TextView-->
-    <!--android:id="@+id/userName"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:text="Jankin"-->
-    <!--android:textColor="#FFF"-->
-    <!--android:textSize="14sp"/>-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/mail"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_above="@id/userName"-->
-    <!--android:text="folio96@163.com"-->
-    <!--android:textColor="#FFF"-->
-    <!--android:textSize="14sp"/>-->
-
     <TextView
         android:id="@+id/login_username"
         android:layout_width="wrap_content"

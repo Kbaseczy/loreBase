@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:focusable="true"
-    android:background="@color/white"
+    android:background="@color/viewBackground"
     android:focusableInTouchMode="true"
     custom:layout_behavior="@string/appbar_scrolling_view_behavior">
 

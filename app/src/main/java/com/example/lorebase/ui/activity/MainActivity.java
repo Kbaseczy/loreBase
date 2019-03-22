@@ -21,7 +21,6 @@ import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.http.RetrofitApi;
-import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.recog.ActivityUiDialog;
 import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
@@ -57,7 +56,6 @@ import okhttp3.Call;
 import okhttp3.Request;
 import retrofit2.Callback;
 import retrofit2.Response;
-import skin.support.SkinCompatManager;
 
 /*
     ☆ Lambda 里面不能intent 定义，使用需要在外部定义，在里面用new Intent().setClass()  個別

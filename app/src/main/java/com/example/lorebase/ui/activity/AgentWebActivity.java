@@ -61,7 +61,7 @@ public class AgentWebActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.back);
+            actionBar.setHomeAsUpIndicator(R.drawable.icon_back);
         }
         linearLayout = findViewById(R.id.web_parent);
         agentWeb = AgentWeb.with(this)

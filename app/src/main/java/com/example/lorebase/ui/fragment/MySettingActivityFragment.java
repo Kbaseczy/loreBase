@@ -1,4 +1,4 @@
-package com.example.lorebase.ui.activity;
+package com.example.lorebase.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,16 +8,13 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
-import android.widget.Toast;
 
 import com.example.lorebase.AlarmService;
 import com.example.lorebase.R;
 import com.example.lorebase.util.L;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import skin.support.SkinCompatManager;
-
-import static skin.support.SkinCompatManager.SKIN_LOADER_STRATEGY_ASSETS;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,10 +40,9 @@ public class MySettingActivityFragment extends PreferenceFragment {
             if (preference.getKey().equals("setting_switch_skin")) {
                 if (stringValue.contains("true")) {
 //                SkinCompatManager.getInstance().loadSkin("night.skin", 0);
-                    Toast.makeText(preference.getContext(), "夜间模式", Toast.LENGTH_SHORT).show();
-                    SkinCompatManager.getInstance().loadSkin("night.skin", null, SKIN_LOADER_STRATEGY_ASSETS);//加载夜间模式  这个不闪屏啥的
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
-                    SkinCompatManager.getInstance().restoreDefaultTheme();
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
             } else if (preference.getKey().equals("setting_switch")) {
                 if (stringValue.contains("true")) {
@@ -99,6 +95,13 @@ public class MySettingActivityFragment extends PreferenceFragment {
         bindPreferenceSummaryToValue(findPreference("setting_switch_skin"));
         bindPreferenceSummaryToValue(findPreference("setting_switch"));
 
+    }
+
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
     }
 
     @Override
