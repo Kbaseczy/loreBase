@@ -16,7 +16,7 @@
     </item>
     <item>
         <shape>
-            <solid android:color="@color/colorPrimary" />
+            <solid android:color="@color/colorPrimaryregister" />
             <corners android:radius="2dp" />
             <size android:height="37dp" />
         </shape>
