@@ -2,14 +2,18 @@ package com.example.lorebase.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.util.L;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -17,8 +21,13 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import okhttp3.Call;
 import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
     private EditText passWord;
@@ -44,7 +53,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_register) { //用户登录的按钮被单击
+        if (v.getId() == R.id.btn_register) {
             final String user_name = userCount.getText().toString().trim();
             final String pass = passWord.getText().toString().trim();
             final String re_pass = re_input_pass.getText().toString().trim();
@@ -57,47 +66,33 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void postData(String user_name, String pass, String re_pass) {
-        String url = UrlContainer.baseUrl + UrlContainer.REGISTER;
-        OkHttpUtils
-                .post()
-                .url(url)
-                .addParams("username", user_name)
-                .addParams("password", pass)
-                .addParams("repassword", re_pass)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        Map<String,String> params = new HashMap<>();
+        params.put("username",user_name);
+        params.put("password",pass);
+        params.put("repassword",re_pass);
+        retrofit2.Call<User> userCall = api.register(params);
+        userCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(retrofit2.Call<User> call, Response<User> response) {
+                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                finish();
+            }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+            @Override
+            public void onFailure(retrofit2.Call<User> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.e(response);
-                        //{"status":0,"msg":"注册成功"}
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.getInt("errorCode") == 0) {
-                                Toast.makeText(RegisterActivity.this, "Sign up Successful", Toast.LENGTH_LONG).show();
-                                Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
-                                startActivity(i);
-                                overridePendingTransition(R.animator.go_in, R.animator.go_out);
-                                finish();
-                            } else {
-                                Toast.makeText(RegisterActivity.this, jsonObject.getString("errorMsg"), Toast.LENGTH_LONG).show();
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                });
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        finish();
+        return super.onKeyDown(keyCode, event);
     }
 }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -64,7 +65,6 @@ public class SearchListActivity extends BaseActivity {
     @Override
     protected void onResume() {
         easyRefreshLayout = findViewById(R.id.easy_refresh_lore);
-//        easyRefreshLayout.setRefreshHeadView(customizabaleView);
         easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {
@@ -157,6 +157,12 @@ public class SearchListActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        finish();
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

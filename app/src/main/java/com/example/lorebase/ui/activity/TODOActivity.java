@@ -2,6 +2,7 @@ package com.example.lorebase.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -121,14 +122,18 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
         switch (menuItem.getItemId()) {
             case R.id.action_todo:
                 viewPager.setCurrentItem(0);
-                fab.setOnClickListener(v -> Toast.makeText(this, "回到顶部 action_todo", Toast.LENGTH_SHORT).show());
                 break;
             case R.id.action_complete:
                 viewPager.setCurrentItem(1);
-                fab.setOnClickListener(v -> Toast.makeText(this, "回到顶部 action_complete", Toast.LENGTH_SHORT).show());
                 break;
         }
         return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        finish();
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

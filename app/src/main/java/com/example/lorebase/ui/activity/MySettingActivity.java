@@ -2,6 +2,7 @@ package com.example.lorebase.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
@@ -23,8 +24,12 @@ public class MySettingActivity extends BaseActivity {
             startActivity(new Intent(this, MainActivity.class));
             overridePendingTransition(R.animator.go_in, R.animator.go_out);
         });
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        finish();
+        return super.onKeyDown(keyCode, event);
     }
 }

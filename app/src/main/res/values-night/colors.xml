@@ -6,6 +6,8 @@
     <color name="item_date">#dfffffff</color>
     <color name="item_title">#dfffffff</color>
     <color name="colorPrimary">#ff2e2e2e</color>
+    <color name="colorPrimaryregister">#aaa</color>
     <color name="colorPrimaryDark">#aaa</color>
-    <color name="colorAccent">#dfffffff</color>
+
+    <color name="colorAccent">#aaa</color>
 </resources>

@@ -2,6 +2,7 @@ package com.example.lorebase.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
@@ -102,5 +103,11 @@ public class LoreActivity extends BaseActivity {
         viewPager.setAdapter(fragmentAdapterLoreList);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        finish();
+        return super.onKeyDown(keyCode, event);
     }
 }

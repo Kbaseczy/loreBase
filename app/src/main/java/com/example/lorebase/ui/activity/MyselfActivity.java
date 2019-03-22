@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -130,10 +131,15 @@ public class MyselfActivity extends BaseActivity {
             case android.R.id.home:
                 startActivity(new Intent(this, MainActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        finish();
+        return super.onKeyDown(keyCode, event);
+    }
 }

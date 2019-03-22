@@ -58,11 +58,6 @@ public class GuideActivity extends BaseActivity {
         });
         viewPager.setPageTransformer(false, new ZoomOutPageTransformer()); //设置动画效果
 
-//        InitData();
-//        btn_start = findViewById(R.id.start_guide);
-//        viewPager = findViewById(R.id.viewpager_guide);
-//        viewPager.setAdapter(new viewpagerAdapter());
-//        viewPager.addOnPageChangeListener(new PageListener());
         btn_start.setOnClickListener(v -> {
             Intent goMain = new Intent(GuideActivity.this, MainActivity.class);
             startActivity(goMain);

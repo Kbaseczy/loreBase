@@ -114,7 +114,7 @@ public class RetrofitUtil {
     //Context context, ImageView imageView
     public static void getBiYing(Context context, ImageView imageView) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(UrlContainer.BI_YING)
+                .baseUrl(UrlContainer.BI_YING_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(new OkHttpClient())
                 .build();
@@ -127,7 +127,7 @@ public class RetrofitUtil {
                     L.v("BYimage", response.body().getImages().get(0).getUrl() + " retrofit");
 
                 }
-                String fullUrl = UrlContainer.BI_YING + response.body().getImages().get(0).getUrl();
+                String fullUrl = UrlContainer.BI_YING_BASE + response.body().getImages().get(0).getUrl();
                 Glide.with(context).load(fullUrl).transition(new DrawableTransitionOptions().crossFade()).into(imageView);
             }
 

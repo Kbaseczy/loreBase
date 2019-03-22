@@ -89,7 +89,7 @@
         <activity
             android:name=".ui.activity.LaunchActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout"
-            android:launchMode="singleTop">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

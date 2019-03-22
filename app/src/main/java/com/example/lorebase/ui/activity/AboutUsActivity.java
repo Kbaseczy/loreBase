@@ -3,6 +3,7 @@ package com.example.lorebase.ui.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.example.lorebase.BaseActivity;
@@ -24,7 +25,10 @@ public class AboutUsActivity extends BaseActivity {
         setContentView(R.layout.activity_about_us);
         toolbar = findViewById(R.id.about_us_toolbar);
         toolbar.setTitle(R.string.nav_about);
-        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(AboutUsActivity.this, MainActivity.class)));
+        toolbar.setNavigationOnClickListener(v -> {
+            startActivity(new Intent(AboutUsActivity.this, MainActivity.class));
+            overridePendingTransition(R.animator.go_in, R.animator.go_out);
+        });
         feed_back = findViewById(R.id.about_us_feed_back);
     }
 
@@ -53,5 +57,11 @@ public class AboutUsActivity extends BaseActivity {
         intent.putExtra(ConstName.TITLE, R.string.feed_back);
         intent.putExtra(ConstName.ACTIVITY, ConstName.activity.ABOUT_US);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        finish();
+        return super.onKeyDown(keyCode, event);
     }
 }

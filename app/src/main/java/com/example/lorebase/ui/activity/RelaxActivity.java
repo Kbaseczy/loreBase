@@ -1,6 +1,8 @@
 package com.example.lorebase.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,7 +45,10 @@ public class RelaxActivity extends BaseActivity {
     private void initRelax() {
         Toolbar toolbar = findViewById(R.id.toolbar_lore);
         toolbar.setTitle(R.string.relax);
-        toolbar.setNavigationOnClickListener(v -> finish());
+        toolbar.setNavigationOnClickListener(v -> {
+            startActivity(new Intent(this, MainActivity.class));
+            overridePendingTransition(R.animator.go_in, R.animator.go_out);
+        });
         ViewPager viewPager = findViewById(R.id.vp_project);
         TabLayout tabLayout = findViewById(R.id.tab_lore_title);
 
@@ -94,7 +99,13 @@ public class RelaxActivity extends BaseActivity {
         return view;
     }
 
-//    @Override
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        finish();
+        return super.onKeyDown(keyCode, event);
+    }
+
+    //    @Override
 //    public void onBackPressed() {
 //        int[] identity = {0, 1, 2};
 //        for (int id : identity) {

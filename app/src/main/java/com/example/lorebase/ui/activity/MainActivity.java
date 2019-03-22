@@ -306,7 +306,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 //todo 需要添加管理activity的類，統一關閉所有activity
                 ActivityCollector.finishAll();
                 finish();
-//                SkinCompatManager.getInstance().loadSkin("night.skin", SkinCompatManager.SKIN_LOADER_STRATEGY_ASSETS);
                 break;
         }
         return false;

@@ -4,6 +4,7 @@ import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.Banner;
 import com.example.lorebase.bean.BiYing;
 import com.example.lorebase.bean.LoreTree;
+import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.bean.News;
 import com.example.lorebase.bean.Project;
 import com.example.lorebase.bean.ProjectChapter;
@@ -12,6 +13,7 @@ import com.example.lorebase.bean.User;
 import com.example.lorebase.bean.WeChat;
 import com.example.lorebase.contain_const.UrlContainer;
 
+import java.net.URLClassLoader;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -29,12 +31,17 @@ public interface RetrofitApi {
     Call<User> login(@Query("username") String username,
                      @Query("password") String password);
 
+    //注册
+    @FormUrlEncoded
+    @POST(UrlContainer.REGISTER)
+    Call<User> register(@FieldMap Map<String,String> map);
+
     //注销
     @GET(UrlContainer.LOGOUT)
     Call<User> logout();
 
     //必应每日一图
-    @GET("HPImageArchive.aspx?format=js&idx=0&n=1")
+    @GET(UrlContainer.BI_YING)
     Call<BiYing> getBiYing();
 
     //首页文章列表
@@ -69,39 +76,43 @@ public interface RetrofitApi {
     @GET(UrlContainer.PROJECT_LIST)
     Call<Project> getProjectList(@Path("page") int page,@Query("cid") int cid);
 
+    //导航
+    @GET(UrlContainer.NAVI)
+    Call<NavigateSite> getNavigateSite();
+
     //搜索
     @FormUrlEncoded
     @POST(UrlContainer.SEARCH)
     Call<Article> getSearchArticle(@Path("page") int page,@Field("k") String key_word);
 
     //获取完成事项
-    @GET("lg/todo/v2/list/{page}/json?status=1&orderby=2")
+    @GET(UrlContainer.TODO_COMPLETE)
     Call<TodoTodo> getDoneTodoList(@Path("page") int page);
 
     //获取待办事项
-    @GET("lg/todo/v2/list/{page}/json?status=0")
+    @GET(UrlContainer.TODO_UNCOMPLETE)
     Call<TodoTodo> getUnTodoList(@Path("page") int page);
 
     //收藏列表
-    @GET("lg/collect/list/{page}/json")
+    @GET(UrlContainer.COLLECT_ARTICLE_LIST)
     Call<Article> getCollect(@Path("page") int page);
 
     // 添加TODO
     @FormUrlEncoded
-    @POST("lg/todo/add/json")
+    @POST(UrlContainer.TODO_ADD)
     Call<TodoTodo> postAddTodo(@FieldMap Map<String, String> map);
 
     //修改TODO
     @FormUrlEncoded
-    @POST("lg/todo/update/{id}/json")
+    @POST(UrlContainer.TODO_UPDATE)
     Call<TodoTodo> postEditTodo(@Path("id") int id, @FieldMap Map<String, String> map);
 
     //刪除TODO
-    @POST("lg/todo/delete/{id}/json")
+    @POST(UrlContainer.TODO_DELETE)
     Call<TodoTodo> postDeleteTodo(@Path("id") int id);
 
     //更新TODO状态  待办/完成
-    @POST("lg/todo/done/{id}/json")
+    @POST(UrlContainer.TODO_STATUE)
     Call<TodoTodo> postDoneTodo(@Path("id") int id, @Query("status") int status);
 
     @POST(UrlContainer.COLLECT_ARTICLE)

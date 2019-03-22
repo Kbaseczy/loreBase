@@ -11,6 +11,7 @@ import android.preference.SwitchPreference;
 
 import com.example.lorebase.AlarmService;
 import com.example.lorebase.R;
+import com.example.lorebase.ui.activity.MySettingActivity;
 import com.example.lorebase.util.L;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -19,9 +20,10 @@ import androidx.fragment.app.Fragment;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MySettingActivityFragment extends PreferenceFragment {
 
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = (preference, value) -> {
+//todo 夜间模式  switch按钮逻辑有问题
+public class MySettingActivityFragment extends PreferenceFragment {
+    Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = (preference, value) -> {
         String stringValue = value.toString();
 
         if (preference instanceof ListPreference) {
@@ -38,15 +40,15 @@ public class MySettingActivityFragment extends PreferenceFragment {
 
         } else if (preference instanceof SwitchPreference) {
             if (preference.getKey().equals("setting_switch_skin")) {
-                if (stringValue.contains("true")) {
-//                SkinCompatManager.getInstance().loadSkin("night.skin", 0);
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
+//                if (stringValue.contains("true")) {
+////                SkinCompatManager.getInstance().loadSkin("night.skin", 0);
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                } else {
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                }
             } else if (preference.getKey().equals("setting_switch")) {
                 if (stringValue.contains("true")) {
-                    L.v("setting_switch","startService");
+                    L.v("setting_switch", "startService");
                     preference.getContext().startService(new Intent(preference.getContext(), AlarmService.class));
                 } else {
                     preference.getContext().stopService(new Intent(preference.getContext(), AlarmService.class));
@@ -60,7 +62,7 @@ public class MySettingActivityFragment extends PreferenceFragment {
         return true;
     };
 
-    private static void bindPreferenceSummaryToValue(Preference preference) {
+    private void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
@@ -97,15 +99,29 @@ public class MySettingActivityFragment extends PreferenceFragment {
 
     }
 
-
     @Override
     public void onResume() {
-
+        setNightMode();
         super.onResume();
+    }
+
+    private void setNightMode() {
+        if (PreferenceManager
+                .getDefaultSharedPreferences(getContext())
+                .getBoolean("setting_switch_skin", true)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//            startActivity(new Intent(getActivity(), MySettingActivity.class));
+//            getActivity().overridePendingTransition(R.animator.go_in, R.animator.go_out);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//            startActivity(new Intent(getActivity(), MySettingActivity.class));
+//            getActivity().overridePendingTransition(R.animator.go_in, R.animator.go_out);
+        }
     }
 
     @Override
     public void onDestroy() {
+
         super.onDestroy();
     }
 }

@@ -121,17 +121,17 @@ public class UrlContainer {
     /*
      * TODO 未完成列表
      * */
-    public static final String TODO_TODO = "lg/todo/v2/list/";
+    public static final String TODO_UNCOMPLETE = "lg/todo/v2/list/{page}/json?status=0";
 
     /*
      * TODO 完成列表
      * */
-    public static final String TODO_COMPLETE = "lg/todo/v2/list/";
+    public static final String TODO_COMPLETE = "lg/todo/v2/list/{page}/json?status=1&orderby=2";
 
     /*
      * TODO 删除一个todo
      * */
-    public static final String TODO_DELETE = "lg/todo/delete/";
+    public static final String TODO_DELETE = "lg/todo/delete/{id}/json";
 
     /*
      * TODO 修改一个todo
@@ -145,7 +145,7 @@ public class UrlContainer {
 	    type: ；
 	    priority: ；
      * */
-    public static final String TODO_UPDATE = "lg/todo/update/";
+    public static final String TODO_UPDATE = "lg/todo/update/{id}/json";
 
     /*
      * TODO 添加一个TODO
@@ -163,11 +163,12 @@ public class UrlContainer {
       TODO 更新todo状态（待办0 已完成1）
      */
 
-    public static final String DONE_TODO_URI = "lg/todo/done/";
+    public static final String TODO_STATUE = "lg/todo/done/{id}/json";
     /*
         必应  ok
     */
-    public static final String BI_YING = "https://cn.bing.com/";
+    public static final String BI_YING_BASE = "https://cn.bing.com/";
+    public static final String BI_YING = "HPImageArchive.aspx?format=js&idx=0&n=1";
 
 
 }
