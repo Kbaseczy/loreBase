@@ -1,4 +1,4 @@
-package com.example.lorebase.adapter;
+package com.example.lorebase;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

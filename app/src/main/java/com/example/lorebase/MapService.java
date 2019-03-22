@@ -10,7 +10,6 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.example.lorebase.adapter.MapReceiver;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PositionInterface;
@@ -26,11 +25,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
  */
 public class MapService extends Service {
     public LocationClient locationClient;
-    private PositionInterface positionInterface;
-
-    public void setPositionInterface(PositionInterface positionInterface) {
-        this.positionInterface = positionInterface;
-    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -56,8 +50,6 @@ public class MapService extends Service {
         public void onReceiveLocation(final BDLocation location) {
             if (location.getLocType() == BDLocation.TypeGpsLocation ||
                     location.getLocType() == BDLocation.TypeNetWorkLocation) {
-                if (positionInterface != null)
-                    positionInterface.transferPosition(location.getLatitude(), location.getLongitude());
                 L.v("mapService", location.getLatitude() + "\t" + location.getLongitude() + "   here");
 
                 receiver(location.getLatitude(), location.getLongitude());

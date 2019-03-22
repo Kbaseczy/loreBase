@@ -59,10 +59,11 @@ todo 断网后进入app，没有数据显示，应用内开启网络刷新数据
 
  map图层
  1.数据
-    a.获取  ok
-    b.传输  point★
-    c.接收 存储
-    d.取出
+    a.获取  ok   MapService
+    b.传输  point★   MapService->MapReceiver(回调接口，单例)  优化：发现位置信息在不断发送，最初想法是在点击之后获取一次足矣
+    c.接收 存储   greenDao
+    d.取出       greenDao
 
  2.显示
-    a.map显示   不支持多个infoWindow,只做多个marker
+    a.map显示   不支持多个infoWindow,只做多个marker.
+       优化：一个地点只对应一个marker存储一篇文章，且存储最早点击浏览的那篇

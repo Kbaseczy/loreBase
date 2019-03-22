@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.lorebase.MapService;
+import com.example.lorebase.MapReceiver;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;

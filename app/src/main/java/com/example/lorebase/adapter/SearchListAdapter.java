@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lorebase.MapReceiver;
 import com.example.lorebase.MapService;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
@@ -69,7 +70,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         holder.chapterName.setText(name);
 
         holder.cardView.setOnClickListener(v -> {
-            new MapService().setPositionInterface((Latitude, Longitude) -> {
+            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, filterTitle, search.getLink(), search.getNiceDate(),search.isCollect()

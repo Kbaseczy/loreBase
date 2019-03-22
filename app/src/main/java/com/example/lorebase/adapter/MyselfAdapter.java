@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lorebase.MapReceiver;
 import com.example.lorebase.MapService;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
@@ -64,8 +65,8 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
         holder.imageView.setImageResource(R.drawable.ic_like);
 
         holder.cardView.setOnClickListener(v -> {
-            new MapService().setPositionInterface((Latitude, Longitude) -> {
-                L.v(Latitude + " \n" + Longitude + "  有没有啊");
+            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+                L.v(Latitude + " \n" + Longitude + "  有没有啊MyselfAdapter");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, my_collect.getTitle(), my_collect.getLink()
                         , my_collect.getNiceDate(), my_collect.isCollect(), Latitude, Longitude));

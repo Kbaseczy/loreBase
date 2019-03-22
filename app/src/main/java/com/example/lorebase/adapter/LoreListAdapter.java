@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.lorebase.MapService;
+import com.example.lorebase.MapReceiver;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;
@@ -63,7 +63,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
             intent.putExtra(ConstName.IS_COLLECT, datasBean.isCollect());
             intent.setData(Uri.parse(datasBean.getLink()));
             mContext.startActivity(intent);
-            new MapService().setPositionInterface((Latitude, Longitude) -> {
+            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, datasBean.getTitle(), datasBean.getLink()

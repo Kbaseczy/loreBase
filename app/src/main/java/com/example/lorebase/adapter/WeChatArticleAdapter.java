@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lorebase.MapReceiver;
 import com.example.lorebase.MapService;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
@@ -68,8 +69,8 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
 
         holder.cardView.setOnClickListener(v -> {
 
-            new MapService().setPositionInterface((Latitude, Longitude) -> {
-                L.v(Latitude + " \n" + Longitude );
+            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+                L.v(Latitude + " \n" + Longitude+"WeChatArticleAdapter aaa" );
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, we_chat_article.getTitle(), we_chat_article.getLink(), we_chat_article.getNiceDate(),we_chat_article.isCollect()
                         ,Latitude,Longitude));

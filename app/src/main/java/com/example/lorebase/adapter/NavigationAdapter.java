@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.lorebase.MapReceiver;
 import com.example.lorebase.MapService;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
@@ -97,7 +98,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                 boolean is_collect = beans_chapter.get(position_item)
                         .getArticles().get(position_tag).isCollect();
 
-                new MapService().setPositionInterface((Latitude, Longitude) -> {
+                MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                     L.v(Latitude + " \n" + Longitude + "  有没有啊");
                     MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                             null, tag_navi, tag_link, tag_date,is_collect,Latitude,Longitude));

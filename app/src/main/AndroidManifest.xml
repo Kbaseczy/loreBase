@@ -33,7 +33,7 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
         <receiver
-            android:name=".adapter.MapReceiver"
+            android:name=".MapReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

@@ -159,11 +159,6 @@ public class BrowseHistoryActivity extends BaseActivity {
     //图层
     private void overLay() {
         //38.86145	121.523533
-        BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
-        browseHistoryDao.insertOrReplace(new BrowseHistory(null,"first","link1","date1",false,38.86145,121.523533));
-        browseHistoryDao.insertOrReplace(new BrowseHistory(null,"double","link2","date2",false,37.86145,122.523533));
-        browseHistoryDao.insertOrReplace(new BrowseHistory(null,"three","link3","date3",false,35.86145,123.523533));
-        browseHistoryDao.insertOrReplace(new BrowseHistory(null,"four","link4","date4",false,34.86145,124.523533));
         List<BrowseHistory> list = MyApplication.getDaoSession().getBrowseHistoryDao().queryBuilder().list();
         L.v("overlay",list.size()  +" size");
         for (BrowseHistory browseHistory:list) {
