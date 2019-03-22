@@ -61,7 +61,8 @@
         <service
             android:name=".AlarmService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:process=":alarmService"/>
         <!-- 百度map -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
