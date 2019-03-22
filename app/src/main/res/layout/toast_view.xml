@@ -14,6 +14,6 @@
         android:padding="15dp"
         android:textSize="18sp"
         android:gravity="center"
-        android:background="@drawable/login_btn_style"
+        android:background="@drawable/toast_style"
         android:layout_height="wrap_content" />
 </LinearLayout>

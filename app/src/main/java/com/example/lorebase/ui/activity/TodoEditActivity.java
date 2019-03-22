@@ -17,6 +17,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.util.ToastUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -112,19 +113,20 @@ public class TodoEditActivity extends Activity implements View.OnClickListener {
             @Override
             public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
                 if (response.body() != null) {
+                    ToastUtil.showShortToastCenter("修改成功",TodoEditActivity.this);
                     Intent i = new Intent(TodoEditActivity.this, TODOActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.animator.go_in, R.animator.go_out);
                     finish();
                 } else {
                     assert response.body() != null;
-                    Toast.makeText(TodoEditActivity.this, response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
+                    ToastUtil.showShortToastCenter( response.body().getErrorMsg(),TodoEditActivity.this);
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<TodoTodo> call, Throwable t) {
-
+                ToastUtil.showShortToastCenter( t.getMessage(),TodoEditActivity.this);
             }
         });
     }

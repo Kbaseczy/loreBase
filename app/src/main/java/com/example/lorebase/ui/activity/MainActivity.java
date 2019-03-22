@@ -29,6 +29,7 @@ import com.example.lorebase.ui.fragment.WeChatFragment;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -327,7 +328,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 finish();
             } else {
                 exit_time = System.currentTimeMillis();
-                Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
+                ToastUtil.showLongToastCenter("再次返回退出",this);
             }
             return true;
         }

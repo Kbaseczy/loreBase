@@ -8,6 +8,6 @@
     <color name="colorPrimary">#ff2e2e2e</color>
     <color name="colorPrimaryregister">#aaa</color>
     <color name="colorPrimaryDark">#aaa</color>
-
+    <color name="colorAccentToast">#aaa</color>
     <color name="colorAccent">#aaa</color>
 </resources>

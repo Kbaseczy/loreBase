@@ -13,6 +13,7 @@ import com.example.lorebase.bean.BiYing;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.ToastUtil;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -31,8 +32,8 @@ public class RetrofitUtil {
             @Override
             public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
                 if (response.body() != null) {
-                    Toast.makeText(context, response.body().getErrorCode() == 0 ?
-                            "删除成功" : response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
+                    ToastUtil.showShortToastCenter(response.body().getErrorCode() == 0 ?
+                            "删除成功" : response.body().getErrorMsg(),context);
                 }
             }
 
@@ -50,7 +51,7 @@ public class RetrofitUtil {
             @Override
             public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
                 if (response.body() != null) {
-                    Toast.makeText(context, is_done ? "撤销成功" : "标记完成", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showShortToastCenter(is_done ? "撤销成功" : "标记完成",context);
                 }
             }
 
@@ -66,7 +67,7 @@ public class RetrofitUtil {
         collectCall.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
-                Toast.makeText(context, "收藏成功", Toast.LENGTH_SHORT).show();
+                ToastUtil.showShortToastCenter("收藏成功",context);
             }
 
             @Override
@@ -84,8 +85,8 @@ public class RetrofitUtil {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
                 if (response.body() != null)
-                    Toast.makeText(context, response.body().getErrorCode() == 0 ?
-                            "删除成功" : response.body().getErrorMsg(), Toast.LENGTH_SHORT).show();
+                    ToastUtil.showShortToastCenter(response.body().getErrorCode() == 0 ?
+                            "删除成功" : response.body().getErrorMsg(),context);
             }
 
             @Override
@@ -101,7 +102,7 @@ public class RetrofitUtil {
         cancelArticleCall.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
-                Toast.makeText(context, "取消成功", Toast.LENGTH_SHORT).show();
+                ToastUtil.showShortToastCenter("取消成功",context);
             }
 
             @Override

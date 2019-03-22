@@ -89,11 +89,10 @@ public class TodoAddActivity extends BaseActivity implements View.OnClickListene
                         Intent i = new Intent(TodoAddActivity.this, TODOActivity.class);
                         startActivity(i);
                         overridePendingTransition(R.animator.go_in, R.animator.go_out);
-                        Toast.makeText(TodoAddActivity.this, "添加成功", Toast.LENGTH_LONG).show();
+                        ToastUtil.showShortToastCenter("添加成功",TodoAddActivity.this);
                         finish();
                     } else {
-                        ToastUtil.showShortToastCenter(response.body().getErrorMsg());
-                        Toast.makeText(TodoAddActivity.this, response.body().getErrorMsg(), Toast.LENGTH_LONG).show();
+                        ToastUtil.showShortToastCenter(response.body().getErrorMsg(),TodoAddActivity.this);
                     }
                 }
             }
