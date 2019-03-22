@@ -1,9 +1,15 @@
 package com.example.lorebase.http;
 
 import com.example.lorebase.bean.Article;
+import com.example.lorebase.bean.Banner;
+import com.example.lorebase.bean.BiYing;
+import com.example.lorebase.bean.LoreTree;
+import com.example.lorebase.bean.News;
 import com.example.lorebase.bean.Project;
+import com.example.lorebase.bean.ProjectChapter;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.bean.User;
+import com.example.lorebase.bean.WeChat;
 import com.example.lorebase.contain_const.UrlContainer;
 
 import java.util.Map;
@@ -27,9 +33,33 @@ public interface RetrofitApi {
     @GET(UrlContainer.LOGOUT)
     Call<User> logout();
 
+    //必应每日一图
+    @GET("HPImageArchive.aspx?format=js&idx=0&n=1")
+    Call<BiYing> getBiYing();
+
     //首页文章列表
     @GET(UrlContainer.HOME_LIST)
     Call<Article> getHomeArticle(@Path("page") int page);
+
+    //首页news
+    @GET(UrlContainer.FRIEND)
+    Call<News> getHomeNews();
+
+    //首页banner
+    @GET(UrlContainer.MAIN_BANNER)
+    Call<Banner> getHomeBanner();
+
+    //知识体系
+    @GET(UrlContainer.TREE)
+    Call<LoreTree> getLoreTree();
+
+    //项目目录
+    @GET(UrlContainer.PROJECT)
+    Call<ProjectChapter> getProjectChapter();
+
+    //微信公众号目录
+    @GET(UrlContainer.WX_ARTICLE_CHAPTER)
+    Call<WeChat> getWeChatChapter();
 
     //微信公众号文章
     @GET(UrlContainer.WX_ARTICLE_LIST)

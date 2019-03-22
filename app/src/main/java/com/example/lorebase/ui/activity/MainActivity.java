@@ -21,6 +21,7 @@ import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.recog.ActivityUiDialog;
 import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;

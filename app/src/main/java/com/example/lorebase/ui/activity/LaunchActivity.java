@@ -10,20 +10,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
-import com.example.lorebase.contain_const.UrlContainer;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import okhttp3.Call;
-import okhttp3.Request;
+import com.example.lorebase.http.RetrofitUtil;
 
 public class LaunchActivity extends BaseActivity {
     LaunchActivity launchActivity;
@@ -39,8 +28,7 @@ public class LaunchActivity extends BaseActivity {
         launchActivity = this;
         mHandler = new Handler();
         image_launch = findViewById(R.id.image_launch);
-//        app_name = findViewById(R.id.app_launch);
-        getImage(); //获取并设置bing图片
+        RetrofitUtil.getBiYing(this,image_launch);
         initStartAnim();
     }
 
@@ -85,35 +73,4 @@ public class LaunchActivity extends BaseActivity {
         }, 2000);
     }
 
-    private void getImage() {
-        String url = "https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1";
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray jsonArray = jsonObject.getJSONArray("images");
-                            String url_image = jsonArray.getJSONObject(0).getString("url");
-                            String fullUrl = UrlContainer.BI_YING + url_image;
-                            Glide.with(launchActivity).load(fullUrl).transition(new DrawableTransitionOptions().crossFade()).into(image_launch);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-    }
 }

@@ -1,7 +1,6 @@
 package com.example.lorebase;
 
 import android.app.Application;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
@@ -70,10 +69,10 @@ public class MyApplication extends Application {
         boolean nightMode = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext())
                 .getBoolean("setting_switch_skin", true);   //获取general文件中该key的值
-        if (isOpen)
-            startService(new Intent(this, AlarmService.class));
-        else
-            stopService(new Intent(this, AlarmService.class));
+//        if (isOpen)
+//            startService(new Intent(this, AlarmService.class));
+//        else
+//            stopService(new Intent(this, AlarmService.class));
     }
 
     private void initGreenDao() {

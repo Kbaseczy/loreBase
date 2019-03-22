@@ -15,11 +15,7 @@ import com.example.lorebase.adapter.HomeAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.Banner;
 import com.example.lorebase.bean.News;
-import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.http.RetrofitApi;
-import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 
@@ -27,8 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.Call;
-import okhttp3.Request;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -71,7 +65,7 @@ public class HomeFragment extends Fragment {
         easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {
-//                getDataList();
+                getDataList();
             }
 
             @Override
@@ -86,7 +80,7 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_home);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        adapter = new HomeAdapter(getActivity(), banner_t, beanList_news, beanList_article);
+        adapter = new HomeAdapter(getActivity());
         adapter.addList(banner_t, beanList_news, beanList_article);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
@@ -98,69 +92,53 @@ public class HomeFragment extends Fragment {
             if (easyRefreshLayout.isRefreshing()) {
                 page = 0;
                 getArticle();
-                adapter.addList(banner_t, beanList_news, beanList_article);
+                adapter.addArticle(beanList_article);
                 easyRefreshLayout.refreshComplete();
             } else {
                 page++;
                 getArticle();
-                adapter.addList(banner_t, beanList_news, beanList_article);
+                adapter.addArticle(beanList_article);
                 easyRefreshLayout.loadMoreComplete();
             }
         }, 500);
     }
 
     private void getBanner() {
-        String url = UrlContainer.baseUrl + UrlContainer.MAIN_BANNER;
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<Banner> bannerCall = api.getHomeBanner();
+        bannerCall.enqueue(new Callback<Banner>() {
+            @Override
+            public void onResponse(retrofit2.Call<Banner> call, Response<Banner> response) {
+                if (response.body() != null) {
+                    banner_t = response.body().getData();
+                    getFlipper();
+                }
+            }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+            @Override
+            public void onFailure(retrofit2.Call<Banner> call, Throwable t) {
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Gson gson = new Gson();
-                        //右边是解析成javaBean,右边是从javabean取出list，整体存到banner_t
-                        banner_t = gson.fromJson(response, Banner.class).getData();
-                        getFlipper();
-                    }
-                });
+            }
+        });
     }
 
     private void getFlipper() {
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<News> homeArticleCall = api.getHomeNews();
+        homeArticleCall.enqueue(new Callback<News>() {
+            @Override
+            public void onResponse(retrofit2.Call<News> call, Response<News> response) {
+                if (response.body() != null) {
+                    beanList_news = response.body().getData();
+                    getArticle();
+                }
+            }
 
-        String url = UrlContainer.baseUrl + UrlContainer.FRIEND;
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
+            @Override
+            public void onFailure(retrofit2.Call<News> call, Throwable t) {
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Gson gson = new Gson();
-                        beanList_news = gson.fromJson(response, News.class).getData();
-                        getArticle();
-                    }
-                });
+            }
+        });
     }
 
     private void getArticle() {
@@ -174,6 +152,7 @@ public class HomeFragment extends Fragment {
                     initView();
                 }
             }
+
             @Override
             public void onFailure(retrofit2.Call<Article> call, Throwable t) {
 

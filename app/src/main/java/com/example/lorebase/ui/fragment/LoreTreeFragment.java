@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.LoreTreeAdapter;
 import com.example.lorebase.bean.LoreTree;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.http.RetrofitApi;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -20,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import okhttp3.Call;
 import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /*
     ArrayAdapter<String>,Toast,MainActivity-->LoreTreeFragment
@@ -45,30 +49,22 @@ public class LoreTreeFragment extends Fragment {
     }
 
     private void getLoreTree() {
-        String url = UrlContainer.baseUrl + UrlContainer.TREE;
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<LoreTree> loreTreeCall = api.getLoreTree();
+        loreTreeCall.enqueue(new Callback<LoreTree>() {
+            @Override
+            public void onResponse(retrofit2.Call<LoreTree> call, Response<LoreTree> response) {
+                if (response.body() != null) {
+                    fatherBeanList = response.body().getData();
+                    initView();
+                }
+            }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+            @Override
+            public void onFailure(retrofit2.Call<LoreTree> call, Throwable t) {
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Gson gson = new Gson();
-                        //TODO :Expected Object but Array -> ok
-                        fatherBeanList = gson.fromJson(response, LoreTree.class).getData();
-                        initView();
-                    }
-                });
+            }
+        });
     }
 
     private void initView() {

@@ -6,15 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.WeChat;
-import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
-import com.example.lorebase.util.L;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import okhttp3.Call;
-import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class WeChatFragment extends Fragment {
     private View view;
@@ -49,30 +46,23 @@ public class WeChatFragment extends Fragment {
     }
 
     private void getWeChat() {
-        String url = UrlContainer.baseUrl + UrlContainer.WX_ARTICLE_CHAPTER;
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<WeChat> chatCall = api.getWeChatChapter();
+        chatCall.enqueue(new Callback<WeChat>() {
+            @Override
+            public void onResponse(retrofit2.Call<WeChat> call, Response<WeChat> response) {
+                if (response.body() != null) {
+                    list_weChat = response.body().getData();
+                    initWeChat();
+                }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.v("WE_CHAT", response);
-                        Gson gson = new Gson();
-                        list_weChat = gson.fromJson(response, WeChat.class).getData();
-                        initWeChat();
-                    }
-                });
+            @Override
+            public void onFailure(retrofit2.Call<WeChat> call, Throwable t) {
+
+            }
+        });
     }
 
     private void initWeChat() {

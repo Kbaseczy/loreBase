@@ -1,18 +1,29 @@
 package com.example.lorebase.http;
 
 import android.content.Context;
+import android.media.Image;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.bean.Article;
+import com.example.lorebase.bean.BiYing;
 import com.example.lorebase.bean.TodoTodo;
+import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.util.L;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitUtil {
     private static RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+
     public static void todoDelete(int id, Context context) {
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
         retrofit2.Call<TodoTodo> todoDeleteCall = api.postDeleteTodo(id);
@@ -50,7 +61,7 @@ public class RetrofitUtil {
         });
     }
 
-    public static void collectArticle(int id,Context context){
+    public static void collectArticle(int id, Context context) {
         retrofit2.Call<Article> collectCall = api.collectArticle(id);
         collectCall.enqueue(new Callback<Article>() {
             @Override
@@ -85,7 +96,7 @@ public class RetrofitUtil {
     }
 
     //普通列表界面
-    public static void unCollectArticle(int id ,Context context){
+    public static void unCollectArticle(int id, Context context) {
         retrofit2.Call<Article> cancelArticleCall = api.cancellPageArticle(id);
         cancelArticleCall.enqueue(new Callback<Article>() {
             @Override
@@ -100,4 +111,30 @@ public class RetrofitUtil {
         });
     }
 
+    //Context context, ImageView imageView
+    public static void getBiYing(Context context, ImageView imageView) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(UrlContainer.BI_YING)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(new OkHttpClient())
+                .build();
+        RetrofitApi api = retrofit.create(RetrofitApi.class);
+        retrofit2.Call<BiYing> biYingCall = api.getBiYing();
+        biYingCall.enqueue(new Callback<BiYing>() {
+            @Override
+            public void onResponse(retrofit2.Call<BiYing> call, Response<BiYing> response) {
+                if (response.body() != null) {
+                    L.v("BYimage", response.body().getImages().get(0).getUrl() + " retrofit");
+
+                }
+                String fullUrl = UrlContainer.BI_YING + response.body().getImages().get(0).getUrl();
+                Glide.with(context).load(fullUrl).transition(new DrawableTransitionOptions().crossFade()).into(imageView);
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<BiYing> call, Throwable t) {
+
+            }
+        });
+    }
 }

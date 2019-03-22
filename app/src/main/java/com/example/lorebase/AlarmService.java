@@ -59,7 +59,7 @@ public class AlarmService extends Service {
         notiInfo();
     }
 
-    void notiInfo(){
+    private void notiInfo(){
         NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel channel = manager.getNotificationChannel("chat");

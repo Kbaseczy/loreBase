@@ -9,6 +9,8 @@
         <option value="$PROJECT_DIR$/uidialog" />
         <option value="$PROJECT_DIR$/build" />
         <option value="$PROJECT_DIR$/app/build/generated" />
+        <option value="$PROJECT_DIR$/skin-white" />
+        <option value="$PROJECT_DIR$/skin-night" />
       </list>
     </option>
   </component>

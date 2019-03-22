@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.ProjectChapter;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.ui.fragment.subFragment.ItemProjectFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
@@ -24,6 +26,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /*
     和LoreActivity 共用的toolBar_tab_lore布局
@@ -48,29 +52,23 @@ public class ProjectFragment extends Fragment {
     }
 
     private void getProjectChapter() {
-        String url = UrlContainer.baseUrl + UrlContainer.PROJECT;
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<ProjectChapter> chapterCall = api.getProjectChapter();
+        chapterCall.enqueue(new Callback<ProjectChapter>() {
+            @Override
+            public void onResponse(retrofit2.Call<ProjectChapter> call, Response<ProjectChapter> response) {
+                if (response.body() != null) {
+                    beanList_chapter  = response.body().getData();
+                     initViewPager();
+                }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Gson gson = new Gson();
-                        beanList_chapter = gson.fromJson(response, ProjectChapter.class).getData();
-                        initViewPager();
-                    }
-                });
+            @Override
+            public void onFailure(retrofit2.Call<ProjectChapter> call, Throwable t) {
+
+            }
+        });
     }
 
     private void initViewPager() {

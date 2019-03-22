@@ -58,15 +58,6 @@
                 android:value="com.example.lorebase.ui.activity.MainActivity" />
         </activity>
 
-        <receiver
-            android:name=".AlarmReceiver"
-            android:enabled="true"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="android.alarm.AlarmReceiver" />
-            </intent-filter>
-        </receiver>
-
         <service
             android:name=".AlarmService"
             android:enabled="true"

@@ -1,5 +1,6 @@
 package com.example.lorebase.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -9,7 +10,9 @@ import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.widget.Toast;
 
+import com.example.lorebase.AlarmService;
 import com.example.lorebase.R;
+import com.example.lorebase.util.L;
 
 import androidx.fragment.app.Fragment;
 import skin.support.SkinCompatManager;
@@ -37,12 +40,21 @@ public class MySettingActivityFragment extends PreferenceFragment {
                             : null);
 
         } else if (preference instanceof SwitchPreference) {
-            if (stringValue.contains("true")) {
+            if (preference.getKey().equals("setting_switch_skin")) {
+                if (stringValue.contains("true")) {
 //                SkinCompatManager.getInstance().loadSkin("night.skin", 0);
-                Toast.makeText(preference.getContext(), "夜间模式", Toast.LENGTH_SHORT).show();
-                SkinCompatManager.getInstance().loadSkin("night.skin", null, SKIN_LOADER_STRATEGY_ASSETS);//加载夜间模式  这个不闪屏啥的
-            } else {
-                SkinCompatManager.getInstance().restoreDefaultTheme();
+                    Toast.makeText(preference.getContext(), "夜间模式", Toast.LENGTH_SHORT).show();
+                    SkinCompatManager.getInstance().loadSkin("night.skin", null, SKIN_LOADER_STRATEGY_ASSETS);//加载夜间模式  这个不闪屏啥的
+                } else {
+                    SkinCompatManager.getInstance().restoreDefaultTheme();
+                }
+            } else if (preference.getKey().equals("setting_switch")) {
+                if (stringValue.contains("true")) {
+                    L.v("setting_switch","startService");
+                    preference.getContext().startService(new Intent(preference.getContext(), AlarmService.class));
+                } else {
+                    preference.getContext().stopService(new Intent(preference.getContext(), AlarmService.class));
+                }
             }
         } else {
             // For all other preferences, set the summary to the value's
@@ -85,5 +97,12 @@ public class MySettingActivityFragment extends PreferenceFragment {
         bindPreferenceSummaryToValue(findPreference("example_text"));
         bindPreferenceSummaryToValue(findPreference("example_list"));
         bindPreferenceSummaryToValue(findPreference("setting_switch_skin"));
+        bindPreferenceSummaryToValue(findPreference("setting_switch"));
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

@@ -15,11 +15,9 @@ import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.Banner;
-import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.News;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
@@ -39,18 +37,18 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Article.DataBean.DatasBean> beanList_article;
     private Context context;
 
-    public HomeAdapter(Context context, List<Banner.DataBean> banner_t, List<News.DataBean> beanList_news,
-                       List<Article.DataBean.DatasBean> beanList_article) {
-        this.banner_t = banner_t;
-        this.beanList_news = beanList_news;
-        this.beanList_article = beanList_article;
+    public HomeAdapter(Context context) {
         this.context = context;
     }
 
     public void addList(List<Banner.DataBean> banner_t, List<News.DataBean> beanList_news,
                         List<Article.DataBean.DatasBean> beanList_article) {
-        this.banner_t.addAll(banner_t);
-        this.beanList_news.addAll(beanList_news);
+        this.banner_t = banner_t;
+        this.beanList_news = beanList_news;
+        this.beanList_article = beanList_article;
+    }
+
+    public void addArticle(List<Article.DataBean.DatasBean> beanList_article) {
         this.beanList_article.addAll(beanList_article);
         notifyDataSetChanged();
     }
