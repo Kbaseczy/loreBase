@@ -2,6 +2,7 @@ package com.example.lorebase.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
@@ -59,7 +60,7 @@ public class LoreActivity extends BaseActivity {
         if (bundle != null) {
             father_bean = (LoreTree.DataBean) bundle.getSerializable(ConstName.OBJ);
         } else {
-            ToastUtil.showShortToastCenter("unexpected err.");
+            Toast.makeText(this, "unexpected err.", Toast.LENGTH_SHORT).show();
         }
         if (father_bean != null) {
             //父级目录进入子级目录,获取当前父级目录名

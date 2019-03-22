@@ -83,7 +83,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, project.getTitle());
             intent.putExtra(ConstName.ID, project.getId());
-            intent.putExtra(ConstName.ACTIVITY, ConstName.activity.PROJECT);
+            intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN);
             intent.putExtra(ConstName.IS_COLLECT,project.isCollect());
             intent.setData(Uri.parse(project.getLink()));
             mContext.startActivity(intent);
