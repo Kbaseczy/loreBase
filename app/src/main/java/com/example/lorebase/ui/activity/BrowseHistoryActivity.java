@@ -60,22 +60,25 @@ public class BrowseHistoryActivity extends BaseActivity {
     private boolean isFistLocate = true;
     private StringBuilder currentPosition;
     EmptyFragment emptyFragment;
-    List<BrowseHistory> browseHistoryList =
-            MyApplication.getDaoSession().getBrowseHistoryDao().queryBuilder().list();
-
+    List<BrowseHistory> browseHistoryList;
+    BrowseHistoryDao browseHistoryDao;
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_history);
+        browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
+        browseHistoryList = browseHistoryDao.queryBuilder().list();
+        L.v("browseHistoryListmmm",browseHistoryList.size() +" size");
         emptyFragment = new EmptyFragment();
         initView();
+        mapView = findViewById(R.id.bMap_view);
         if (browseHistoryList.size() != 0) {
-            initRecycler(browseHistoryList);
+            initRecycler();
             initMap();
-            overLay(browseHistoryList);
+            overLay();
         } else {
-            EmptyUtil.goEmpty(getSupportFragmentManager(),R.id.coordinator_brow_history);
+            EmptyUtil.goEmpty(getSupportFragmentManager(), R.id.coordinator_brow_history);
             mapView.setVisibility(View.GONE);
             fab_delete.setVisibility(View.GONE);
             fab_top.setVisibility(View.GONE);
@@ -85,7 +88,7 @@ public class BrowseHistoryActivity extends BaseActivity {
     private void initView() {
         fab_delete = findViewById(R.id.fab_browse_history_delete);
         fab_top = findViewById(R.id.fab_browse_history_top);
-        mapView = findViewById(R.id.bMap_view);
+
         Toolbar toolbar = findViewById(R.id.toolbar_browse_history);
         toolbar.setNavigationOnClickListener(v -> {
             startActivity(new Intent(this, MainActivity.class));
@@ -98,11 +101,10 @@ public class BrowseHistoryActivity extends BaseActivity {
     }
 
     @SuppressLint("RestrictedApi")
-    private void initRecycler(List<BrowseHistory> browseHistoryList) {
+    private void initRecycler() {
         RecyclerView recyclerView = findViewById(R.id.browse_history_list);
         NestedScrollView nestedScrollView = findViewById(R.id.nest_scroll_bh);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
-        BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
         BrowseHistoryAdapter adapter = new BrowseHistoryAdapter(browseHistoryList);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
@@ -136,7 +138,7 @@ public class BrowseHistoryActivity extends BaseActivity {
             fab_top.setVisibility(browseHistoryList.size() < 15 ? View.INVISIBLE : View.VISIBLE);
             mapView.onResume();
         }
-        L.v("LocationActivity", "onResume");
+        L.v("LocationActivity", "onResume"+ browseHistoryList.size());
         super.onResume();
     }
 
@@ -159,6 +161,7 @@ public class BrowseHistoryActivity extends BaseActivity {
             }
         });
 
+
         baiduMap = mapView.getMap();
         baiduMap.setMyLocationEnabled(true);
         baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
@@ -167,18 +170,18 @@ public class BrowseHistoryActivity extends BaseActivity {
     }
 
     //图层
-    private void overLay(List<BrowseHistory> list) {
+    private void overLay() {
         //38.86145	121.523533
 
-        L.v("overlay", list.size() + " size");
-        for (BrowseHistory browseHistory : list) {
+        L.v("overlay", browseHistoryList.size() + " size");
+        for (BrowseHistory browseHistory : browseHistoryList) {
 
             L.v("overlay", browseHistory.getTitle());
             L.v("overlay", browseHistory.getLatidude() + "  latitude");
             L.v("overlay", browseHistory.getLongitude() + " longitude");
 
             LatLng point = new LatLng(browseHistory.getLatidude(), browseHistory.getLongitude());
-            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.ic_position);
+            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.position_map);
             //构建MarkerOption，用于在地图上添加Marker
             OverlayOptions option = new MarkerOptions()
                     .position(point)

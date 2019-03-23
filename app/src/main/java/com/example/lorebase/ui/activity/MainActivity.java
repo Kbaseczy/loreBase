@@ -209,6 +209,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         //在重新進入MainActivity時，刷新登陸/注銷圖標
         refreshSign();
 
+        L.v("browseHistoryListmmm",MyApplication.getDaoSession().getBrowseHistoryDao().queryBuilder().list().size()+" mainactivity");
     }
 
     private void refreshSign() {
