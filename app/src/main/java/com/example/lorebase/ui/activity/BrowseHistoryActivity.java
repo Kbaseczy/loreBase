@@ -245,16 +245,4 @@ public class BrowseHistoryActivity extends BaseActivity {
         }
         L.v("LocationActivity", "onDestroy");
     }
-
-    private void goEmpty() {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.setCustomAnimations(
-                R.animator.fragment_slide_left_enter,
-                R.animator.fragment_slide_left_exit,
-                R.animator.fragment_slide_right_exit,
-                R.animator.fragment_slide_right_enter).
-                replace(R.id.coordinator_brow_history, emptyFragment);
-        transaction.commitAllowingStateLoss();
-    }
 }
