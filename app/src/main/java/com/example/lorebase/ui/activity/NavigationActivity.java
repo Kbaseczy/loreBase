@@ -9,14 +9,10 @@ import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.NavigationAdapter;
 import com.example.lorebase.bean.NavigateSite;
-import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.util.DividerItemGridDecoration;
 import com.example.lorebase.util.L;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +22,6 @@ import java.util.Objects;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.Call;
-import okhttp3.Request;
 import retrofit2.Callback;
 import retrofit2.Response;
 

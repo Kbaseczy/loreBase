@@ -12,7 +12,6 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.util.L;
-import com.example.lorebase.util.PositionInterface;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 

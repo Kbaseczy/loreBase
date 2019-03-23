@@ -10,7 +10,6 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.LoreTree;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.fragment.subFragment.LoreListFragment;
-import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;

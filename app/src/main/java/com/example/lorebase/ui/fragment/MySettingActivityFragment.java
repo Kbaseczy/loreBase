@@ -16,10 +16,7 @@ import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.http.RetrofitApi;
-import com.example.lorebase.ui.activity.LoginActivity;
-import com.example.lorebase.ui.activity.MainActivity;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
 

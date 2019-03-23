@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +19,6 @@ import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.recog.ActivityUiDialog;
 import com.example.lorebase.ui.fragment.HomeFragment;
@@ -33,11 +32,6 @@ import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +47,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import okhttp3.Call;
-import okhttp3.Request;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -208,8 +200,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         super.onResume();
         //在重新進入MainActivity時，刷新登陸/注銷圖標
         refreshSign();
-
-        L.v("browseHistoryListmmm",MyApplication.getDaoSession().getBrowseHistoryDao().queryBuilder().list().size()+" mainactivity");
     }
 
     private void refreshSign() {
@@ -296,7 +286,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         .setMessage(R.string.tip_content_logout)
                         .setPositiveButton(R.string.ok, (dialog, which) -> {
                             logout(1);
-                            Toast.makeText(this, "Have logout", Toast.LENGTH_SHORT).show();
+                            ToastUtil.showShortToastCenter("已注销",this);
                         })
                         .setNegativeButton(R.string.cancel, (dialog, which) ->
                                 dialog.dismiss());
@@ -366,60 +356,21 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         String userName = sp.getString(ConstName.USER_NAME, "");
         String password = sp.getString(ConstName.PASS_WORD, "");
-        String url = UrlContainer.baseUrl + UrlContainer.LOGIN;
-        OkHttpUtils
-                .post()
-                .url(url)
-                .addParams("username", userName)
-                .addParams("password", password)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.e(response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.getInt("errorCode") == 0) {
-                                editor = sp.edit();
-                                editor.putBoolean(ConstName.IS_LOGIN, true); //自動登陸后，登陸狀態改爲true
-                                editor.apply(); //提交保存数据
-
-                                refreshSign();  //自动登陆后刷新界面
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
-       /* RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
         retrofit2.Call<User> loginCall = api.login(userName, password);
         loginCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(retrofit2.Call<User> call, Response<User> response) {
-                if (response.body().getErrorCode() == 0) {
-                    editor = sp.edit();
-                    editor.putBoolean(ConstName.IS_LOGIN, true); //自動登陸后，登陸狀態改爲true
-                    editor.apply(); //提交保存数据
-
-                    refreshSign();  //自动登陆后刷新界面
-                    Toast.makeText(MainActivity.this, "sign in Successful", Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(MainActivity.this, MainActivity.class);
-                    startActivity(i);
-                    overridePendingTransition(R.animator.go_in, R.animator.go_out);
-                    finish();
-                } else {
-                    Toast.makeText(MainActivity.this, response.body().getErrorMsg(), Toast.LENGTH_LONG).show();
+                if (response.body() != null) {
+                    if (response.body().getErrorCode() == 0) {
+                        editor = sp.edit();
+                        editor.putBoolean(ConstName.IS_LOGIN, true); //自動登陸后，登陸狀態改爲true
+                        editor.apply(); //提交保存数据
+                        refreshSign();  //自动登陆后刷新界面
+                        ToastUtil.showShortToastTop("已登陆",MainActivity.this);
+                    } else {
+                        Toast.makeText(MainActivity.this, response.body().getErrorMsg(), Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 
@@ -427,7 +378,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             public void onFailure(retrofit2.Call<User> call, Throwable t) {
                 Log.v("sdfasdf", t.getMessage() + "  yhujg");
             }
-        });*/
+        });
 
     }
 
@@ -473,13 +424,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 if (grantResults.length > 0) {
                     for (int result : grantResults) {
                         if (result != PackageManager.PERMISSION_GRANTED) {
-                            Toast.makeText(this, "必须同意所有权限才能使用该程序", Toast.LENGTH_SHORT).show();
+                            ToastUtil.showShortToast("必须同意所有权限才能使用该程序",this);
                             finish();
                             return;
                         }
                     }
                 } else {
-                    Toast.makeText(this, "未知错误", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showShortToast("未知错误",this);
                     finish();
                 }
         }

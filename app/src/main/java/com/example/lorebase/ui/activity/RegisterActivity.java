@@ -12,20 +12,11 @@ import com.example.lorebase.BaseActivity;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.User;
-import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.http.RetrofitApi;
-import com.example.lorebase.util.L;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.Call;
-import okhttp3.Request;
 import retrofit2.Callback;
 import retrofit2.Response;
 

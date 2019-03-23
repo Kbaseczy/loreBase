@@ -8,13 +8,9 @@ import android.view.ViewGroup;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.ProjectChapter;
-import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.ui.fragment.subFragment.ItemProjectFragment;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import okhttp3.Call;
-import okhttp3.Request;
 import retrofit2.Callback;
 import retrofit2.Response;
 

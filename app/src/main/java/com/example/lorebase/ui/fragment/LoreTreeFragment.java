@@ -9,19 +9,13 @@ import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.LoreTreeAdapter;
 import com.example.lorebase.bean.LoreTree;
-import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.http.RetrofitApi;
-import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import okhttp3.Call;
-import okhttp3.Request;
 import retrofit2.Callback;
 import retrofit2.Response;
 

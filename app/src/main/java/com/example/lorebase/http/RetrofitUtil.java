@@ -1,9 +1,7 @@
 package com.example.lorebase.http;
 
 import android.content.Context;
-import android.media.Image;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;

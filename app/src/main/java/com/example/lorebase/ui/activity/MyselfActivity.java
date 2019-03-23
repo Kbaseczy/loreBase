@@ -20,7 +20,6 @@ import com.example.lorebase.adapter.MyselfAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.util.EmptyUtil;
-import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

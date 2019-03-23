@@ -52,10 +52,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.zhy:okhttputils:2.6.2'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
-    implementation 'com.squareup.okio:okio:1.15.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     implementation 'com.github.githubwing:ByeBurger:1.2.3'
