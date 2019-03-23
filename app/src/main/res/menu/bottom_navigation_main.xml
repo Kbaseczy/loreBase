@@ -5,28 +5,28 @@
         android:id="@+id/action_home"
         android:orderInCategory="100"
         android:enabled="true"
-        android:icon="@drawable/home"
+        android:icon="@drawable/ic_main"
         android:title="@string/mainpage"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_lore_tree"
         android:orderInCategory="100"
         android:enabled="true"
-        android:icon="@drawable/tree"
+        android:icon="@drawable/ic_hierarchy"
         android:title="@string/tree"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_project"
         android:orderInCategory="100"
         android:enabled="true"
-        android:icon="@drawable/keyboard"
+        android:icon="@drawable/ic_project"
         android:title="@string/project"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_we_chat"
         android:orderInCategory="100"
         android:enabled="true"
-        android:icon="@drawable/we"
+        android:icon="@drawable/ic_wechat"
         android:title="@string/we_chat"
         app:showAsAction="ifRoom" />
 

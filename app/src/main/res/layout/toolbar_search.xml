@@ -12,8 +12,9 @@
         android:id="@+id/toolbar_search"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/icon_back"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+        app:navigationIcon="@drawable/icon_back"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:titleTextColor="@color/item_title" />
 
 </com.google.android.material.appbar.AppBarLayout>

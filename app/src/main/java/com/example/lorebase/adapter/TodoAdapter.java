@@ -48,7 +48,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull TodoAdapter.ViewHolder holder, int position) {
         TodoTodo.DataBean.DatasBean datasBean = list_todo.get(position);
-        holder.action_complete.setImageResource(is_done ? R.drawable.cancel_todo : R.drawable.complete_todo);
+        holder.action_complete.setImageResource(is_done ? R.drawable.ic_cancel : R.drawable.ic_file_done);
         holder.item_name.setText(datasBean.getTitle());
         holder.item_desc.setText(datasBean.getContent());
         holder.item_date.setText(datasBean.getDateStr());

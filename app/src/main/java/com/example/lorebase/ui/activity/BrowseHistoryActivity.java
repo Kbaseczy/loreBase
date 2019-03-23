@@ -168,7 +168,7 @@ public class BrowseHistoryActivity extends BaseActivity {
             L.v("overlay",browseHistory.getLongitude()+" longitude");
 
             LatLng point = new LatLng(browseHistory.getLatidude(),browseHistory.getLongitude());
-            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.position);
+            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.ic_position);
             //构建MarkerOption，用于在地图上添加Marker
             OverlayOptions option = new MarkerOptions()
                     .position(point)
@@ -180,8 +180,6 @@ public class BrowseHistoryActivity extends BaseActivity {
                 ToastUtil.showLongToastCenter(marker.getTitle(),this);
                 return true;
             });
-
-
         }
     }
 

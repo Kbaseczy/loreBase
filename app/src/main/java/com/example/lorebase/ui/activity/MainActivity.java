@@ -86,8 +86,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     TextView login_username;
-    ImageView nav_header_portrait;
-    SharedPreferences sp;
+    SharedPreferences sp =  getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
     SharedPreferences.Editor editor;
     ViewPager viewPager;
 
@@ -104,11 +103,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         loreTreeFragment = LoreTreeFragment.getInstance();
         projectFragment = ProjectFragment.getInstance();
         weChatFragment = WeChatFragment.getInstance();
-
-        sp = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
-        //根據自動登陸boolean去做登陸操作 ， 也是在二次及以後進入app所需要的。 初始值在LoginActivity中
-        boolean isAuto = sp.getBoolean(ConstName.IS_AUTO_LOGIN, false);
-        if (isAuto) autoLogin();
 
         initView();
         //todo 设置进入后显示的第一个界面
@@ -163,7 +157,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.menu);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
     }
 
@@ -219,18 +213,22 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     private void refreshSign() {
         //界面内注銷后再登陸，此段代碼未執行  - - > 需要在生命周期onResume()中執行，回到視圖時刷新圖標
-        SharedPreferences getLogin = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
-        boolean isLogin = getLogin.getBoolean(ConstName.IS_LOGIN, false);
-        String get_username = getLogin.getString(ConstName.USER_NAME, "");
+        boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
+        boolean isAuto = sp.getBoolean(ConstName.IS_AUTO_LOGIN, false);
+        if (isAuto && !isLogin) autoLogin();
+
+        String get_username = sp.getString(ConstName.USER_NAME, "");
         navigationView.getMenu().findItem(R.id.nav_logout).setVisible(isLogin);
         navigationView.getMenu().findItem(R.id.nav_collect).setVisible(isLogin);
         navigationView.getMenu().findItem(R.id.nav_todo).setVisible(isLogin);
         L.v(isLogin + "登陸狀態");
+        L.v(isAuto +" 自动登陆");
         //如果是登陸狀態(麽有點擊事件),文本設爲"用戶名".如果是未登錄狀態(有點擊事件),文本設爲"login".
         if (isLogin) {
             login_username.setText(get_username);
             //不进行跳转，貌似解决了登录状态用户名可点击
-            login_username.setOnClickListener(v -> new Intent(MainActivity.this, MyselfActivity.class));
+            login_username.setClickable(false);
+//            login_username.setOnClickListener(v -> new Intent(MainActivity.this, MyselfActivity.class));
         } else {
             login_username.setText(R.string.login);
             login_username.setOnClickListener(v ->
@@ -363,6 +361,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private void autoLogin() {
+
         String userName = sp.getString(ConstName.USER_NAME, "");
         String password = sp.getString(ConstName.PASS_WORD, "");
         String url = UrlContainer.baseUrl + UrlContainer.LOGIN;
@@ -419,7 +418,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     finish();
                 } else {
                     Toast.makeText(MainActivity.this, response.body().getErrorMsg(), Toast.LENGTH_LONG).show();
-
                 }
             }
 

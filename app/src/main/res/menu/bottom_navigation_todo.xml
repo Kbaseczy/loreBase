@@ -5,14 +5,14 @@
         android:id="@+id/action_todo"
         android:orderInCategory="100"
         android:enabled="true"
-        android:icon="@drawable/todo_todo"
+        android:icon="@drawable/ic_todo"
         android:title="@string/todo01"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_complete"
         android:orderInCategory="100"
         android:enabled="true"
-        android:icon="@drawable/todo_complete"
+        android:icon="@drawable/ic_complete"
         android:title="@string/todo02"
         app:showAsAction="always" />
 

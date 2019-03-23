@@ -206,8 +206,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //bind Tab data
     private void initTable(RecyclerView.ViewHolder holder) {
 
-        Glide.with(Objects.requireNonNull(context)).load(R.drawable.icon_project).into(((Holder_tab) holder).image_project);
-        Glide.with(context).load(R.drawable.icon_navigation).into(((Holder_tab) holder).image_navigation);
+        Glide.with(Objects.requireNonNull(context)).load(R.drawable.ic_video).into(((Holder_tab) holder).image_project);
+        Glide.with(context).load(R.drawable.ic_navigate).into(((Holder_tab) holder).image_navigation);
 
         ((Holder_tab) holder).project.setOnClickListener(v -> context.startActivity(new Intent(context, RelaxActivity.class)));
         ((Holder_tab) holder).navigation.setOnClickListener(v -> context.startActivity(new Intent(context, NavigationActivity.class)));

@@ -94,7 +94,7 @@ public class MyselfActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true); //todo
         }
         collapsingToolbarLayout.setTitle("我的收藏");
-        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
+        collapsingToolbarLayout.setCollapsedTitleTextColor(getColor(R.color.item_title));
         collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
         Glide.with(this).load(R.drawable.image_store).into(portrait);
         fab_note.setOnClickListener(view -> Toast.makeText(this, "别点我", Toast.LENGTH_SHORT).show());

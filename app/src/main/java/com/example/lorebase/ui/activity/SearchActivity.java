@@ -21,6 +21,7 @@ import com.example.lorebase.bean.HotKey;
 import com.example.lorebase.bean.SearchHistory;
 import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.greenDao.SearchHistoryDao;
+import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.util.L;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -38,6 +39,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 import okhttp3.Call;
 import okhttp3.Request;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /*
  *   key_word -> from:1.editText 2.hot_key 3.history_search
@@ -186,7 +189,7 @@ public class SearchActivity extends BaseActivity {
         MenuItem search_item = menu.findItem(R.id.search_action);
         mSearchView = (SearchView) MenuItemCompat.getActionView(search_item);
         mSearchView.setMaxWidth(1000);
-        mSearchView.setQueryHint("input what you want");
+        mSearchView.setQueryHint("在此处输入");
 
 //        mSearchView.setIconified(true);   //搜索框总是打开状态，默认为true
         mSearchView.onActionViewExpanded();//内部调用了setIconified(false);
@@ -234,31 +237,22 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void getHot() {
-        String url = UrlContainer.baseUrl + UrlContainer.HOT_KEYWORD;
-        OkHttpUtils
-                .get()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        e.printStackTrace();
-                    }
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<HotKey> hotKeyCall = api.getHotKey();
+        hotKeyCall.enqueue(new Callback<HotKey>() {
+            @Override
+            public void onResponse(retrofit2.Call<HotKey> call, Response<HotKey> response) {
+                if (response.body() != null) {
+                    hot_list = response.body().getData();
+                    initView();
+                }
+            }
 
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                    }
+            @Override
+            public void onFailure(retrofit2.Call<HotKey> call, Throwable t) {
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        L.v("search_hot_key " + response);
-
-                        Gson gson = new Gson();
-                        hot_list = gson.fromJson(response, HotKey.class).getData();
-                        initView();
-                    }
-                });
+            }
+        });
     }
 
     @Override

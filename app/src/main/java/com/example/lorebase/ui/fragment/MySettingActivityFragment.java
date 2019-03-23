@@ -1,6 +1,7 @@
 package com.example.lorebase.ui.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -8,14 +9,26 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
+import android.widget.Toast;
 
 import com.example.lorebase.AlarmService;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
-import com.example.lorebase.ui.activity.MySettingActivity;
+import com.example.lorebase.bean.User;
+import com.example.lorebase.contain_const.ConstName;
+import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.ui.activity.LoginActivity;
+import com.example.lorebase.ui.activity.MainActivity;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.ToastUtil;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,12 +53,14 @@ public class MySettingActivityFragment extends PreferenceFragment {
 
         } else if (preference instanceof SwitchPreference) {
             if (preference.getKey().equals("setting_switch_skin")) {
-//                if (stringValue.contains("true")) {
-////                SkinCompatManager.getInstance().loadSkin("night.skin", 0);
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                } else {
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                }
+                if (stringValue.contains("true")) {
+//                SkinCompatManager.getInstance().loadSkin("night.skin", 0);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    login();
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    login();
+                }
             } else if (preference.getKey().equals("setting_switch")) {
                 if (stringValue.contains("true")) {
                     L.v("setting_switch", "startService");
@@ -96,32 +111,38 @@ public class MySettingActivityFragment extends PreferenceFragment {
         bindPreferenceSummaryToValue(findPreference("example_list"));
         bindPreferenceSummaryToValue(findPreference("setting_switch_skin"));
         bindPreferenceSummaryToValue(findPreference("setting_switch"));
-
-    }
-
-    @Override
-    public void onResume() {
-        setNightMode();
-        super.onResume();
-    }
-
-    private void setNightMode() {
-        if (PreferenceManager
-                .getDefaultSharedPreferences(getContext())
-                .getBoolean("setting_switch_skin", true)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//            startActivity(new Intent(getActivity(), MySettingActivity.class));
-//            getActivity().overridePendingTransition(R.animator.go_in, R.animator.go_out);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//            startActivity(new Intent(getActivity(), MySettingActivity.class));
-//            getActivity().overridePendingTransition(R.animator.go_in, R.animator.go_out);
-        }
     }
 
     @Override
     public void onDestroy() {
-
         super.onDestroy();
+    }
+
+    private void login() {
+        SharedPreferences sp = getActivity().getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
+        String userName = sp.getString(ConstName.USER_NAME, "");
+        String password = sp.getString(ConstName.PASS_WORD, "");
+        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+        retrofit2.Call<User> loginCall = api.login(userName, password);
+        loginCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(retrofit2.Call<User> call, Response<User> response) {
+                if (response.body() != null) {
+                    if (response.body().getErrorCode() == 0) {
+                        SharedPreferences.Editor editor;
+                        editor = sp.edit();
+                        editor.putBoolean(ConstName.IS_LOGIN, true); //存储登陆状态的Boolean
+                        editor.apply(); //提交保存数据
+                        L.v("skinskin","重新登陆了");
+                        Toast.makeText(getActivity(), response.body().getErrorMsg(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<User> call, Throwable t) {
+                ToastUtil.showShortToastCenter(t.getMessage(),getActivity());
+            }
+        });
     }
 }

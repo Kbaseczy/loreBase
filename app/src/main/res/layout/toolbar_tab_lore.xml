@@ -10,6 +10,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_lore"
+        app:titleTextColor="@color/item_title"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_scrollFlags="scroll|enterAlways"
@@ -22,6 +23,6 @@
         android:layout_height="wrap_content"
         app:tabIndicatorFullWidth="false"
         android:background="@color/viewBackground"
-        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorColor="@color/colorPrimaryregister"
         app:tabMode="scrollable" />
 </com.google.android.material.appbar.AppBarLayout>

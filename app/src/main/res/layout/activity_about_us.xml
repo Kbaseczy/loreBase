@@ -7,18 +7,18 @@
 
     <!--标题栏-->
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
+        android:id="@+id/appBar_about_us"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
         android:paddingTop="5dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
+            android:id="@+id/collapsing_toolbar_about_us"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            android:theme="@style/Base.ThemeOverlay.AppCompat.ActionBar"
+            android:theme="@style/AppTheme"
             app:contentScrim="?attr/colorAccent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -79,7 +79,7 @@
                 android:layout_toEndOf="@+id/iv_email"
                 android:gravity="center"
                 android:text="@string/mail"
-                android:textColor="@color/black"
+                android:textColor="@color/item_title"
                 android:textSize="16sp" />
         </RelativeLayout>
 
@@ -115,7 +115,7 @@
                 android:layout_toEndOf="@+id/iv_github"
                 android:gravity="center"
                 android:text="@string/githb"
-                android:textColor="@color/black"
+                android:textColor="@color/item_title"
                 android:textSize="16sp" />
         </RelativeLayout>
 

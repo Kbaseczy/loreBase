@@ -3,6 +3,7 @@ package com.example.lorebase.http;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.Banner;
 import com.example.lorebase.bean.BiYing;
+import com.example.lorebase.bean.HotKey;
 import com.example.lorebase.bean.LoreTree;
 import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.bean.News;
@@ -84,6 +85,10 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @POST(UrlContainer.SEARCH)
     Call<Article> getSearchArticle(@Path("page") int page,@Field("k") String key_word);
+
+    //搜索热词
+    @GET(UrlContainer.HOT_KEYWORD)
+    Call<HotKey> getHotKey();
 
     //获取完成事项
     @GET(UrlContainer.TODO_COMPLETE)

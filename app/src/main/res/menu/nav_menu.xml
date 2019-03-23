@@ -5,7 +5,7 @@
 
         <item
             android:id="@+id/nav_collect"
-            android:icon="@drawable/ic_like"
+            android:icon="@drawable/ic_collect"
             android:title="@string/nav_my_collect" />
 
         <item
@@ -15,20 +15,20 @@
 
         <item
             android:id="@+id/nav_browser"
-            android:icon="@drawable/icon_history"
+            android:icon="@drawable/ic_history"
             android:title="@string/nav_browser" />
         <item
             android:id="@+id/nav_position"
-            android:icon="@drawable/position"
+            android:icon="@drawable/ic_position"
             android:title="@string/nav_position" />
         <item
             android:id="@+id/nav_speech"
-            android:icon="@drawable/info"
+            android:icon="@drawable/ic_speech"
             android:title="@string/nav_speech" />
 
         <item
             android:id="@+id/nav_setting"
-            android:icon="@drawable/ic_setting_white_24dp"
+            android:icon="@drawable/ic_setting"
             android:title="@string/nav_setting" />
 
     </group>
@@ -37,7 +37,7 @@
         <menu>
             <item
                 android:id="@+id/nav_about_us"
-                android:icon="@drawable/info"
+                android:icon="@drawable/ic_about"
                 android:title="@string/nav_about" />
             <item
                 android:id="@+id/nav_logout"
@@ -46,7 +46,7 @@
 
             <item
                 android:id="@+id/nav_exit"
-                android:icon="@drawable/icon_back"
+                android:icon="@drawable/ic_exit"
                 android:title="@string/Exit" />
 
         </menu>
