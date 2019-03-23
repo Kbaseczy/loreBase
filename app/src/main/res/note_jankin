@@ -1,3 +1,7 @@
+
+
+todo map 位置信息，之後改爲eventBus，现在用的service获取信息没问题，问题时用广播+接口传信息出现了没反应的情况
+
 FragmentStatePagerAdapter
 用户切换回来时，保存的实例状态可用来恢复生成新的fragment
 
