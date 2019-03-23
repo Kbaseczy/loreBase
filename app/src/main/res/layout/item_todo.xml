@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:textColor="#333333"
+                android:textColor="@color/item_title"
                 android:textSize="16sp" />
 
             <TextView
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:singleLine="true"
-                android:textColor="#767676"
+                android:textColor="@color/item_title"
                 android:textSize="12sp" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:singleLine="true"
-                android:textColor="#767676"
+                android:textColor="@color/item_title"
                 android:textSize="12sp" />
         </LinearLayout>
 

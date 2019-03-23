@@ -1,86 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <!--标题栏-->
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_brow_history"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:focusableInTouchMode="true">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/browse_history__collapsing_toolbar"
+        <!--标题栏-->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="false"
-            android:fitsSystemWindows="true"
-            android:focusable="false"
-            android:theme="@style/AppTheme"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_height="500dp"
+            android:focusableInTouchMode="true">
 
-            <ImageView
-                android:id="@+id/browse_history_portrait_image_view"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/browse_history__collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clickable="false"
                 android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                android:visibility="gone"
-                app:layout_collapseMode="parallax" />
+                android:focusable="false"
+                android:theme="@style/AppTheme"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <com.baidu.mapapi.map.MapView
-                android:id="@+id/bMap_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:focusable="true" />
+                <com.baidu.mapapi.map.MapView
+                    android:id="@+id/bMap_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_browse_history"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/icon_back"
-                app:titleTextColor="@color/item_title" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar_browse_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:navigationIcon="@drawable/icon_back"
+                    app:titleTextColor="@color/item_title" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nest_scroll_bh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/viewBackground"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/browse_history_list"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nest_scroll_bh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_browse_history" />
-    </androidx.core.widget.NestedScrollView>
+            android:background="@color/viewBackground"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <!--悬浮按钮-->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_browse_history_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_delete"
-        app:layout_anchor="@id/appBar"
-        app:layout_anchorGravity="center|end" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/browse_history_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_browse_history" />
+        </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_browse_history_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/dp_20"
-        android:layout_marginBottom="@dimen/dp_80"
-        android:src="@drawable/ic_arrow_upward_white_24dp"
-        app:layout_behavior="@string/bye_burger_float_behavior" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <!--悬浮按钮-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_browse_history_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_delete"
+            app:layout_anchor="@id/appBar"
+            app:layout_anchorGravity="center|end" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_browse_history_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_80"
+            android:src="@drawable/ic_arrow_upward_white_24dp"
+            app:layout_behavior="@string/bye_burger_float_behavior" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</LinearLayout>

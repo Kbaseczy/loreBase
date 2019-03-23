@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     TextView login_username;
-    SharedPreferences sp =  getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
+    SharedPreferences sp;
     SharedPreferences.Editor editor;
     ViewPager viewPager;
 
@@ -213,16 +213,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     private void refreshSign() {
         //界面内注銷后再登陸，此段代碼未執行  - - > 需要在生命周期onResume()中執行，回到視圖時刷新圖標
+        sp = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
         boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
         boolean isAuto = sp.getBoolean(ConstName.IS_AUTO_LOGIN, false);
-        if (isAuto && !isLogin) autoLogin();
+        if (isAuto && !isLogin) autoLogin(sp);
 
         String get_username = sp.getString(ConstName.USER_NAME, "");
         navigationView.getMenu().findItem(R.id.nav_logout).setVisible(isLogin);
         navigationView.getMenu().findItem(R.id.nav_collect).setVisible(isLogin);
         navigationView.getMenu().findItem(R.id.nav_todo).setVisible(isLogin);
         L.v(isLogin + "登陸狀態");
-        L.v(isAuto +" 自动登陆");
+        L.v(isAuto + " 自动登陆");
         //如果是登陸狀態(麽有點擊事件),文本設爲"用戶名".如果是未登錄狀態(有點擊事件),文本設爲"login".
         if (isLogin) {
             login_username.setText(get_username);
@@ -326,7 +327,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 finish();
             } else {
                 exit_time = System.currentTimeMillis();
-                ToastUtil.showLongToastCenter("再次返回退出",this);
+                ToastUtil.showLongToastCenter("再次返回退出", this);
             }
             return true;
         }
@@ -360,7 +361,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         });
     }
 
-    private void autoLogin() {
+    private void autoLogin(SharedPreferences sp) {
 
         String userName = sp.getString(ConstName.USER_NAME, "");
         String password = sp.getString(ConstName.PASS_WORD, "");
@@ -438,7 +439,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         weChatFragment = null;
         //退出程序應該自動注銷,登陸狀態改爲false
         logout(2);
-        stopService(new Intent(this,MapService.class));
+        stopService(new Intent(this, MapService.class));
     }
 
     //actionBar的处理方式，ToolBar的处理直接用ToolBar.链式

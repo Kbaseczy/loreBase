@@ -1,11 +1,13 @@
 package com.example.lorebase.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.MyselfAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.util.EmptyUtil;
 import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,17 +39,19 @@ public class MyselfActivity extends BaseActivity {
     private EasyRefreshLayout easyRefreshLayout;
     private int page = 0;
     private MyselfAdapter adapter;
-
+    FloatingActionButton fab_note;
+    FloatingActionButton fab_top;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myself);
+        initView();
         getCollect();
     }
 
     @Override
     protected void onResume() {
-        easyRefreshLayout = findViewById(R.id.easy_refresh_myself);
+
         easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {
@@ -65,11 +70,19 @@ public class MyselfActivity extends BaseActivity {
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
         retrofit2.Call<Article> articleCall = api.getCollect(page);
         articleCall.enqueue(new Callback<Article>() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onResponse(retrofit2.Call<Article> call, Response<Article> response) {
                 if (response.body() != null) {
                     datasBeanList = response.body().getData().getDatas();
-                    initView();
+                    if (datasBeanList.size() != 0) {
+                        initRecycler();
+                    } else {
+                        EmptyUtil.goEmpty(getSupportFragmentManager(), R.id.coordinator_myself);
+                        fab_note.setVisibility(View.GONE);
+                        fab_top.setVisibility(View.GONE);
+                        easyRefreshLayout.setVisibility(View.GONE);
+                    }
                 }
             }
 
@@ -81,12 +94,12 @@ public class MyselfActivity extends BaseActivity {
     }
 
     private void initView() {
+        easyRefreshLayout = findViewById(R.id.easy_refresh_myself);
         Toolbar toolbar = findViewById(R.id.toolbar_myself);
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar_myself);
         ImageView portrait = findViewById(R.id.portrait_image_view);
-        RecyclerView recyclerView = findViewById(R.id.my_collect_list);
-        FloatingActionButton fab_note = findViewById(R.id.fab_myself_note);
-        FloatingActionButton fab_top = findViewById(R.id.fab_myself_top);
+
+        fab_note = findViewById(R.id.fab_myself_note);
 
         setSupportActionBar(toolbar); //todo 1.导包 2.父类为 AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
@@ -99,14 +112,16 @@ public class MyselfActivity extends BaseActivity {
         Glide.with(this).load(R.drawable.image_store).into(portrait);
         fab_note.setOnClickListener(view -> Toast.makeText(this, "别点我", Toast.LENGTH_SHORT).show());
 
+    }
+
+    private void initRecycler() {
+         fab_top = findViewById(R.id.fab_myself_top);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         adapter = new MyselfAdapter(this, datasBeanList);
-
+        RecyclerView recyclerView = findViewById(R.id.my_collect_list);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-//        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
         fab_top.setOnClickListener(v -> recyclerView.scrollToPosition(0));
-
     }
 
     private void getDataList() {

@@ -33,6 +33,8 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.BrowseHistoryAdapter;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.greenDao.BrowseHistoryDao;
+import com.example.lorebase.ui.fragment.subFragment.EmptyFragment;
+import com.example.lorebase.util.EmptyUtil;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -43,12 +45,13 @@ import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class BrowseHistoryActivity extends BaseActivity {
 
-    private List<BrowseHistory> browseHistoryList;
     private FloatingActionButton fab_delete, fab_top;
 
     public LocationClient locationClient;
@@ -56,38 +59,50 @@ public class BrowseHistoryActivity extends BaseActivity {
     MapView mapView;
     private boolean isFistLocate = true;
     private StringBuilder currentPosition;
+    EmptyFragment emptyFragment;
+    List<BrowseHistory> browseHistoryList =
+            MyApplication.getDaoSession().getBrowseHistoryDao().queryBuilder().list();
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_history);
-        initRecycler();
-        initMap();
-        overLay();
+        emptyFragment = new EmptyFragment();
+        initView();
+        if (browseHistoryList.size() != 0) {
+            initRecycler(browseHistoryList);
+            initMap();
+            overLay(browseHistoryList);
+        } else {
+            EmptyUtil.goEmpty(getSupportFragmentManager(),R.id.coordinator_brow_history);
+            mapView.setVisibility(View.GONE);
+            fab_delete.setVisibility(View.GONE);
+            fab_top.setVisibility(View.GONE);
+        }
     }
 
-    @SuppressLint("RestrictedApi")
-    private void initRecycler() {
-        Toolbar toolbar = findViewById(R.id.toolbar_browse_history);
-        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.browse_history__collapsing_toolbar);
-        ImageView portrait = findViewById(R.id.browse_history_portrait_image_view);
-        RecyclerView recyclerView = findViewById(R.id.browse_history_list);
-        fab_top = findViewById(R.id.fab_browse_history_top);
+    private void initView() {
         fab_delete = findViewById(R.id.fab_browse_history_delete);
-        NestedScrollView nestedScrollView = findViewById(R.id.nest_scroll_bh);
-
+        fab_top = findViewById(R.id.fab_browse_history_top);
+        mapView = findViewById(R.id.bMap_view);
+        Toolbar toolbar = findViewById(R.id.toolbar_browse_history);
         toolbar.setNavigationOnClickListener(v -> {
             startActivity(new Intent(this, MainActivity.class));
             overridePendingTransition(R.animator.go_in, R.animator.go_out);
         });
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.browse_history__collapsing_toolbar);
         collapsingToolbarLayout.setTitle(getString(R.string.nav_browser));
-        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
+        collapsingToolbarLayout.setCollapsedTitleTextColor(getColor(R.color.item_title));
         collapsingToolbarLayout.setBackgroundColor(Color.GRAY);
-        Glide.with(this).load(R.drawable.image_timetree).into(portrait);
+    }
 
+    @SuppressLint("RestrictedApi")
+    private void initRecycler(List<BrowseHistory> browseHistoryList) {
+        RecyclerView recyclerView = findViewById(R.id.browse_history_list);
+        NestedScrollView nestedScrollView = findViewById(R.id.nest_scroll_bh);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
-        browseHistoryList = browseHistoryDao.queryBuilder().list();
         BrowseHistoryAdapter adapter = new BrowseHistoryAdapter(browseHistoryList);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
@@ -106,32 +121,27 @@ public class BrowseHistoryActivity extends BaseActivity {
                         fab_top.setVisibility(View.INVISIBLE);
                         baiduMap.clear();  //清除覆盖物
                         adapter.notifyDataSetChanged();
-                        Glide.with(this).load(R.drawable.empty_cup).into(portrait);
                     }); //清空数据库
             builder.create().show(); //遗漏
         });
 
         fab_top.setOnClickListener(v -> nestedScrollView.post(() -> nestedScrollView.fullScroll(View.FOCUS_UP)));
-
-        if (browseHistoryList.size() == 0) {
-            Glide.with(this).load(R.drawable.empty_cup).into(portrait);
-        }
     }
 
     @SuppressLint("RestrictedApi")
     @Override
     protected void onResume() {
-        super.onResume();
-        fab_delete.setVisibility(browseHistoryList.size() == 0 ? View.INVISIBLE : View.VISIBLE);
-        fab_top.setVisibility(browseHistoryList.size() < 15 ? View.INVISIBLE : View.VISIBLE);
-
-        mapView.onResume();
+        if (browseHistoryList.size() != 0) {
+            fab_delete.setVisibility(View.VISIBLE);
+            fab_top.setVisibility(browseHistoryList.size() < 15 ? View.INVISIBLE : View.VISIBLE);
+            mapView.onResume();
+        }
         L.v("LocationActivity", "onResume");
+        super.onResume();
     }
 
     //todo map
-
-    void initMap() {
+    private void initMap() {
         locationClient = new LocationClient(this);
 
         locationClient.registerLocationListener(new BDAbstractLocationListener() {
@@ -148,7 +158,7 @@ public class BrowseHistoryActivity extends BaseActivity {
                 super.onConnectHotSpotMessage(s, i);
             }
         });
-        mapView = findViewById(R.id.bMap_view);
+
         baiduMap = mapView.getMap();
         baiduMap.setMyLocationEnabled(true);
         baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
@@ -157,17 +167,17 @@ public class BrowseHistoryActivity extends BaseActivity {
     }
 
     //图层
-    private void overLay() {
+    private void overLay(List<BrowseHistory> list) {
         //38.86145	121.523533
-        List<BrowseHistory> list = MyApplication.getDaoSession().getBrowseHistoryDao().queryBuilder().list();
-        L.v("overlay",list.size()  +" size");
-        for (BrowseHistory browseHistory:list) {
 
-            L.v("overlay",browseHistory.getTitle());
-            L.v("overlay",browseHistory.getLatidude()+"  latitude");
-            L.v("overlay",browseHistory.getLongitude()+" longitude");
+        L.v("overlay", list.size() + " size");
+        for (BrowseHistory browseHistory : list) {
 
-            LatLng point = new LatLng(browseHistory.getLatidude(),browseHistory.getLongitude());
+            L.v("overlay", browseHistory.getTitle());
+            L.v("overlay", browseHistory.getLatidude() + "  latitude");
+            L.v("overlay", browseHistory.getLongitude() + " longitude");
+
+            LatLng point = new LatLng(browseHistory.getLatidude(), browseHistory.getLongitude());
             BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.ic_position);
             //构建MarkerOption，用于在地图上添加Marker
             OverlayOptions option = new MarkerOptions()
@@ -177,7 +187,7 @@ public class BrowseHistoryActivity extends BaseActivity {
             //在地图上添加Marker，并显示
             baiduMap.addOverlay(option);
             baiduMap.setOnMarkerClickListener(marker -> {
-                ToastUtil.showLongToastCenter(marker.getTitle(),this);
+                ToastUtil.showLongToastCenter(marker.getTitle(), this);
                 return true;
             });
         }
@@ -220,16 +230,31 @@ public class BrowseHistoryActivity extends BaseActivity {
     @Override
     public void onPause() {
         super.onPause();
-        mapView.onPause();
+        if (browseHistoryList.size() != 0)
+            mapView.onPause();
         L.v("LocationActivity", "onPause");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        locationClient.stop();
-        mapView.onDestroy();
-        baiduMap.setMyLocationEnabled(false);
+        if (browseHistoryList.size() != 0) {
+            locationClient.stop();
+            mapView.onDestroy();
+            baiduMap.setMyLocationEnabled(false);
+        }
         L.v("LocationActivity", "onDestroy");
+    }
+
+    private void goEmpty() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(
+                R.animator.fragment_slide_left_enter,
+                R.animator.fragment_slide_left_exit,
+                R.animator.fragment_slide_right_exit,
+                R.animator.fragment_slide_right_enter).
+                replace(R.id.coordinator_brow_history, emptyFragment);
+        transaction.commitAllowingStateLoss();
     }
 }

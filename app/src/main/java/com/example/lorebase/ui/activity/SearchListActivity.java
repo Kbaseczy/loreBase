@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.example.lorebase.BaseActivity;
@@ -18,6 +19,7 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.ui.fragment.subFragment.EmptyFragment;
 import com.example.lorebase.util.DividerItemGridDecoration;
+import com.example.lorebase.util.EmptyUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -117,7 +119,7 @@ public class SearchListActivity extends BaseActivity {
                     if (search_list.size() != 0) {
                         initSearch();
                     } else {
-                        goEmpty();
+                        EmptyUtil.goEmpty(getSupportFragmentManager(),R.id.coordinator_search_result);
                     }
                 }
             }
@@ -137,6 +139,7 @@ public class SearchListActivity extends BaseActivity {
     }
 
     private void goEmpty() {
+        easyRefreshLayout.setVisibility(View.GONE);
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.setCustomAnimations(
