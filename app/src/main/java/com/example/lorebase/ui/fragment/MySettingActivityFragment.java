@@ -134,6 +134,7 @@ public class MySettingActivityFragment extends PreferenceFragment implements Pre
 
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 //这里存在一个bug，夜间模式切换后，登陆态会丢失，所以必须记住密码，不管是否勾选自动登陆
+                //解决办法：1.强制记住用户名，密码   2.数据保护，日夜间模式切换后，进行数据恢复--这种办法是从Bundle中读取数据（用户名，密码）
                 //判断是否勾选自动登陆，如果没有那么登陆这一过程就可以不做了，避免耗时。同理如果没登陆才进行登陆
                 if (is_auto && !is_Login) login();
             } else {
