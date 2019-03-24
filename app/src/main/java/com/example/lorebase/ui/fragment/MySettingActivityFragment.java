@@ -3,6 +3,7 @@ package com.example.lorebase.ui.fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -32,7 +33,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 //todo 夜间模式  switch按钮逻辑有问题
-public class MySettingActivityFragment extends PreferenceFragment {
+public class MySettingActivityFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
     Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = (preference, value) -> {
         String stringValue = value.toString();
 
@@ -48,25 +49,16 @@ public class MySettingActivityFragment extends PreferenceFragment {
                             ? listPreference.getEntries()[index]
                             : null);
 
-        } else if (preference instanceof SwitchPreference) {
-            if (preference.getKey().equals("setting_switch_skin")) {
-                if (stringValue.contains("true")) {
+        } /*else if (preference instanceof SwitchPreference) {
+            if (stringValue.contains("true")) {
 //                SkinCompatManager.getInstance().loadSkin("night.skin", 0);
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    login();
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    login();
-                }
-            } else if (preference.getKey().equals("setting_switch")) {
-                if (stringValue.contains("true")) {
-                    L.v("setting_switch", "startService");
-                    preference.getContext().startService(new Intent(preference.getContext(), AlarmService.class));
-                } else {
-                    preference.getContext().stopService(new Intent(preference.getContext(), AlarmService.class));
-                }
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                login();
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                login();
             }
-        } else {
+        }*/ else {
             // For all other preferences, set the summary to the value's
             // simple string representation.
             preference.setSummary(stringValue);
@@ -106,8 +98,8 @@ public class MySettingActivityFragment extends PreferenceFragment {
         // guidelines.
         bindPreferenceSummaryToValue(findPreference("example_text"));
         bindPreferenceSummaryToValue(findPreference("example_list"));
-        bindPreferenceSummaryToValue(findPreference("setting_switch_skin"));
-        bindPreferenceSummaryToValue(findPreference("setting_switch"));
+        findPreference("setting_switch_skin").setOnPreferenceClickListener(this);
+        findPreference("checkbox_notify").setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -130,7 +122,7 @@ public class MySettingActivityFragment extends PreferenceFragment {
                         editor = sp.edit();
                         editor.putBoolean(ConstName.IS_LOGIN, true); //存储登陆状态的Boolean
                         editor.apply(); //提交保存数据
-                        L.v("skinskin","重新登陆了");
+                        L.v("skinskin", "重新登陆了");
                         Toast.makeText(getActivity(), response.body().getErrorMsg(), Toast.LENGTH_LONG).show();
                     }
                 }
@@ -138,8 +130,41 @@ public class MySettingActivityFragment extends PreferenceFragment {
 
             @Override
             public void onFailure(retrofit2.Call<User> call, Throwable t) {
-                ToastUtil.showShortToastCenter(t.getMessage(),getActivity());
+                ToastUtil.showShortToastCenter(t.getMessage(), getActivity());
             }
         });
+    }
+
+    //点击事件，取消之前根据值改变做出的操作--每次进入界面都会调用change，过于频繁
+    @Override
+    public boolean onPreferenceClick(Preference preference) {
+        boolean is_auto = getActivity().getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE)
+                .getBoolean(ConstName.IS_AUTO_LOGIN, false);
+        boolean is_Login = getActivity().getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE)
+                .getBoolean(ConstName.IS_LOGIN, false);
+        if (preference instanceof SwitchPreference) {
+            if (PreferenceManager
+                    .getDefaultSharedPreferences(preference.getContext())
+                    .getBoolean(preference.getKey(), false)) {
+
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                //这里存在一个bug，夜间模式切换后。登陆态丢失了，所以必须记住密码，不管
+                //判断是否勾选自动登陆，如果没有那么登陆这一过程就可以不做了，避免耗时。同理如果没登陆才进行登陆
+                if (is_auto && !is_Login) login();
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                if (is_auto && !is_Login) login();
+            }
+        } else if (preference instanceof CheckBoxPreference) {
+            if (PreferenceManager
+                    .getDefaultSharedPreferences(preference.getContext())
+                    .getBoolean(preference.getKey(), false)) {
+                preference.getContext().startService(new Intent(preference.getContext(), AlarmService.class));
+            } else {
+                preference.getContext().stopService(new Intent(preference.getContext(), AlarmService.class));
+            }
+        }
+
+        return false;
     }
 }

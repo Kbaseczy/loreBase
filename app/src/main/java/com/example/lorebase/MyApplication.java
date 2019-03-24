@@ -51,9 +51,9 @@ public class MyApplication extends Application {
     }
 
     private void manageAlarm() {
-        boolean isOpen = PreferenceManager
-                .getDefaultSharedPreferences(getApplicationContext())
-                .getBoolean("setting_switch", true);   //获取general文件中该key的值
+//        boolean isOpen = PreferenceManager
+//                .getDefaultSharedPreferences(getApplicationContext())
+//                .getBoolean("setting_switch", true);   //获取general文件中该key的值
 
         boolean nightMode = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext())
