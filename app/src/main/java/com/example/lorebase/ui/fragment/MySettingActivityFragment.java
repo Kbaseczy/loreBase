@@ -68,7 +68,7 @@ public class MySettingActivityFragment extends PreferenceFragment implements Pre
                     PreferenceManager
                             .getDefaultSharedPreferences(preference.getContext())
                             .getString(preference.getKey(), ""));
-        } 
+        }
     }
 
     @Override
