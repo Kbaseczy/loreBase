@@ -49,16 +49,7 @@ public class MySettingActivityFragment extends PreferenceFragment implements Pre
                             ? listPreference.getEntries()[index]
                             : null);
 
-        } /*else if (preference instanceof SwitchPreference) {
-            if (stringValue.contains("true")) {
-//                SkinCompatManager.getInstance().loadSkin("night.skin", 0);
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                login();
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                login();
-            }
-        }*/ else {
+        } else {
             // For all other preferences, set the summary to the value's
             // simple string representation.
             preference.setSummary(stringValue);
@@ -77,13 +68,7 @@ public class MySettingActivityFragment extends PreferenceFragment implements Pre
                     PreferenceManager
                             .getDefaultSharedPreferences(preference.getContext())
                             .getString(preference.getKey(), ""));
-        } else {
-            //接口回调
-            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                    PreferenceManager
-                            .getDefaultSharedPreferences(preference.getContext())
-                            .getBoolean(preference.getKey(), false));
-        }
+        } 
     }
 
     @Override
@@ -148,7 +133,7 @@ public class MySettingActivityFragment extends PreferenceFragment implements Pre
                     .getBoolean(preference.getKey(), false)) {
 
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                //这里存在一个bug，夜间模式切换后。登陆态丢失了，所以必须记住密码，不管
+                //这里存在一个bug，夜间模式切换后，登陆态会丢失，所以必须记住密码，不管是否勾选自动登陆
                 //判断是否勾选自动登陆，如果没有那么登陆这一过程就可以不做了，避免耗时。同理如果没登陆才进行登陆
                 if (is_auto && !is_Login) login();
             } else {
