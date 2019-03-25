@@ -296,7 +296,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             }
 
             if (System.currentTimeMillis() - exit_time < 2000) {
-                finish();
+                ActivityCollector.finishAll();
             } else {
                 exit_time = System.currentTimeMillis();
                 ToastUtil.showLongToastCenter("再次返回退出", this);

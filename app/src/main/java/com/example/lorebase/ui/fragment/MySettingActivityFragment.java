@@ -18,6 +18,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.ui.activity.MySettingActivity;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
 
@@ -135,10 +136,11 @@ public class MySettingActivityFragment extends PreferenceFragment implements Pre
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 //这里存在一个bug，夜间模式切换后，登陆态会丢失，所以必须记住密码，不管是否勾选自动登陆
                 //todo 解决办法：1.强制记住用户名，密码   2.数据保护，日夜间模式切换后，进行数据恢复--这种办法是从Bundle中读取数据（用户名，密码）
-                //判断是否勾选自动登陆，如果没有那么登陆这一过程就可以不做了，避免耗时。同理如果没登陆才进行登陆
+                getActivity().startActivity(new Intent(getActivity(),MySettingActivity.class));  //跳转当前界面，实现刷新
                 if (is_auto && !is_Login) login();
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                getActivity().startActivity(new Intent(getActivity(),MySettingActivity.class));
                 if (is_auto && !is_Login) login();
             }
         } else if (preference instanceof CheckBoxPreference) {
@@ -151,7 +153,6 @@ public class MySettingActivityFragment extends PreferenceFragment implements Pre
                 preference.getContext().stopService(new Intent(preference.getContext(), AlarmService.class));
             }
         }
-
         return false;
     }
 }

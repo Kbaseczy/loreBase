@@ -20,6 +20,7 @@ import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.util.ActivityCollector;
+import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
 
 import retrofit2.Callback;
@@ -43,6 +44,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState != null){
+            L.v("savedInstanceState325",savedInstanceState.getString("username")+
+                    "\t"+savedInstanceState.getString("password")+"   onCreate");
+        }
         setContentView(R.layout.activity_login);
         ActivityCollector.addActivtity(this);
         initView();
@@ -141,14 +146,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         }
                         editor.apply(); //提交保存数据
 
-                        Toast.makeText(LoginActivity.this, "sign in Successful", Toast.LENGTH_LONG).show();
+                        ToastUtil.showShortToastCenter("登陆成功",LoginActivity.this);
                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(i);
                         overridePendingTransition(R.animator.go_in, R.animator.go_out);
                         finish();
                     } else {
-                        Toast.makeText(LoginActivity.this, response.body().getErrorMsg(), Toast.LENGTH_LONG).show();
-
+                        ToastUtil.showShortToast(response.body().getErrorMsg(),LoginActivity.this);
                     }
                 }
             }
@@ -171,6 +175,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         finish();
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        L.v("savedInstanceState325",savedInstanceState.getString("username")+
+                "\t"+savedInstanceState.getString("password")+"   onRestoreInstanceState");
     }
 }
 

@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:hint="@string/input_todo_name"
-            android:textColor="@android:color/black"
+            android:textColor="@color/item_title"
             android:textColorHint="#B5B3B5"
             android:textSize="16sp" />
     </LinearLayout>
@@ -61,7 +61,7 @@
             android:gravity="left|top"
             android:hint="@string/input_todo_des"
             android:minLines="8"
-            android:textColor="@android:color/black"
+            android:textColor="@color/item_title"
             android:textColorHint="#B5B3B5"
             android:textSize="16sp" />
     </LinearLayout>
