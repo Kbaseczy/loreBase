@@ -40,7 +40,7 @@ public class AlarmService extends Service {
         int importance = NotificationManager.IMPORTANCE_HIGH;
         createNotificationChannel(channelId,name,importance);
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        int anHour = 4 * 60 * 60 * 1000;  //  用户手动设置时间
+        int anHour = 60 * 60 * 1000;  //  用户手动设置时间
 //        int anHour = 10 * 1000;  //10s.
         long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
         Intent i = new Intent(this, AlarmService.class);
