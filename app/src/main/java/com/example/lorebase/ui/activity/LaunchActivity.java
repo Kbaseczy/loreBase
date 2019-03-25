@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.http.RetrofitUtil;
+import com.example.lorebase.util.ActivityCollector;
 
 public class LaunchActivity extends BaseActivity {
     LaunchActivity launchActivity;
@@ -25,6 +26,8 @@ public class LaunchActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_launch);
+
+        ActivityCollector.addActivtity(this);
         launchActivity = this;
         mHandler = new Handler();
         image_launch = findViewById(R.id.image_launch);

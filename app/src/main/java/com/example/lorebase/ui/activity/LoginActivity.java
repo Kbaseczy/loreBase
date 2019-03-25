@@ -19,6 +19,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.ToastUtil;
 
 import retrofit2.Callback;
@@ -43,6 +44,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ActivityCollector.addActivtity(this);
         initView();
     }
 

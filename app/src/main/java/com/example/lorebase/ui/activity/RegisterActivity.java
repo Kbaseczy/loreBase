@@ -13,6 +13,7 @@ import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.User;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.util.ActivityCollector;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ActivityCollector.addActivtity(this);
+
         userCount = findViewById(R.id.et_username);
         passWord = findViewById(R.id.et_password);
         re_input_pass = findViewById(R.id.et_password2);

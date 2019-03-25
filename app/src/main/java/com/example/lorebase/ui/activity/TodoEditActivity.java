@@ -16,6 +16,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.ToastUtil;
 
 import java.util.Calendar;
@@ -38,6 +39,7 @@ public class TodoEditActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_edit);
+        ActivityCollector.addActivtity(this);
         Bundle bundle = getIntent().getBundleExtra(ConstName.TODO_BEAN_NAME);
         if (bundle == null)
             return;

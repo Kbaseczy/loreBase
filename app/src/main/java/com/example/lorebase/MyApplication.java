@@ -3,7 +3,6 @@ package com.example.lorebase;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.StrictMode;
-import android.preference.PreferenceManager;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
@@ -17,7 +16,6 @@ import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersisto
 
 import java.util.concurrent.TimeUnit;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -46,22 +44,6 @@ public class MyApplication extends Application {
 
         okHttpCookie();
         initGreenDao();
-        manageAlarm(); //定时通知
-
-    }
-
-    private void manageAlarm() {
-//        boolean isOpen = PreferenceManager
-//                .getDefaultSharedPreferences(getApplicationContext())
-//                .getBoolean("setting_switch", true);   //获取general文件中该key的值
-
-        boolean nightMode = PreferenceManager
-                .getDefaultSharedPreferences(getApplicationContext())
-                .getBoolean("setting_switch_skin", true);   //获取general文件中该key的值
-        if(nightMode)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        else
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     private void initGreenDao() {

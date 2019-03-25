@@ -10,6 +10,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.LoreTree;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.fragment.subFragment.LoreListFragment;
+import com.example.lorebase.util.ActivityCollector;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class LoreActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lore);
+        ActivityCollector.addActivtity(this);
         getFromTree();  //获取来自LoreTree的数据：chapterName，父级目录的子级对象（若干个）-子级对象对应着cid->cid获取知识数据
         // getLore();  //传入cid访问服务器，获取该类下的知识标题（若干项） - fragment的recyclerView的数据来源
         toolbar = findViewById(R.id.toolbar_lore);

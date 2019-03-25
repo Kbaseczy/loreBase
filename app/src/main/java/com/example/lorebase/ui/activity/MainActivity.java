@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -38,7 +39,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -91,6 +91,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActivityCollector.addActivtity(this);
+
         homeFragment = HomeFragment.getInstance();
         loreTreeFragment = LoreTreeFragment.getInstance();
         projectFragment = ProjectFragment.getInstance();
@@ -209,8 +211,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         boolean isAuto = sp.getBoolean(ConstName.IS_AUTO_LOGIN, false);
         if (isAuto && !isLogin) autoLogin(sp);
 
-        String get_username = sp.getString(ConstName.USER_NAME, "");
-        navigationView.getMenu().findItem(R.id.nav_logout).setVisible(isLogin);
+//        String get_username = sp.getString(ConstName.USER_NAME, "");
+        String get_username = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext())
+                .getString("username", "");
+//        navigationView.getMenu().findItem(R.id.nav_logout).setVisible(isLogin);
         navigationView.getMenu().findItem(R.id.nav_collect).setVisible(isLogin);
         navigationView.getMenu().findItem(R.id.nav_todo).setVisible(isLogin);
         L.v(isLogin + "登陸狀態");
@@ -274,30 +279,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 startActivity(new Intent(this, MySettingActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
-            case R.id.nav_about_us:
-                startActivity(new Intent(getApplicationContext(), AboutUsActivity.class));
-                overridePendingTransition(R.animator.go_in, R.animator.go_out);
-                break;
-            case R.id.nav_logout:
-                //默認佈局
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-                alertDialog.setTitle(R.string.tip)
-                        .setIcon(R.mipmap.ic_launcher_round)
-                        .setMessage(R.string.tip_content_logout)
-                        .setPositiveButton(R.string.ok, (dialog, which) -> {
-                            logout(1);
-                            ToastUtil.showShortToastCenter("已注销",this);
-                        })
-                        .setNegativeButton(R.string.cancel, (dialog, which) ->
-                                dialog.dismiss());
-                alertDialog.create().show();
-                break;
-
-            case R.id.nav_exit:
-                //todo 需要添加管理activity的類，統一關閉所有activity
-                ActivityCollector.finishAll();
-                finish();
-                break;
         }
         return false;
     }
@@ -325,7 +306,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         return super.onKeyDown(keyCode, event);
     }
 
-    private void logout(int flag) {
+    private void logout() {
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
         retrofit2.Call<User> logoutCall = api.logout();
         logoutCall.enqueue(new Callback<User>() {
@@ -334,13 +315,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 L.v(response.body() != null ? response.body().getErrorCode() + "<--ErrorCode " : " -1");
                 //發送請求，獲得響應，為true則在服務器清除成功 --> 更新isLogin的值
                 editor = sp.edit();
-                if (flag == 1) {
-                    //界面内點擊注銷 ， 清除用戶信息，無保留
-                    editor.clear();
-                } else {
-                    //未注銷，直接退出應用 ， 保留用戶名/密碼
-                    editor.putBoolean(ConstName.IS_LOGIN, false);//重新写入isLogin覆盖掉原来的值
-                }
+                //未注銷，直接退出應用 ， 保留用戶名/密碼
+                editor.putBoolean(ConstName.IS_LOGIN, false);//重新写入isLogin覆盖掉原来的值
                 editor.apply();
                 refreshSign();
             }
@@ -390,7 +366,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         projectFragment = null;
         weChatFragment = null;
         //退出程序應該自動注銷,登陸狀態改爲false
-        logout(2);
+        logout();
         stopService(new Intent(this, MapService.class));
     }
 

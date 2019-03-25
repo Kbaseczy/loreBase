@@ -17,6 +17,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.fragment.ProjectFragment;
+import com.example.lorebase.util.ActivityCollector;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.NestedScrollAgentWebView;
 
@@ -46,6 +47,7 @@ public class AgentWebActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent_web);
+        ActivityCollector.addActivtity(this);
 
         title = getIntent().getStringExtra(ConstName.TITLE);
         flag_frag = getIntent().getIntExtra(ConstName.FRAGMENT, 1); //在微信frag,进入agent,返回按钮根据这个标志到对应Fragment

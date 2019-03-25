@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.ui.fragment.subFragment.RelaxListFragment;
+import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.L;
 import com.google.android.material.tabs.TabLayout;
 
@@ -39,6 +40,7 @@ public class RelaxActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relax);
+        ActivityCollector.addActivtity(this);
         initRelax();
     }
 

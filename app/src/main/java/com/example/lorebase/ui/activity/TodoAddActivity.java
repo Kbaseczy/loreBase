@@ -16,6 +16,7 @@ import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.TimeUtils;
 import com.example.lorebase.util.ToastUtil;
 
@@ -40,6 +41,7 @@ public class TodoAddActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_add);
+        ActivityCollector.addActivtity(this);
         initView();
     }
 

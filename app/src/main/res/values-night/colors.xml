@@ -10,4 +10,5 @@
     <color name="colorPrimaryDark">#aaa</color>
     <color name="colorAccentToast">#aaa</color>
     <color name="colorAccent">#aaa</color>
+    <color name="input_context">#00bcd4</color>
 </resources>

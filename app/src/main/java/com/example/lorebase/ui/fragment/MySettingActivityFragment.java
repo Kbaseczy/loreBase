@@ -81,7 +81,7 @@ public class MySettingActivityFragment extends PreferenceFragment implements Pre
         // to their values. When their values change, their summaries are
         // updated to reflect the new value, per the Android Design
         // guidelines.
-        bindPreferenceSummaryToValue(findPreference("example_text"));
+        bindPreferenceSummaryToValue(findPreference("username"));
         bindPreferenceSummaryToValue(findPreference("example_list"));
         findPreference("setting_switch_skin").setOnPreferenceClickListener(this);
         findPreference("checkbox_notify").setOnPreferenceClickListener(this);

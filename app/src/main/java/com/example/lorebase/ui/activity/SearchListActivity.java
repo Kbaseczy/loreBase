@@ -17,6 +17,7 @@ import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.ui.fragment.subFragment.EmptyFragment;
+import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.DividerItemGridDecoration;
 import com.example.lorebase.util.EmptyUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -49,6 +50,7 @@ public class SearchListActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_list);
+        ActivityCollector.addActivtity(this);
         emptyFragment = new EmptyFragment();
         Toolbar toolbar = findViewById(R.id.toolbar_search);
         key_word = getIntent().getStringExtra(ConstName.KEY_WORD);

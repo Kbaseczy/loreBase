@@ -31,7 +31,7 @@ public class AboutUsActivity extends BaseActivity {
         collapsingToolbarLayout.setCollapsedTitleTextColor(getColor(R.color.item_title));
         collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
         toolbar.setNavigationOnClickListener(v -> {
-            startActivity(new Intent(AboutUsActivity.this, MainActivity.class));
+            startActivity(new Intent(AboutUsActivity.this, MySettingActivity.class));
             overridePendingTransition(R.animator.go_in, R.animator.go_out);
             finish();
         });

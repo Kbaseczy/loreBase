@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.ui.fragment.TodoFragment;
+import com.example.lorebase.util.ActivityCollector;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -36,6 +37,7 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
+        ActivityCollector.addActivtity(this);
         todoFragment = TodoFragment.getInstance(false);
         todoDoneFragment = TodoFragment.getInstance(true);
         initView();

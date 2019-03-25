@@ -21,6 +21,7 @@ import com.example.lorebase.bean.HotKey;
 import com.example.lorebase.bean.SearchHistory;
 import com.example.lorebase.greenDao.SearchHistoryDao;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.util.ActivityCollector;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -63,6 +64,7 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE); //去除标题栏title
         setContentView(R.layout.activity_search);
+        ActivityCollector.addActivtity(this);
         searchHistoryDao = MyApplication.getDaoSession().getSearchHistoryDao();
         getHot();
     }

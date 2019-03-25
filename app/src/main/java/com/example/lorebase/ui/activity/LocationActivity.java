@@ -17,6 +17,7 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.lorebase.R;
+import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PositionInterface;
 
@@ -46,6 +47,7 @@ public class LocationActivity extends Activity {
         super.onCreate(savedInstanceState);
         L.v("LocationActivity","onCreate");
         setContentView(R.layout.activity_location);
+        ActivityCollector.addActivtity(this);
         locationClient = new LocationClient(this);
         locationClient.registerLocationListener(new MyLocationListener());
 

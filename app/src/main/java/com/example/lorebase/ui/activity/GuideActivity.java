@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
+import com.example.lorebase.util.ActivityCollector;
 import com.zhengsr.viewpagerlib.anim.ZoomOutPageTransformer;
 import com.zhengsr.viewpagerlib.bean.PageBean;
 import com.zhengsr.viewpagerlib.indicator.ZoomIndicator;
@@ -35,7 +36,7 @@ public class GuideActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
-
+        ActivityCollector.addActivtity(this);
         GlideViewPager viewPager = findViewById(R.id.splase_viewpager);
         ZoomIndicator zoomIndicator = findViewById(R.id.splase_bottom_layout);
 

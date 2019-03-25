@@ -28,6 +28,7 @@ import com.example.lorebase.adapter.BrowseHistoryAdapter;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.greenDao.BrowseHistoryDao;
 import com.example.lorebase.ui.fragment.subFragment.EmptyFragment;
+import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.EmptyUtil;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
@@ -58,6 +59,8 @@ public class BrowseHistoryActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_history);
+        ActivityCollector.addActivtity(this);
+
         browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
         browseHistoryList = browseHistoryDao.queryBuilder().list();
         L.v("browseHistoryListmmm",browseHistoryList.size() +" size");
