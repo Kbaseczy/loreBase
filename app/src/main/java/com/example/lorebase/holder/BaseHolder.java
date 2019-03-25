@@ -16,7 +16,7 @@ public class BaseHolder extends RecyclerView.ViewHolder {
 
     private RecyclerView.Adapter adapter;
 
-    public BaseHolder(@NonNull View itemView) {
+    BaseHolder(@NonNull View itemView) {
         super(itemView);
     }
 

@@ -51,7 +51,7 @@ public class MySettingActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        //main进入设置界面时已经设置销毁，再次进入main会走OnCreate方法-实现日夜间模式切换
+        //main进入设置界面时已经设置销毁，再次进入main会走OnCreate方法-实现日夜间模式切换   onRestore...
         startActivity(new Intent(this,MainActivity.class));
         L.v("onKeyDown setting");
         return super.onKeyDown(keyCode, event);
