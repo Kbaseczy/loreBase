@@ -104,6 +104,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         checkPermission();
         startService(new Intent(this, MapService.class));
+
+        L.v("onCreateMain");
     }
 
     //返回MainActivity指定顯示的fragment,類似的用法在agentWeb也有體現.
@@ -202,6 +204,19 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         super.onResume();
         //在重新進入MainActivity時，刷新登陸/注銷圖標
         refreshSign();
+        L.v("onResumeMain");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        L.v("onPauseMain");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        L.v("onStopMain");
     }
 
     private void refreshSign() {
@@ -278,6 +293,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case R.id.nav_setting:
                 startActivity(new Intent(this, MySettingActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                finish();//main进入设置界面时已经设置销毁，重新进入main强制走OnCreate方法-实现日夜间模式切换
+                //note: 注意数据的恢复  onSavedBundles
                 break;
         }
         return false;
@@ -368,6 +385,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         //退出程序應該自動注銷,登陸狀態改爲false
         logout();
         stopService(new Intent(this, MapService.class));
+        L.v("onDestroyMain");
     }
 
     //actionBar的处理方式，ToolBar的处理直接用ToolBar.链式

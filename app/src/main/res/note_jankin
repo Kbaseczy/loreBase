@@ -93,3 +93,5 @@ todo 断网后进入app，没有数据显示，应用内开启网络刷新数据
 
   todo 这里采用自带切换主题方式做日夜间模式切换，bug:切换后会重新构建activity,造成页面数据丢失
         解决办法：对页面数据进行保护处理，重新构建后需要恢复数据。从Bundle（临时的，安全可用）中读取数据（用户名，密码）
+
+  todo agentWeb 返回SearchListActivity & LoreActivity 在不携带必要数据时，没报错。  最开始出现没有数据而crash

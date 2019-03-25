@@ -29,7 +29,7 @@ import retrofit2.Response;
 public class ProjectFragment extends Fragment {
 
     private List<ProjectChapter.DataBean> beanList_chapter;
-    View view;
+    private View view;
 
     public static ProjectFragment getInstance() {
         ProjectFragment fragment = new ProjectFragment();

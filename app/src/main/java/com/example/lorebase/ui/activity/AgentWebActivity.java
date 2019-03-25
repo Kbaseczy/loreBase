@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
@@ -56,8 +58,12 @@ public class AgentWebActivity extends BaseActivity {
         article_id = getIntent().getIntExtra(ConstName.ID, 0);
         flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY, 0);//獲取標志位-由哪個activity（界面）進入的
         is_collect = getIntent().getBooleanExtra(ConstName.IS_COLLECT, true);
-        key_word = getIntent().getStringExtra(ConstName.KEY_WORD);
+        key_word = getIntent().getStringExtra(ConstName.KEY_WORD);  //only from searchListActivity
 
+        initView();
+    }
+
+    private void initView() {
         toolbar = findViewById(R.id.web_toolbar);
         toolbar.inflateMenu(R.menu.menu_agent_web);
 
@@ -69,15 +75,18 @@ public class AgentWebActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.icon_back);
         }
+
         linearLayout = findViewById(R.id.web_parent);
         agentWeb = AgentWeb.with(this)
-                .setAgentWebParent(linearLayout, new LinearLayout.LayoutParams(-1, -1))
+                .setAgentWebParent(linearLayout, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator()
                 .setWebViewClient(new WebViewClient())
                 .setWebChromeClient(new WebChromeClient())
                 .createAgentWeb()
                 .ready()
                 .go(String.valueOf(getIntent().getData()));
+        FrameLayout frameLayout = agentWeb.getWebCreator().getWebParentLayout();
+        frameLayout.setBackgroundColor(getColor(R.color.viewBackground));
     }
 
     @Override
@@ -90,15 +99,21 @@ public class AgentWebActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-
+        agentWeb.getWebLifeCycle().onResume();
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        agentWeb.getWebLifeCycle().onPause();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_agent_web, menu);
         menuItem = menu.findItem(R.id.web_collect);
-        if(is_collect)
+        if (is_collect)
             menuItem.setTitle(R.string.nav_my_uncollect);
         else
             menuItem.setTitle(R.string.nav_my_collect);
@@ -114,17 +129,17 @@ public class AgentWebActivity extends BaseActivity {
                     //收藏接口  ,  根据isCollect(默认是false),false则调用收藏，true则调用取消收藏
 
                     if (!is_collect) {  //疑惑，当二次进入时。如何区分不同文章，进行收藏、取消操作
-                        RetrofitUtil.collectArticle(article_id,this);
+                        RetrofitUtil.collectArticle(article_id, this);
                         isCollect = true;
                     } else {
-                        RetrofitUtil.unCollectArticle(article_id,this);
+                        RetrofitUtil.unCollectArticle(article_id, this);
                         isCollect = false;
                     }
 
                 } else {
                     startActivity(new Intent(AgentWebActivity.this, LoginActivity.class)
-                            .putExtra(ConstName.ACTIVITY,ConstName.activity.AGENTWEB));
-                    ToastUtil.showShortToastCenter("请登录",this);
+                            .putExtra(ConstName.ACTIVITY, ConstName.activity.AGENTWEB));
+                    ToastUtil.showShortToastCenter("请登录", this);
                 }
                 break;
 
@@ -165,14 +180,14 @@ public class AgentWebActivity extends BaseActivity {
                 intent.setClass(AgentWebActivity.this, AboutUsActivity.class);
                 break;
             case ConstName.activity.LORE:
-                intent.setClass(AgentWebActivity.this, LoreActivity.class); //这里会报错,需要持久化存储数据,选择LitePal
+                intent.setClass(AgentWebActivity.this, LoreActivity.class);
                 break;
             case ConstName.activity.SEARCH:
                 intent.setClass(AgentWebActivity.this, SearchActivity.class);
                 break;
             case ConstName.activity.SEARCH_LIST:
                 intent.setClass(AgentWebActivity.this, SearchListActivity.class)
-                        .putExtra(ConstName.KEY_WORD,key_word);
+                /*.putExtra(ConstName.KEY_WORD,key_word)*/;
                 break;
             case ConstName.activity.MYSELF:
                 intent.setClass(AgentWebActivity.this, MyselfActivity.class);
