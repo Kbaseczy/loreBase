@@ -18,6 +18,7 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.fragment.ProjectFragment;
 import com.example.lorebase.util.ActivityCollector;
+import com.example.lorebase.util.ToastUtil;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.NestedScrollAgentWebView;
 
@@ -42,6 +43,7 @@ public class AgentWebActivity extends BaseActivity {
     boolean is_collect;
     int flag_frag, article_id, flag_activity;
     String title;
+    private String key_word;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,8 @@ public class AgentWebActivity extends BaseActivity {
         article_id = getIntent().getIntExtra(ConstName.ID, 0);
         flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY, 0);//獲取標志位-由哪個activity（界面）進入的
         is_collect = getIntent().getBooleanExtra(ConstName.IS_COLLECT, true);
+        key_word = getIntent().getStringExtra(ConstName.KEY_WORD);
+
         toolbar = findViewById(R.id.web_toolbar);
         toolbar.inflateMenu(R.menu.menu_agent_web);
 
@@ -118,8 +122,9 @@ public class AgentWebActivity extends BaseActivity {
                     }
 
                 } else {
-                    startActivity(new Intent(AgentWebActivity.this, LoginActivity.class));
-                    Toast.makeText(this, "Please login.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(AgentWebActivity.this, LoginActivity.class)
+                            .putExtra(ConstName.ACTIVITY,ConstName.activity.AGENTWEB));
+                    ToastUtil.showShortToastCenter("请登录",this);
                 }
                 break;
 
@@ -134,7 +139,6 @@ public class AgentWebActivity extends BaseActivity {
                 break;
 
             case R.id.web_browser:
-                Toast.makeText(this, "browser action", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 Uri uri = Uri.parse(String.valueOf(getIntent().getData()));
                 intent.setData(uri);
@@ -167,7 +171,8 @@ public class AgentWebActivity extends BaseActivity {
                 intent.setClass(AgentWebActivity.this, SearchActivity.class);
                 break;
             case ConstName.activity.SEARCH_LIST:
-                intent.setClass(AgentWebActivity.this, SearchListActivity.class);
+                intent.setClass(AgentWebActivity.this, SearchListActivity.class)
+                        .putExtra(ConstName.KEY_WORD,key_word);
                 break;
             case ConstName.activity.MYSELF:
                 intent.setClass(AgentWebActivity.this, MyselfActivity.class);

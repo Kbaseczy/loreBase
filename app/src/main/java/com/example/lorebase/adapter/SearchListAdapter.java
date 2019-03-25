@@ -33,6 +33,11 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
     private List<Article.DataBean.DatasBean> search_list;
     private Context mContext;
+    private String key_word;  //传给agent,返回searchListActivity用到
+
+    public void setKey_word(String key_word) {
+        this.key_word = key_word;
+    }
 
     public SearchListAdapter(Context context, List<Article.DataBean.DatasBean> search_list) {
         this.search_list = search_list;
@@ -72,13 +77,14 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                        null, filterTitle, search.getLink(), search.getNiceDate(),search.isCollect()
-                        ,Latitude,Longitude));
+                        null, filterTitle, search.getLink(), search.getNiceDate(), search.isCollect()
+                        , Latitude, Longitude));
             });
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, filterTitle);
-            intent.putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH);
+            intent.putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH_LIST);
             intent.putExtra(ConstName.ID, search.getId());
+            intent.putExtra(ConstName.KEY_WORD,key_word);
             intent.putExtra(ConstName.IS_COLLECT, search.isCollect());
             intent.setData(Uri.parse(search.getLink()));
             mContext.startActivity(intent);
@@ -87,11 +93,11 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         holder.imageView.setOnClickListener(v -> {
                     if (isLogin) {
                         if (!search.isCollect()) {
-                            RetrofitUtil.collectArticle(search.getId(),mContext);
+                            RetrofitUtil.collectArticle(search.getId(), mContext);
                             holder.imageView.setImageResource(R.drawable.ic_like);
                             notifyDataSetChanged();
                         } else {
-                            RetrofitUtil.unCollectArticle( search.getId(),mContext);
+                            RetrofitUtil.unCollectArticle(search.getId(), mContext);
                             holder.imageView.setImageResource(R.drawable.ic_like_not);
                             notifyDataSetChanged();
                         }

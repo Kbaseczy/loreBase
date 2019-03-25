@@ -40,18 +40,18 @@ public class LoreActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lore);
         ActivityCollector.addActivtity(this);
+
         getFromTree();  //获取来自LoreTree的数据：chapterName，父级目录的子级对象（若干个）-子级对象对应着cid->cid获取知识数据
         // getLore();  //传入cid访问服务器，获取该类下的知识标题（若干项） - fragment的recyclerView的数据来源
         toolbar = findViewById(R.id.toolbar_lore);
         toolbar.setTitle(super_name);
         toolbar.setNavigationOnClickListener(v -> {
             startActivity(new Intent(this, MainActivity.class)
-                    .putExtra(ConstName.FRAGMENT, 2));
+                    .putExtra(ConstName.FRAGMENT, ConstName.fragment.TREE));
             overridePendingTransition(R.animator.go_out, R.animator.go_in);
             finish();
         });
 
-        viewPager = findViewById(R.id.vp_lore_list);
         initViewPager(); // 初始化ViewPager，viewPager,tabLayout,Fragment 三者的关联
     }
 
@@ -74,6 +74,7 @@ public class LoreActivity extends BaseActivity {
 
     //tab+viewpager+fragment
     private void initViewPager() {
+        viewPager = findViewById(R.id.vp_lore_list);
         tabLayout = findViewById(R.id.tab_lore_title);
         for (LoreTree.DataBean.ChildrenBean child : childrenBean) {
             tabLayout.addTab(tabLayout.newTab().setText(child.getName()));

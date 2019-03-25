@@ -35,14 +35,13 @@ import retrofit2.Response;
  * A fragment representing a list of Items.
  * <p/>
  * interface.
- * sequence : key_word -> search(key_word) -> initSearch()
+ * sequence : key_word(from searchActivity（搜索时） || agentWebActivity(返回时)) -> search(key_word) -> initSearch()
  */
 @SuppressLint("Registered")
 public class SearchListActivity extends BaseActivity {
     private int page;
     private String key_word;
     private List<Article.DataBean.DatasBean> search_list;
-    private EmptyFragment emptyFragment;
     private EasyRefreshLayout easyRefreshLayout;
     private SearchListAdapter adapter;
 
@@ -51,8 +50,8 @@ public class SearchListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_list);
         ActivityCollector.addActivtity(this);
-        emptyFragment = new EmptyFragment();
         Toolbar toolbar = findViewById(R.id.toolbar_search);
+        //key_word:1.searchActivity   2.agentWebActivity
         key_word = getIntent().getStringExtra(ConstName.KEY_WORD);
         toolbar.setTitle(key_word);
         setSupportActionBar(toolbar);
@@ -84,6 +83,7 @@ public class SearchListActivity extends BaseActivity {
         RecyclerView recyclerView = findViewById(R.id.lore_rv);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         adapter = new SearchListAdapter(this, search_list);
+        adapter.setKey_word(key_word);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
@@ -157,6 +157,5 @@ public class SearchListActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        emptyFragment = null;
     }
 }

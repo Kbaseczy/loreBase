@@ -38,6 +38,7 @@ public class ConstName {
         public static final int BROWSE_HOSTORY = 7;
         public static final int PROJECT = 8;
         public static final int NAVIGATION = 9;
+        public static final int AGENTWEB = 0;
     }
 
     public static class fragment {
