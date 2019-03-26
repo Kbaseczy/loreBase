@@ -41,7 +41,7 @@ public class AgentWebActivity extends BaseActivity {
     AgentWeb agentWeb;
     boolean isCollect = false;
     MenuItem menuItem;
-    boolean is_collect;
+    boolean is_collect, is_out;
     int article_id, flag_activity;
     String author, url;
     String title;
@@ -52,14 +52,19 @@ public class AgentWebActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent_web);
         ActivityCollector.addActivtity(this);
-
+        is_out = getIntent().getBooleanExtra(ConstName.IS_OUT, false);
         article = (Article.DataBean.DatasBean) getIntent().getSerializableExtra(ConstName.OBJ);
-        if (article != null) {
-            title = TagFilter.delHTMLTag(article.getTitle());
-            article_id = article.getId();
-            is_collect = article.isCollect();
-            author = article.getAuthor();
-            url = article.getLink();
+        if (!is_out) {
+            if (article != null) {
+                title = TagFilter.delHTMLTag(article.getTitle());
+                article_id = article.getId();
+                is_collect = article.isCollect();
+                author = article.getAuthor();
+                url = article.getLink();
+            }
+        }else{
+            title = getIntent().getStringExtra(ConstName.TITLE);
+            url = String.valueOf(getIntent().getData());
         }
         flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY, 0);//獲取標志位-由哪個activity（界面）進入的
         initView();
@@ -114,11 +119,12 @@ public class AgentWebActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_agent_web, menu);
-        if (getIntent().getBooleanExtra(ConstName.IS_OUT, false))
+        menuItem = menu.findItem(R.id.web_collect);
+        if (is_out)
             menuItem.setVisible(false);  //若是站外网站，设置收藏item不可见
         else
             menuItem.setVisible(true);
-        menuItem = menu.findItem(R.id.web_collect);
+
         if (is_collect)
             menuItem.setTitle(R.string.nav_my_uncollect);
         else
