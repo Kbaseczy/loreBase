@@ -107,8 +107,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                 intent.setClass(mContext, AgentWebActivity.class)
                         .putExtra(ConstName.TITLE, tag_navi)
                         .putExtra(ConstName.ACTIVITY, ConstName.activity.NAVIGATION)
-                        .putExtra(ConstName.IS_COLLECT,beans_chapter.get(position_item)
-                                .getArticles().get(position_tag).isCollect())
+                        .putExtra(ConstName.IS_OUT,true)
                         .setData(Uri.parse(tag_link));
                 mContext.startActivity(intent);
             }

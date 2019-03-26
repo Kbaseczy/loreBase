@@ -80,7 +80,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     DrawerLayout drawerLayout;
     TextView login_username;
     SharedPreferences sp;
-    SharedPreferences.Editor editor;
     ViewPager viewPager;
 
     HomeFragment homeFragment;

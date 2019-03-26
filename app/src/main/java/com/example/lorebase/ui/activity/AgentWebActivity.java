@@ -19,7 +19,6 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.fragment.ProjectFragment;
 import com.example.lorebase.util.ActivityCollector;
-import com.example.lorebase.util.L;
 import com.example.lorebase.util.PreferencesUtil;
 import com.example.lorebase.util.TagFilter;
 import com.example.lorebase.util.ToastUtil;
@@ -115,6 +114,10 @@ public class AgentWebActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_agent_web, menu);
+        if (getIntent().getBooleanExtra(ConstName.IS_OUT, false))
+            menuItem.setVisible(false);  //若是站外网站，设置收藏item不可见
+        else
+            menuItem.setVisible(true);
         menuItem = menu.findItem(R.id.web_collect);
         if (is_collect)
             menuItem.setTitle(R.string.nav_my_uncollect);
@@ -125,6 +128,7 @@ public class AgentWebActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.web_collect:
                 if (PreferencesUtil.getIsLogin(this)) {

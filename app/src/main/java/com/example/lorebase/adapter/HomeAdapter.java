@@ -133,9 +133,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             pagerIndicator = view.findViewById(R.id.custom_indicator);
         }
 
-        private void stop() {
-            sliderLayout.stopAutoCycle();
-        }
     }
 
     public static class Holder_tab extends RecyclerView.ViewHolder {
@@ -159,11 +156,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(view);
             viewFlipper = view.findViewById(R.id.flipper);
             flipper_image = view.findViewById(R.id.flipper_image);
-        }
-
-        private void stop() {
-            if (viewFlipper != null)
-                viewFlipper = null;
         }
     }
 
@@ -193,6 +185,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     Uri uri = Uri.parse(banner.getUrl());
                     web_intent.setData(uri);    //1.setData()传url地址
                     web_intent.putExtra(ConstName.TITLE, banner.getTitle());
+                    web_intent.putExtra(ConstName.IS_OUT,true);
                     context.startActivity(web_intent);
                 });
                 ((Holder_banner) holder).sliderLayout.addSlider(textSliderView);  //添加每一个banner
@@ -223,6 +216,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             content_tv.setOnClickListener(v -> {
                 Intent intent = new Intent(context, AgentWebActivity.class);
                 intent.setData(Uri.parse(t.getLink()));
+                intent.putExtra(ConstName.IS_OUT,true);
                 intent.putExtra(ConstName.TITLE, t.getName());
                 context.startActivity(intent);
             });
