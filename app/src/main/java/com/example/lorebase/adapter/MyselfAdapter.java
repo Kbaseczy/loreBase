@@ -74,7 +74,7 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MYSELF);
             Bundle bundle = new Bundle();
             bundle.putSerializable(ConstName.OBJ, my_collect);
-            intent.putExtra(ConstName.BUNDLE, bundle);
+            intent.putExtras(bundle);
             mContext.startActivity(intent);
         });
 

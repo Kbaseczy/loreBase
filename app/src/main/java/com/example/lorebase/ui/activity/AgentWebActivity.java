@@ -19,6 +19,7 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.fragment.ProjectFragment;
 import com.example.lorebase.util.ActivityCollector;
+import com.example.lorebase.util.L;
 import com.example.lorebase.util.PreferencesUtil;
 import com.example.lorebase.util.TagFilter;
 import com.example.lorebase.util.ToastUtil;
@@ -53,17 +54,13 @@ public class AgentWebActivity extends BaseActivity {
         setContentView(R.layout.activity_agent_web);
         ActivityCollector.addActivtity(this);
 
-        Bundle bundle = getIntent().getExtras();
-
-        if (bundle != null) {
-            article = (Article.DataBean.DatasBean) bundle.get(ConstName.OBJ);
-            if (article != null) {
-                title = TagFilter.delHTMLTag(article.getTitle());
-                article_id = article.getId();
-                is_collect = article.isCollect();
-                author = article.getAuthor();
-                url = article.getLink();
-            }
+        article = (Article.DataBean.DatasBean) getIntent().getSerializableExtra(ConstName.OBJ);
+        if (article != null) {
+            title = TagFilter.delHTMLTag(article.getTitle());
+            article_id = article.getId();
+            is_collect = article.isCollect();
+            author = article.getAuthor();
+            url = article.getLink();
         }
         flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY, 0);//獲取標志位-由哪個activity（界面）進入的
         initView();

@@ -60,7 +60,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable(ConstName.OBJ, datasBean);
-            intent.putExtra(ConstName.BUNDLE, bundle);
+            intent.putExtras( bundle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.LORE);
             mContext.startActivity(intent);
 

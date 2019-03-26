@@ -76,7 +76,7 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN);
             Bundle bundle = new Bundle();
             bundle.putSerializable(ConstName.OBJ, we_chat_article);
-            intent.putExtra(ConstName.BUNDLE, bundle);
+            intent.putExtras(bundle);
             mContext.startActivity(intent);
         });
         L.v("HomeList_isCollect", PreferencesUtil.getIsLogin(mContext) + " Login_statue-wechat");

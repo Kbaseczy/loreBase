@@ -78,7 +78,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             Bundle bundle =new Bundle();
             bundle.putSerializable(ConstName.OBJ,project);
-            intent.putExtra(ConstName.BUNDLE,bundle);
+            intent.putExtras(bundle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN);
             mContext.startActivity(intent);
         });

@@ -76,7 +76,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable(ConstName.OBJ, search);
-            intent.putExtra(ConstName.BUNDLE, bundle);
+            intent.putExtras(bundle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH_LIST);
             mContext.startActivity(intent);
         });

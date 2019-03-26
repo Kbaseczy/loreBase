@@ -83,7 +83,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             Bundle bundle =new Bundle();
             bundle.putSerializable(ConstName.OBJ,article);
-            intent.putExtra(ConstName.BUNDLE,bundle);
+            intent.putExtras(bundle);
             L.v("HomeList_isCollect", article.isCollect() + " statue");
             mContext.startActivity(intent);
         });
