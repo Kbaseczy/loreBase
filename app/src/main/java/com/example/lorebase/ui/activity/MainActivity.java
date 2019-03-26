@@ -202,7 +202,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         sp = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
         boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
         boolean isAuto = sp.getBoolean(ConstName.IS_AUTO_LOGIN, false);
-        if (isAuto && !isLogin) autoLogin(sp);
+        if (isAuto && !isLogin) autoLogin(sp);//自动登陆，当登陆cookie失效时执行
 
 //        String get_username = sp.getString(ConstName.USER_NAME, "");
         String get_username = PreferenceManager
@@ -301,28 +301,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         return super.onKeyDown(keyCode, event);
     }
 
-    private void logout() {
-        RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
-        retrofit2.Call<User> logoutCall = api.logout();
-        logoutCall.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(retrofit2.Call<User> call, Response<User> response) {
-                L.v(response.body() != null ? response.body().getErrorCode() + "<--ErrorCode " : " -1");
-                //發送請求，獲得響應，為true則在服務器清除成功 --> 更新isLogin的值
-                editor = sp.edit();
-                //未注銷，直接退出應用 ， 保留用戶名/密碼
-                editor.putBoolean(ConstName.IS_LOGIN, false);//重新写入isLogin覆盖掉原来的值
-                editor.apply();
-                refreshSign();
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<User> call, Throwable t) {
-
-            }
-        });
-    }
-
     private void autoLogin(SharedPreferences sp) {
 
         String userName = sp.getString(ConstName.USER_NAME, "");
@@ -361,7 +339,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         projectFragment = null;
         weChatFragment = null;
         //退出程序應該自動注銷,登陸狀態改爲false
-        logout();
         stopService(new Intent(this, MapService.class));
         L.v("onDestroyMain");
     }

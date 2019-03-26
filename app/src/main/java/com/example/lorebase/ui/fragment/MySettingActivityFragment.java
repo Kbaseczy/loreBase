@@ -109,7 +109,7 @@ public class MySettingActivityFragment extends PreferenceFragment implements Pre
                         editor.putBoolean(ConstName.IS_LOGIN, true); //存储登陆状态的Boolean
                         editor.apply(); //提交保存数据
                         L.v("skinskin", "重新登陆了");
-                        Toast.makeText(getActivity(), response.body().getErrorMsg(), Toast.LENGTH_LONG).show();
+                        ToastUtil.showShortToastCenter(response.body().getErrorMsg(),getActivity());
                     }
                 }
             }
