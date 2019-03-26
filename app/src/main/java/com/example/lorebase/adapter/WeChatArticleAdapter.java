@@ -69,10 +69,10 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
         holder.cardView.setOnClickListener(v -> {
 
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
-                L.v(Latitude + " \n" + Longitude+"WeChatArticleAdapter aaa" );
+                L.v(Latitude + " \n" + Longitude + "WeChatArticleAdapter aaa");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                        null, we_chat_article.getTitle(), we_chat_article.getLink(), we_chat_article.getNiceDate(),we_chat_article.isCollect()
-                        ,Latitude,Longitude));
+                        null, we_chat_article.getTitle(), we_chat_article.getLink(), we_chat_article.getNiceDate(), we_chat_article.isCollect()
+                        , Latitude, Longitude));
             });
 
             Intent intent = new Intent(mContext, AgentWebActivity.class);
@@ -86,19 +86,20 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
         });
 
         holder.imageView.setOnClickListener(v -> {
-                    if (isLogin) {
-                        if (!we_chat_article.isCollect()) {
-                            RetrofitUtil.collectArticle(we_chat_article.getId(),mContext);
-                            holder.imageView.setImageResource(R.drawable.ic_like);
-                        } else {
-                            RetrofitUtil.unCollectArticle(we_chat_article.getId(),mContext);
-                            holder.imageView.setImageResource(R.drawable.ic_like_not);
-                        }
-                        notifyDataSetChanged();
-                    } else {
-                        mContext.startActivity(new Intent(mContext, LoginActivity.class));
-                    }
-                });
+            if (isLogin) {
+                if (!we_chat_article.isCollect()) {
+                    RetrofitUtil.collectArticle(we_chat_article.getId(), mContext);
+                    holder.imageView.setImageResource(R.drawable.ic_like);
+                } else {
+                    RetrofitUtil.unCollectArticle(we_chat_article.getId(), mContext);
+                    holder.imageView.setImageResource(R.drawable.ic_like_not);
+                }
+                notifyDataSetChanged();
+            } else {
+                mContext.startActivity(new Intent(mContext, LoginActivity.class)
+                        .putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN));
+            }
+        });
         if (we_chat_article.isCollect())
             holder.imageView.setImageResource(R.drawable.ic_like);
         else

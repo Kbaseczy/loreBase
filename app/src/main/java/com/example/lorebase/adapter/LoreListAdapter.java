@@ -84,22 +84,16 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
                     holder.imageView.setImageResource(R.drawable.ic_like);
                     notifyDataSetChanged();
                 } else if (datasBean.isCollect()) {
-                    if (datasBean.isCollect()) {
-
-                        if (datasBean.isCollect()) {
-                            RetrofitUtil.unCollectArticle(article_id, mContext);
-                            holder.imageView.setImageResource(R.drawable.ic_like_not);
-                            notifyDataSetChanged();
-                        } else {
-                            mContext.startActivity(new Intent(mContext, LoginActivity.class));
-                        }
-                    }
+                    RetrofitUtil.unCollectArticle(article_id, mContext);
+                    holder.imageView.setImageResource(R.drawable.ic_like_not);
+                    notifyDataSetChanged();
                 }
+            } else {
+                mContext.startActivity(new Intent(mContext, LoginActivity.class)
+                        .putExtra(ConstName.ACTIVITY, ConstName.activity.LORE));
             }
         });
-
         return holder;
-
     }
 
     @Override

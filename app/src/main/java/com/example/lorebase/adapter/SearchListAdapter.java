@@ -33,11 +33,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
     private List<Article.DataBean.DatasBean> search_list;
     private Context mContext;
-    private String key_word;  //传给agent,返回searchListActivity用到
-
-    public void setKey_word(String key_word) {
-        this.key_word = key_word;
-    }
 
     public SearchListAdapter(Context context, List<Article.DataBean.DatasBean> search_list) {
         this.search_list = search_list;
@@ -84,7 +79,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
             intent.putExtra(ConstName.TITLE, filterTitle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH_LIST);
             intent.putExtra(ConstName.ID, search.getId());
-            intent.putExtra(ConstName.KEY_WORD,key_word);
             intent.putExtra(ConstName.IS_COLLECT, search.isCollect());
             intent.setData(Uri.parse(search.getLink()));
             mContext.startActivity(intent);
@@ -102,7 +96,8 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
                             notifyDataSetChanged();
                         }
                     } else {
-                        mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                        mContext.startActivity(new Intent(mContext, LoginActivity.class)
+                                .putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH_LIST));
                     }
                 }
         );

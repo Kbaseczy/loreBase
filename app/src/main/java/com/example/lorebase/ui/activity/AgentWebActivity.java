@@ -32,20 +32,19 @@ import androidx.appcompat.widget.Toolbar;
     TODO 解决：去掉CoordinatorLayout，原来准备加“回到顶部功能”，也是不行的，这个需要ScrollView,而这里是直接获取的数据，没有布局效果。
 
     todo 注意，儅返回到loreActivity時，由於這一界面的數據來自LoreTreActivity,如果沒有數據則報錯
+      --> activity 状态在 onPause时期还存在，返回时状态自动恢复
  */
 public class AgentWebActivity extends BaseActivity {
 
     LinearLayout linearLayout;
     Toolbar toolbar;
     AgentWeb agentWeb;
-    NestedScrollAgentWebView scrollAgentWebView;
     SharedPreferences sp;
     boolean isCollect = false;
     MenuItem menuItem;
     boolean is_collect;
     int flag_frag, article_id, flag_activity;
     String title;
-    private String key_word;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +53,9 @@ public class AgentWebActivity extends BaseActivity {
         ActivityCollector.addActivtity(this);
 
         title = getIntent().getStringExtra(ConstName.TITLE);
-        flag_frag = getIntent().getIntExtra(ConstName.FRAGMENT, 1); //在微信frag,进入agent,返回按钮根据这个标志到对应Fragment
         article_id = getIntent().getIntExtra(ConstName.ID, 0);
         flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY, 0);//獲取標志位-由哪個activity（界面）進入的
         is_collect = getIntent().getBooleanExtra(ConstName.IS_COLLECT, true);
-        key_word = getIntent().getStringExtra(ConstName.KEY_WORD);  //only from searchListActivity
 
         initView();
     }
@@ -173,8 +170,7 @@ public class AgentWebActivity extends BaseActivity {
         Intent intent = new Intent();
         switch (flag_activity) {
             case ConstName.activity.MAIN:
-                intent.setClass(AgentWebActivity.this, MainActivity.class)
-                        .putExtra(ConstName.FRAGMENT, flag_frag);
+                intent.setClass(AgentWebActivity.this, MainActivity.class);
                 break;
             case ConstName.activity.ABOUT_US:
                 intent.setClass(AgentWebActivity.this, AboutUsActivity.class);
@@ -186,8 +182,7 @@ public class AgentWebActivity extends BaseActivity {
                 intent.setClass(AgentWebActivity.this, SearchActivity.class);
                 break;
             case ConstName.activity.SEARCH_LIST:
-                intent.setClass(AgentWebActivity.this, SearchListActivity.class)
-                /*.putExtra(ConstName.KEY_WORD,key_word)*/;
+                intent.setClass(AgentWebActivity.this, SearchListActivity.class);
                 break;
             case ConstName.activity.MYSELF:
                 intent.setClass(AgentWebActivity.this, MyselfActivity.class);

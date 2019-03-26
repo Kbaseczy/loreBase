@@ -47,7 +47,7 @@ public class LoreActivity extends BaseActivity {
         toolbar.setTitle(super_name);
         toolbar.setNavigationOnClickListener(v -> {
             startActivity(new Intent(this, MainActivity.class)
-                    .putExtra(ConstName.FRAGMENT, ConstName.fragment.TREE));
+                    /*.putExtra(ConstName.FRAGMENT, ConstName.fragment.TREE)*/);
             overridePendingTransition(R.animator.go_out, R.animator.go_in);
             finish();
         });

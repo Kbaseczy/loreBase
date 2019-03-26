@@ -37,14 +37,16 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     private List<Project.DataBean.DatasBean> beanList_project;
     private Context mContext;
 
-    public ProjectAdapter(Context context,List<Project.DataBean.DatasBean> beanList_project) {
+    public ProjectAdapter(Context context, List<Project.DataBean.DatasBean> beanList_project) {
         this.beanList_project = beanList_project;
         this.mContext = context;
     }
+
     public void addBeanList_project(List<Project.DataBean.DatasBean> beanList_project) {
         this.beanList_project.addAll(beanList_project);
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -75,15 +77,15 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                        null, project.getTitle(), project.getLink(), project.getNiceDate(),project.isCollect()
-                        ,Latitude,Longitude));
+                        null, project.getTitle(), project.getLink(), project.getNiceDate(), project.isCollect()
+                        , Latitude, Longitude));
             });
 
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, project.getTitle());
             intent.putExtra(ConstName.ID, project.getId());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN);
-            intent.putExtra(ConstName.IS_COLLECT,project.isCollect());
+            intent.putExtra(ConstName.IS_COLLECT, project.isCollect());
             intent.setData(Uri.parse(project.getLink()));
             mContext.startActivity(intent);
         });
@@ -92,14 +94,15 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         holder.image_collect.setOnClickListener(v -> {
             if (isLogin) {
                 if (project.isCollect()) {
-                    RetrofitUtil.unCollectArticle( project.getId(),mContext);
+                    RetrofitUtil.unCollectArticle(project.getId(), mContext);
                     holder.image_collect.setImageResource(R.drawable.ic_like_not);
                 }
                 if (!project.isCollect()) {
-                    RetrofitUtil.collectArticle(project.getId(),mContext);
+                    RetrofitUtil.collectArticle(project.getId(), mContext);
                 }
             } else {
-                mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                mContext.startActivity(new Intent(mContext, LoginActivity.class)
+                        .putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN));
             }
         });
     }

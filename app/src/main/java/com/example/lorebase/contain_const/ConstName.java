@@ -44,7 +44,7 @@ public class ConstName {
     public static class fragment {
         public static final int HOME = 1;
         public static final int TREE = 2;
-        public static final int RELAX = 3;
+        public static final int PROJECT = 3;
         public static final int WE_CHAT = 4;
     }
 

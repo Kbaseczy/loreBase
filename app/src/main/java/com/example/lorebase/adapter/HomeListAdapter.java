@@ -42,7 +42,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     public double getLongitude() {
         return longitude;
     }
-    private double latitude,longitude;
+
+    private double latitude, longitude;
     private Context mContext;
     private List<Article.DataBean.DatasBean> beanList;
 
@@ -82,7 +83,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                         article.getLink(), article.getNiceDate(), article.isCollect(), Latitude, Longitude));
             });
 
-            L.v("mapHomeList", "  点击比较"+latitude+"\t"+longitude);
+            L.v("mapHomeList", "  点击比较" + latitude + "\t" + longitude);
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, article.getTitle());
             intent.putExtra(ConstName.PROJECT_AUTHOR, article.getAuthor());
@@ -110,7 +111,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                     notifyDataSetChanged();
                 }
             } else {
-                mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                mContext.startActivity(new Intent(mContext, LoginActivity.class)
+                        .putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN));
             }
         });
     }

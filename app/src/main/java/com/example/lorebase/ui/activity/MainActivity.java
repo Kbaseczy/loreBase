@@ -99,8 +99,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         weChatFragment = WeChatFragment.getInstance();
 
         initView();
-        //todo 设置进入后显示的第一个界面
-        indicateFrag();
 
         checkPermission();
         startService(new Intent(this, MapService.class));
@@ -108,27 +106,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         L.v("onCreateMain");
     }
 
-    //返回MainActivity指定顯示的fragment,類似的用法在agentWeb也有體現.
-    private void indicateFrag() {
-        int fragId = getIntent().getIntExtra(ConstName.FRAGMENT, ConstName.fragment.HOME);
-        switch (fragId) {
-            case 1:
-                viewPager.setCurrentItem(0);
-                break;
-            case 2:
-                viewPager.setCurrentItem(1);
-                break;
-            case 3:
-                viewPager.setCurrentItem(2);
-                break;
-            case 4:
-                viewPager.setCurrentItem(3);
-                break;
-            default:
-                viewPager.setCurrentItem(0);
-                break;
-        }
-    }
+    //不需要。  todo ：activity只要不走onCreate方法，状态就不会被刷新
 
     private void initView() {
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -360,7 +338,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         editor.putBoolean(ConstName.IS_LOGIN, true); //自動登陸后，登陸狀態改爲true
                         editor.apply(); //提交保存数据
                         refreshSign();  //自动登陆后刷新界面
-                        ToastUtil.showShortToastTop("已登陆",MainActivity.this);
+                        ToastUtil.showShortToastTop("已登陆", MainActivity.this);
                     } else {
                         Toast.makeText(MainActivity.this, response.body().getErrorMsg(), Toast.LENGTH_LONG).show();
                     }
@@ -418,13 +396,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 if (grantResults.length > 0) {
                     for (int result : grantResults) {
                         if (result != PackageManager.PERMISSION_GRANTED) {
-                            ToastUtil.showShortToast("必须同意所有权限才能使用该程序",this);
+                            ToastUtil.showShortToast("必须同意所有权限才能使用该程序", this);
                             finish();
                             return;
                         }
                     }
                 } else {
-                    ToastUtil.showShortToast("未知错误",this);
+                    ToastUtil.showShortToast("未知错误", this);
                     finish();
                 }
         }

@@ -83,7 +83,6 @@ public class SearchListActivity extends BaseActivity {
         RecyclerView recyclerView = findViewById(R.id.lore_rv);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         adapter = new SearchListAdapter(this, search_list);
-        adapter.setKey_word(key_word);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemGridDecoration(this));

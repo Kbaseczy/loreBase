@@ -41,15 +41,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     CheckBox remember_pass;
     CheckBox autoLogin;
 
+    int backActivityFlag;
+    int backFragmentFlag;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState != null){
-            L.v("savedInstanceState325",savedInstanceState.getString("username")+
-                    "\t"+savedInstanceState.getString("password")+"   onCreate");
+        if (savedInstanceState != null) {
+            L.v("savedInstanceState325", savedInstanceState.getString("username") +
+                    "\t" + savedInstanceState.getString("password") + "   onCreate");
         }
         setContentView(R.layout.activity_login);
         ActivityCollector.addActivtity(this);
+
+        backActivityFlag = getIntent().getIntExtra(ConstName.ACTIVITY, 1);// main / searchList / Lore
+        backFragmentFlag = getIntent().getIntExtra(ConstName.FRAGMENT, 1); //main 下的fragment
         initView();
     }
 
@@ -134,6 +141,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onResponse(retrofit2.Call<User> call, Response<User> response) {
                 if (response.body() != null) {
                     if (response.body().getErrorCode() == 0) {
+                        ToastUtil.showShortToastCenter("登陆成功", LoginActivity.this);
                         editor = pref.edit();
                         editor.putBoolean(ConstName.IS_LOGIN, true); //存储登陆状态的Boolean
                         editor.putString(ConstName.USER_NAME, userName);
@@ -145,24 +153,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             editor.clear(); //用于第二次及以后登陆时  如果取消勾选则清除数据
                         }
                         editor.apply(); //提交保存数据
-
-                        ToastUtil.showShortToastCenter("登陆成功",LoginActivity.this);
-                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(i);
-                        overridePendingTransition(R.animator.go_in, R.animator.go_out);
-                        finish();
+                        goActivity();  //
                     } else {
-                        ToastUtil.showShortToast(response.body().getErrorMsg(),LoginActivity.this);
+                        ToastUtil.showShortToast(response.body().getErrorMsg(), LoginActivity.this);
                     }
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<User> call, Throwable t) {
-                ToastUtil.showShortToastCenter(t.getMessage(),LoginActivity.this);
+                ToastUtil.showShortToastCenter(t.getMessage(), LoginActivity.this);
             }
         });
-
     }
 
     private boolean checkNetwork() {
@@ -173,15 +175,47 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        finish();
+        goActivity();
         return super.onKeyDown(keyCode, event);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        L.v("savedInstanceState325",savedInstanceState.getString("username")+
-                "\t"+savedInstanceState.getString("password")+"   onRestoreInstanceState");
+        L.v("savedInstanceState325", savedInstanceState.getString("username") +
+                "\t" + savedInstanceState.getString("password") + "   onRestoreInstanceState");
+    }
+
+    //根据获取的activity标志，返回上一界面
+    private void goActivity() {
+        Intent i = new Intent();
+        switch (backActivityFlag) {
+            case ConstName.activity.AGENTWEB:
+                i.setClass(LoginActivity.this, AgentWebActivity.class);
+                break;
+            case ConstName.activity.MAIN:
+                i.setClass(LoginActivity.this, MainActivity.class);
+                /*if (backFragmentFlag == ConstName.fragment.HOME) {
+                    i.putExtra(ConstName.FRAGMENT, ConstName.fragment.HOME);
+                } else if (backFragmentFlag == ConstName.fragment.PROJECT) {
+                    i.putExtra(ConstName.FRAGMENT, ConstName.fragment.PROJECT);
+                } else if (backFragmentFlag == ConstName.fragment.WE_CHAT) {
+                    i.putExtra(ConstName.FRAGMENT, ConstName.fragment.WE_CHAT);
+                }*/
+                break;
+            case ConstName.activity.SEARCH_LIST:
+                i.setClass(LoginActivity.this, SearchListActivity.class);
+                break;
+            case ConstName.activity.LORE:
+                i.setClass(LoginActivity.this, LoreActivity.class);
+                break;
+            default:
+                i.setClass(LoginActivity.this, MainActivity.class);
+                break;
+        }
+        startActivity(i);
+        overridePendingTransition(R.animator.go_in, R.animator.go_out);
+        finish();
     }
 }
 
