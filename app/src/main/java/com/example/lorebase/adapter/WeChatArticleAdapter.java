@@ -20,6 +20,7 @@ import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.PreferencesUtil;
 
 import java.util.List;
 
@@ -59,7 +60,6 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Article.DataBean.DatasBean we_chat_article = we_chat_article_list.get(position);
         SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
-        boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
         holder.author.setText(we_chat_article.getAuthor());
         holder.date.setText(we_chat_article.getNiceDate());
         holder.title.setText(we_chat_article.getTitle());
@@ -84,9 +84,9 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
             intent.setData(Uri.parse(we_chat_article.getLink()));
             mContext.startActivity(intent);
         });
-
+        L.v("HomeList_isCollect", PreferencesUtil.getIsLogin(mContext) + " Login_statue-wechat");
         holder.imageView.setOnClickListener(v -> {
-            if (isLogin) {
+            if (PreferencesUtil.getIsLogin(mContext)) {
                 if (!we_chat_article.isCollect()) {
                     RetrofitUtil.collectArticle(we_chat_article.getId(), mContext);
                     holder.imageView.setImageResource(R.drawable.ic_like);

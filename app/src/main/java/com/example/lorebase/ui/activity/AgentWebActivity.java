@@ -20,6 +20,7 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.fragment.ProjectFragment;
 import com.example.lorebase.util.ActivityCollector;
+import com.example.lorebase.util.PreferencesUtil;
 import com.example.lorebase.util.ToastUtil;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.NestedScrollAgentWebView;
@@ -121,8 +122,7 @@ public class AgentWebActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.web_collect:
-                sp = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
-                if (sp.getBoolean(ConstName.IS_LOGIN, false)) {
+                if (PreferencesUtil.getIsLogin(this)) {
                     //收藏接口  ,  根据isCollect(默认是false),false则调用收藏，true则调用取消收藏
 
                     if (!is_collect) {  //疑惑，当二次进入时。如何区分不同文章，进行收藏、取消操作

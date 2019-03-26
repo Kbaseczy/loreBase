@@ -2,7 +2,6 @@ package com.example.lorebase.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +13,14 @@ import com.bumptech.glide.Glide;
 import com.example.lorebase.MapReceiver;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.BrowseHistory;
-import com.example.lorebase.bean.Project;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.PreferencesUtil;
 
 import java.util.List;
 
@@ -34,15 +34,15 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
 
 
-    private List<Project.DataBean.DatasBean> beanList_project;
+    private List<Article.DataBean.DatasBean> beanList_project;
     private Context mContext;
 
-    public ProjectAdapter(Context context, List<Project.DataBean.DatasBean> beanList_project) {
+    public ProjectAdapter(Context context, List<Article.DataBean.DatasBean> beanList_project) {
         this.beanList_project = beanList_project;
         this.mContext = context;
     }
 
-    public void addBeanList_project(List<Project.DataBean.DatasBean> beanList_project) {
+    public void addBeanList_project(List<Article.DataBean.DatasBean> beanList_project) {
         this.beanList_project.addAll(beanList_project);
         notifyDataSetChanged();
     }
@@ -60,7 +60,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        Project.DataBean.DatasBean project = beanList_project.get(position);
+        Article.DataBean.DatasBean project = beanList_project.get(position);
         Glide.with(mContext).load(project.getEnvelopePic()).into(holder.image_project);
         holder.name.setText(project.getTitle());
         holder.author.setText(project.getAuthor());
@@ -68,10 +68,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         holder.content.setText(project.getDesc());
         if (project.isCollect()) {
             holder.image_collect.setImageResource(R.drawable.ic_like);
-
         } else {
             holder.image_collect.setImageResource(R.drawable.ic_like_not);
-
         }
         holder.cardView.setOnClickListener(v -> {
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
@@ -89,17 +87,17 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             intent.setData(Uri.parse(project.getLink()));
             mContext.startActivity(intent);
         });
-        SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
-        boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
+
         holder.image_collect.setOnClickListener(v -> {
-            if (isLogin) {
+            L.v("HomeList_isCollect", PreferencesUtil.getIsLogin(mContext) + " project");
+            if (PreferencesUtil.getIsLogin(mContext)) {
                 if (project.isCollect()) {
                     RetrofitUtil.unCollectArticle(project.getId(), mContext);
                     holder.image_collect.setImageResource(R.drawable.ic_like_not);
-                }
-                if (!project.isCollect()) {
+                }else{
                     RetrofitUtil.collectArticle(project.getId(), mContext);
                 }
+                notifyDataSetChanged();
             } else {
                 mContext.startActivity(new Intent(mContext, LoginActivity.class)
                         .putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN));

@@ -10,7 +10,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
-import android.widget.Toast;
 
 import com.example.lorebase.AlarmService;
 import com.example.lorebase.MyApplication;
@@ -20,6 +19,7 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.ui.activity.MySettingActivity;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.PreferencesUtil;
 import com.example.lorebase.util.ToastUtil;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -104,10 +104,11 @@ public class MySettingActivityFragment extends PreferenceFragment implements Pre
             public void onResponse(retrofit2.Call<User> call, Response<User> response) {
                 if (response.body() != null) {
                     if (response.body().getErrorCode() == 0) {
-                        SharedPreferences.Editor editor;
-                        editor = sp.edit();
-                        editor.putBoolean(ConstName.IS_LOGIN, true); //存储登陆状态的Boolean
-                        editor.apply(); //提交保存数据
+//                        SharedPreferences.Editor editor;
+//                        editor = sp.edit();
+//                        editor.putBoolean(ConstName.IS_LOGIN, true); //存储登陆状态的Boolean
+//                        editor.apply(); //提交保存数据
+                        PreferencesUtil.putIsLogin(getActivity(),true);
                         L.v("skinskin", "重新登陆了");
                         ToastUtil.showShortToastCenter(response.body().getErrorMsg(),getActivity());
                     }
@@ -124,10 +125,8 @@ public class MySettingActivityFragment extends PreferenceFragment implements Pre
     //点击事件，取消之前根据值改变做出的操作--每次进入界面都会调用change，过于频繁
     @Override
     public boolean onPreferenceClick(Preference preference) {
-        boolean is_auto = getActivity().getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE)
-                .getBoolean(ConstName.IS_AUTO_LOGIN, false);
-        boolean is_Login = getActivity().getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE)
-                .getBoolean(ConstName.IS_LOGIN, false);
+        boolean is_auto = PreferencesUtil.getIsAuto(getActivity());
+        boolean is_Login = PreferencesUtil.getIsLogin(getActivity());
         if (preference instanceof SwitchPreference) {
             if (PreferenceManager
                     .getDefaultSharedPreferences(preference.getContext())

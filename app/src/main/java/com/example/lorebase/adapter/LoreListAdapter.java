@@ -20,6 +20,7 @@ import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.PreferencesUtil;
 
 import java.util.List;
 
@@ -52,9 +53,10 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.lore_list_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
+
+        int position = holder.getAdapterPosition();
+        Article.DataBean.DatasBean datasBean = datasBeanList.get(position);
         holder.cardView.setOnClickListener(v -> {
-            int position = holder.getAdapterPosition();
-            Article.DataBean.DatasBean datasBean = datasBeanList.get(position);
             //跳转到LoreAgentWeb  need:link/title
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             intent.putExtra(ConstName.TITLE, datasBean.getTitle());
@@ -71,23 +73,19 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
             });
         });
 
-        SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
-        boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
+        L.v("HomeList_isCollect", PreferencesUtil.getIsLogin(mContext) + " Login_statue-lorelist");
         holder.imageView.setOnClickListener(v -> {
-            int position = holder.getAdapterPosition();
-            Article.DataBean.DatasBean datasBean = datasBeanList.get(position);
             int article_id = datasBean.getId();
 
-            if (isLogin) {
+            if (PreferencesUtil.getIsLogin(mContext)) {
                 if (!datasBean.isCollect()) {
                     RetrofitUtil.collectArticle(article_id, mContext);
                     holder.imageView.setImageResource(R.drawable.ic_like);
-                    notifyDataSetChanged();
-                } else if (datasBean.isCollect()) {
+                } else {
                     RetrofitUtil.unCollectArticle(article_id, mContext);
                     holder.imageView.setImageResource(R.drawable.ic_like_not);
-                    notifyDataSetChanged();
                 }
+                notifyDataSetChanged();
             } else {
                 mContext.startActivity(new Intent(mContext, LoginActivity.class)
                         .putExtra(ConstName.ACTIVITY, ConstName.activity.LORE));

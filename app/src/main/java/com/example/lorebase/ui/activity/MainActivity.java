@@ -29,6 +29,7 @@ import com.example.lorebase.ui.fragment.WeChatFragment;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.PreferencesUtil;
 import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -200,8 +201,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private void refreshSign() {
         //界面内注銷后再登陸，此段代碼未執行  - - > 需要在生命周期onResume()中執行，回到視圖時刷新圖標
         sp = getSharedPreferences(ConstName.LOGIN_DATA, MODE_PRIVATE);
-        boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
-        boolean isAuto = sp.getBoolean(ConstName.IS_AUTO_LOGIN, false);
+        boolean isLogin = PreferencesUtil.getIsLogin(this);
+        boolean isAuto = PreferencesUtil.getIsAuto(this);
         if (isAuto && !isLogin) autoLogin(sp);//自动登陆，当登陆cookie失效时执行
 
 //        String get_username = sp.getString(ConstName.USER_NAME, "");
@@ -312,9 +313,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             public void onResponse(retrofit2.Call<User> call, Response<User> response) {
                 if (response.body() != null) {
                     if (response.body().getErrorCode() == 0) {
-                        editor = sp.edit();
-                        editor.putBoolean(ConstName.IS_LOGIN, true); //自動登陸后，登陸狀態改爲true
-                        editor.apply(); //提交保存数据
+//                        editor = sp.edit();
+//                        editor.putBoolean(ConstName.IS_LOGIN, true); //自動登陸后，登陸狀態改爲true
+//                        editor.apply(); //提交保存数据
+                        PreferencesUtil.putIsLogin(MainActivity.this,true);
                         refreshSign();  //自动登陆后刷新界面
                         ToastUtil.showShortToastTop("已登陆", MainActivity.this);
                     } else {

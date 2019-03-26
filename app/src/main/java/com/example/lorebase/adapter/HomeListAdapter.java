@@ -21,6 +21,7 @@ import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.PreferencesUtil;
 
 import java.util.List;
 
@@ -94,22 +95,19 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             mContext.startActivity(intent);
         });
 
-        SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
-        boolean isLogin = sp.getBoolean(ConstName.IS_LOGIN, false);
         //todo 收藏图标点击事件
+        L.v("HomeList_isCollect", PreferencesUtil.getIsLogin(mContext) + " Login_statue-home");
         holder.collect.setOnClickListener(v -> {
             //获取某子项位置，并得到该项的数据对象
-            if (isLogin) {
+            if (PreferencesUtil.getIsLogin(mContext)) {
                 if (!article.isCollect()) {
                     RetrofitUtil.collectArticle(article.getId(), mContext);
                     holder.collect.setImageResource(R.drawable.ic_like); //点击图标后变为红色表示已收藏
-                    notifyDataSetChanged();
-                } else if (article.isCollect()) {
-                    RetrofitUtil.unCollectArticle(article.getId(), mContext);
+                } else {
                     RetrofitUtil.unCollectArticle(article.getId(), mContext);
                     holder.collect.setImageResource(R.drawable.ic_like_not);
-                    notifyDataSetChanged();
                 }
+                notifyDataSetChanged();
             } else {
                 mContext.startActivity(new Intent(mContext, LoginActivity.class)
                         .putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN));
@@ -136,6 +134,5 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             chapterName = itemView.findViewById(R.id.tv_article_chapterName);
             date = itemView.findViewById(R.id.tv_article_date);
         }
-
     }
 }

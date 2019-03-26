@@ -10,7 +10,7 @@ import com.ajguan.library.EasyRefreshLayout;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.ProjectAdapter;
-import com.example.lorebase.bean.Project;
+import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
 
@@ -30,7 +30,7 @@ public class ItemProjectFragment extends Fragment {
      */
     private int id, page = 0;
     private View view;
-    private List<Project.DataBean.DatasBean> beans_project;
+    private List<Article.DataBean.DatasBean> beans_project;
     public static RecyclerView recyclerView;
     private EasyRefreshLayout easyRefreshLayout;
     private ProjectAdapter adapter;
@@ -81,13 +81,11 @@ public class ItemProjectFragment extends Fragment {
             if (easyRefreshLayout.isRefreshing()) {
                 page = 0;
                 getProject();
-//                adapter.setBeanList_article(beanList_article);
                 adapter.addBeanList_project(beans_project);
                 easyRefreshLayout.refreshComplete();
             } else {
                 page++;
                 getProject();
-//                adapter.setBeanList_article(beanList_article);
                 adapter.addBeanList_project(beans_project);
                 easyRefreshLayout.loadMoreComplete();
             }
@@ -100,15 +98,14 @@ public class ItemProjectFragment extends Fragment {
         adapter = new ProjectAdapter(getActivity(),beans_project);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-//        recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getActivity())));
     }
 
     private void getProject() {
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
-        retrofit2.Call<Project> projectCall = api.getProjectList(page,id);
-        projectCall.enqueue(new Callback<Project>() {
+        retrofit2.Call<Article> projectCall = api.getProjectList(page,id);
+        projectCall.enqueue(new Callback<Article>() {
             @Override
-            public void onResponse(retrofit2.Call<Project> call, Response<Project> response) {
+            public void onResponse(retrofit2.Call<Article> call, Response<Article> response) {
                 if (response.body() != null) {
                     beans_project = response.body().getData().getDatas();
                     initProjectList();
@@ -116,7 +113,7 @@ public class ItemProjectFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(retrofit2.Call<Project> call, Throwable t) {
+            public void onFailure(retrofit2.Call<Article> call, Throwable t) {
 
             }
         });

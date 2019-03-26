@@ -7,7 +7,6 @@ import com.example.lorebase.bean.HotKey;
 import com.example.lorebase.bean.LoreTree;
 import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.bean.News;
-import com.example.lorebase.bean.Project;
 import com.example.lorebase.bean.ProjectChapter;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.bean.User;
@@ -74,7 +73,7 @@ public interface RetrofitApi {
 
     //项目列表
     @GET(UrlContainer.PROJECT_LIST)
-    Call<Project> getProjectList(@Path("page") int page,@Query("cid") int cid);
+    Call<Article> getProjectList(@Path("page") int page,@Query("cid") int cid);
 
     //导航
     @GET(UrlContainer.NAVI)
