@@ -13,6 +13,7 @@ import com.example.lorebase.contain_const.UrlContainer;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
 
+import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +32,7 @@ public class RetrofitUtil {
             public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
                 if (response.body() != null) {
                     ToastUtil.showShortToastCenter(response.body().getErrorCode() == 0 ?
-                            "删除成功" : response.body().getErrorMsg(),context);
+                            "已删除" : response.body().getErrorMsg(),context);
                 }
             }
 
@@ -60,12 +61,14 @@ public class RetrofitUtil {
         });
     }
 
-    public static void collectArticle(int id, Context context) {
-        retrofit2.Call<Article> collectCall = api.collectArticle(id);
+    public static void collectArticle(Article.DataBean.DatasBean project, Context context,  RecyclerView.Adapter adapter) {
+        retrofit2.Call<Article> collectCall = api.collectArticle(project.getId());
         collectCall.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
-                ToastUtil.showShortToastCenter("收藏成功",context);
+                ToastUtil.showShortToastCenter("已收藏",context);
+                project.setCollect(true);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -74,17 +77,32 @@ public class RetrofitUtil {
             }
         });
     }
+    public static void collectArticle(Article.DataBean.DatasBean project, Context context) {
+        retrofit2.Call<Article> collectCall = api.collectArticle(project.getId());
+        collectCall.enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(Call<Article> call, Response<Article> response) {
+                ToastUtil.showShortToastCenter("已收藏",context);
+            }
 
+            @Override
+            public void onFailure(Call<Article> call, Throwable t) {
+
+            }
+        });
+    }
     //收藏界面
-    public static void deleteArticle(int id, Context context) {
+    public static void deleteArticle(Article.DataBean.DatasBean project, Context context,RecyclerView.Adapter adapter) {
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
-        retrofit2.Call<Article> articleCancellCall = api.deleteArticle(id, -1);
+        retrofit2.Call<Article> articleCancellCall = api.deleteArticle(project.getId(), -1);
         articleCancellCall.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
                 if (response.body() != null)
                     ToastUtil.showShortToastCenter(response.body().getErrorCode() == 0 ?
                             "删除成功" : response.body().getErrorMsg(),context);
+                project.setCollect(false);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -95,8 +113,24 @@ public class RetrofitUtil {
     }
 
     //普通列表界面
-    public static void unCollectArticle(int id, Context context) {
-        retrofit2.Call<Article> cancelArticleCall = api.cancellPageArticle(id);
+    public static void unCollectArticle(Article.DataBean.DatasBean project, Context context,  RecyclerView.Adapter adapter) {
+        retrofit2.Call<Article> cancelArticleCall = api.cancellPageArticle(project.getId());
+        cancelArticleCall.enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(Call<Article> call, Response<Article> response) {
+                ToastUtil.showShortToastCenter("取消成功",context);
+                project.setCollect(false);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<Article> call, Throwable t) {
+
+            }
+        });
+    }
+    public static void unCollectArticle(Article.DataBean.DatasBean project, Context context) {
+        retrofit2.Call<Article> cancelArticleCall = api.cancellPageArticle(project.getId());
         cancelArticleCall.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
@@ -109,7 +143,6 @@ public class RetrofitUtil {
             }
         });
     }
-
     //Context context, ImageView imageView
     public static void getBiYing(Context context, ImageView imageView) {
         Retrofit retrofit = new Retrofit.Builder()

@@ -1,5 +1,6 @@
 package com.example.lorebase.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class Article {
@@ -98,7 +99,7 @@ public class Article {
             this.datas = datas;
         }
 
-        public static class DatasBean {
+        public static class DatasBean implements Serializable {
             /**
              * apkLink :
              * todo author : 浪淘沙xud   1
@@ -341,21 +342,6 @@ public class Article {
                 this.visible = visible;
             }
 
-            public int getZan() {
-                return zan;
-            }
-
-            public void setZan(int zan) {
-                this.zan = zan;
-            }
-
-            public List<?> getTags() {
-                return tags;
-            }
-
-            public void setTags(List<?> tags) {
-                this.tags = tags;
-            }
         }
     }
 }

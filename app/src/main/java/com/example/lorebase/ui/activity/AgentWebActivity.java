@@ -1,13 +1,11 @@
 package com.example.lorebase.ui.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebViewClient;
@@ -16,14 +14,15 @@ import android.widget.LinearLayout;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.fragment.ProjectFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.PreferencesUtil;
+import com.example.lorebase.util.TagFilter;
 import com.example.lorebase.util.ToastUtil;
 import com.just.agentweb.AgentWeb;
-import com.just.agentweb.NestedScrollAgentWebView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -40,12 +39,13 @@ public class AgentWebActivity extends BaseActivity {
     LinearLayout linearLayout;
     Toolbar toolbar;
     AgentWeb agentWeb;
-    SharedPreferences sp;
     boolean isCollect = false;
     MenuItem menuItem;
     boolean is_collect;
-    int flag_frag, article_id, flag_activity;
+    int article_id, flag_activity;
+    String author, url;
     String title;
+    Article.DataBean.DatasBean article;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +53,19 @@ public class AgentWebActivity extends BaseActivity {
         setContentView(R.layout.activity_agent_web);
         ActivityCollector.addActivtity(this);
 
-        title = getIntent().getStringExtra(ConstName.TITLE);
-        article_id = getIntent().getIntExtra(ConstName.ID, 0);
-        flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY, 0);//獲取標志位-由哪個activity（界面）進入的
-        is_collect = getIntent().getBooleanExtra(ConstName.IS_COLLECT, true);
+        Bundle bundle = getIntent().getExtras();
 
+        if (bundle != null) {
+            article = (Article.DataBean.DatasBean) bundle.get(ConstName.OBJ);
+            if (article != null) {
+                title = TagFilter.delHTMLTag(article.getTitle());
+                article_id = article.getId();
+                is_collect = article.isCollect();
+                author = article.getAuthor();
+                url = article.getLink();
+            }
+        }
+        flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY, 0);//獲取標志位-由哪個activity（界面）進入的
         initView();
     }
 
@@ -66,7 +74,7 @@ public class AgentWebActivity extends BaseActivity {
         toolbar.inflateMenu(R.menu.menu_agent_web);
 
         toolbar.setTitle(title);
-        toolbar.setSubtitle(getIntent().getStringExtra(ConstName.PROJECT_AUTHOR));
+        toolbar.setSubtitle(author);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -82,7 +90,7 @@ public class AgentWebActivity extends BaseActivity {
                 .setWebChromeClient(new WebChromeClient())
                 .createAgentWeb()
                 .ready()
-                .go(String.valueOf(getIntent().getData()));
+                .go(String.valueOf(url));
         FrameLayout frameLayout = agentWeb.getWebCreator().getWebParentLayout();
         frameLayout.setBackgroundColor(getColor(R.color.viewBackground));
     }
@@ -125,14 +133,13 @@ public class AgentWebActivity extends BaseActivity {
                 if (PreferencesUtil.getIsLogin(this)) {
                     //收藏接口  ,  根据isCollect(默认是false),false则调用收藏，true则调用取消收藏
 
-                    if (!is_collect) {  //疑惑，当二次进入时。如何区分不同文章，进行收藏、取消操作
-                        RetrofitUtil.collectArticle(article_id, this);
+                    if (!is_collect) {
+                        RetrofitUtil.collectArticle(article, this);
                         isCollect = true;
                     } else {
-                        RetrofitUtil.unCollectArticle(article_id, this);
+                        RetrofitUtil.unCollectArticle(article, this);
                         isCollect = false;
                     }
-
                 } else {
                     startActivity(new Intent(AgentWebActivity.this, LoginActivity.class)
                             .putExtra(ConstName.ACTIVITY, ConstName.activity.AGENTWEB));

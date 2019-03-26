@@ -2,8 +2,7 @@ package com.example.lorebase.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdapter.ViewHolder> {
-
 
     private List<Article.DataBean.DatasBean> we_chat_article_list;
     private Context mContext;
@@ -59,13 +57,12 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Article.DataBean.DatasBean we_chat_article = we_chat_article_list.get(position);
-        SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
         holder.author.setText(we_chat_article.getAuthor());
         holder.date.setText(we_chat_article.getNiceDate());
         holder.title.setText(we_chat_article.getTitle());
         String name = we_chat_article.getSuperChapterName() + "/" + we_chat_article.getChapterName();
         holder.chapterName.setText(name);
-
+        holder.imageView.setImageResource(we_chat_article.isCollect() ? R.drawable.ic_like : R.drawable.ic_like_not);
         holder.cardView.setOnClickListener(v -> {
 
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
@@ -76,34 +73,25 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
             });
 
             Intent intent = new Intent(mContext, AgentWebActivity.class);
-            intent.putExtra(ConstName.TITLE, we_chat_article.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN);
-            intent.putExtra(ConstName.FRAGMENT, ConstName.fragment.WE_CHAT);
-            intent.putExtra(ConstName.ID, we_chat_article.getId());
-            intent.putExtra(ConstName.IS_COLLECT, we_chat_article.isCollect());
-            intent.setData(Uri.parse(we_chat_article.getLink()));
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ConstName.OBJ, we_chat_article);
+            intent.putExtra(ConstName.BUNDLE, bundle);
             mContext.startActivity(intent);
         });
         L.v("HomeList_isCollect", PreferencesUtil.getIsLogin(mContext) + " Login_statue-wechat");
         holder.imageView.setOnClickListener(v -> {
             if (PreferencesUtil.getIsLogin(mContext)) {
                 if (!we_chat_article.isCollect()) {
-                    RetrofitUtil.collectArticle(we_chat_article.getId(), mContext);
-                    holder.imageView.setImageResource(R.drawable.ic_like);
+                    RetrofitUtil.collectArticle(we_chat_article, mContext,this);
                 } else {
-                    RetrofitUtil.unCollectArticle(we_chat_article.getId(), mContext);
-                    holder.imageView.setImageResource(R.drawable.ic_like_not);
+                    RetrofitUtil.unCollectArticle(we_chat_article, mContext,this);
                 }
-                notifyDataSetChanged();
             } else {
                 mContext.startActivity(new Intent(mContext, LoginActivity.class)
                         .putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN));
             }
         });
-        if (we_chat_article.isCollect())
-            holder.imageView.setImageResource(R.drawable.ic_like);
-        else
-            holder.imageView.setImageResource(R.drawable.ic_like_not);
     }
 
     @Override

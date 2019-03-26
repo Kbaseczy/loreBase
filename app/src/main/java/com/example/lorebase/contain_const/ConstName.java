@@ -23,6 +23,7 @@ public class ConstName {
     public static final String CHAPTER_NAME = "chapterName";
     public static final String CHAPTER_CID = "cid";
     public static final String OBJ = "obj";
+    public static final String BUNDLE = "bundle";
 
     //treeActivity
     public static final String FRAGMENT = "fragment";

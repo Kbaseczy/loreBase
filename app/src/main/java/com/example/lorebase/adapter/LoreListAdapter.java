@@ -2,8 +2,7 @@ package com.example.lorebase.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,12 +58,12 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
         holder.cardView.setOnClickListener(v -> {
             //跳转到LoreAgentWeb  need:link/title
             Intent intent = new Intent(mContext, AgentWebActivity.class);
-            intent.putExtra(ConstName.TITLE, datasBean.getTitle());
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ConstName.OBJ, datasBean);
+            intent.putExtra(ConstName.BUNDLE, bundle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.LORE);
-            intent.putExtra(ConstName.ID, datasBean.getId());
-            intent.putExtra(ConstName.IS_COLLECT, datasBean.isCollect());
-            intent.setData(Uri.parse(datasBean.getLink()));
             mContext.startActivity(intent);
+
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
@@ -75,17 +74,13 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
 
         L.v("HomeList_isCollect", PreferencesUtil.getIsLogin(mContext) + " Login_statue-lorelist");
         holder.imageView.setOnClickListener(v -> {
-            int article_id = datasBean.getId();
 
             if (PreferencesUtil.getIsLogin(mContext)) {
                 if (!datasBean.isCollect()) {
-                    RetrofitUtil.collectArticle(article_id, mContext);
-                    holder.imageView.setImageResource(R.drawable.ic_like);
+                    RetrofitUtil.collectArticle(datasBean, mContext, this);
                 } else {
-                    RetrofitUtil.unCollectArticle(article_id, mContext);
-                    holder.imageView.setImageResource(R.drawable.ic_like_not);
+                    RetrofitUtil.unCollectArticle(datasBean, mContext, this);
                 }
-                notifyDataSetChanged();
             } else {
                 mContext.startActivity(new Intent(mContext, LoginActivity.class)
                         .putExtra(ConstName.ACTIVITY, ConstName.activity.LORE));
@@ -103,11 +98,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
         holder.title.setText(article.getTitle());
         String name = article.getSuperChapterName() + "/" + article.getChapterName();
         holder.chapterName.setText(name);
-        if (article.isCollect())
-            holder.imageView.setImageResource(R.drawable.ic_like);
-        else
-            holder.imageView.setImageResource(R.drawable.ic_like_not);
-//        Glide.with(mContext).load(R.drawable.ic_like_not).into(holder.imageView);
+        holder.imageView.setImageResource(article.isCollect() ? R.drawable.ic_like : R.drawable.ic_like_not);
     }
 
     @Override

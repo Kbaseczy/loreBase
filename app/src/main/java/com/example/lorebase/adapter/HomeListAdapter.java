@@ -2,8 +2,7 @@ package com.example.lorebase.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,11 +69,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         holder.author.setText(article.getAuthor());
         holder.chapterName.setText(article.getChapterName());
         holder.date.setText(article.getNiceDate());
-        if (article.isCollect())
-            holder.collect.setImageResource(R.drawable.ic_like);
-        else
-            holder.collect.setImageResource(R.drawable.ic_like_not);
-
+        holder.collect.setImageResource(article.isCollect() ? R.drawable.ic_like : R.drawable.ic_like_not);
         BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
 
         holder.cardView.setOnClickListener(v -> {
@@ -86,12 +81,10 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
             L.v("mapHomeList", "  点击比较" + latitude + "\t" + longitude);
             Intent intent = new Intent(mContext, AgentWebActivity.class);
-            intent.putExtra(ConstName.TITLE, article.getTitle());
-            intent.putExtra(ConstName.PROJECT_AUTHOR, article.getAuthor());
-            intent.putExtra(ConstName.ID, article.getId());
-            intent.putExtra(ConstName.IS_COLLECT, article.isCollect());
+            Bundle bundle =new Bundle();
+            bundle.putSerializable(ConstName.OBJ,article);
+            intent.putExtra(ConstName.BUNDLE,bundle);
             L.v("HomeList_isCollect", article.isCollect() + " statue");
-            intent.setData(Uri.parse(article.getLink()));
             mContext.startActivity(intent);
         });
 
@@ -101,13 +94,10 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             //获取某子项位置，并得到该项的数据对象
             if (PreferencesUtil.getIsLogin(mContext)) {
                 if (!article.isCollect()) {
-                    RetrofitUtil.collectArticle(article.getId(), mContext);
-                    holder.collect.setImageResource(R.drawable.ic_like); //点击图标后变为红色表示已收藏
+                    RetrofitUtil.collectArticle(article, mContext,this);
                 } else {
-                    RetrofitUtil.unCollectArticle(article.getId(), mContext);
-                    holder.collect.setImageResource(R.drawable.ic_like_not);
+                    RetrofitUtil.unCollectArticle(article, mContext,this);
                 }
-                notifyDataSetChanged();
             } else {
                 mContext.startActivity(new Intent(mContext, LoginActivity.class)
                         .putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN));

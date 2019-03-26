@@ -2,7 +2,7 @@ package com.example.lorebase.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,11 +66,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         holder.author.setText(project.getAuthor());
         holder.time.setText(project.getNiceDate());
         holder.content.setText(project.getDesc());
-        if (project.isCollect()) {
-            holder.image_collect.setImageResource(R.drawable.ic_like);
-        } else {
-            holder.image_collect.setImageResource(R.drawable.ic_like_not);
-        }
+        holder.image_collect.setImageResource(project.isCollect() ? R.drawable.ic_like : R.drawable.ic_like_not);
         holder.cardView.setOnClickListener(v -> {
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
@@ -80,11 +76,10 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             });
 
             Intent intent = new Intent(mContext, AgentWebActivity.class);
-            intent.putExtra(ConstName.TITLE, project.getTitle());
-            intent.putExtra(ConstName.ID, project.getId());
+            Bundle bundle =new Bundle();
+            bundle.putSerializable(ConstName.OBJ,project);
+            intent.putExtra(ConstName.BUNDLE,bundle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN);
-            intent.putExtra(ConstName.IS_COLLECT, project.isCollect());
-            intent.setData(Uri.parse(project.getLink()));
             mContext.startActivity(intent);
         });
 
@@ -92,12 +87,10 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             L.v("HomeList_isCollect", PreferencesUtil.getIsLogin(mContext) + " project");
             if (PreferencesUtil.getIsLogin(mContext)) {
                 if (project.isCollect()) {
-                    RetrofitUtil.unCollectArticle(project.getId(), mContext);
-                    holder.image_collect.setImageResource(R.drawable.ic_like_not);
-                }else{
-                    RetrofitUtil.collectArticle(project.getId(), mContext);
+                    RetrofitUtil.unCollectArticle(project, mContext,this);
+                } else {
+                    RetrofitUtil.collectArticle(project, mContext,this);
                 }
-                notifyDataSetChanged();
             } else {
                 mContext.startActivity(new Intent(mContext, LoginActivity.class)
                         .putExtra(ConstName.ACTIVITY, ConstName.activity.MAIN));

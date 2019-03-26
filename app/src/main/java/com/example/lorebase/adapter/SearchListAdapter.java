@@ -2,8 +2,7 @@ package com.example.lorebase.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,13 +60,12 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Article.DataBean.DatasBean search = search_list.get(position);
         String filterTitle = TagFilter.delHTMLTag(search.getTitle()); //过滤搜索带标签的title
-        SharedPreferences sp = mContext.getSharedPreferences(ConstName.LOGIN_DATA, Context.MODE_PRIVATE);
         holder.author.setText(search.getAuthor());
         holder.date.setText(search.getNiceDate());
         holder.title.setText(filterTitle);
         String name = search.getSuperChapterName() + "/" + search.getChapterName();
         holder.chapterName.setText(name);
-
+        holder.imageView.setImageResource(search.isCollect() ? R.drawable.ic_like : R.drawable.ic_like_not);
         holder.cardView.setOnClickListener(v -> {
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
@@ -76,34 +74,26 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
                         , Latitude, Longitude));
             });
             Intent intent = new Intent(mContext, AgentWebActivity.class);
-            intent.putExtra(ConstName.TITLE, filterTitle);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ConstName.OBJ, search);
+            intent.putExtra(ConstName.BUNDLE, bundle);
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH_LIST);
-            intent.putExtra(ConstName.ID, search.getId());
-            intent.putExtra(ConstName.IS_COLLECT, search.isCollect());
-            intent.setData(Uri.parse(search.getLink()));
             mContext.startActivity(intent);
         });
         L.v("HomeList_isCollect", PreferencesUtil.getIsLogin(mContext) + " Login_statue-searchList");
         holder.imageView.setOnClickListener(v -> {
                     if (PreferencesUtil.getIsLogin(mContext)) {
                         if (!search.isCollect()) {
-                            RetrofitUtil.collectArticle(search.getId(), mContext);
-                            holder.imageView.setImageResource(R.drawable.ic_like);
+                            RetrofitUtil.collectArticle(search, mContext,this);
                         } else {
-                            RetrofitUtil.unCollectArticle(search.getId(), mContext);
-                            holder.imageView.setImageResource(R.drawable.ic_like_not);
+                            RetrofitUtil.unCollectArticle(search, mContext,this);
                         }
-                        notifyDataSetChanged();
                     } else {
                         mContext.startActivity(new Intent(mContext, LoginActivity.class)
                                 .putExtra(ConstName.ACTIVITY, ConstName.activity.SEARCH_LIST));
                     }
                 }
         );
-        if (search.isCollect())
-            holder.imageView.setImageResource(R.drawable.ic_like);
-        else
-            holder.imageView.setImageResource(R.drawable.ic_like_not);
     }
 
     @Override
