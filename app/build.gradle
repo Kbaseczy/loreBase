@@ -21,6 +21,8 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+//            shrinkResource true
+//            buildConfigField "boolean", "LOG_DEBUG", "false" //不显示log
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.lorebase
         }
