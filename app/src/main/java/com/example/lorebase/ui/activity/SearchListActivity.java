@@ -16,7 +16,6 @@ import com.example.lorebase.adapter.SearchListAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
-import com.example.lorebase.ui.fragment.subFragment.EmptyFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.DividerItemGridDecoration;
 import com.example.lorebase.util.EmptyUtil;

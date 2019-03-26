@@ -2,8 +2,7 @@ package com.example.lorebase.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,20 +69,16 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
                         null, my_collect.getTitle(), my_collect.getLink()
                         , my_collect.getNiceDate(), my_collect.isCollect(), Latitude, Longitude));
             });
+
             Intent intent = new Intent(mContext, AgentWebActivity.class);
-            intent.putExtra(ConstName.TITLE, my_collect.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.MYSELF);
-            intent.setData(Uri.parse(my_collect.getLink()));
-            intent.putExtra(ConstName.IS_COLLECT, true);
-            Log.v("myself_isCollect", my_collect.isCollect() + " statue");
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ConstName.OBJ, my_collect);
+            intent.putExtra(ConstName.BUNDLE, bundle);
             mContext.startActivity(intent);
         });
 
-        //todo 发送请求400，接口地址有问题  更改为retrofit
-        holder.imageView.setOnClickListener(v -> {
-            RetrofitUtil.deleteArticle(my_collect.getId(),mContext);
-            notifyDataSetChanged();
-        });
+        holder.imageView.setOnClickListener(v -> RetrofitUtil.deleteArticle(my_collect, mContext, this));
     }
 
     @Override
