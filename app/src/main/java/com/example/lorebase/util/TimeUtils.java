@@ -1,6 +1,5 @@
 package com.example.lorebase.util;
 
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,14 +9,6 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 
-/**
- * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 2016/08/02
- *     desc  : utils about time
- * </pre>
- */
 public final class TimeUtils {
 
     private static final ThreadLocal<SimpleDateFormat> SDF_THREAD_LOCAL = new ThreadLocal<>();
