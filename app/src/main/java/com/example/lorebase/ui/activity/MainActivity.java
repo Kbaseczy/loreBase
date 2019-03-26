@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         L.v("onCreateMain");
     }
 
-    //不需要。  todo ：activity只要不走onCreate方法，状态就不会被刷新
+    // todo ：activity只要不走onCreate方法，状态就不会被刷新
 
     private void initView() {
         drawerLayout = findViewById(R.id.drawer_layout);
