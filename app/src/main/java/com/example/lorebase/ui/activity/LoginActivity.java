@@ -195,13 +195,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case ConstName.activity.MAIN:
                 i.setClass(LoginActivity.this, MainActivity.class);
-                /*if (backFragmentFlag == ConstName.fragment.HOME) {
-                    i.putExtra(ConstName.FRAGMENT, ConstName.fragment.HOME);
-                } else if (backFragmentFlag == ConstName.fragment.PROJECT) {
-                    i.putExtra(ConstName.FRAGMENT, ConstName.fragment.PROJECT);
-                } else if (backFragmentFlag == ConstName.fragment.WE_CHAT) {
-                    i.putExtra(ConstName.FRAGMENT, ConstName.fragment.WE_CHAT);
-                }*/
                 break;
             case ConstName.activity.SEARCH_LIST:
                 i.setClass(LoginActivity.this, SearchListActivity.class);

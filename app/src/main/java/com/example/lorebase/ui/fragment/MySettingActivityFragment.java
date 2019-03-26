@@ -104,10 +104,6 @@ public class MySettingActivityFragment extends PreferenceFragment implements Pre
             public void onResponse(retrofit2.Call<User> call, Response<User> response) {
                 if (response.body() != null) {
                     if (response.body().getErrorCode() == 0) {
-//                        SharedPreferences.Editor editor;
-//                        editor = sp.edit();
-//                        editor.putBoolean(ConstName.IS_LOGIN, true); //存储登陆状态的Boolean
-//                        editor.apply(); //提交保存数据
                         PreferencesUtil.putIsLogin(getActivity(),true);
                         L.v("skinskin", "重新登陆了");
                         ToastUtil.showShortToastCenter(response.body().getErrorMsg(),getActivity());

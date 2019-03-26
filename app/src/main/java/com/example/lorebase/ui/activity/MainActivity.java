@@ -312,9 +312,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             public void onResponse(retrofit2.Call<User> call, Response<User> response) {
                 if (response.body() != null) {
                     if (response.body().getErrorCode() == 0) {
-//                        editor = sp.edit();
-//                        editor.putBoolean(ConstName.IS_LOGIN, true); //自動登陸后，登陸狀態改爲true
-//                        editor.apply(); //提交保存数据
                         PreferencesUtil.putIsLogin(MainActivity.this,true);
                         refreshSign();  //自动登陆后刷新界面
                         ToastUtil.showShortToastTop("已登陆", MainActivity.this);
