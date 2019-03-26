@@ -52,40 +52,6 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.lore_list_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
-
-        int position = holder.getAdapterPosition();
-        Article.DataBean.DatasBean datasBean = datasBeanList.get(position);
-        holder.cardView.setOnClickListener(v -> {
-            //跳转到LoreAgentWeb  need:link/title
-            Intent intent = new Intent(mContext, AgentWebActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(ConstName.OBJ, datasBean);
-            intent.putExtras( bundle);
-            intent.putExtra(ConstName.ACTIVITY, ConstName.activity.LORE);
-            mContext.startActivity(intent);
-
-            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
-                L.v(Latitude + " \n" + Longitude + "  有没有啊");
-                MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                        null, datasBean.getTitle(), datasBean.getLink()
-                        , datasBean.getNiceDate(), datasBean.isCollect(), Latitude, Longitude));
-            });
-        });
-
-        L.v("HomeList_isCollect", PreferencesUtil.getIsLogin(mContext) + " Login_statue-lorelist");
-        holder.imageView.setOnClickListener(v -> {
-
-            if (PreferencesUtil.getIsLogin(mContext)) {
-                if (!datasBean.isCollect()) {
-                    RetrofitUtil.collectArticle(datasBean, mContext, this);
-                } else {
-                    RetrofitUtil.unCollectArticle(datasBean, mContext, this);
-                }
-            } else {
-                mContext.startActivity(new Intent(mContext, LoginActivity.class)
-                        .putExtra(ConstName.ACTIVITY, ConstName.activity.LORE));
-            }
-        });
         return holder;
     }
 
@@ -93,18 +59,49 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         Article.DataBean.DatasBean article = datasBeanList.get(position);
+
         holder.author.setText(article.getAuthor());
         holder.date.setText(article.getNiceDate());
         holder.title.setText(article.getTitle());
         String name = article.getSuperChapterName() + "/" + article.getChapterName();
         holder.chapterName.setText(name);
         holder.imageView.setImageResource(article.isCollect() ? R.drawable.ic_like : R.drawable.ic_like_not);
+
+        holder.cardView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, AgentWebActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ConstName.OBJ, article);
+            intent.putExtras(bundle);
+            intent.putExtra(ConstName.ACTIVITY, ConstName.activity.LORE);
+            mContext.startActivity(intent);
+
+            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+                L.v(Latitude + " \n" + Longitude + "  有没有啊");
+                MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
+                        null, article.getTitle(), article.getLink()
+                        , article.getNiceDate(), article.isCollect(), Latitude, Longitude));
+            });
+        });
+
+        L.v("HomeList_isCollect", PreferencesUtil.getIsLogin(mContext) + " Login_statue-lorelist");
+        holder.imageView.setOnClickListener(v -> {
+
+            if (PreferencesUtil.getIsLogin(mContext)) {
+                if (!article.isCollect()) {
+                    RetrofitUtil.collectArticle(article, mContext, this);
+                } else {
+                    RetrofitUtil.unCollectArticle(article, mContext, this);
+                }
+            } else {
+                mContext.startActivity(new Intent(mContext, LoginActivity.class)
+                        .putExtra(ConstName.ACTIVITY, ConstName.activity.LORE));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-//        return 0;
-        return datasBeanList.size();// int java.util.List.size()' on a null object reference
+        return datasBeanList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
