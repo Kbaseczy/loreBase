@@ -62,6 +62,7 @@ public class RetrofitUtil {
         });
     }
 
+    //普通列表界面
     public static void collectArticle(Article.DataBean.DatasBean project, Context context, RecyclerView.Adapter adapter) {
         retrofit2.Call<Article> collectCall = api.collectArticle(project.getId());
         collectCall.enqueue(new Callback<Article>() {
@@ -107,7 +108,6 @@ public class RetrofitUtil {
                     ToastUtil.showShortToastCenter(response.body().getErrorCode() == 0 ?
                             "已取消收藏" : response.body().getErrorMsg(), context);
                 adapter.remove(position);
-
             }
 
             @Override
@@ -151,7 +151,7 @@ public class RetrofitUtil {
         });
     }
 
-    //Context context, ImageView imageView
+    //开屏页
     public static void getBiYing(Context context, ImageView imageView) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(UrlContainer.BI_YING_BASE)
