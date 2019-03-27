@@ -13,6 +13,7 @@ import com.example.lorebase.adapter.TodoAdapter;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.ui.activity.TODOActivity;
 import com.example.lorebase.util.L;
 
 import java.util.List;
@@ -62,20 +63,16 @@ public class TodoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_todo, container, false);
+        getTodoList(is_done);
         return view;
     }
 
     private void initView() {
         recyclerView = view.findViewById(R.id.todo_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        todoAdapter = new TodoAdapter(getActivity(), list_todo, is_done);
+        todoAdapter = new TodoAdapter(getActivity());
+        todoAdapter.setList_todo(list_todo, is_done);
         recyclerView.setAdapter(todoAdapter);
-    }
-
-    @Override
-    public void onResume() {
-        L.v(is_done ? "true-onResume" : "false-onResume");
-        getTodoList(is_done);
         easyRefreshLayout = view.findViewById(R.id.easy_refresh_todo);
         easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
@@ -88,7 +85,6 @@ public class TodoFragment extends Fragment {
                 getDataList();
             }
         });
-        super.onResume();
     }
 
     private void getDataList() {
@@ -121,7 +117,6 @@ public class TodoFragment extends Fragment {
             public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
                 if (response.body() != null) {
                     list_todo = response.body().getData().getDatas();
-                    L.v(list_todo.size() + "  size");
                     initView();
                 }
             }
@@ -131,6 +126,11 @@ public class TodoFragment extends Fragment {
                 L.v("sdfasdf", t.getMessage() + "is there having.");
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override

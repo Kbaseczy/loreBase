@@ -81,7 +81,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                         String tag_navi = articlesBean.getTitle();
                         navi_tag.setText(tag_navi);
                         navi_tag.setTextColor(Color.BLACK); //字體顔色
-                        navi_tag.setBackgroundResource(R.color.Grey200);
+                        navi_tag.setBackgroundResource(R.color.Grey400);
                         return navi_tag;
                     }
                 };

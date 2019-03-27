@@ -15,6 +15,7 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.TodoEditActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -23,18 +24,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
-    private List<TodoTodo.DataBean.DatasBean> list_todo;
+    private List<TodoTodo.DataBean.DatasBean> list_todo = new ArrayList<>();
     private boolean is_done;
     Context mContext;
 
-    public TodoAdapter(Context context, List<TodoTodo.DataBean.DatasBean> list_todo, boolean is_done) {
+    public TodoAdapter(Context context) {
+        this.mContext = context;
+    }
+
+    public void setList_todo(List<TodoTodo.DataBean.DatasBean> list_todo, boolean is_done){
         this.list_todo = list_todo;
         this.is_done = is_done;
-        this.mContext = context;
     }
 
     public void addList_todo(List<TodoTodo.DataBean.DatasBean> list_todo) {
         this.list_todo.addAll(list_todo);
+    }
+
+    public void removeItem(int position){
+        list_todo.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void addItem(TodoTodo.DataBean.DatasBean datasBean){
+        list_todo.add(datasBean);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -48,15 +62,13 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull TodoAdapter.ViewHolder holder, int position) {
         TodoTodo.DataBean.DatasBean datasBean = list_todo.get(position);
-        holder.action_complete.setImageResource(is_done ? R.drawable.ic_cancel : R.drawable.ic_file_done);
+        holder.action_complete.setImageResource(is_done ? R.drawable.ic_cancel : R.drawable.ic_complete);
         holder.item_name.setText(datasBean.getTitle());
         holder.item_desc.setText(datasBean.getContent());
         holder.item_date.setText(datasBean.getDateStr());
 
-        holder.action_complete.setOnClickListener(v -> {
-            RetrofitUtil.todoComplete(datasBean.getId(), mContext, is_done);
-            notifyItemChanged(position);
-        });
+        holder.action_complete.setOnClickListener(v ->
+                RetrofitUtil.todoComplete(datasBean,position, mContext, is_done,this));
 
         holder.action_delete.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -64,9 +76,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
                     .setMessage(R.string.tip_content_clear_history)
                     .setNegativeButton(R.string.cancel, null)
                     .setPositiveButton(R.string.ok, (dialogInterface, i) ->
-                            RetrofitUtil.todoDelete(datasBean.getId(), mContext))
+                            RetrofitUtil.todoDelete(datasBean.getId(),position, mContext,this))
                     .show();
-            notifyItemRemoved(position);
         });
 
         holder.view.setOnClickListener(v -> {

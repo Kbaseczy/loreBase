@@ -7,10 +7,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.adapter.MyselfAdapter;
+import com.example.lorebase.adapter.TodoAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.BiYing;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.ui.activity.TODOActivity;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
 
@@ -25,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitUtil {
     private static RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
 
-    public static void todoDelete(int id, Context context) {
+    public static void todoDelete(int id, int position, Context context, TodoAdapter adapter) {
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
         retrofit2.Call<TodoTodo> todoDeleteCall = api.postDeleteTodo(id);
         todoDeleteCall.enqueue(new Callback<TodoTodo>() {
@@ -34,6 +36,7 @@ public class RetrofitUtil {
                 if (response.body() != null) {
                     ToastUtil.showShortToastCenter(response.body().getErrorCode() == 0 ?
                             "已删除" : response.body().getErrorMsg(), context);
+                    adapter.removeItem(position);
                 }
             }
 
@@ -44,14 +47,15 @@ public class RetrofitUtil {
         });
     }
 
-    public static void todoComplete(int id, Context context, boolean is_done) {
+    public static void todoComplete(TodoTodo.DataBean.DatasBean datasBean, int position, Context context, boolean is_done, TodoAdapter adapter) {
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
-        retrofit2.Call<TodoTodo> todoDoneCall = api.postDoneTodo(id, is_done ? 0 : 1);
+        retrofit2.Call<TodoTodo> todoDoneCall = api.postDoneTodo(datasBean.getId(), is_done ? 0 : 1);
         todoDoneCall.enqueue(new Callback<TodoTodo>() {
             @Override
             public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
                 if (response.body() != null) {
                     ToastUtil.showShortToastCenter(is_done ? "撤销成功" : "标记完成", context);
+                    adapter.removeItem(position);
                 }
             }
 

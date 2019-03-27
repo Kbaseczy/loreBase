@@ -26,9 +26,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/*
-     // todo 增加体验 -> 提供其他视图，方便浏览
- */
 public class NavigationActivity extends Activity {
     private List<NavigateSite.DataBean> beans_chapter;
     private Map<Integer, String> keys = new HashMap<>();

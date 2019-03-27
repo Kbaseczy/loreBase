@@ -294,7 +294,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 ActivityCollector.finishAll();
             } else {
                 exit_time = System.currentTimeMillis();
-                ToastUtil.showLongToastCenter("再次返回退出", this);
+                ToastUtil.showShortToastCenter("再次返回退出", this);
             }
             return true;
         }

@@ -17,7 +17,6 @@ import com.example.lorebase.bean.Article;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.util.ActivityCollector;
-import com.example.lorebase.util.DividerItemGridDecoration;
 import com.example.lorebase.util.EmptyUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -84,7 +83,6 @@ public class SearchListActivity extends BaseActivity {
         adapter = new SearchListAdapter(this, search_list);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
         FloatingActionButton fab = findViewById(R.id.fab_search_list);
         fab.setOnClickListener(v -> recyclerView.scrollToPosition(0));
     }

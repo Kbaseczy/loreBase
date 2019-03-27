@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="viewBackground">#ff2e2e2e</color>
+    <color name="viewBackground_tag">#aaa</color>
     <color name="item_author">#dfffffff</color>
     <color name="item_desc">#dfffffff</color>
     <color name="item_date">#dfffffff</color>

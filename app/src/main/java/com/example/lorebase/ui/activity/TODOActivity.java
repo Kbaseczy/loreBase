@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.ui.fragment.TodoFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -72,6 +73,8 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
             public void onPageScrollStateChanged(int state) {
 
             }
+
+
         });
 
         List<Fragment> list = new ArrayList<>();
@@ -90,7 +93,6 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
         };
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
-
     }
 
     //load the menu file
@@ -145,6 +147,7 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
         if (todoDoneFragment != null)
             todoDoneFragment = null;
     }
+
 }
 
 

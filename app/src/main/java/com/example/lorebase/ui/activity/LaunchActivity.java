@@ -14,6 +14,7 @@ import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.util.ActivityCollector;
+import com.example.lorebase.util.ToastUtil;
 
 public class LaunchActivity extends BaseActivity {
     LaunchActivity launchActivity;
@@ -67,7 +68,7 @@ public class LaunchActivity extends BaseActivity {
                 } else {
                     //否则进入主界面
                     intent.setClass(LaunchActivity.this, MainActivity.class);
-                    Toast.makeText(LaunchActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showShortToastCenter("Hello, LoreBase！",LaunchActivity.this);
                 }
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
