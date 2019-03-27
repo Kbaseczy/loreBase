@@ -30,7 +30,6 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  * 1发出请求request——>2得到响应response——>3解析数据——>4List容纳数据——>5适配器适配到recyclerView
  * <p>
- * todo 子RecyclerView 抢夺焦点问题。滑动完全交给NestScrollView 或者 父RecyclerView
  * ·android:focusableInTouchMode="true"
  * ·android:focusable="true"
  */

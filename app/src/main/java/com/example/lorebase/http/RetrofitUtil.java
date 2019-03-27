@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.lorebase.MyApplication;
+import com.example.lorebase.adapter.MyselfAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.BiYing;
 import com.example.lorebase.bean.TodoTodo;
@@ -32,7 +33,7 @@ public class RetrofitUtil {
             public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
                 if (response.body() != null) {
                     ToastUtil.showShortToastCenter(response.body().getErrorCode() == 0 ?
-                            "已删除" : response.body().getErrorMsg(),context);
+                            "已删除" : response.body().getErrorMsg(), context);
                 }
             }
 
@@ -50,7 +51,7 @@ public class RetrofitUtil {
             @Override
             public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
                 if (response.body() != null) {
-                    ToastUtil.showShortToastCenter(is_done ? "撤销成功" : "标记完成",context);
+                    ToastUtil.showShortToastCenter(is_done ? "撤销成功" : "标记完成", context);
                 }
             }
 
@@ -61,12 +62,12 @@ public class RetrofitUtil {
         });
     }
 
-    public static void collectArticle(Article.DataBean.DatasBean project, Context context,  RecyclerView.Adapter adapter) {
+    public static void collectArticle(Article.DataBean.DatasBean project, Context context, RecyclerView.Adapter adapter) {
         retrofit2.Call<Article> collectCall = api.collectArticle(project.getId());
         collectCall.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
-                ToastUtil.showShortToastCenter("已收藏",context);
+                ToastUtil.showShortToastCenter("已收藏", context);
                 project.setCollect(true);
                 adapter.notifyDataSetChanged();
             }
@@ -77,12 +78,14 @@ public class RetrofitUtil {
             }
         });
     }
+
+    //agentWeb
     public static void collectArticle(Article.DataBean.DatasBean project, Context context) {
         retrofit2.Call<Article> collectCall = api.collectArticle(project.getId());
         collectCall.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
-                ToastUtil.showShortToastCenter("已收藏",context);
+                ToastUtil.showShortToastCenter("已收藏", context);
             }
 
             @Override
@@ -91,18 +94,20 @@ public class RetrofitUtil {
             }
         });
     }
-    //收藏界面
-    public static void deleteArticle(Article.DataBean.DatasBean project, Context context,RecyclerView.Adapter adapter) {
+
+    //收藏界面 取消收藏
+    //网络请求，list删除item
+    public static void deleteArticle(int id, int position, Context context, MyselfAdapter adapter) {
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
-        retrofit2.Call<Article> articleCancellCall = api.deleteArticle(project.getId(), -1);
+        retrofit2.Call<Article> articleCancellCall = api.deleteArticle(id, -1);
         articleCancellCall.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
                 if (response.body() != null)
                     ToastUtil.showShortToastCenter(response.body().getErrorCode() == 0 ?
-                            "删除成功" : response.body().getErrorMsg(),context);
-                project.setCollect(false);
-                adapter.notifyDataSetChanged();
+                            "已取消收藏" : response.body().getErrorMsg(), context);
+                adapter.remove(position);
+
             }
 
             @Override
@@ -113,12 +118,12 @@ public class RetrofitUtil {
     }
 
     //普通列表界面
-    public static void unCollectArticle(Article.DataBean.DatasBean project, Context context,  RecyclerView.Adapter adapter) {
+    public static void unCollectArticle(Article.DataBean.DatasBean project, Context context, RecyclerView.Adapter adapter) {
         retrofit2.Call<Article> cancelArticleCall = api.cancellPageArticle(project.getId());
         cancelArticleCall.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
-                ToastUtil.showShortToastCenter("取消成功",context);
+                ToastUtil.showShortToastCenter("已取消收藏", context);
                 project.setCollect(false);
                 adapter.notifyDataSetChanged();
             }
@@ -129,12 +134,14 @@ public class RetrofitUtil {
             }
         });
     }
+
+    //agentWeb
     public static void unCollectArticle(Article.DataBean.DatasBean project, Context context) {
         retrofit2.Call<Article> cancelArticleCall = api.cancellPageArticle(project.getId());
         cancelArticleCall.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
-                ToastUtil.showShortToastCenter("取消成功",context);
+                ToastUtil.showShortToastCenter("取消成功", context);
             }
 
             @Override
@@ -143,6 +150,7 @@ public class RetrofitUtil {
             }
         });
     }
+
     //Context context, ImageView imageView
     public static void getBiYing(Context context, ImageView imageView) {
         Retrofit retrofit = new Retrofit.Builder()

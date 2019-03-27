@@ -41,6 +41,11 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public void remove(int position){
+        datasBeanList.remove(position);
+        notifyItemRemoved(position);
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,7 +59,6 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Article.DataBean.DatasBean my_collect = datasBeanList.get(position);
-
         holder.author.setText(my_collect.getAuthor());
         holder.date.setText(my_collect.getNiceDate());
         holder.title.setText(my_collect.getTitle());
@@ -78,7 +82,7 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
             mContext.startActivity(intent);
         });
 
-        holder.imageView.setOnClickListener(v -> RetrofitUtil.deleteArticle(my_collect, mContext, this));
+        holder.imageView.setOnClickListener(v -> RetrofitUtil.deleteArticle(my_collect.getId(),position, mContext, this));
     }
 
     @Override
