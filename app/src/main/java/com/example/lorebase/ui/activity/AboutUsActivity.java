@@ -1,7 +1,6 @@
 package com.example.lorebase.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -11,31 +10,29 @@ import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.contain_const.UrlContainer;
+import com.example.lorebase.util.ActivityCollector;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.widget.Toolbar;
 
 public class AboutUsActivity extends BaseActivity {
 
-    FloatingActionButton feed_back;
     Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
+        ActivityCollector.addActivtity(this);
         toolbar = findViewById(R.id.about_us_toolbar);
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar_about_us);
         collapsingToolbarLayout.setTitle(getString(R.string.nav_about));
         collapsingToolbarLayout.setCollapsedTitleTextColor(getColor(R.color.item_title));
-        collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
         toolbar.setNavigationOnClickListener(v -> {
             startActivity(new Intent(AboutUsActivity.this, MySettingActivity.class));
             overridePendingTransition(R.animator.go_in, R.animator.go_out);
             finish();
         });
-        feed_back = findViewById(R.id.about_us_feed_back);
     }
 
     public void onClickGithub(View view) {

@@ -28,6 +28,11 @@ public class BrowseHistoryAdapter extends RecyclerView.Adapter<BrowseHistoryAdap
         this.datasBeanList = datasBeanList;
     }
 
+    public void deletAll() {
+        datasBeanList.clear();
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

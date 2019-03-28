@@ -7,18 +7,17 @@
     android:orientation="horizontal">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinator_myself"
+        android:id="@+id/coordinator_share"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:focusableInTouchMode="true">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar_myself"
+                android:id="@+id/collapsing_toolbar_share"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
@@ -27,7 +26,7 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
-                    android:id="@+id/portrait_image_view"
+                    android:id="@+id/image_share"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
@@ -35,7 +34,7 @@
                     app:layout_collapseMode="parallax" />
 
                 <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar_myself"
+                    android:id="@+id/toolbar_share"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
@@ -45,30 +44,22 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.ajguan.library.EasyRefreshLayout
-            android:id="@+id/easy_refresh_myself"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nest_share"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/my_collect_list"
+                android:id="@+id/share_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/lore_list_item" />
-        </com.ajguan.library.EasyRefreshLayout>
+                tools:listitem="@layout/item_share" />
+        </androidx.core.widget.NestedScrollView>
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_myself_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:src="@drawable/icon_comment"
-            app:layout_anchor="@id/appBar"
-            app:layout_anchorGravity="bottom|end" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_myself_top"
+            android:id="@+id/fab_share_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"

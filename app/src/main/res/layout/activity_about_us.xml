@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--标题栏-->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar_about_us"
         android:layout_width="match_parent"
@@ -17,9 +16,10 @@
             android:id="@+id/collapsing_toolbar_about_us"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/viewBackground"
             android:fitsSystemWindows="true"
             android:theme="@style/AppTheme"
-            app:contentScrim="?attr/colorAccent"
+            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView

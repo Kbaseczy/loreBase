@@ -63,7 +63,6 @@ public class BrowseHistoryActivity extends BaseActivity {
 
         browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
         browseHistoryList = browseHistoryDao.queryBuilder().list();
-        L.v("browseHistoryListmmm",browseHistoryList.size() +" size");
         emptyFragment = new EmptyFragment();
         initView();
         mapView = findViewById(R.id.bMap_view);
@@ -102,7 +101,6 @@ public class BrowseHistoryActivity extends BaseActivity {
         BrowseHistoryAdapter adapter = new BrowseHistoryAdapter(browseHistoryList);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-//        recyclerView.addItemDecoration(new DividerItemGridDecoration(this));
         fab_delete.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.tip)
@@ -110,14 +108,11 @@ public class BrowseHistoryActivity extends BaseActivity {
                     .setMessage(R.string.tip_content_clear_history)
                     .setPositiveButton(R.string.ok, (dialog, which) -> {
                         browseHistoryDao.deleteAll();
-                        if (browseHistoryList != null) {
-                            browseHistoryList.clear();
-                        }
                         fab_delete.setVisibility(View.INVISIBLE);
                         fab_top.setVisibility(View.INVISIBLE);
                         baiduMap.clear();  //清除覆盖物
                         mapView.setVisibility(View.GONE);
-                        adapter.notifyDataSetChanged();
+                        adapter.deletAll();
                     }); //清空数据库
             builder.create().show(); //遗漏
         });

@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.lorebase">
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -32,6 +31,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
+        <activity android:name=".ui.activity.ShareActivity"></activity>
+
         <receiver
             android:name=".MapReceiver"
             android:enabled="true"
@@ -44,8 +45,7 @@
         <service
             android:name=".MapService"
             android:enabled="true"
-            android:exported="false">
-        </service>
+            android:exported="false"></service>
 
         <activity android:name=".ui.activity.TodoEditActivity" />
         <activity android:name=".ui.activity.TodoAddActivity" />
@@ -62,8 +62,7 @@
             android:name=".AlarmService"
             android:enabled="true"
             android:exported="false"
-            android:process=":alarmService"/>
-        <!-- 百度map -->
+            android:process=":alarmService" /> <!-- 百度map -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="fwmKq0piTw8DWbalGCPafYQvhwZnaY8T" />

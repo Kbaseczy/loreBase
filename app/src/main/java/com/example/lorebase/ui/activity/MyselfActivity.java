@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.bumptech.glide.Glide;
@@ -41,6 +40,7 @@ public class MyselfActivity extends BaseActivity {
     private MyselfAdapter adapter;
     FloatingActionButton fab_note;
     FloatingActionButton fab_top;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,13 +112,13 @@ public class MyselfActivity extends BaseActivity {
         collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
         Glide.with(this).load(R.drawable.image_store).into(portrait);
         fab_note.setOnClickListener(view -> {
-            startActivity(new Intent(this,TODOActivity.class));
+            startActivity(new Intent(this, TODOActivity.class));
             overridePendingTransition(R.animator.go_in, R.animator.go_out);
         });
     }
 
     private void initRecycler() {
-         fab_top = findViewById(R.id.fab_myself_top);
+        fab_top = findViewById(R.id.fab_myself_top);
         GridLayoutManager manager = new GridLayoutManager(this, 1);
         adapter = new MyselfAdapter(this, datasBeanList);
         RecyclerView recyclerView = findViewById(R.id.my_collect_list);
