@@ -127,6 +127,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(retrofit2.Call<News> call, Response<News> response) {
                 if (response.body() != null) {
                     beanList_news = response.body().getData();
+                    getArticle();
                 }
             }
 
