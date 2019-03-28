@@ -20,7 +20,9 @@ import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PreferencesUtil;
+import com.example.lorebase.util.TimeUtils;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -68,7 +70,9 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v(Latitude + " \n" + Longitude + "WeChatArticleAdapter aaa");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                        null, we_chat_article.getTitle(), we_chat_article.getLink(), we_chat_article.getNiceDate(), we_chat_article.isCollect()
+                        null, we_chat_article.getTitle(), we_chat_article.getLink(),
+                        TimeUtils.date2String(new Date(System.currentTimeMillis()))
+                        , we_chat_article.isCollect()
                         , Latitude, Longitude,false));
             });
 

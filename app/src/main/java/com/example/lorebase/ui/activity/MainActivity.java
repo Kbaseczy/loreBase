@@ -30,12 +30,14 @@ import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PreferencesUtil;
+import com.example.lorebase.util.TimeUtils;
 import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -238,7 +240,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         //如果是登陸狀態(麽有點擊事件),文本設爲"用戶名".如果是未登錄狀態(有點擊事件),文本設爲"login".
         if (isLogin) {
             login_username.setText(get_username);
-            //不进行跳转，貌似解决了登录状态用户名可点击
             login_username.setClickable(false);
         } else {
             login_username.setText(R.string.login);
@@ -252,6 +253,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         switch (menuItem.getItemId()) {
             case R.id.action_home:
                 viewPager.setCurrentItem(0);
+                L.v("Timethis", TimeUtils.date2String(new Date(System.currentTimeMillis()))+"  time1");
                 break;
             case R.id.action_lore_tree:
                 viewPager.setCurrentItem(1);
@@ -264,7 +266,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             case R.id.action_we_chat:
                 viewPager.setCurrentItem(3);
                 fab.setOnClickListener(v ->
-                        WeChatArticleFragment.nestedScrollView.post(() -> WeChatArticleFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
+                        WeChatArticleFragment.nestedScrollView.post(()
+                                -> WeChatArticleFragment.nestedScrollView.fullScroll(View.FOCUS_UP)));
                 break;
 
             //TODO 侧滑栏navigationView 监听

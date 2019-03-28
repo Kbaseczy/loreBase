@@ -190,7 +190,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         L.v("mapHomeList", Latitude + " \n" + Longitude + "  有没有啊");
                         MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                                 null, banner.getTitle(), banner.getUrl(),
-                                TimeUtils.string2Millis(String.valueOf(new Date(System.currentTimeMillis())))+"",
+                                TimeUtils.date2String(new Date(System.currentTimeMillis())),
                                 false, Latitude, Longitude,true));
                     });
                     Intent web_intent = new Intent(context, AgentWebActivity.class);
@@ -231,7 +231,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     L.v("mapHomeList", Latitude + " \n" + Longitude + "  有没有啊");
                     MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                             null, t.getName(), t.getLink(),
-                            TimeUtils.string2Millis(String.valueOf(new Date(System.currentTimeMillis())))+"",
+                            TimeUtils.date2String(new Date(System.currentTimeMillis())),
                             false, Latitude, Longitude,true));
                 });
                 Intent intent = new Intent(context, AgentWebActivity.class);

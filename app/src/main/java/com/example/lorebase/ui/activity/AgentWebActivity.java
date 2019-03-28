@@ -67,13 +67,13 @@ public class AgentWebActivity extends BaseActivity {
                 title = TagFilter.delHTMLTag(article.getTitle());
                 article_id = article.getId();
                 is_collect = article.isCollect();
-                isCollect = is_collect;
                 author = article.getAuthor();
                 url = article.getLink();
             }
         } else {
             title = getIntent().getStringExtra(ConstName.TITLE);
             url = String.valueOf(getIntent().getData());
+            is_collect = getIntent().getBooleanExtra(ConstName.IS_COLLECT,false);
         }
         flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY, 0);//獲取標志位-由哪個activity（界面）進入的
         initView();

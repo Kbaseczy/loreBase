@@ -21,7 +21,9 @@ import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PreferencesUtil;
 import com.example.lorebase.util.TagFilter;
+import com.example.lorebase.util.TimeUtils;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -70,8 +72,9 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                        null, filterTitle, search.getLink(), search.getNiceDate(), search.isCollect()
-                        , Latitude, Longitude,false));
+                        null, filterTitle, search.getLink(),
+                        TimeUtils.date2String(new Date(System.currentTimeMillis()))
+                        , search.isCollect(), Latitude, Longitude,false));
             });
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             Bundle bundle = new Bundle();

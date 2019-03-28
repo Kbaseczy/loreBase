@@ -116,6 +116,7 @@ public class BrowseHistoryActivity extends BaseActivity {
                         fab_delete.setVisibility(View.INVISIBLE);
                         fab_top.setVisibility(View.INVISIBLE);
                         baiduMap.clear();  //清除覆盖物
+                        mapView.setVisibility(View.GONE);
                         adapter.notifyDataSetChanged();
                     }); //清空数据库
             builder.create().show(); //遗漏

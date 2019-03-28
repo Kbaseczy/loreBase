@@ -21,7 +21,9 @@ import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PreferencesUtil;
+import com.example.lorebase.util.TimeUtils;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -71,8 +73,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                        null, project.getTitle(), project.getLink(), project.getNiceDate(), project.isCollect()
-                        , Latitude, Longitude,false));
+                        null, project.getTitle(), project.getLink(),
+                        TimeUtils.date2String(new Date(System.currentTimeMillis()))
+                        , project.isCollect(), Latitude, Longitude,false));
             });
 
             Intent intent = new Intent(mContext, AgentWebActivity.class);

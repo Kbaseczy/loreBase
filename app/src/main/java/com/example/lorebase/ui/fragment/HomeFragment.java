@@ -15,8 +15,11 @@ import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.Banner;
 import com.example.lorebase.bean.News;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.util.L;
+import com.example.lorebase.util.TimeUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -55,6 +58,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, null);
         getBanner();
+
         return view;
     }
 

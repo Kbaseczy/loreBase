@@ -18,7 +18,9 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.TimeUtils;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -71,7 +73,8 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
                 L.v(Latitude + " \n" + Longitude + "  有没有啊MyselfAdapter");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, my_collect.getTitle(), my_collect.getLink()
-                        , my_collect.getNiceDate(), my_collect.isCollect(), Latitude, Longitude,false));
+                        , TimeUtils.date2String(new Date(System.currentTimeMillis()))
+                        , my_collect.isCollect(), Latitude, Longitude,false));
             });
 
             Intent intent = new Intent(mContext, AgentWebActivity.class);

@@ -21,7 +21,9 @@ import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.LoginActivity;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PreferencesUtil;
+import com.example.lorebase.util.TimeUtils;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -76,7 +78,9 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v("mapHomeList", Latitude + " \n" + Longitude + "  有没有啊");
                 browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(),
-                        article.getLink(), article.getNiceDate(), article.isCollect(), Latitude, Longitude,false));
+                        article.getLink(),
+                        TimeUtils.date2String(new Date(System.currentTimeMillis())),
+                        article.isCollect(), Latitude, Longitude,false));
             });
 
             L.v("mapHomeList", "  点击比较" + latitude + "\t" + longitude);

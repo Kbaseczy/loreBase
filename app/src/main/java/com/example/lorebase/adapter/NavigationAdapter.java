@@ -17,10 +17,12 @@ import com.example.lorebase.bean.NavigateSite;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.TimeUtils;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -100,7 +102,9 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                 MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                     L.v(Latitude + " \n" + Longitude + "  有没有啊");
                     MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                            null, tag_navi, tag_link, tag_date,false,Latitude,Longitude,true));
+                            null, tag_navi, tag_link,
+                            TimeUtils.date2String(new Date(System.currentTimeMillis()))
+                            ,false,Latitude,Longitude,true));
                 });
 
                 Intent intent = new Intent();
