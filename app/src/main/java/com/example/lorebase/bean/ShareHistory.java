@@ -19,14 +19,17 @@ public class ShareHistory {
     String date;
     private
     String shareMan;
-    @Generated(hash = 1102481411)
+    private
+    boolean is_out;
+    @Generated(hash = 759407522)
     public ShareHistory(Long id_share, String title, String link, String date,
-            String shareMan) {
+            String shareMan, boolean is_out) {
         this.id_share = id_share;
         this.title = title;
         this.link = link;
         this.date = date;
         this.shareMan = shareMan;
+        this.is_out = is_out;
     }
     @Generated(hash = 1939105911)
     public ShareHistory() {
@@ -60,5 +63,11 @@ public class ShareHistory {
     }
     public void setShareMan(String shareMan) {
         this.shareMan = shareMan;
+    }
+    public boolean getIs_out() {
+        return this.is_out;
+    }
+    public void setIs_out(boolean is_out) {
+        this.is_out = is_out;
     }
 }

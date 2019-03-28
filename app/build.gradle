@@ -100,7 +100,7 @@ buildscript {
 apply plugin: 'org.greenrobot.greendao'
 
 greendao {
-    schemaVersion 8//数据库版本号 数据库表更改时- > 更改版本号
+    schemaVersion 10//数据库版本号 数据库表更改时- > 更改版本号
     daoPackage 'com.example.lorebase.greenDao'//设置DaoMaster、DaoSession、Dao包名
     targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
     //targetGenDirTest：设置生成单元测试目录

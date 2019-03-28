@@ -16,6 +16,7 @@ import com.example.lorebase.adapter.ShareAdapter;
 import com.example.lorebase.bean.ShareHistory;
 import com.example.lorebase.greenDao.ShareHistoryDao;
 import com.example.lorebase.util.ActivityCollector;
+import com.example.lorebase.util.EmptyUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -46,13 +47,15 @@ public class ShareActivity extends BaseActivity {
         if (shareHistoryList.size() != 0) {
             initRecycler();
         } else {
+            EmptyUtil.goEmpty(getSupportFragmentManager(),R.id.coordinator_share);
             fab.setVisibility(View.GONE);
+
         }
     }
 
     private void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar_share);
-        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar_myself);
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar_share);
         ImageView portrait = findViewById(R.id.image_share);
 
         nest = findViewById(R.id.nest_share);
@@ -62,17 +65,17 @@ public class ShareActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        collapsingToolbarLayout.setTitle("我的收藏");
+        collapsingToolbarLayout.setTitle("我的分享");
         collapsingToolbarLayout.setCollapsedTitleTextColor(getColor(R.color.item_title));
         collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
-        Glide.with(this).load(R.drawable.image_store).into(portrait);
+        Glide.with(this).load(R.drawable.ic_action_share).into(portrait);
 
     }
 
     private void initRecycler() {
         RecyclerView recyclerView = findViewById(R.id.share_list);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        ShareAdapter adapter = new ShareAdapter();
+        ShareAdapter adapter = new ShareAdapter(this);
         adapter.setShareHistoryList(shareHistoryList);
         recyclerView.setAdapter(adapter);
         fab.setOnClickListener(view -> nest.post(() -> nest.fullScroll(View.FOCUS_UP)));

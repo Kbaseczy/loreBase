@@ -73,7 +73,6 @@ public class AgentWebActivity extends BaseActivity {
         } else {
             title = getIntent().getStringExtra(ConstName.TITLE);
             url = String.valueOf(getIntent().getData());
-            is_collect = getIntent().getBooleanExtra(ConstName.IS_COLLECT,false);
         }
         flag_activity = getIntent().getIntExtra(ConstName.ACTIVITY, 0);//獲取標志位-由哪個activity（界面）進入的
         initView();
@@ -185,9 +184,9 @@ public class AgentWebActivity extends BaseActivity {
             case R.id.web_share:
                 MyApplication.getDaoSession().getShareHistoryDao().insertOrReplace(
                         new ShareHistory(null,title,url,
-                                TimeUtils.string2Millis(String.valueOf(new Date(System.currentTimeMillis()))) +"",
+                                TimeUtils.date2String(new Date(System.currentTimeMillis())),
                                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                                .getString("username", "")));
+                                .getString("username", ""),is_out));
                 Intent intent_share = new Intent();
                 intent_share.setAction(Intent.ACTION_SEND);
                 intent_share.setType("text/plain");

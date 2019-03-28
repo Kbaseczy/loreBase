@@ -29,6 +29,8 @@ public class ShareHistoryDao extends AbstractDao<ShareHistory, Long> {
         public final static Property Link = new Property(2, String.class, "link", false, "LINK");
         public final static Property Date = new Property(3, String.class, "date", false, "DATE");
         public final static Property ShareMan = new Property(4, String.class, "shareMan", false, "SHARE_MAN");
+        public final static Property Is_collect = new Property(5, boolean.class, "is_collect", false, "IS_COLLECT");
+        public final static Property Is_out = new Property(6, boolean.class, "is_out", false, "IS_OUT");
     }
 
 
@@ -48,7 +50,9 @@ public class ShareHistoryDao extends AbstractDao<ShareHistory, Long> {
                 "\"TITLE\" TEXT UNIQUE ," + // 1: title
                 "\"LINK\" TEXT," + // 2: link
                 "\"DATE\" TEXT," + // 3: date
-                "\"SHARE_MAN\" TEXT);"); // 4: shareMan
+                "\"SHARE_MAN\" TEXT," + // 4: shareMan
+                "\"IS_COLLECT\" INTEGER NOT NULL ," + // 5: is_collect
+                "\"IS_OUT\" INTEGER NOT NULL );"); // 6: is_out
     }
 
     /** Drops the underlying database table. */
@@ -85,6 +89,8 @@ public class ShareHistoryDao extends AbstractDao<ShareHistory, Long> {
         if (shareMan != null) {
             stmt.bindString(5, shareMan);
         }
+        stmt.bindLong(6, entity.getIs_collect() ? 1L: 0L);
+        stmt.bindLong(7, entity.getIs_out() ? 1L: 0L);
     }
 
     @Override
@@ -115,6 +121,8 @@ public class ShareHistoryDao extends AbstractDao<ShareHistory, Long> {
         if (shareMan != null) {
             stmt.bindString(5, shareMan);
         }
+        stmt.bindLong(6, entity.getIs_collect() ? 1L: 0L);
+        stmt.bindLong(7, entity.getIs_out() ? 1L: 0L);
     }
 
     @Override
@@ -129,7 +137,9 @@ public class ShareHistoryDao extends AbstractDao<ShareHistory, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // title
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // link
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // date
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // shareMan
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // shareMan
+            cursor.getShort(offset + 5) != 0, // is_collect
+            cursor.getShort(offset + 6) != 0 // is_out
         );
         return entity;
     }
@@ -141,6 +151,8 @@ public class ShareHistoryDao extends AbstractDao<ShareHistory, Long> {
         entity.setLink(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setDate(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setShareMan(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setIs_collect(cursor.getShort(offset + 5) != 0);
+        entity.setIs_out(cursor.getShort(offset + 6) != 0);
      }
     
     @Override

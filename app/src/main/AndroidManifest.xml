@@ -31,7 +31,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.ShareActivity"></activity>
+        <activity
+            android:name=".ui.activity.ShareActivity"
+            android:launchMode="singleTask"
+            android:hardwareAccelerated="true"/>
 
         <receiver
             android:name=".MapReceiver"
@@ -45,10 +48,14 @@
         <service
             android:name=".MapService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
 
-        <activity android:name=".ui.activity.TodoEditActivity" />
-        <activity android:name=".ui.activity.TodoAddActivity" />
+        <activity
+            android:name=".ui.activity.TodoEditActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activity.TodoAddActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.MySettingActivity"
             android:parentActivityName=".ui.activity.MainActivity"

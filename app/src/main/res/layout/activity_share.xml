@@ -57,7 +57,6 @@
                 tools:listitem="@layout/item_share" />
         </androidx.core.widget.NestedScrollView>
 
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_share_top"
             android:layout_width="wrap_content"
