@@ -20,15 +20,18 @@ public class ShareHistory {
     private
     String shareMan;
     private
+    boolean is_collect;
+    private
     boolean is_out;
     @Generated(hash = 759407522)
     public ShareHistory(Long id_share, String title, String link, String date,
-            String shareMan, boolean is_out) {
+            String shareMan, boolean is_collect, boolean is_out) {
         this.id_share = id_share;
         this.title = title;
         this.link = link;
         this.date = date;
         this.shareMan = shareMan;
+        this.is_collect = is_collect;
         this.is_out = is_out;
     }
     @Generated(hash = 1939105911)
@@ -63,6 +66,12 @@ public class ShareHistory {
     }
     public void setShareMan(String shareMan) {
         this.shareMan = shareMan;
+    }
+    public boolean getIs_collect() {
+        return this.is_collect;
+    }
+    public void setIs_collect(boolean is_collect) {
+        this.is_collect = is_collect;
     }
     public boolean getIs_out() {
         return this.is_out;

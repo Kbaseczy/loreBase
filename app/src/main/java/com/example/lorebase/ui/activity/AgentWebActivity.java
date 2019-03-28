@@ -186,7 +186,8 @@ public class AgentWebActivity extends BaseActivity {
                         new ShareHistory(null,title,url,
                                 TimeUtils.date2String(new Date(System.currentTimeMillis())),
                                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                                .getString("username", ""),is_out));
+                                        //这里收藏传的false，由于站内站外的差异，统一在分享系界面设为false
+                                .getString("username", ""),false,is_out));
                 Intent intent_share = new Intent();
                 intent_share.setAction(Intent.ACTION_SEND);
                 intent_share.setType("text/plain");
