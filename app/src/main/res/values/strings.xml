@@ -31,6 +31,7 @@
 
     <!-- navMenu-->
     <string name="nav_my_collect">收藏</string>
+    <string name="nav_my_share">分享</string>
     <string name="nav_my_uncollect">取消收藏</string>
     <string name="nav_todo">待办</string>
     <string name="nav_browser">浏览历史</string>

@@ -9,6 +9,10 @@
             android:title="@string/nav_my_collect" />
 
         <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_action_share"
+            android:title="@string/nav_my_share" />
+        <item
             android:id="@+id/nav_todo"
             android:icon="@drawable/ic_todo_default_24dp"
             android:title="@string/nav_todo" />

@@ -1,6 +1,7 @@
 package com.example.lorebase.ui.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -273,6 +274,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             //TODO 侧滑栏navigationView 监听
             case R.id.nav_collect:
                 startActivity(new Intent(MainActivity.this, MyselfActivity.class));
+                overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                break;
+            case R.id.nav_share:
+                startActivity(new Intent(MainActivity.this, ShareActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
                 break;
             case R.id.nav_todo:
