@@ -42,8 +42,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     CheckBox autoLogin;
 
     int backActivityFlag;
-    int backFragmentFlag;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         ActivityCollector.addActivtity(this);
 
         backActivityFlag = getIntent().getIntExtra(ConstName.ACTIVITY, 1);// main / searchList / Lore
-        backFragmentFlag = getIntent().getIntExtra(ConstName.FRAGMENT, 1); //main 下的fragment
         initView();
     }
 

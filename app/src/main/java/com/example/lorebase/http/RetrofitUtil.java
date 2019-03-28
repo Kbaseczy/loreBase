@@ -12,9 +12,9 @@ import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.BiYing;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.ui.fragment.TodoFragment;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
+import com.example.lorebase.util.TotoDataInterface;
 
 import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.OkHttpClient;
@@ -26,6 +26,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitUtil {
     private static RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
+
+    public static void setTotoDataInterface(TotoDataInterface totoDataInterface) {
+        RetrofitUtil.totoDataInterface = totoDataInterface;
+    }
+
+    private static TotoDataInterface totoDataInterface;
 
     public static void todoDelete(int id, int position, Context context, TodoAdapter adapter) {
         RetrofitApi api = MyApplication.retrofit.create(RetrofitApi.class);
@@ -57,6 +63,9 @@ public class RetrofitUtil {
                     ToastUtil.showShortToastCenter(is_done ? "撤销成功" : "标记完成", context);
                     datasBean.setStatus(is_done ? 0 : 1);
                     adapter.removeItem(position);
+
+                    if (totoDataInterface != null)
+                        totoDataInterface.transferDataBean(datasBean, is_done);
                 }
             }
 

@@ -46,8 +46,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     }
 
     public void addItem(TodoTodo.DataBean.DatasBean datasBean) {
-        list_todo.add(1,datasBean);
-        notifyItemInserted(list_todo.size());
+        list_todo.add(datasBean);
+        notifyItemInserted(0);
     }
 
     @NonNull
@@ -70,6 +70,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         {
             RetrofitUtil.todoComplete(datasBean, position, mContext, is_done, this);
             datasBean.setStatus(is_done ? 0 : 1);
+            notifyDataSetChanged();
         });
 
         holder.action_delete.setOnClickListener(v -> {

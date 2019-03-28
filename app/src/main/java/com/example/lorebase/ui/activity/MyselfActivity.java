@@ -111,8 +111,10 @@ public class MyselfActivity extends BaseActivity {
         collapsingToolbarLayout.setCollapsedTitleTextColor(getColor(R.color.item_title));
         collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
         Glide.with(this).load(R.drawable.image_store).into(portrait);
-        fab_note.setOnClickListener(view -> Toast.makeText(this, "别点我", Toast.LENGTH_SHORT).show());
-
+        fab_note.setOnClickListener(view -> {
+            startActivity(new Intent(this,TODOActivity.class));
+            overridePendingTransition(R.animator.go_in, R.animator.go_out);
+        });
     }
 
     private void initRecycler() {

@@ -30,7 +30,6 @@
             app:elevation="@dimen/dp_16"
             app:itemIconTint="@drawable/nav_item_color_state"
             app:itemTextColor="@drawable/nav_item_color_state"
-            app:layout_behavior="@string/bye_burger_bottom_behavior"
             app:menu="@menu/bottom_navigation_todo" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

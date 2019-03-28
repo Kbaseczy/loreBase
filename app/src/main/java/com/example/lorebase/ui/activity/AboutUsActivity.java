@@ -43,6 +43,7 @@ public class AboutUsActivity extends BaseActivity {
         intent.setClass(AboutUsActivity.this, AgentWebActivity.class);
         intent.setData(Uri.parse(UrlContainer.GITHUB));
         intent.putExtra(ConstName.TITLE, R.string.githb);
+        intent.putExtra(ConstName.IS_OUT, true);
         intent.putExtra(ConstName.ACTIVITY, ConstName.activity.ABOUT_US);
         startActivity(intent);
     }
@@ -52,6 +53,7 @@ public class AboutUsActivity extends BaseActivity {
         data.setData(Uri.parse("mailto:folio96@163.com"));
         data.putExtra(Intent.EXTRA_SUBJECT, "在此处输入主题（该部分可删除）");
         data.putExtra(Intent.EXTRA_TEXT, "在此处输入正文（该部分可删除）：");
+        data = Intent.createChooser(data,"请选择发送方式");
         startActivity(data);
     }
 
@@ -60,6 +62,7 @@ public class AboutUsActivity extends BaseActivity {
         intent.setClass(AboutUsActivity.this, AgentWebActivity.class);
         intent.setData(Uri.parse(UrlContainer.FEED_BACK));
         intent.putExtra(ConstName.TITLE, R.string.feed_back);
+        intent.putExtra(ConstName.IS_OUT, true);
         intent.putExtra(ConstName.ACTIVITY, ConstName.activity.ABOUT_US);
         startActivity(intent);
     }

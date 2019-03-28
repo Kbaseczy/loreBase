@@ -13,7 +13,7 @@ public class ConstName {
     public static final String IS_REMEMBER = "isRemember";
     public static final String IS_AUTO_LOGIN = "isAutoLogin";
 
-    public static final String LORE_BASE = "share from LoreBase";
+    public static final String LORE_BASE = "LoreBase分享";
 
     //LoreTree
     public static final String CHAPTER_NAME = "chapterName";

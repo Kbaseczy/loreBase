@@ -146,6 +146,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationView.setItemIconTintList(null);
         bottomNavigationView.setLayoutMode(BottomNavigationView.MEASURED_HEIGHT_STATE_SHIFT); //可在配置在布局文件中
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
@@ -239,7 +240,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             login_username.setText(get_username);
             //不进行跳转，貌似解决了登录状态用户名可点击
             login_username.setClickable(false);
-//            login_username.setOnClickListener(v -> new Intent(MainActivity.this, MyselfActivity.class));
         } else {
             login_username.setText(R.string.login);
             login_username.setOnClickListener(v ->

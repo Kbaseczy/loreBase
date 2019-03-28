@@ -3,6 +3,7 @@ package com.example.lorebase.ui.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,16 +14,22 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.example.lorebase.BaseActivity;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;
+import com.example.lorebase.bean.ShareHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.fragment.ProjectFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.PreferencesUtil;
 import com.example.lorebase.util.TagFilter;
+import com.example.lorebase.util.TimeUtils;
 import com.example.lorebase.util.ToastUtil;
 import com.just.agentweb.AgentWeb;
+
+import java.lang.reflect.Method;
+import java.util.Date;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -52,6 +59,7 @@ public class AgentWebActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent_web);
         ActivityCollector.addActivtity(this);
+
         is_out = getIntent().getBooleanExtra(ConstName.IS_OUT, false);
         article = (Article.DataBean.DatasBean) getIntent().getSerializableExtra(ConstName.OBJ);
         if (!is_out) {
@@ -59,6 +67,7 @@ public class AgentWebActivity extends BaseActivity {
                 title = TagFilter.delHTMLTag(article.getTitle());
                 article_id = article.getId();
                 is_collect = article.isCollect();
+                isCollect = is_collect;
                 author = article.getAuthor();
                 url = article.getLink();
             }
@@ -125,12 +134,31 @@ public class AgentWebActivity extends BaseActivity {
         } else {
             menuItem.setVisible(true);
 
-            if (is_collect)
+            if (is_collect) {
                 menuItem.setTitle(R.string.nav_my_uncollect);
-            else
+                menuItem.setIcon(R.drawable.ic_like_not);
+            } else {
                 menuItem.setTitle(R.string.nav_my_collect);
+                menuItem.setIcon(R.drawable.ic_like);
+            }
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if (menu != null) {
+            if (menu.getClass().getSimpleName().equalsIgnoreCase("MenuBuilder")) {
+                try {
+                    Method method = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    method.setAccessible(true);
+                    method.invoke(menu, true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
     }
 
     @Override
@@ -140,7 +168,6 @@ public class AgentWebActivity extends BaseActivity {
             case R.id.web_collect:
                 if (PreferencesUtil.getIsLogin(this)) {
                     //收藏接口  ,  根据isCollect(默认是false),false则调用收藏，true则调用取消收藏
-
                     if (!is_collect) {
                         RetrofitUtil.collectArticle(article, this);
                         isCollect = true;
@@ -156,20 +183,24 @@ public class AgentWebActivity extends BaseActivity {
                 break;
 
             case R.id.web_share:
+                MyApplication.getDaoSession().getShareHistoryDao().insertOrReplace(
+                        new ShareHistory(null,title,url,
+                                TimeUtils.string2Millis(String.valueOf(new Date(System.currentTimeMillis()))) +"",
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                                .getString("username", "")));
                 Intent intent_share = new Intent();
                 intent_share.setAction(Intent.ACTION_SEND);
                 intent_share.setType("text/plain");
-//                    intent_share.putExtra(Intent.EXTRA_SUBJECT,ConstName.LORE_BASE+":"
-//                            +getIntent().getStringExtra("title"));
-                intent_share.putExtra(Intent.EXTRA_TEXT, title + ":" + String.valueOf(getIntent().getData()));
+                intent_share.putExtra(Intent.EXTRA_SUBJECT, ConstName.LORE_BASE );
+                intent_share.putExtra(Intent.EXTRA_TEXT, title + ":" + String.valueOf(url));
+                intent_share = Intent.createChooser(intent_share,"请选择分享路径");
                 startActivity(intent_share);
                 break;
 
             case R.id.web_browser:
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                Uri uri = Uri.parse(String.valueOf(getIntent().getData()));
-                intent.setData(uri);
-                startActivity(intent);
+                intent.setData(Uri.parse(url));
+                startActivity(Intent.createChooser(intent, "请选择浏览器"));
                 break;
             //toolbar 菜单键
             case android.R.id.home:

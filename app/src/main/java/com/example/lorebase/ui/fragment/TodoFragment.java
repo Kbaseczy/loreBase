@@ -14,7 +14,9 @@ import com.example.lorebase.adapter.TodoAdapter;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.TotoDataInterface;
 
 import java.util.List;
 
@@ -138,6 +140,11 @@ public class TodoFragment extends Fragment {
     @Override
     public void onResume() {
         L.v(is_done ? "true-onResume" : "false-onResume");
+        RetrofitUtil.setTotoDataInterface((datasBean, isCurrent) -> {
+            if (isCurrent == is_done) {
+                todoAdapter.addItem(datasBean);
+            }
+        });
         super.onResume();
     }
 
