@@ -9,7 +9,9 @@ import com.baidu.aip.asrwakeup3.core.recog.listener.MessageStatusRecogListener;
 import com.baidu.aip.asrwakeup3.core.util.MyLogger;
 import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
 import com.baidu.voicerecognition.android.ui.DigitalDialogInput;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
+import com.example.lorebase.bean.SearchHistory;
 import com.example.lorebase.ui.activity.SearchListActivity;
 
 import java.util.ArrayList;
@@ -81,6 +83,7 @@ public class ActivityUiDialog extends ActivityAbstractRecog {
                 if (results != null && results.size() > 0) {
                     message += results.get(0);
                 }
+                MyApplication.getDaoSession().getSearchHistoryDao().insertOrReplace(new SearchHistory(null, message));//加入搜索历史
                 SearchListActivity.actionStart(this, message);  //跳转搜索结果页面
             } else {
                 message += "没有结果";

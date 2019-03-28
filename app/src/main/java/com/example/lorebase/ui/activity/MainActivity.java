@@ -70,6 +70,27 @@ import retrofit2.Response;
       todo viewPager.setCurrentItem(position) 解决了底部导航图标状态不变化
       todo change: Fragment容器由 container 换为 viewPager ，因此之前报错不能改变片段容器的ID，即是container与viewPager冲突了
                                                                     -> 将container 在布局文件中去掉即可
+
+                               _ooOoo_
+ *                            o8888888o
+ *                            88" . "88
+ *                            (| -_- |)
+ *                            O\  =  /O
+ *                         ____/`---'\____
+ *                       .'  \\|     |//  `.
+ *                      /  \\|||  :  |||//  \
+ *                     /  _||||| -:- |||||-  \
+ *                     |   | \\\  -  /// |   |
+ *                     | \_|  ''\---/''  |   |
+ *                     \  .-\__  `-`  ___/-. /
+ *                   ___`. .'  /--.--\  `. . __
+ *                ."" '<  `.___\_<|>_/___.'  >'"".
+ *               | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+ *               \  \ `-.   \_ __\ /__ _/   .-` /  /
+ *          ======`-.____`-.___\_____/___.-`____.-'======
+ *                             `=---='
+ *          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ *                     佛祖保佑        永无BUG
  */
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener
         , NavigationView.OnNavigationItemSelectedListener {

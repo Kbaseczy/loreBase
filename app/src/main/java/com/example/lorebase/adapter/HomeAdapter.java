@@ -41,7 +41,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.context = context;
     }
 
-    public void addList(List<Banner.DataBean> banner_t, List<News.DataBean> beanList_news,
+    public void setList(List<Banner.DataBean> banner_t, List<News.DataBean> beanList_news,
                         List<Article.DataBean.DatasBean> beanList_article) {
         this.banner_t = banner_t;
         this.beanList_news = beanList_news;
@@ -53,18 +53,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void setBeanList_article(List<Article.DataBean.DatasBean> beanList_article) {
-        this.beanList_article.addAll(beanList_article);
-        notifyDataSetChanged();
-    }
-
-    public void remove(int position) {
-        this.banner_t.remove(position);
-        notifyDataSetChanged();
-    }
-
-    public void clear() {
-        this.banner_t.clear();
+    public void addBanner(List<Banner.DataBean> banner_t) {
+        this.banner_t.addAll(banner_t);
         notifyDataSetChanged();
     }
 

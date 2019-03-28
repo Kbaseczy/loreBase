@@ -54,24 +54,12 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, null);
-        getBanner();
         return view;
     }
 
     @Override
     public void onResume() {
-        easyRefreshLayout = view.findViewById(R.id.easy_refresh_home);
-        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
-            @Override
-            public void onLoadMore() {
-                getDataList();
-            }
-
-            @Override
-            public void onRefreshing() {
-                getDataList();
-            }
-        });
+        getBanner();
         super.onResume();
     }
 
@@ -80,10 +68,21 @@ public class HomeFragment extends Fragment {
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         adapter = new HomeAdapter(getActivity());
-        adapter.addList(banner_t, beanList_news, beanList_article);
+        adapter.setList(banner_t, beanList_news, beanList_article);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-        recyclerView.setBackgroundColor(Color.WHITE);
+        easyRefreshLayout = view.findViewById(R.id.easy_refresh_home);
+        easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+//                getDataList();
+            }
+
+            @Override
+            public void onRefreshing() {
+                getDataList();
+            }
+        });
     }
 
     private void getDataList() {

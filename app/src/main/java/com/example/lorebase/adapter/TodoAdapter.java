@@ -15,7 +15,6 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.ui.activity.TodoEditActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -24,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
-    private List<TodoTodo.DataBean.DatasBean> list_todo = new ArrayList<>();
+    private List<TodoTodo.DataBean.DatasBean> list_todo;
     private boolean is_done;
     Context mContext;
 
@@ -32,7 +31,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         this.mContext = context;
     }
 
-    public void setList_todo(List<TodoTodo.DataBean.DatasBean> list_todo, boolean is_done){
+    public void setList_todo(List<TodoTodo.DataBean.DatasBean> list_todo, boolean is_done) {
         this.list_todo = list_todo;
         this.is_done = is_done;
     }
@@ -41,14 +40,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         this.list_todo.addAll(list_todo);
     }
 
-    public void removeItem(int position){
+    public void removeItem(int position) {
         list_todo.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void addItem(TodoTodo.DataBean.DatasBean datasBean){
-        list_todo.add(datasBean);
-        notifyDataSetChanged();
+    public void addItem(TodoTodo.DataBean.DatasBean datasBean) {
+        list_todo.add(1,datasBean);
+        notifyItemInserted(list_todo.size());
     }
 
     @NonNull
@@ -68,7 +67,10 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         holder.item_date.setText(datasBean.getDateStr());
 
         holder.action_complete.setOnClickListener(v ->
-                RetrofitUtil.todoComplete(datasBean,position, mContext, is_done,this));
+        {
+            RetrofitUtil.todoComplete(datasBean, position, mContext, is_done, this);
+            datasBean.setStatus(is_done ? 0 : 1);
+        });
 
         holder.action_delete.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -76,7 +78,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
                     .setMessage(R.string.tip_content_clear_history)
                     .setNegativeButton(R.string.cancel, null)
                     .setPositiveButton(R.string.ok, (dialogInterface, i) ->
-                            RetrofitUtil.todoDelete(datasBean.getId(),position, mContext,this))
+                            RetrofitUtil.todoDelete(datasBean.getId(), position, mContext, this))
                     .show();
         });
 

@@ -1,5 +1,6 @@
 package com.example.lorebase.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import com.example.lorebase.adapter.TodoAdapter;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
-import com.example.lorebase.ui.activity.TODOActivity;
 import com.example.lorebase.util.L;
 
 import java.util.List;
@@ -33,7 +33,7 @@ import retrofit2.Response;
  */
 public class TodoFragment extends Fragment {
 
-    private Boolean is_done;
+    private boolean is_done;
     private View view;
     private int page = 1;
     private List<TodoTodo.DataBean.DatasBean> list_todo;
@@ -47,6 +47,12 @@ public class TodoFragment extends Fragment {
         bundle.putBoolean(ConstName.IS_DONE, is_done);
         todoFragment.setArguments(bundle);
         return todoFragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        L.v(is_done ? "true-onCreate" : "false-onCreate");
     }
 
     @Override
@@ -64,6 +70,7 @@ public class TodoFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_todo, container, false);
         getTodoList(is_done);
+        L.v(is_done ? "true-onCreateView" : "false-onCreateView");
         return view;
     }
 
@@ -77,7 +84,7 @@ public class TodoFragment extends Fragment {
         easyRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {
-                getDataList();
+//                getDataList();
             }
 
             @Override
@@ -130,13 +137,24 @@ public class TodoFragment extends Fragment {
 
     @Override
     public void onResume() {
+        L.v(is_done ? "true-onResume" : "false-onResume");
         super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        L.v(is_done ? "true-onPause" : "false-onPause");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        L.v(list_todo.size() + " list_todo.size");
+        list_todo.clear();
+        list_todo = null;
         if (null != view)
             view = null;
+        todoAdapter = null;
     }
 }

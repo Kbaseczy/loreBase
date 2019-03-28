@@ -23,7 +23,7 @@
 
     <!-- home-->
     <string name="viewflipper">ViewFlipper</string>
-    <string name="hot_news">tech</string>
+    <string name="hot_news">hot</string>
     <string name="hot_content">content</string>
     <string name="navigation">导航</string>
     <!-- addCategory -->

@@ -106,7 +106,7 @@ public class SearchActivity extends BaseActivity {
                         .inflate(R.layout.tag_flow_tv, parent, false);
                 hot.setText(dataBean.getName());
                 hot.setTextColor(position % 2 == 0 ? Color.BLACK : Color.RED); //字體顔色
-                hot.setBackgroundResource(R.color.Grey200);
+                hot.setBackgroundResource(R.color.Grey400);
                 return hot;
             }
         };
@@ -118,7 +118,6 @@ public class SearchActivity extends BaseActivity {
             search(SearchActivity.this, hot_word);
             return true;
         });
-//        historyRecord();
     }
 
     @Override
@@ -185,7 +184,7 @@ public class SearchActivity extends BaseActivity {
         mSearchView = (SearchView) MenuItemCompat.getActionView(search_item);
         mSearchView.setMaxWidth(1000);
         mSearchView.setQueryHint("在此处输入");
-
+        mSearchView.setBackgroundColor(getColor(R.color.Grey400));
 //        mSearchView.setIconified(true);   //搜索框总是打开状态，默认为true
         mSearchView.onActionViewExpanded();//内部调用了setIconified(false);
         //key_word-1.搜索框獲取 ： searchView
@@ -212,22 +211,6 @@ public class SearchActivity extends BaseActivity {
 
     @SuppressLint("RestrictedApi")
     private void search(Context context, String key_word) {
-        //點擊事件觸發條件：1.搜索框輸入文本后，點擊搜索圖標  2.點擊熱搜標簽  3.點擊歷史搜索item
-        //点击事件触发后：1.跳转searchListFragment 2.传递数据-搜索关键词 - 创建SearchListFragment实例，携带String参数
-       /* toolbar_search.setTitle(key_word);
-        fab.setVisibility(View.VISIBLE);
-        SearchListActivity searchListFragment = new SearchListActivity().instance(key_word);
-        //這裏通過在Frag中的實例化方法傳值，也可以如下面
-        *//*Bundle bundle = new Bundle();
-        bundle.putString(ConstName.KEY_WORD,key_word);
-        searchListFragment.setArguments(bundle);*//*
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        //add:点击一个热搜后，再点击没有效果   replace:无影响
-        transaction.replace(R.id.coordinator_search, searchListFragment);
-        transaction.commitAllowingStateLoss(); // good 你又忘了这一步，最后不跳转o(∩_∩)o*/
-
-        //搜索结果页面改为activity,后期如果需要再优化界面
         SearchListActivity.actionStart(context, key_word);
     }
 

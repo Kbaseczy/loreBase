@@ -12,7 +12,7 @@ import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.BiYing;
 import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.contain_const.UrlContainer;
-import com.example.lorebase.ui.activity.TODOActivity;
+import com.example.lorebase.ui.fragment.TodoFragment;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
 
@@ -55,6 +55,7 @@ public class RetrofitUtil {
             public void onResponse(retrofit2.Call<TodoTodo> call, Response<TodoTodo> response) {
                 if (response.body() != null) {
                     ToastUtil.showShortToastCenter(is_done ? "撤销成功" : "标记完成", context);
+                    datasBean.setStatus(is_done ? 0 : 1);
                     adapter.removeItem(position);
                 }
             }
