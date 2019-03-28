@@ -8,7 +8,6 @@ import android.view.MenuItem;
 
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
-import com.example.lorebase.bean.TodoTodo;
 import com.example.lorebase.ui.fragment.TodoFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -56,7 +55,12 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
         bottomNavigationView.setLayoutMode(BottomNavigationView.MEASURED_HEIGHT_STATE_SHIFT); //可在配置在布局文件中
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         fab = findViewById(R.id.btn_fab_TODO);
-
+        fab.setOnClickListener(v -> {
+                    Intent intent = new Intent(this, TodoAddActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                }
+        );
         viewPager = findViewById(R.id.viewpager_TODO);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

@@ -8,6 +8,7 @@
     <color name="item_title">#dfffffff</color>
     <color name="colorPrimary">#ff2e2e2e</color>
     <color name="colorPrimaryregister">#aaa</color>
+    <color name="colorPrimaryBottom">#00bcd4</color>
     <color name="colorPrimaryDark">#aaa</color>
     <color name="colorAccentToast">#aaa</color>
     <color name="colorAccent">#aaa</color>
