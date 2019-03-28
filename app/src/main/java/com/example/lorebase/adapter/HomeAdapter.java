@@ -15,15 +15,21 @@ import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.example.lorebase.MapReceiver;
+import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.bean.Banner;
+import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.bean.News;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.ui.activity.NavigationActivity;
 import com.example.lorebase.ui.activity.RelaxActivity;
+import com.example.lorebase.util.L;
+import com.example.lorebase.util.TimeUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,6 +38,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     private List<Banner.DataBean> banner_t;
     private List<News.DataBean> beanList_news;
     private List<Article.DataBean.DatasBean> beanList_article;
@@ -45,6 +52,17 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         List<Article.DataBean.DatasBean> beanList_article) {
         this.banner_t = banner_t;
         this.beanList_news = beanList_news;
+        this.beanList_article = beanList_article;
+    }
+    public void setBanner_t(List<Banner.DataBean> banner_t) {
+        this.banner_t = banner_t;
+    }
+
+    public void setBeanList_news(List<News.DataBean> beanList_news) {
+        this.beanList_news = beanList_news;
+    }
+
+    public void setBeanList_article(List<Article.DataBean.DatasBean> beanList_article) {
         this.beanList_article = beanList_article;
     }
 
@@ -168,8 +186,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 textSliderView.description(banner.getTitle());
                 textSliderView.setOnSliderClickListener(slider -> {
 
-//                    MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(
-//                            new BrowseHistory(null, banner.getTitle(), banner.getUrl(), null,false));
+                    MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+                        L.v("mapHomeList", Latitude + " \n" + Longitude + "  有没有啊");
+                        MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
+                                null, banner.getTitle(), banner.getUrl(),
+                                TimeUtils.string2Millis(String.valueOf(new Date(System.currentTimeMillis())))+"",
+                                false, Latitude, Longitude,true));
+                    });
                     Intent web_intent = new Intent(context, AgentWebActivity.class);
 
                     Uri uri = Uri.parse(banner.getUrl());
@@ -190,7 +213,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void initTable(RecyclerView.ViewHolder holder) {
 
         Glide.with(Objects.requireNonNull(context)).load(R.drawable.ic_video).into(((Holder_tab) holder).image_project);
-        Glide.with(context).load(R.drawable.ic_navigate).into(((Holder_tab) holder).image_navigation);
+//        Glide.with(context).load(R.drawable.ic_navigate).into(((Holder_tab) holder).image_navigation);
 
         ((Holder_tab) holder).project.setOnClickListener(v -> context.startActivity(new Intent(context, RelaxActivity.class)));
         ((Holder_tab) holder).navigation.setOnClickListener(v -> context.startActivity(new Intent(context, NavigationActivity.class)));
@@ -204,6 +227,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             TextView content_tv = item_view.findViewById(R.id.viewflipper_content);
             content_tv.setText(t.getName());
             content_tv.setOnClickListener(v -> {
+                MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+                    L.v("mapHomeList", Latitude + " \n" + Longitude + "  有没有啊");
+                    MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
+                            null, t.getName(), t.getLink(),
+                            TimeUtils.string2Millis(String.valueOf(new Date(System.currentTimeMillis())))+"",
+                            false, Latitude, Longitude,true));
+                });
                 Intent intent = new Intent(context, AgentWebActivity.class);
                 intent.setData(Uri.parse(t.getLink()));
                 intent.putExtra(ConstName.IS_OUT,true);
@@ -221,7 +251,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         HomeListAdapter homeListAdapter = new HomeListAdapter(beanList_article);
         ((Holder_article) holder).recyclerView.setLayoutManager(manager);
         ((Holder_article) holder).recyclerView.setAdapter(homeListAdapter);
-//        ((Holder_article) holder).recyclerView.addItemDecoration(new DividerItemGridDecoration(context));
     }
 
 }

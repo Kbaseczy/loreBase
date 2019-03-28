@@ -31,6 +31,7 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
         public final static Property Is_colloct = new Property(4, boolean.class, "is_colloct", false, "IS_COLLOCT");
         public final static Property Latidude = new Property(5, double.class, "latidude", false, "LATIDUDE");
         public final static Property Longitude = new Property(6, double.class, "longitude", false, "LONGITUDE");
+        public final static Property Is_out = new Property(7, boolean.class, "is_out", false, "IS_OUT");
     }
 
 
@@ -52,7 +53,8 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
                 "\"DATE\" TEXT," + // 3: date
                 "\"IS_COLLOCT\" INTEGER NOT NULL ," + // 4: is_colloct
                 "\"LATIDUDE\" REAL NOT NULL ," + // 5: latidude
-                "\"LONGITUDE\" REAL NOT NULL );"); // 6: longitude
+                "\"LONGITUDE\" REAL NOT NULL ," + // 6: longitude
+                "\"IS_OUT\" INTEGER NOT NULL );"); // 7: is_out
     }
 
     /** Drops the underlying database table. */
@@ -87,6 +89,7 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
         stmt.bindLong(5, entity.getIs_colloct() ? 1L: 0L);
         stmt.bindDouble(6, entity.getLatidude());
         stmt.bindDouble(7, entity.getLongitude());
+        stmt.bindLong(8, entity.getIs_out() ? 1L: 0L);
     }
 
     @Override
@@ -115,6 +118,7 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
         stmt.bindLong(5, entity.getIs_colloct() ? 1L: 0L);
         stmt.bindDouble(6, entity.getLatidude());
         stmt.bindDouble(7, entity.getLongitude());
+        stmt.bindLong(8, entity.getIs_out() ? 1L: 0L);
     }
 
     @Override
@@ -131,7 +135,8 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // date
             cursor.getShort(offset + 4) != 0, // is_colloct
             cursor.getDouble(offset + 5), // latidude
-            cursor.getDouble(offset + 6) // longitude
+            cursor.getDouble(offset + 6), // longitude
+            cursor.getShort(offset + 7) != 0 // is_out
         );
         return entity;
     }
@@ -145,6 +150,7 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
         entity.setIs_colloct(cursor.getShort(offset + 4) != 0);
         entity.setLatidude(cursor.getDouble(offset + 5));
         entity.setLongitude(cursor.getDouble(offset + 6));
+        entity.setIs_out(cursor.getShort(offset + 7) != 0);
      }
     
     @Override

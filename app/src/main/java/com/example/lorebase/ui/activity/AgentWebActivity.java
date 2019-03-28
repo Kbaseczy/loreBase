@@ -62,7 +62,7 @@ public class AgentWebActivity extends BaseActivity {
                 author = article.getAuthor();
                 url = article.getLink();
             }
-        }else{
+        } else {
             title = getIntent().getStringExtra(ConstName.TITLE);
             url = String.valueOf(getIntent().getData());
         }
@@ -120,15 +120,16 @@ public class AgentWebActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_agent_web, menu);
         menuItem = menu.findItem(R.id.web_collect);
-        if (is_out)
+        if (is_out) {
             menuItem.setVisible(false);  //若是站外网站，设置收藏item不可见
-        else
+        } else {
             menuItem.setVisible(true);
 
-        if (is_collect)
-            menuItem.setTitle(R.string.nav_my_uncollect);
-        else
-            menuItem.setTitle(R.string.nav_my_collect);
+            if (is_collect)
+                menuItem.setTitle(R.string.nav_my_uncollect);
+            else
+                menuItem.setTitle(R.string.nav_my_collect);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -71,7 +71,7 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
                 L.v(Latitude + " \n" + Longitude + "  有没有啊MyselfAdapter");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, my_collect.getTitle(), my_collect.getLink()
-                        , my_collect.getNiceDate(), my_collect.isCollect(), Latitude, Longitude));
+                        , my_collect.getNiceDate(), my_collect.isCollect(), Latitude, Longitude,false));
             });
 
             Intent intent = new Intent(mContext, AgentWebActivity.class);

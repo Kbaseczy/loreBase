@@ -3,16 +3,16 @@
     android:id="@+id/easy_refresh_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/viewBackground"
     android:fillViewport="true"
     android:focusable="true"
-    android:background="@color/viewBackground"
     android:focusableInTouchMode="true"
     custom:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="@color/viewBackground"
         android:id="@+id/recycler_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/viewBackground"
         custom:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </com.ajguan.library.EasyRefreshLayout>

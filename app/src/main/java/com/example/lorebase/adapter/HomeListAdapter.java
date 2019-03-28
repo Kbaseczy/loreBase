@@ -76,7 +76,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                 L.v("mapHomeList", Latitude + " \n" + Longitude + "  有没有啊");
                 browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(),
-                        article.getLink(), article.getNiceDate(), article.isCollect(), Latitude, Longitude));
+                        article.getLink(), article.getNiceDate(), article.isCollect(), Latitude, Longitude,false));
             });
 
             L.v("mapHomeList", "  点击比较" + latitude + "\t" + longitude);

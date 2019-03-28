@@ -100,7 +100,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                 MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
                     L.v(Latitude + " \n" + Longitude + "  有没有啊");
                     MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                            null, tag_navi, tag_link, tag_date,is_collect,Latitude,Longitude));
+                            null, tag_navi, tag_link, tag_date,false,Latitude,Longitude,true));
                 });
 
                 Intent intent = new Intent();

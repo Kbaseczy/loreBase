@@ -88,7 +88,6 @@ public class WeChatArticleFragment extends Fragment {
         articleAdapter = new WeChatArticleAdapter(getActivity(), beanList_WeChatArticle);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(articleAdapter);
-//        recyclerView.addItemDecoration(new DividerItemGridDecoration(Objects.requireNonNull(getContext())));
     }
 
     private void getDataList() {

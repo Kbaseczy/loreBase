@@ -23,10 +23,12 @@ public class BrowseHistory {
     double latidude;
     private
     double longitude;
+    private
+    boolean is_out;
 
-    @Generated(hash = 43057729)
+    @Generated(hash = 102129849)
     public BrowseHistory(Long id_browse, String title, String link, String date,
-            boolean is_colloct, double latidude, double longitude) {
+            boolean is_colloct, double latidude, double longitude, boolean is_out) {
         this.id_browse = id_browse;
         this.title = title;
         this.link = link;
@@ -34,6 +36,7 @@ public class BrowseHistory {
         this.is_colloct = is_colloct;
         this.latidude = latidude;
         this.longitude = longitude;
+        this.is_out = is_out;
     }
     @Generated(hash = 772159025)
     public BrowseHistory() {
@@ -93,5 +96,11 @@ public class BrowseHistory {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+    public boolean getIs_out() {
+        return this.is_out;
+    }
+    public void setIs_out(boolean is_out) {
+        this.is_out = is_out;
     }
 }

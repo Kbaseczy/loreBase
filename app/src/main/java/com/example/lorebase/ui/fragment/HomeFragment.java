@@ -1,7 +1,6 @@
 package com.example.lorebase.ui.fragment;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -17,6 +16,7 @@ import com.example.lorebase.bean.Banner;
 import com.example.lorebase.bean.News;
 import com.example.lorebase.http.RetrofitApi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -36,10 +36,10 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
     private View view;
     private int page = 0;
-    private List<Banner.DataBean> banner_t;
-    private List<News.DataBean> beanList_news;
-    private List<Article.DataBean.DatasBean> beanList_article;
-    public static RecyclerView recyclerView;
+    private List<Banner.DataBean> banner_t = new ArrayList<>();
+    private List<News.DataBean> beanList_news = new ArrayList<>();
+    private List<Article.DataBean.DatasBean> beanList_article = new ArrayList<>();
+    public RecyclerView recyclerView;
     private EasyRefreshLayout easyRefreshLayout;
     private HomeAdapter adapter;
 
@@ -65,7 +65,6 @@ public class HomeFragment extends Fragment {
 
     private void initView() {
         recyclerView = view.findViewById(R.id.recycler_home);
-
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         adapter = new HomeAdapter(getActivity());
         adapter.setList(banner_t, beanList_news, beanList_article);
@@ -128,7 +127,6 @@ public class HomeFragment extends Fragment {
             public void onResponse(retrofit2.Call<News> call, Response<News> response) {
                 if (response.body() != null) {
                     beanList_news = response.body().getData();
-                    getArticle();
                 }
             }
 

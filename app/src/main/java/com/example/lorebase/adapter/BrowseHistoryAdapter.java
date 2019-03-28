@@ -50,6 +50,7 @@ public class BrowseHistoryAdapter extends RecyclerView.Adapter<BrowseHistoryAdap
             intent.putExtra(ConstName.TITLE, browseHistory.getTitle());
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.BROWSE_HOSTORY);
             intent.putExtra(ConstName.IS_COLLECT, browseHistory.getIs_colloct());
+            intent.putExtra(ConstName.IS_OUT, browseHistory.getIs_out());
             intent.setData(Uri.parse(browseHistory.getLink()));
             mContext.startActivity(intent);
         });

@@ -72,7 +72,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, project.getTitle(), project.getLink(), project.getNiceDate(), project.isCollect()
-                        , Latitude, Longitude));
+                        , Latitude, Longitude,false));
             });
 
             Intent intent = new Intent(mContext, AgentWebActivity.class);

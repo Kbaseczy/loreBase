@@ -71,7 +71,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, filterTitle, search.getLink(), search.getNiceDate(), search.isCollect()
-                        , Latitude, Longitude));
+                        , Latitude, Longitude,false));
             });
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             Bundle bundle = new Bundle();

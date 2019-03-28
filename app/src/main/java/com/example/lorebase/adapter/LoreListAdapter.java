@@ -79,7 +79,7 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, article.getTitle(), article.getLink()
-                        , article.getNiceDate(), article.isCollect(), Latitude, Longitude));
+                        , article.getNiceDate(), article.isCollect(), Latitude, Longitude,false));
             });
         });
 

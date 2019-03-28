@@ -252,7 +252,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         switch (menuItem.getItemId()) {
             case R.id.action_home:
                 viewPager.setCurrentItem(0);
-                fab.setOnClickListener(v -> HomeFragment.recyclerView.scrollToPosition(0));
                 break;
             case R.id.action_lore_tree:
                 viewPager.setCurrentItem(1);

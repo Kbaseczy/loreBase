@@ -69,7 +69,7 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
                 L.v(Latitude + " \n" + Longitude + "WeChatArticleAdapter aaa");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, we_chat_article.getTitle(), we_chat_article.getLink(), we_chat_article.getNiceDate(), we_chat_article.isCollect()
-                        , Latitude, Longitude));
+                        , Latitude, Longitude,false));
             });
 
             Intent intent = new Intent(mContext, AgentWebActivity.class);
