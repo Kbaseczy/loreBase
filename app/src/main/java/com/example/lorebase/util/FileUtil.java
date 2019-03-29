@@ -23,7 +23,7 @@ public class FileUtil {
                 File dirFile = new File(fileDir);
                 if (!dirFile.exists())
                     dirFile.mkdirs();
-                File file = new File(fileDir, "navigationImage.jpg");
+                File file = new File(fileDir, ConstName.IMAGE_NAME);
                 FileOutputStream output;
                 output = new FileOutputStream(file);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
@@ -55,9 +55,9 @@ public class FileUtil {
     //bitmap --> drawable
     public static Drawable getDrawableImage(Context context) {
         Bitmap bitmap = null;
-        if (fileIsExists(ConstName.IMAGE_PATH))
-        {
-            bitmap = BitmapFactory.decodeFile(ConstName.IMAGE_PATH);
+        String path = ConstName.IMAGE_PATH_PRE + ConstName.IMAGE_NAME;
+        if (fileIsExists(path)) {
+            bitmap = BitmapFactory.decodeFile(path);
         }
         return new BitmapDrawable(context.getResources(), bitmap);
     }

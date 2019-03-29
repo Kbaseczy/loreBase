@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -14,13 +13,12 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
+import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.FileUtil;
-import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
 
-import java.io.File;
 import java.util.concurrent.ExecutionException;
 
 public class LaunchActivity extends BaseActivity {
@@ -37,8 +35,7 @@ public class LaunchActivity extends BaseActivity {
 
         ActivityCollector.addActivtity(this);
         launchActivity = this;
-        String pathPre = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                "/loreBaseImage/";
+        String pathPre = ConstName.IMAGE_PATH_PRE;
         mHandler = new Handler();
         image_launch = findViewById(R.id.image_launch);
 
@@ -53,7 +50,7 @@ public class LaunchActivity extends BaseActivity {
                                 .load(url)
                                 .submit(1080, 1920)
                                 .get();
-                        FileUtil.save(pathPre , bitmap);
+                        FileUtil.save(pathPre, bitmap);
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {

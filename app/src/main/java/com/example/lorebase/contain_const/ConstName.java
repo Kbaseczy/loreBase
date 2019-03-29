@@ -58,8 +58,7 @@ public class ConstName {
 
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
-    public static final String IMAGE_PATH =
-            Environment.getExternalStorageDirectory().getAbsolutePath() +
-                    "/loreBaseImage/" + "navigationImage.jpg";
-
+    public static final String IMAGE_PATH_PRE =
+            Environment.getExternalStorageDirectory().getAbsolutePath() + "/loreBaseImage/" ;
+    public static final String IMAGE_NAME = "navigationImage.jpg";
 }
