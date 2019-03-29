@@ -38,10 +38,12 @@ public class LaunchActivity extends BaseActivity {
         ActivityCollector.addActivtity(this);
         launchActivity = this;
         String pathPre = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                "/Android/data/com.example.lorebase/";
+                "/loreBaseImage/";
         mHandler = new Handler();
         image_launch = findViewById(R.id.image_launch);
+
         RetrofitUtil.getBiYing(this, image_launch);
+//        image_launch.setImageDrawable(FileUtil.getDrawableImage(this));
         RetrofitUtil.setTotoDataInterface((url) ->
                 new Thread(() -> {
                     Bitmap bitmap;
@@ -49,20 +51,15 @@ public class LaunchActivity extends BaseActivity {
                         bitmap = Glide.with(LaunchActivity.this)
                                 .asBitmap()
                                 .load(url)
-                                .submit(500, 500)
+                                .submit(1080, 1920)
                                 .get();
-                        FileUtil.copy(pathPre + "nav_back_image" + ".jpg", FileUtil.Bitmap2Bytes(bitmap));
+                        FileUtil.save(pathPre , bitmap);
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }).start());
-        String path = pathPre + "nav_back_image.jpg";
-        if (fileIsExists(path))
-            L.v("pathfile:" + path);
-        else
-            L.v("not exist;" + path);
         initStartAnim();
     }
 
@@ -107,15 +104,4 @@ public class LaunchActivity extends BaseActivity {
         }, 2000);
     }
 
-    public boolean fileIsExists(String strFile) {
-        try {
-            File f = new File(strFile);
-            if (!f.exists()) {
-                return false;
-            }
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
 }

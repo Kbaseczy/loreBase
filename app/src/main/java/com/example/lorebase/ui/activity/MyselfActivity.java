@@ -19,6 +19,7 @@ import com.example.lorebase.http.RetrofitApi;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.EmptyUtil;
+import com.example.lorebase.util.FileUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -108,7 +109,7 @@ public class MyselfActivity extends BaseActivity {
         }
         collapsingToolbarLayout.setTitle("我的收藏");
         collapsingToolbarLayout.setCollapsedTitleTextColor(getColor(R.color.item_title));
-        RetrofitUtil.getBiYing(this,portrait);
+        portrait.setImageDrawable(FileUtil.getDrawableImage(this));
         fab_note.setOnClickListener(view -> {
             startActivity(new Intent(this, TODOActivity.class));
             overridePendingTransition(R.animator.go_in, R.animator.go_out);

@@ -1,5 +1,7 @@
 package com.example.lorebase.contain_const;
 
+import android.os.Environment;
+
 public class ConstName {
     public static final String TITLE = "title";
     public static final String ID = "id";
@@ -56,7 +58,8 @@ public class ConstName {
 
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
-
-
+    public static final String IMAGE_PATH =
+            Environment.getExternalStorageDirectory().getAbsolutePath() +
+                    "/loreBaseImage/" + "navigationImage.jpg";
 
 }

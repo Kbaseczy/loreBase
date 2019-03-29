@@ -18,6 +18,7 @@ import com.example.lorebase.greenDao.ShareHistoryDao;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.EmptyUtil;
+import com.example.lorebase.util.FileUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -68,7 +69,7 @@ public class ShareActivity extends BaseActivity {
         }
         collapsingToolbarLayout.setTitle("我的分享");
         collapsingToolbarLayout.setCollapsedTitleTextColor(getColor(R.color.item_title));
-        RetrofitUtil.getBiYing(this, portrait);
+        portrait.setImageDrawable(FileUtil.getDrawableImage(this));
     }
 
     private void initRecycler() {

@@ -1,18 +1,21 @@
 package com.example.lorebase.ui.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +26,6 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
-import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.recog.ActivityUiDialog;
 import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
@@ -31,6 +33,7 @@ import com.example.lorebase.ui.fragment.ProjectFragment;
 import com.example.lorebase.ui.fragment.WeChatFragment;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.ActivityCollector;
+import com.example.lorebase.util.FileUtil;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PreferencesUtil;
 import com.example.lorebase.util.TimeUtils;
@@ -38,6 +41,7 @@ import com.example.lorebase.util.ToastUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -107,7 +111,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     TextView login_username;
     SharedPreferences sp;
     ViewPager viewPager;
-
+    RoundedImageView nav_header_portrait;
     HomeFragment homeFragment;
     LoreTreeFragment loreTreeFragment;
     ProjectFragment projectFragment;
@@ -125,7 +129,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         weChatFragment = WeChatFragment.getInstance();
 
         initView();
-
+        initViewpager();
         checkPermission();
         startService(new Intent(this, MapService.class));
 
@@ -138,19 +142,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         fab = findViewById(R.id.btn_fab);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
-        //加载头布局文件中的组件
-        login_username = navigationView.inflateHeaderView(R.layout.nav_header_main)
-                .findViewById(R.id.login_username);
-//        nav_header_portrait = navigationView.inflateHeaderView(R.layout.nav_header_main)
-//                .findViewById(R.id.nav_header_portrait);//导致2个头布局
-        /*---------------------------------------------------------------------*/
-        initViewpager();
-        /*---------------------------------------------------------------------*/
+
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main); //解决2个头布局
+        login_username = headerView.findViewById(R.id.login_username);  //加载头布局文件中的组件
+        nav_header_portrait = headerView.findViewById(R.id.nav_header_portrait);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(this);
-
         navigationView.setItemIconTintList(null);
-//        navigationView.setItemBackgroundResource(R.drawable.);
+        headerView.setBackground(FileUtil.getDrawableImage(this));
         bottomNavigationView.setLayoutMode(BottomNavigationView.MEASURED_HEIGHT_STATE_SHIFT); //可在配置在布局文件中
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
@@ -163,7 +162,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     private void initViewpager() {
         viewPager = findViewById(R.id.viewpager_main);
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -241,6 +239,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         if (isLogin) {
             login_username.setText(get_username);
             login_username.setClickable(false);
+            nav_header_portrait.setOnClickListener(v ->
+                ToastUtil.showShortToastCenter("",this)
+            );
         } else {
             login_username.setText(R.string.login);
             login_username.setOnClickListener(v ->
@@ -253,7 +254,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         switch (menuItem.getItemId()) {
             case R.id.action_home:
                 viewPager.setCurrentItem(0);
-                L.v("Timethis", TimeUtils.date2String(new Date(System.currentTimeMillis()))+"  time1");
+                L.v("Timethis", TimeUtils.date2String(new Date(System.currentTimeMillis())) + "  time1");
                 break;
             case R.id.action_lore_tree:
                 viewPager.setCurrentItem(1);
@@ -339,7 +340,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             public void onResponse(retrofit2.Call<User> call, Response<User> response) {
                 if (response.body() != null) {
                     if (response.body().getErrorCode() == 0) {
-                        PreferencesUtil.putIsLogin(MainActivity.this,true);
+                        PreferencesUtil.putIsLogin(MainActivity.this, true);
                         refreshSign();  //自动登陆后刷新界面
                         ToastUtil.showShortToastTop("已登陆", MainActivity.this);
                     } else {
