@@ -152,7 +152,6 @@ public class TodoFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        L.v(list_todo.size() + " list_todo.size");
         list_todo.clear();
         list_todo = null;
         if (null != view)

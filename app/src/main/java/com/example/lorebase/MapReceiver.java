@@ -5,11 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.lorebase.contain_const.ConstName;
+import com.example.lorebase.util.HttpUtil;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PositionInterface;
+import com.example.lorebase.util.ToastUtil;
 
 public class MapReceiver extends BroadcastReceiver {
-
     public static class MapReceiverHolder {
         static final MapReceiver MAP_RECEIVER = new MapReceiver();
     }

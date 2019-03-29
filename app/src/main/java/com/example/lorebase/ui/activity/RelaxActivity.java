@@ -1,5 +1,6 @@
 package com.example.lorebase.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -13,11 +14,11 @@ import com.example.lorebase.BaseActivity;
 import com.example.lorebase.R;
 import com.example.lorebase.ui.fragment.subFragment.RelaxListFragment;
 import com.example.lorebase.util.ActivityCollector;
-import com.example.lorebase.util.L;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -41,6 +42,7 @@ public class RelaxActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relax);
         ActivityCollector.addActivtity(this);
+
         initRelax();
     }
 
@@ -51,17 +53,11 @@ public class RelaxActivity extends BaseActivity {
             startActivity(new Intent(this, MainActivity.class));
             overridePendingTransition(R.animator.go_in, R.animator.go_out);
         });
-        ViewPager viewPager = findViewById(R.id.vp_project);
+
+        ViewPager viewPager = findViewById(R.id.vp_relax);
         TabLayout tabLayout = findViewById(R.id.tab_lore_title);
 
         int[] identity = {0, 1, 2};
-//        for (String aTitle : title) {
-//            tabLayout.addTab(tabLayout.newTab());
-//        }
-//        for (int i = 0; i < title.length; i++) {
-//            tabLayout.addTab(tabLayout.newTab());
-//            tabLayout.getTabAt(i).setCustomView(customTab(i));
-//        }
 
         List<Fragment> fragments = new ArrayList<>();
         for (int ident : identity) {
@@ -88,11 +84,13 @@ public class RelaxActivity extends BaseActivity {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
+        for (int i = 0; i < title.length; i++) {
+            Objects.requireNonNull(tabLayout.getTabAt(i)).setCustomView(customTab(i));
+        }
     }
 
     private View customTab(int position) {
-        L.v("customTab", "运行勒吗。");
-        View view = LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         ImageView imageView = view.findViewById(R.id.custom_tab_image);
         TextView textView = view.findViewById(R.id.custom_tab_title);
 //        imageView.setImageResource(images[position]);

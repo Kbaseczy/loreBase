@@ -28,6 +28,7 @@ import com.example.lorebase.ui.fragment.WeChatFragment;
 import com.example.lorebase.ui.fragment.subFragment.WeChatArticleFragment;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.FileUtil;
+import com.example.lorebase.util.HttpUtil;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PreferencesUtil;
 import com.example.lorebase.util.TimeUtils;
@@ -127,7 +128,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         initViewpager();
         checkPermission();
         startService(new Intent(this, MapService.class));
-
+        if (!HttpUtil.isNetworkAvailable(this))
+            ToastUtil.showShortToastTop("当前无网络连接，请检查网络", this);
         L.v("onCreateMain");
     }
 
@@ -238,7 +240,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             login_username.setText(get_username);
             login_username.setClickable(false);
             nav_header_portrait.setOnClickListener(v ->
-                ToastUtil.showShortToastCenter("",this)
+                    ToastUtil.showShortToastCenter("", this)
             );
         } else {
             login_username.setText(R.string.login);

@@ -12,7 +12,10 @@ import com.example.lorebase.adapter.RecyclerBaseAdapter;
 import com.example.lorebase.bean.VideoModel;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.holder.RecyclerItemViewHolder;
+import com.example.lorebase.util.HttpUtil;
 import com.example.lorebase.util.L;
+import com.example.lorebase.util.NetWorkHelper;
+import com.example.lorebase.util.ToastUtil;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.shuyu.gsyvideoplayer.utils.CommonUtil;
@@ -22,6 +25,7 @@ import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,6 +45,7 @@ public class RelaxListFragment extends Fragment {
     private GSYVideoHelper smallVideoHelper;
 
     private int firstVisibleItem, lastVisibleItem;
+
     public static RelaxListFragment getInstance(int we_chat_id) {
         RelaxListFragment relaxListFragment = new RelaxListFragment();
         Bundle bundle = new Bundle();
@@ -61,12 +66,12 @@ public class RelaxListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_relax_list, container, false);
-//        VideoOptionModel videoOptionModel = new VideoOptionModel(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "enable-accurate-seek", 1);
-//        List<VideoOptionModel> list = new ArrayList<>();
-//        list.add(videoOptionModel);
-//        GSYVideoManager.instance().setOptionModelList(list);
         initView();
-        L.v("onCreateView execute.  "+identity_id);
+        L.v("onCreateView execute.  " + identity_id);
+
+        if (HttpUtil.isNetworkAvailable(getActivity()))
+            if (!NetWorkHelper.isWifi(Objects.requireNonNull(getActivity())))
+                ToastUtil.showShortToastTop("当前非wifi网络，请注意流量使用", getActivity());
         return view;
     }
 
@@ -116,9 +121,7 @@ public class RelaxListFragment extends Fragment {
         });
 
         smallVideoHelper.setGsyVideoOptionBuilder(gsySmallVideoHelperBuilder);
-
         recyclerBaseAdapter.setVideoHelper(smallVideoHelper, gsySmallVideoHelperBuilder);
-
         //recycler 滑动监听
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 

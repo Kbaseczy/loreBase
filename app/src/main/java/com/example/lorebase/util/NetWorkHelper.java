@@ -112,7 +112,7 @@ public class NetWorkHelper {
     }
 
     /**
-     * 判断3G网络是否可用
+     *
      *
      * @param context
      * @return

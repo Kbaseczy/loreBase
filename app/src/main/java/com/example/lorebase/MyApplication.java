@@ -47,7 +47,6 @@ public class MyApplication extends Application {
         okHttpCookie();
         initGreenDao();
         manageAlarm(); //设置日夜间模式
-
     }
 
     private void manageAlarm() {

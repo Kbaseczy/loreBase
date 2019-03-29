@@ -67,7 +67,7 @@ public class ProjectFragment extends Fragment {
 
     private void initViewPager() {
         ViewPager viewPager = view.findViewById(R.id.vp_project);
-        TabLayout tabLayout = view.findViewById(R.id.tab_lore_title);
+        TabLayout tabLayout = view.findViewById(R.id.tab_lore_title_project);
         for (ProjectChapter.DataBean project : beanList_chapter) {
             tabLayout.addTab(tabLayout.newTab().setText(project.getName()));
         }
