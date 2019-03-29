@@ -142,11 +142,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         login_username = headerView.findViewById(R.id.login_username);  //加载头布局文件中的组件
         login_username.setTextColor(getColor(R.color.item_title));
         nav_header_portrait = headerView.findViewById(R.id.nav_header_portrait);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
         headerView.setBackground(FileUtil.getDrawableImage(this)); //加载本地图片
         bottomNavigationView.setLayoutMode(BottomNavigationView.MEASURED_HEIGHT_STATE_SHIFT); //可在配置在布局文件中
+
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
