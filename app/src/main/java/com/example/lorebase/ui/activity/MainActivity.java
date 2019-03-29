@@ -4,19 +4,13 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lorebase.BaseActivity;
@@ -38,6 +32,7 @@ import com.example.lorebase.util.L;
 import com.example.lorebase.util.PreferencesUtil;
 import com.example.lorebase.util.TimeUtils;
 import com.example.lorebase.util.ToastUtil;
+import com.example.lorebase.widget.behavior.CustomTextViewHeader;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -108,7 +103,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     NavigationView navigationView;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
-    TextView login_username;
+    CustomTextViewHeader login_username;
     SharedPreferences sp;
     ViewPager viewPager;
     RoundedImageView nav_header_portrait;
@@ -145,11 +140,12 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main); //解决2个头布局
         login_username = headerView.findViewById(R.id.login_username);  //加载头布局文件中的组件
+        login_username.setTextColor(getColor(R.color.item_title));
         nav_header_portrait = headerView.findViewById(R.id.nav_header_portrait);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
-        headerView.setBackground(FileUtil.getDrawableImage(this));
+        headerView.setBackground(FileUtil.getDrawableImage(this)); //加载本地图片
         bottomNavigationView.setLayoutMode(BottomNavigationView.MEASURED_HEIGHT_STATE_SHIFT); //可在配置在布局文件中
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
