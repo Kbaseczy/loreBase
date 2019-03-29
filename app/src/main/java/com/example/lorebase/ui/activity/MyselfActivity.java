@@ -16,7 +16,6 @@ import com.example.lorebase.R;
 import com.example.lorebase.adapter.MyselfAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.http.RetrofitApi;
-import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.EmptyUtil;
 import com.example.lorebase.util.FileUtil;
@@ -109,7 +108,7 @@ public class MyselfActivity extends BaseActivity {
         }
         collapsingToolbarLayout.setTitle("我的收藏");
         collapsingToolbarLayout.setCollapsedTitleTextColor(getColor(R.color.item_title));
-        portrait.setImageDrawable(FileUtil.getDrawableImage(this));
+        portrait.setImageDrawable(FileUtil.getDrawableImage(this)); //设置本地图片
         fab_note.setOnClickListener(view -> {
             startActivity(new Intent(this, TODOActivity.class));
             overridePendingTransition(R.animator.go_in, R.animator.go_out);
