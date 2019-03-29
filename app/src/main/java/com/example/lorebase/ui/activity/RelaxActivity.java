@@ -29,13 +29,13 @@ import androidx.viewpager.widget.ViewPager;
  * A simple {@link Fragment} subclass.
  * <p>
  * <p>
- * 1.设置自定义View 失败
+ * 1.设置自定义View 失败  ok
  * 2.视频播放不出
  */
 public class RelaxActivity extends BaseActivity {
 
-    private int images[] = {R.drawable.icon_tab, R.drawable.icon_tab2, R.drawable.icon_tab3};
-    private String[] title = {"安卓", "网络", "UI"};
+    private int images[] = {R.drawable.ic_chicken, R.drawable.ic_hamberger, R.drawable.ic_hotdog};
+    private String[] title = {"Base", "Net", "UI"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class RelaxActivity extends BaseActivity {
 
         ViewPager viewPager = findViewById(R.id.vp_relax);
         TabLayout tabLayout = findViewById(R.id.tab_lore_title);
-
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
         int[] identity = {0, 1, 2};
 
         List<Fragment> fragments = new ArrayList<>();
@@ -93,7 +93,6 @@ public class RelaxActivity extends BaseActivity {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         ImageView imageView = view.findViewById(R.id.custom_tab_image);
         TextView textView = view.findViewById(R.id.custom_tab_title);
-//        imageView.setImageResource(images[position]);
         Glide.with(this).load(images[position]).into(imageView);
         textView.setText(title[position]);
         return view;
@@ -104,15 +103,5 @@ public class RelaxActivity extends BaseActivity {
         finish();
         return super.onKeyDown(keyCode, event);
     }
-
-    //    @Override
-//    public void onBackPressed() {
-//        int[] identity = {0, 1, 2};
-//        for (int id : identity) {
-//            if (RelaxListFragment.getInstance(id).onBackPressed())
-//                return;
-//        }
-//        finish();
-//    }
 
 }
