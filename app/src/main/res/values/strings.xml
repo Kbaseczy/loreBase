@@ -174,4 +174,5 @@
     <string name="input_todo_name_toast">请输入待办名称</string>
     <string name="dead_line">dead line</string>
     <string name="switchMap">switch</string>
+    <string name="my_collect">我的收藏</string>
 </resources>

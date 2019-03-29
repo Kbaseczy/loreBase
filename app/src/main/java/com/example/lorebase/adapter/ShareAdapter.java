@@ -33,6 +33,11 @@ public class ShareAdapter extends RecyclerView.Adapter {
         this.shareHistoryList = shareHistoryList;
     }
 
+    public void notifyDeleteAll() {
+        shareHistoryList.clear();
+        notifyDataSetChanged();
+    }
+
     @SuppressLint("InflateParams")
     @NonNull
     @Override
@@ -53,19 +58,19 @@ public class ShareAdapter extends RecyclerView.Adapter {
                 Intent intent_share = new Intent();
                 intent_share.setAction(Intent.ACTION_SEND);
                 intent_share.setType("text/plain");
-                intent_share.putExtra(Intent.EXTRA_SUBJECT, ConstName.LORE_BASE );
+                intent_share.putExtra(Intent.EXTRA_SUBJECT, ConstName.LORE_BASE);
                 intent_share.putExtra(Intent.EXTRA_TEXT, shareHistory.getTitle()
                         + ":" + String.valueOf(shareHistory.getLink()));
-                intent_share = Intent.createChooser(intent_share,"请选择分享路径");
+                intent_share = Intent.createChooser(intent_share, "请选择分享路径");
                 mContext.startActivity(intent_share);
                 return false;
             });
 
             ((ShareViewHolder) holder).cardView.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, AgentWebActivity.class);
-                intent.putExtra(ConstName.TITLE,shareHistory.getTitle());
+                intent.putExtra(ConstName.TITLE, shareHistory.getTitle());
                 intent.setData(Uri.parse(shareHistory.getLink()));
-                intent.putExtra(ConstName.IS_OUT,true);
+                intent.putExtra(ConstName.IS_OUT, true);
                 mContext.startActivity(intent);
             });
         }

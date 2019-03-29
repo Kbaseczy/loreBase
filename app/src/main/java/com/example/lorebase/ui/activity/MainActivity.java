@@ -130,8 +130,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         L.v("onCreateMain");
     }
 
-    // todo ：activity只要不走onCreate方法，状态就不会被刷新
-
     private void initView() {
         drawerLayout = findViewById(R.id.drawer_layout);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -229,11 +227,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         boolean isAuto = PreferencesUtil.getIsAuto(this);
         if (isAuto && !isLogin) autoLogin(sp);//自动登陆，当登陆cookie失效时执行
 
-//        String get_username = sp.getString(ConstName.USER_NAME, "");
         String get_username = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext())
                 .getString("username", "");
-//        navigationView.getMenu().findItem(R.id.nav_logout).setVisible(isLogin);
         navigationView.getMenu().findItem(R.id.nav_collect).setVisible(isLogin);
         navigationView.getMenu().findItem(R.id.nav_todo).setVisible(isLogin);
         L.v(isLogin + "登陸狀態");

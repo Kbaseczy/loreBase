@@ -6,7 +6,7 @@
     android:background="@drawable/toast_style"
     android:layout_height="match_parent">
 
-    <TextView
+    <com.example.lorebase.widget.behavior.CustomTextViewCollect
         android:layout_width="wrap_content"
         android:id="@+id/tv_message_toast"
         android:textColor="@color/item_title"

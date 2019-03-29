@@ -4,17 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.ShareAdapter;
 import com.example.lorebase.bean.ShareHistory;
 import com.example.lorebase.greenDao.ShareHistoryDao;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.EmptyUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -34,6 +35,7 @@ public class ShareActivity extends BaseActivity {
     List<ShareHistory> shareHistoryList;
     FloatingActionButton fab;
     NestedScrollView nest;
+    ShareAdapter adapter;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -47,9 +49,8 @@ public class ShareActivity extends BaseActivity {
         if (shareHistoryList.size() != 0) {
             initRecycler();
         } else {
-            EmptyUtil.goEmpty(getSupportFragmentManager(),R.id.coordinator_share);
+            EmptyUtil.goEmpty(getSupportFragmentManager(), R.id.coordinator_share);
             fab.setVisibility(View.GONE);
-
         }
     }
 
@@ -68,22 +69,35 @@ public class ShareActivity extends BaseActivity {
         collapsingToolbarLayout.setTitle("我的分享");
         collapsingToolbarLayout.setCollapsedTitleTextColor(getColor(R.color.item_title));
         collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
-        Glide.with(this).load(R.drawable.ic_action_share).into(portrait);
-
+        RetrofitUtil.getBiYing(this, portrait);
     }
 
     private void initRecycler() {
         RecyclerView recyclerView = findViewById(R.id.share_list);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        ShareAdapter adapter = new ShareAdapter(this);
+        adapter = new ShareAdapter(this);
         adapter.setShareHistoryList(shareHistoryList);
         recyclerView.setAdapter(adapter);
         fab.setOnClickListener(view -> nest.post(() -> nest.fullScroll(View.FOCUS_UP)));
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_todo, menu);
+        menu.findItem(R.id.action_add_todo).setIcon(R.drawable.ic_delete);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @SuppressLint("RestrictedApi")
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_add_todo:
+                shareHistoryDao.deleteAll();
+                adapter.notifyDeleteAll();
+                EmptyUtil.goEmpty(getSupportFragmentManager(), R.id.coordinator_share);
+                fab.setVisibility(View.GONE);
+                break;
             case android.R.id.home:
                 startActivity(new Intent(this, MainActivity.class));
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);

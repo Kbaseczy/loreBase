@@ -2,7 +2,6 @@ package com.example.lorebase.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -11,13 +10,13 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.ajguan.library.EasyRefreshLayout;
-import com.bumptech.glide.Glide;
 import com.example.lorebase.BaseActivity;
 import com.example.lorebase.MyApplication;
 import com.example.lorebase.R;
 import com.example.lorebase.adapter.MyselfAdapter;
 import com.example.lorebase.bean.Article;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.EmptyUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -105,12 +104,11 @@ public class MyselfActivity extends BaseActivity {
         setSupportActionBar(toolbar); //todo 1.导包 2.父类为 AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true); //todo
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
         collapsingToolbarLayout.setTitle("我的收藏");
         collapsingToolbarLayout.setCollapsedTitleTextColor(getColor(R.color.item_title));
-        collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
-        Glide.with(this).load(R.drawable.image_store).into(portrait);
+        RetrofitUtil.getBiYing(this,portrait);
         fab_note.setOnClickListener(view -> {
             startActivity(new Intent(this, TODOActivity.class));
             overridePendingTransition(R.animator.go_in, R.animator.go_out);

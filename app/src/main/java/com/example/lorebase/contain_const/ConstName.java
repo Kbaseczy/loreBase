@@ -16,13 +16,10 @@ public class ConstName {
     public static final String LORE_BASE = "LoreBase分享";
 
     //LoreTree
-    public static final String CHAPTER_NAME = "chapterName";
     public static final String CHAPTER_CID = "cid";
     public static final String OBJ = "obj";
-    public static final String BUNDLE = "bundle";
 
     //treeActivity
-    public static final String FRAGMENT = "fragment";
     public static final String ACTIVITY = "activity";
 
     public static class activity {
@@ -46,7 +43,6 @@ public class ConstName {
     }
 
     public static final String KEY_WORD = "k";
-    public static final String URL = "url";
 
     public static final int BANNER_HOME = 0;
     public static final int TAB_HOME = 1;
@@ -60,7 +56,6 @@ public class ConstName {
 
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
-    public static final String IS_ALARM = "is_alarm";
 
 
 
