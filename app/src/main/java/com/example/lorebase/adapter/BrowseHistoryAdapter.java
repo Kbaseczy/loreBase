@@ -28,7 +28,7 @@ public class BrowseHistoryAdapter extends RecyclerView.Adapter<BrowseHistoryAdap
         this.datasBeanList = datasBeanList;
     }
 
-    public void deletAll() {
+    public void notifyDeleteAll() {
         datasBeanList.clear();
         notifyDataSetChanged();
     }
