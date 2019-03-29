@@ -183,7 +183,7 @@ public class RetrofitUtil {
                 Glide.with(context)
                         .load(fullUrl)
                         .transition(new DrawableTransitionOptions().crossFade())
-                        .placeholder(R.mipmap.ic_launcher_foreground)
+                        .placeholder(R.drawable.self_man)
                         .into(imageView);
                 totoDataInterface.transferDataBean(fullUrl);
             }
