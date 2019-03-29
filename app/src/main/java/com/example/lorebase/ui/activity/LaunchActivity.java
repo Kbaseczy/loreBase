@@ -17,8 +17,10 @@ import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.util.ActivityCollector;
 import com.example.lorebase.util.FileUtil;
+import com.example.lorebase.util.L;
 import com.example.lorebase.util.ToastUtil;
 
+import java.io.File;
 import java.util.concurrent.ExecutionException;
 
 public class LaunchActivity extends BaseActivity {
@@ -32,32 +34,45 @@ public class LaunchActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_launch);
-
         ActivityCollector.addActivtity(this);
         launchActivity = this;
-        String pathPre = ConstName.IMAGE_PATH_PRE;
         mHandler = new Handler();
         image_launch = findViewById(R.id.image_launch);
 
-        RetrofitUtil.getBiYing(this, image_launch);
-//        image_launch.setImageDrawable(FileUtil.getDrawableImage(this));
-        RetrofitUtil.setTotoDataInterface((url) ->
-                new Thread(() -> {
-                    Bitmap bitmap;
-                    try {
-                        bitmap = Glide.with(LaunchActivity.this)
-                                .asBitmap()
-                                .load(url)
-                                .submit(1080, 1920)
-                                .get();
-                        FileUtil.save(pathPre, bitmap);
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }).start());
+        loadLaunchImage();
         initStartAnim();
+    }
+
+    private void loadLaunchImage() {
+        //避免当日重复网络请求 //时间戳命名  年/月/日
+        String pathPre = ConstName.IMAGE_PATH_PRE;
+        L.v("本地图片名:"+new File(pathPre, ConstName.IMAGE_NAME).getName());
+        //                                       本地图片名                    今日图片名
+        if (new File(pathPre, ConstName.IMAGE_NAME).getName().equals(ConstName.IMAGE_NAME)) {
+                                        //设置本地图片
+            image_launch.setImageDrawable(FileUtil.getDrawableImage(this));
+            L.v("本地图片调用");
+        } else {
+            L.v("网络请求调用");
+            //否则网络请求今日图片，并保存到本地。今日图片名：ConstName.IMAGE_NAME
+            RetrofitUtil.getBiYing(this, image_launch);  //网络请求并设置
+            RetrofitUtil.setTotoDataInterface((url) ->  //下载到本地
+                    new Thread(() -> {
+                        Bitmap bitmap;
+                        try {
+                            bitmap = Glide.with(launchActivity)
+                                    .asBitmap()
+                                    .load(url)
+                                    .submit(1080, 1920)
+                                    .get();
+                            FileUtil.save(pathPre, bitmap);
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }).start());
+        }
     }
 
     private void initStartAnim() {

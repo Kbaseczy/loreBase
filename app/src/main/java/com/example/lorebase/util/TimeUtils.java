@@ -22,6 +22,14 @@ public final class TimeUtils {
         return simpleDateFormat;
     }
 
+    public static SimpleDateFormat geFormatYMD() {
+        SimpleDateFormat simpleDateFormat = SDF_THREAD_LOCAL.get();
+        if (simpleDateFormat == null) {
+            simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SDF_THREAD_LOCAL.set(simpleDateFormat);
+        }
+        return simpleDateFormat;
+    }
     private static SimpleDateFormat getDateFormat(String pattern) {
         return new SimpleDateFormat(pattern, Locale.getDefault());
     }

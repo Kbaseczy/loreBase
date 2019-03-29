@@ -177,7 +177,6 @@ public class RetrofitUtil {
             public void onResponse(retrofit2.Call<BiYing> call, Response<BiYing> response) {
                 if (response.body() != null) {
                     L.v("BYimage", response.body().getImages().get(0).getUrl() + " retrofit");
-
                 }
                 String fullUrl = UrlContainer.BI_YING_BASE + response.body().getImages().get(0).getUrl();
                 Glide.with(context)

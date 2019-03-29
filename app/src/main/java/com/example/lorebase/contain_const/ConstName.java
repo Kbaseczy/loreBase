@@ -2,6 +2,10 @@ package com.example.lorebase.contain_const;
 
 import android.os.Environment;
 
+import com.example.lorebase.util.TimeUtils;
+
+import java.util.Date;
+
 public class ConstName {
     public static final String TITLE = "title";
     public static final String ID = "id";
@@ -60,5 +64,6 @@ public class ConstName {
     public static final String LONGITUDE = "longitude";
     public static final String IMAGE_PATH_PRE =
             Environment.getExternalStorageDirectory().getAbsolutePath() + "/loreBaseImage/" ;
-    public static final String IMAGE_NAME = "navigationImage.jpg";
+    public static final String IMAGE_NAME =  "loreBase"+
+            TimeUtils.date2String(new Date(System.currentTimeMillis()),TimeUtils.geFormatYMD())+".jpg";
 }
