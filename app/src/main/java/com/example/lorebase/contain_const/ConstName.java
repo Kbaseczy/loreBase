@@ -41,13 +41,6 @@ public class ConstName {
         public static final int AGENTWEB = 0;
     }
 
-    public static class fragment {
-        public static final int HOME = 1;
-        public static final int TREE = 2;
-        public static final int PROJECT = 3;
-        public static final int WE_CHAT = 4;
-    }
-
     public static final String KEY_WORD = "k";
 
     public static final int BANNER_HOME = 0;
@@ -58,7 +51,6 @@ public class ConstName {
     public static final String IS_DONE = "is_done";
     public static final String TODO_BEAN = "todo_bean";
     public static final String TODO_BEAN_NAME = "todo_bean_name";
-
 
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
