@@ -68,7 +68,6 @@ public class ShareActivity extends BaseActivity {
         }
         collapsingToolbarLayout.setTitle("我的分享");
         collapsingToolbarLayout.setCollapsedTitleTextColor(getColor(R.color.item_title));
-        collapsingToolbarLayout.setBackgroundColor(Color.BLUE);
         RetrofitUtil.getBiYing(this, portrait);
     }
 

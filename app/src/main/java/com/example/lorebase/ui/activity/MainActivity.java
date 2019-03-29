@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.User;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.http.RetrofitApi;
+import com.example.lorebase.http.RetrofitUtil;
 import com.example.lorebase.recog.ActivityUiDialog;
 import com.example.lorebase.ui.fragment.HomeFragment;
 import com.example.lorebase.ui.fragment.LoreTreeFragment;
@@ -148,6 +150,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setItemIconTintList(null);
+//        navigationView.setItemBackgroundResource(R.drawable.);
         bottomNavigationView.setLayoutMode(BottomNavigationView.MEASURED_HEIGHT_STATE_SHIFT); //可在配置在布局文件中
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);

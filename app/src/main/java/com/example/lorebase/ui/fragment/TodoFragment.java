@@ -140,11 +140,6 @@ public class TodoFragment extends Fragment {
     @Override
     public void onResume() {
         L.v(is_done ? "true-onResume" : "false-onResume");
-        RetrofitUtil.setTotoDataInterface((datasBean, isCurrent) -> {
-            if (isCurrent == is_done) {
-                todoAdapter.addItem(datasBean);
-            }
-        });
         super.onResume();
     }
 

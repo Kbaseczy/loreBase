@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.lorebase.MyApplication;
+import com.example.lorebase.R;
 import com.example.lorebase.adapter.MyselfAdapter;
 import com.example.lorebase.adapter.TodoAdapter;
 import com.example.lorebase.bean.Article;
@@ -63,9 +64,6 @@ public class RetrofitUtil {
                     ToastUtil.showShortToastCenter(is_done ? "撤销成功" : "标记完成", context);
                     datasBean.setStatus(is_done ? 0 : 1);
                     adapter.removeItem(position);
-
-                    if (totoDataInterface != null)
-                        totoDataInterface.transferDataBean(datasBean, is_done);
                 }
             }
 
@@ -182,7 +180,12 @@ public class RetrofitUtil {
 
                 }
                 String fullUrl = UrlContainer.BI_YING_BASE + response.body().getImages().get(0).getUrl();
-                Glide.with(context).load(fullUrl).transition(new DrawableTransitionOptions().crossFade()).into(imageView);
+                Glide.with(context)
+                        .load(fullUrl)
+                        .transition(new DrawableTransitionOptions().crossFade())
+                        .placeholder(R.mipmap.ic_launcher_foreground)
+                        .into(imageView);
+                totoDataInterface.transferDataBean(fullUrl);
             }
 
             @Override
@@ -191,4 +194,5 @@ public class RetrofitUtil {
             }
         });
     }
+
 }
