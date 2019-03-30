@@ -2,7 +2,9 @@ package com.example.lorebase.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -102,5 +104,11 @@ public class MySettingActivity extends BaseActivity {
 
             }
         });
+    }
+
+    public void tv_app_info(View view) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
     }
 }

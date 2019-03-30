@@ -38,6 +38,19 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_app_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_12"
+            android:onClick="tv_app_info"
+            android:background="@drawable/login_btn_style"
+            android:text="@string/app_information"
+            android:textColor="@color/item_title"
+            android:textSize="18sp" />
+
+        <TextView
             android:id="@+id/tv_brow_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
