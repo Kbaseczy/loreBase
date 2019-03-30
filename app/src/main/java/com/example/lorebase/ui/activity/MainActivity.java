@@ -142,7 +142,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main); //解决2个头布局
         login_username = headerView.findViewById(R.id.login_username);  //加载头布局文件中的组件
-        login_username.setTextColor(getColor(R.color.item_title));
+        login_username.setTextColor(getColor(R.color.white));
         nav_header_portrait = headerView.findViewById(R.id.nav_header_portrait);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
