@@ -3,9 +3,9 @@
     <color name="input_context">#AAAAAA</color>
     <color name="lightBlue">#79CDCD</color>
     <color name="item_title">@color/black</color>
+    <color name="sub_title">@color/black</color>
     <color name="white">#ffffff</color>
     <color name="ic_launcher_background">#ffffff</color>
-
 
     <color name="colorPrimary">@color/Grey400</color>
     <color name="colorPrimaryregister">#E91E63</color>

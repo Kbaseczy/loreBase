@@ -46,15 +46,15 @@ public class LaunchActivity extends BaseActivity {
     private void loadLaunchImage() {
         //避免当日重复网络请求 //时间戳命名  年/月/日
         String pathPre = ConstName.IMAGE_PATH_PRE;
-        L.v("本地图片名:"+new File(pathPre, ConstName.IMAGE_NAME).getName());
-        //                                       本地图片名                    今日图片名
-        if (new File(pathPre, ConstName.IMAGE_NAME).getName().equals(ConstName.IMAGE_NAME)) {
-                                        //设置本地图片
+        L.v("本地图片名:" + new File(pathPre, ConstName.IMAGE_NAME).getName());
+        //       如果今日时间戳图片存在
+        if (FileUtil.fileIsExists(ConstName.IMAGE_NAME)) {
+            //则设置今日时间戳图片
             image_launch.setImageDrawable(FileUtil.getDrawableImage(this));
             L.v("本地图片调用");
         } else {
             L.v("网络请求调用");
-            //否则网络请求今日图片，并保存到本地。今日图片名：ConstName.IMAGE_NAME
+            //否则网络请求今日时间戳图片，并保存到本地。今日图片名：ConstName.IMAGE_NAME
             RetrofitUtil.getBiYing(this, image_launch);  //网络请求并设置
             RetrofitUtil.setTotoDataInterface((url) ->  //下载到本地
                     new Thread(() -> {

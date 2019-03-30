@@ -19,7 +19,7 @@
     </style>
     <!--ToolBar子标题样式-->
     <style name="ToolbarSubTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textColor">@color/Grey400</item>
+        <item name="android:textColor">@color/sub_title</item>
         <item name="android:textSize">13sp</item>
     </style>
     <!--Toolbar与menu的整合-->
