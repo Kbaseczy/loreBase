@@ -15,7 +15,7 @@ import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
 import com.example.lorebase.util.L;
-import com.example.lorebase.widget.behavior.CustomTextViewHeader;
+import com.example.lorebase.widget.behavior.CustomTextViewCollect;
 
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class BrowseHistoryAdapter extends RecyclerView.Adapter<BrowseHistoryAdap
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             @SuppressLint("InflateParams")
             View dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_view, null);
-            CustomTextViewHeader positionContent = dialogView.findViewById(R.id.dialog_position_content);
+            CustomTextViewCollect positionContent = dialogView.findViewById(R.id.dialog_position_content);
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(browseHistory.getCity()).append("\n").append("\n")
                     .append(browseHistory.getCity()).append("\n").append("\n")

@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/toast_style">
+    android:background="@drawable/dialog_style">
 
     <com.example.lorebase.widget.behavior.CustomTextView
         android:layout_marginStart="@dimen/dp_12"
@@ -13,7 +13,7 @@
         android:text="@string/read_position"
         android:textColor="@color/item_title" />
 
-    <com.example.lorebase.widget.behavior.CustomTextViewHeader
+    <com.example.lorebase.widget.behavior.CustomTextViewCollect
         android:id="@+id/dialog_position_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
