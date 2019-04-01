@@ -25,10 +25,22 @@ public class BrowseHistory {
     double longitude;
     private
     boolean is_out;
+    private
+    String country;
+    private
+    String province;
+    private
+    String city;
+    private
+    String district;
+    private
+    String street;
 
-    @Generated(hash = 102129849)
+    @Generated(hash = 306101295)
     public BrowseHistory(Long id_browse, String title, String link, String date,
-            boolean is_colloct, double latidude, double longitude, boolean is_out) {
+            boolean is_colloct, double latidude, double longitude, boolean is_out,
+            String country, String province, String city, String district,
+            String street) {
         this.id_browse = id_browse;
         this.title = title;
         this.link = link;
@@ -37,6 +49,11 @@ public class BrowseHistory {
         this.latidude = latidude;
         this.longitude = longitude;
         this.is_out = is_out;
+        this.country = country;
+        this.province = province;
+        this.city = city;
+        this.district = district;
+        this.street = street;
     }
     @Generated(hash = 772159025)
     public BrowseHistory() {
@@ -102,5 +119,35 @@ public class BrowseHistory {
     }
     public void setIs_out(boolean is_out) {
         this.is_out = is_out;
+    }
+    public String getCountry() {
+        return this.country;
+    }
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    public String getProvince() {
+        return this.province;
+    }
+    public void setProvince(String province) {
+        this.province = province;
+    }
+    public String getDistrict() {
+        return this.district;
+    }
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+    public String getStreet() {
+        return this.street;
+    }
+    public void setStreet(String street) {
+        this.street = street;
+    }
+    public String getCity() {
+        return this.city;
+    }
+    public void setCity(String city) {
+        this.city = city;
     }
 }

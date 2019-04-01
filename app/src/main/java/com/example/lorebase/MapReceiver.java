@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.lorebase.contain_const.ConstName;
-import com.example.lorebase.util.HttpUtil;
 import com.example.lorebase.util.L;
 import com.example.lorebase.util.PositionInterface;
-import com.example.lorebase.util.ToastUtil;
 
 public class MapReceiver extends BroadcastReceiver {
     public static class MapReceiverHolder {
@@ -30,8 +28,13 @@ public class MapReceiver extends BroadcastReceiver {
         L.v("MapReceiver", intent.getDoubleExtra(ConstName.LATITUDE, 0) + "\t" +
                 intent.getDoubleExtra(ConstName.LONGITUDE, 0) + "  广播传数据");
         if (positionInterface != null) {
-            positionInterface.transferPosition(intent.getDoubleExtra(ConstName.LATITUDE, 0)
-                    , intent.getDoubleExtra(ConstName.LONGITUDE, 0));
+            positionInterface.transferPosition(intent.getDoubleExtra(ConstName.LATITUDE, 0),
+                    intent.getDoubleExtra(ConstName.LONGITUDE, 0),
+                    intent.getStringExtra(ConstName.COUNTRY),
+                    intent.getStringExtra(ConstName.PROVINCE),
+                    intent.getStringExtra(ConstName.CITY),
+                    intent.getStringExtra(ConstName.DISTRICT),
+                    intent.getStringExtra(ConstName.STREET));
         }
     }
 }

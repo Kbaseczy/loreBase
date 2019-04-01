@@ -75,12 +75,12 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         BrowseHistoryDao browseHistoryDao = MyApplication.getDaoSession().getBrowseHistoryDao();
 
         holder.cardView.setOnClickListener(v -> {
-            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude, country, province, city, district, street) -> {
                 L.v("mapHomeList", Latitude + " \n" + Longitude + "  有没有啊");
                 browseHistoryDao.insertOrReplace(new BrowseHistory(null, article.getTitle(),
                         article.getLink(),
                         TimeUtils.date2String(new Date(System.currentTimeMillis())),
-                        article.isCollect(), Latitude, Longitude,false));
+                        article.isCollect(), Latitude, Longitude,false, country, province, city, district, street));
             });
 
             L.v("mapHomeList", "  点击比较" + latitude + "\t" + longitude);

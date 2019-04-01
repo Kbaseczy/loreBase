@@ -99,12 +99,12 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                 boolean is_collect = beans_chapter.get(position_item)
                         .getArticles().get(position_tag).isCollect();
 
-                MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+                MapReceiver.getInstance().setPositionInterface((Latitude, Longitude, country, province, city, district, street) -> {
                     L.v(Latitude + " \n" + Longitude + "  有没有啊");
                     MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                             null, tag_navi, tag_link,
                             TimeUtils.date2String(new Date(System.currentTimeMillis()))
-                            ,false,Latitude,Longitude,true));
+                            ,false,Latitude,Longitude,true, country, province, city, district, street));
                 });
 
                 Intent intent = new Intent();

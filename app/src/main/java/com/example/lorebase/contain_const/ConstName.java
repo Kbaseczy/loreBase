@@ -54,6 +54,14 @@ public class ConstName {
 
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
+    public static final String COUNTRY = "country";
+    public static final String PROVINCE = "province";
+    public static final String CITY = "city";
+    public static final String DISTRICT = "district";
+    public static final String STREET = "street";
+
+
+
     public static final String IMAGE_PATH_PRE =
             Environment.getExternalStorageDirectory().getAbsolutePath() + "/loreBaseImage/" ;
     public static final String IMAGE_NAME =  "loreBase"+

@@ -32,6 +32,11 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
         public final static Property Latidude = new Property(5, double.class, "latidude", false, "LATIDUDE");
         public final static Property Longitude = new Property(6, double.class, "longitude", false, "LONGITUDE");
         public final static Property Is_out = new Property(7, boolean.class, "is_out", false, "IS_OUT");
+        public final static Property Country = new Property(8, String.class, "country", false, "COUNTRY");
+        public final static Property Province = new Property(9, String.class, "province", false, "PROVINCE");
+        public final static Property City = new Property(10, String.class, "city", false, "CITY");
+        public final static Property District = new Property(11, String.class, "district", false, "DISTRICT");
+        public final static Property Street = new Property(12, String.class, "street", false, "STREET");
     }
 
 
@@ -54,7 +59,12 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
                 "\"IS_COLLOCT\" INTEGER NOT NULL ," + // 4: is_colloct
                 "\"LATIDUDE\" REAL NOT NULL ," + // 5: latidude
                 "\"LONGITUDE\" REAL NOT NULL ," + // 6: longitude
-                "\"IS_OUT\" INTEGER NOT NULL );"); // 7: is_out
+                "\"IS_OUT\" INTEGER NOT NULL ," + // 7: is_out
+                "\"COUNTRY\" TEXT," + // 8: country
+                "\"PROVINCE\" TEXT," + // 9: province
+                "\"CITY\" TEXT," + // 10: city
+                "\"DISTRICT\" TEXT," + // 11: district
+                "\"STREET\" TEXT);"); // 12: street
     }
 
     /** Drops the underlying database table. */
@@ -90,6 +100,31 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
         stmt.bindDouble(6, entity.getLatidude());
         stmt.bindDouble(7, entity.getLongitude());
         stmt.bindLong(8, entity.getIs_out() ? 1L: 0L);
+ 
+        String country = entity.getCountry();
+        if (country != null) {
+            stmt.bindString(9, country);
+        }
+ 
+        String province = entity.getProvince();
+        if (province != null) {
+            stmt.bindString(10, province);
+        }
+ 
+        String city = entity.getCity();
+        if (city != null) {
+            stmt.bindString(11, city);
+        }
+ 
+        String district = entity.getDistrict();
+        if (district != null) {
+            stmt.bindString(12, district);
+        }
+ 
+        String street = entity.getStreet();
+        if (street != null) {
+            stmt.bindString(13, street);
+        }
     }
 
     @Override
@@ -119,6 +154,31 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
         stmt.bindDouble(6, entity.getLatidude());
         stmt.bindDouble(7, entity.getLongitude());
         stmt.bindLong(8, entity.getIs_out() ? 1L: 0L);
+ 
+        String country = entity.getCountry();
+        if (country != null) {
+            stmt.bindString(9, country);
+        }
+ 
+        String province = entity.getProvince();
+        if (province != null) {
+            stmt.bindString(10, province);
+        }
+ 
+        String city = entity.getCity();
+        if (city != null) {
+            stmt.bindString(11, city);
+        }
+ 
+        String district = entity.getDistrict();
+        if (district != null) {
+            stmt.bindString(12, district);
+        }
+ 
+        String street = entity.getStreet();
+        if (street != null) {
+            stmt.bindString(13, street);
+        }
     }
 
     @Override
@@ -136,7 +196,12 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
             cursor.getShort(offset + 4) != 0, // is_colloct
             cursor.getDouble(offset + 5), // latidude
             cursor.getDouble(offset + 6), // longitude
-            cursor.getShort(offset + 7) != 0 // is_out
+            cursor.getShort(offset + 7) != 0, // is_out
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // country
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // province
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // city
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // district
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // street
         );
         return entity;
     }
@@ -151,6 +216,11 @@ public class BrowseHistoryDao extends AbstractDao<BrowseHistory, Long> {
         entity.setLatidude(cursor.getDouble(offset + 5));
         entity.setLongitude(cursor.getDouble(offset + 6));
         entity.setIs_out(cursor.getShort(offset + 7) != 0);
+        entity.setCountry(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setProvince(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setCity(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setDistrict(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setStreet(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
      }
     
     @Override

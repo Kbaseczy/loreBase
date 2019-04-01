@@ -1,5 +1,7 @@
 package com.example.lorebase.adapter;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +14,8 @@ import com.example.lorebase.R;
 import com.example.lorebase.bean.BrowseHistory;
 import com.example.lorebase.contain_const.ConstName;
 import com.example.lorebase.ui.activity.AgentWebActivity;
+import com.example.lorebase.util.L;
+import com.example.lorebase.widget.behavior.CustomTextViewHeader;
 
 import java.util.List;
 
@@ -58,6 +62,24 @@ public class BrowseHistoryAdapter extends RecyclerView.Adapter<BrowseHistoryAdap
             intent.putExtra(ConstName.IS_OUT, true);
             intent.setData(Uri.parse(browseHistory.getLink()));
             mContext.startActivity(intent);
+        });
+
+        holder.cardView.setOnLongClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            @SuppressLint("InflateParams")
+            View dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_view, null);
+            CustomTextViewHeader positionContent = dialogView.findViewById(R.id.dialog_position_content);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(browseHistory.getCity()).append("\n").append("\n")
+                    .append(browseHistory.getCity()).append("\n").append("\n")
+                    .append(browseHistory.getDistrict()).append("\n").append("\n")
+                    .append(browseHistory.getStreet());
+            positionContent.setText(stringBuilder);
+            builder.setView(dialogView)
+                    .create()
+                    .show();
+            L.v("" + browseHistory.getCountry() + "\t" + browseHistory.getCity() + "\t" + browseHistory.getStreet());
+            return false;
         });
     }
 
