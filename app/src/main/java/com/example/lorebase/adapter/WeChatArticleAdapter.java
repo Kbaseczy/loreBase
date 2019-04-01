@@ -67,13 +67,13 @@ public class WeChatArticleAdapter extends RecyclerView.Adapter<WeChatArticleAdap
         holder.imageView.setImageResource(we_chat_article.isCollect() ? R.drawable.ic_like : R.drawable.ic_like_not);
         holder.cardView.setOnClickListener(v -> {
 
-            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude, country, province, city, district, street) -> {
                 L.v(Latitude + " \n" + Longitude + "WeChatArticleAdapter aaa");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, we_chat_article.getTitle(), we_chat_article.getLink(),
                         TimeUtils.date2String(new Date(System.currentTimeMillis()))
                         , we_chat_article.isCollect()
-                        , Latitude, Longitude,false));
+                        , Latitude, Longitude,false, country, province, city, district, street));
             });
 
             Intent intent = new Intent(mContext, AgentWebActivity.class);

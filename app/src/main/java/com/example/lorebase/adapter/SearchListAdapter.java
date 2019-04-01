@@ -69,12 +69,12 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         holder.chapterName.setText(name);
         holder.imageView.setImageResource(search.isCollect() ? R.drawable.ic_like : R.drawable.ic_like_not);
         holder.cardView.setOnClickListener(v -> {
-            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude, country, province, city, district, street) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, filterTitle, search.getLink(),
                         TimeUtils.date2String(new Date(System.currentTimeMillis()))
-                        , search.isCollect(), Latitude, Longitude,false));
+                        , search.isCollect(), Latitude, Longitude,false, country, province, city, district, street));
             });
             Intent intent = new Intent(mContext, AgentWebActivity.class);
             Bundle bundle = new Bundle();

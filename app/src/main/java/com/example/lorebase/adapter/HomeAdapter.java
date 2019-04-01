@@ -54,6 +54,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.beanList_news = beanList_news;
         this.beanList_article = beanList_article;
     }
+
     public void setBanner_t(List<Banner.DataBean> banner_t) {
         this.banner_t = banner_t;
     }
@@ -186,19 +187,18 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 textSliderView.description(banner.getTitle());
                 textSliderView.setOnSliderClickListener(slider -> {
 
-                    MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
-                        L.v("mapHomeList", Latitude + " \n" + Longitude + "  有没有啊");
-                        MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
-                                null, banner.getTitle(), banner.getUrl(),
-                                TimeUtils.date2String(new Date(System.currentTimeMillis())),
-                                false, Latitude, Longitude,true));
-                    });
+                    MapReceiver.getInstance().setPositionInterface((Latitude, Longitude, country, province, city, district, street) ->
+                            MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
+                            null, banner.getTitle(), banner.getUrl(),
+                            TimeUtils.date2String(new Date(System.currentTimeMillis())),
+                            false, Latitude, Longitude, true, country, province, city, district, street)));
+
                     Intent web_intent = new Intent(context, AgentWebActivity.class);
 
                     Uri uri = Uri.parse(banner.getUrl());
                     web_intent.setData(uri);    //1.setData()传url地址
                     web_intent.putExtra(ConstName.TITLE, banner.getTitle());
-                    web_intent.putExtra(ConstName.IS_OUT,true);
+                    web_intent.putExtra(ConstName.IS_OUT, true);
                     context.startActivity(web_intent);
                 });
                 ((Holder_banner) holder).sliderLayout.addSlider(textSliderView);  //添加每一个banner
@@ -227,16 +227,16 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             TextView content_tv = item_view.findViewById(R.id.viewflipper_content);
             content_tv.setText(t.getName());
             content_tv.setOnClickListener(v -> {
-                MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+                MapReceiver.getInstance().setPositionInterface((Latitude, Longitude, country, province, city, district, street) -> {
                     L.v("mapHomeList", Latitude + " \n" + Longitude + "  有没有啊");
                     MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                             null, t.getName(), t.getLink(),
                             TimeUtils.date2String(new Date(System.currentTimeMillis())),
-                            false, Latitude, Longitude,true));
+                            false, Latitude, Longitude,true,country, province, city, district, street));
                 });
                 Intent intent = new Intent(context, AgentWebActivity.class);
                 intent.setData(Uri.parse(t.getLink()));
-                intent.putExtra(ConstName.IS_OUT,true);
+                intent.putExtra(ConstName.IS_OUT, true);
                 intent.putExtra(ConstName.TITLE, t.getName());
                 context.startActivity(intent);
             });

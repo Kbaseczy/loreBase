@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_style">
+
+    <com.example.lorebase.widget.behavior.CustomTextView
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_width="80dp"
+        android:layout_height="@dimen/dp_24"
+        android:textSize="@dimen/sp_16"
+        android:text="@string/read_position"
+        android:textColor="@color/item_title" />
+
+    <com.example.lorebase.widget.behavior.CustomTextViewCollect
+        android:id="@+id/dialog_position_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/item_title"
+        android:text="@string/collect"
+        android:layout_marginStart="@dimen/dp_24" />
+</LinearLayout>

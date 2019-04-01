@@ -51,7 +51,9 @@ public class MapService extends Service {
                     location.getLocType() == BDLocation.TypeNetWorkLocation) {
                 L.v("mapService", location.getLatitude() + "\t" + location.getLongitude() + "   here");
 
-                receiver(location.getLatitude(), location.getLongitude());
+                receiver(location.getLatitude(), location.getLongitude(),
+                        location.getCountry(),location.getProvince(),location.getCity(),
+                        location.getDistrict(), location.getStreet());
             }
         }
 
@@ -81,7 +83,7 @@ public class MapService extends Service {
 
     LocalBroadcastManager localBroadcastManager;
 
-    private void receiver(double latitude, double longitude) {
+    private void receiver(double latitude, double longitude,String country,String province,String city,String district,String street) {
         IntentFilter intentFilter = new IntentFilter();
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         intentFilter.addAction("android.map.MapReceiver");
@@ -91,6 +93,11 @@ public class MapService extends Service {
         intent.setAction("android.map.MapReceiver");
         intent.putExtra(ConstName.LATITUDE, latitude);
         intent.putExtra(ConstName.LONGITUDE, longitude);
+        intent.putExtra(ConstName.COUNTRY, country);
+        intent.putExtra(ConstName.PROVINCE, province);
+        intent.putExtra(ConstName.CITY, city);
+        intent.putExtra(ConstName.DISTRICT, district);
+        intent.putExtra(ConstName.STREET, street);
         localBroadcastManager.sendBroadcast(intent);
     }
 }

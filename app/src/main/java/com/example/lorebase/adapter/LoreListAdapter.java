@@ -77,12 +77,12 @@ public class LoreListAdapter extends RecyclerView.Adapter<LoreListAdapter.ViewHo
             intent.putExtra(ConstName.ACTIVITY, ConstName.activity.LORE);
             mContext.startActivity(intent);
 
-            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude, country, province, city, district, street) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, article.getTitle(), article.getLink()
                         , TimeUtils.date2String(new Date(System.currentTimeMillis()))
-                        , article.isCollect(), Latitude, Longitude,false));
+                        , article.isCollect(), Latitude, Longitude,false, country, province, city, district, street));
             });
         });
 

@@ -60,7 +60,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         Article.DataBean.DatasBean project = beanList_project.get(position);
         Glide.with(mContext).load(project.getEnvelopePic()).into(holder.image_project);
@@ -70,12 +70,12 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         holder.content.setText(project.getDesc());
         holder.image_collect.setImageResource(project.isCollect() ? R.drawable.ic_like : R.drawable.ic_like_not);
         holder.cardView.setOnClickListener(v -> {
-            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude, country, province, city, district, street) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, project.getTitle(), project.getLink(),
                         TimeUtils.date2String(new Date(System.currentTimeMillis()))
-                        , project.isCollect(), Latitude, Longitude,false));
+                        , project.isCollect(), Latitude, Longitude,false, country, province, city, district, street));
             });
 
             Intent intent = new Intent(mContext, AgentWebActivity.class);

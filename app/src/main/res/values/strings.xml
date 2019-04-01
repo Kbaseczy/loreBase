@@ -176,4 +176,5 @@
     <string name="switchMap">switch</string>
     <string name="my_collect">我的收藏</string>
     <string name="app_information">应用信息</string>
+    <string name="read_position">阅读地点</string>
 </resources>

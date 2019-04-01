@@ -69,12 +69,12 @@ public class MyselfAdapter extends RecyclerView.Adapter<MyselfAdapter.ViewHolder
         holder.imageView.setImageResource(R.drawable.ic_like);
 
         holder.cardView.setOnClickListener(v -> {
-            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude) -> {
+            MapReceiver.getInstance().setPositionInterface((Latitude, Longitude, country, province, city, district, street) -> {
                 L.v(Latitude + " \n" + Longitude + "  有没有啊MyselfAdapter");
                 MyApplication.getDaoSession().getBrowseHistoryDao().insertOrReplace(new BrowseHistory(
                         null, my_collect.getTitle(), my_collect.getLink()
                         , TimeUtils.date2String(new Date(System.currentTimeMillis()))
-                        , my_collect.isCollect(), Latitude, Longitude,false));
+                        , my_collect.isCollect(), Latitude, Longitude,false, country, province, city, district, street));
             });
 
             Intent intent = new Intent(mContext, AgentWebActivity.class);
