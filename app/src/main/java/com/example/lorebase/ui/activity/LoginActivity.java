@@ -26,7 +26,6 @@ import com.example.lorebase.util.ToastUtil;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 /*
    这里采用持久化存储实现记住密码功能，理论上可行，实际中应增加密码加密算法，防止用户密码泄露
  */
@@ -46,13 +45,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            L.v("savedInstanceState325", savedInstanceState.getString("username") +
-                    "\t" + savedInstanceState.getString("password") + "   onCreate");
-        }
         setContentView(R.layout.activity_login);
         ActivityCollector.addActivtity(this);
-
         backActivityFlag = getIntent().getIntExtra(ConstName.ACTIVITY, 1);// main / searchList / Lore
         initView();
     }

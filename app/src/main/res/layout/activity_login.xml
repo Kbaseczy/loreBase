@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/viewBackground"
     android:fitsSystemWindows="true">
 
@@ -13,11 +14,12 @@
         android:paddingTop="@dimen/dp_60"
         android:paddingRight="@dimen/dp_24">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:layout_width="800dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
             android:contentDescription="@string/todo"
+            app:riv_corner_radius="@dimen/dp_80"
             android:src="@mipmap/cherry" />
 
         <com.google.android.material.textfield.TextInputLayout
