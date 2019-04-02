@@ -70,7 +70,7 @@ public class BrowseHistoryAdapter extends RecyclerView.Adapter<BrowseHistoryAdap
             View dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_view, null);
             CustomTextViewCollect positionContent = dialogView.findViewById(R.id.dialog_position_content);
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(browseHistory.getCity()).append("\n").append("\n")
+            stringBuilder.append(browseHistory.getProvince()).append("\n").append("\n")
                     .append(browseHistory.getCity()).append("\n").append("\n")
                     .append(browseHistory.getDistrict()).append("\n").append("\n")
                     .append(browseHistory.getStreet());
