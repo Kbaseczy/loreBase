@@ -152,6 +152,11 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
             todoDoneFragment = null;
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 }
 
 
