@@ -88,6 +88,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
             bundle.putSerializable(ConstName.TODO_BEAN, datasBean);
             mContext.startActivity(new Intent(mContext, TodoEditActivity.class)
                     .putExtra(ConstName.TODO_BEAN_NAME, bundle));
+
         });
     }
 

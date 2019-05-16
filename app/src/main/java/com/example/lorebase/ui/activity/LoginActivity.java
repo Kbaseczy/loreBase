@@ -98,7 +98,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
-                LoginActivity.this.finish();
                 break;
 
             case R.id.btn_login:

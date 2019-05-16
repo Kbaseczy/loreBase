@@ -100,7 +100,56 @@ public class Article {
         }
 
         public static class DatasBean implements Serializable {
-           
+            /**
+             * apkLink :
+             * todo author : 浪淘沙xud   1
+             * chapterId : 60
+             * todo chapterName : Android Studio相关  2
+             * //todo collect : false   ★
+             * courseId : 13
+             * desc :
+             * envelopePic :
+             * fresh : false
+             * id : 3373
+             * todo link : https://www.jianshu.com/p/88e32ef66ef2
+             * todo niceDate : 2018-09-09   3
+             * origin :
+             * projectLink :
+             * publishTime : 1536505616000
+             * superChapterId : 60
+             * todo superChapterName : 开发环境  4
+             * tags : []
+             * todo title : Android 技能图谱学习路线  5
+             * type : 0
+             * userId : -1
+             * visible : 1
+             * zan : 0
+             */
+            /**
+             * apkLink :
+             * todo author : songmao123
+             * chapterId : 294
+             * todo chapterName : 完整项目
+             * todo collect : false
+             * courseId : 13
+             * todo desc : 一款数据基于Wan Android API，采用Kotlin+MVP+Dagger2+Rxjava架构的Material Design风格玩安卓客户端。
+             * todo envelopePic : http://www.wanandroid.com/blogimgs/4c47aec3-1740-4ad9-9a37-ee99a1e742de.png
+             * todo fresh : false
+             * todo id : 7555
+             * todo link : http://www.wanandroid.com/blog/show/2429
+             * todo niceDate : 2018-11-22
+             * origin :
+             * todo projectLink : https://github.com/songmao123/WanAndroid
+             * publishTime : 1542900280000
+             * superChapterId : 294
+             * superChapterName : 开源项目主Tab
+             * tags : [{"name":"项目","url":"/project/list/1?cid=294"}]
+             * todo title : Kotlin+MVP+RxJava+Dagger2版玩安卓客户端
+             * type : 0
+             * userId : -1
+             * visible : 1
+             * zan : 0
+             */
             private String apkLink;
             private String author;
             private int chapterId;

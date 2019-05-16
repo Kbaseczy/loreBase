@@ -59,6 +59,7 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
                     Intent intent = new Intent(this, TodoAddActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                    finish();
                 }
         );
         viewPager = findViewById(R.id.viewpager_TODO);
@@ -77,8 +78,6 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
             public void onPageScrollStateChanged(int state) {
 
             }
-
-
         });
 
         List<Fragment> list = new ArrayList<>();
@@ -118,6 +117,7 @@ public class TODOActivity extends BaseActivity implements BottomNavigationView.O
                 Intent intent = new Intent(this, TodoAddActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.animator.go_in, R.animator.go_out);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
