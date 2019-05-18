@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -44,9 +45,8 @@ public class LaunchActivity extends BaseActivity {
         boolean nightMode = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext())
                 .getBoolean("setting_switch_skin", true);   //获取general文件中该key的值
-        findViewById(R.id.custom_launch1).setBackgroundColor(nightMode?R.color.black:R.color.white);
-        findViewById(R.id.custom_launch2).setBackgroundColor(nightMode?R.color.black:R.color.white);
-        findViewById(R.id.textView_launch).setBackgroundColor(nightMode?R.color.black:R.color.white);
+        if (!nightMode)
+            findViewById(R.id.layout_launch).setBackgroundColor(Color.BLACK);
         loadLaunchImage();
         initStartAnim();
     }
